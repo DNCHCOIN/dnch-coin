@@ -1,0 +1,1 @@
+DNCH COIN static website. Upload index.html and assets/dnch-logo.png to any free static host. Add final official social links/domain before publishing.
