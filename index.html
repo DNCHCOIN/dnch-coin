@@ -83,6 +83,9 @@ footer{padding:40px 0;color:#777;text-align:center}
 </div>
 
 <script>
+const DNCH_MINT = "8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi";
+const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
+
 async function connectWallet() {
   try {
     const provider = window.phantom?.solana;
@@ -98,13 +101,64 @@ async function connectWallet() {
     document.getElementById("wallet-status").textContent =
       publicKey.slice(0, 6) + "..." + publicKey.slice(-6);
 
-    console.log("Connected wallet:", publicKey);
+    document.getElementById("dnch-balance").textContent = "Loading...";
+
+    await loadDnchBalance(publicKey);
+
   } catch (err) {
     console.error(err);
     alert("Wallet connection was cancelled or failed.");
   }
 }
+
+async function loadDnchBalance(ownerAddress) {
+  try {
+    const response = await fetch(SOLANA_RPC, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        method: "getTokenAccountsByOwner",
+        params: [
+          ownerAddress,
+          { mint: DNCH_MINT },
+          { encoding: "jsonParsed" }
+        ]
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.result || !Array.isArray(data.result.value)) {
+      throw new Error("Invalid Solana RPC response");
+    }
+
+    let balance = 0;
+
+    for (const tokenAccount of data.result.value) {
+      const amount =
+        tokenAccount.account.data.parsed.info.tokenAmount.uiAmountString;
+
+      balance += Number(amount);
+    }
+
+    document.getElementById("dnch-balance").textContent =
+      balance.toLocaleString(undefined, {
+        maximumFractionDigits: 9
+      }) + " DNCH";
+
+  } catch (err) {
+    console.error("DNCH balance error:", err);
+    document.getElementById("dnch-balance").textContent = "Error";
+  }
+}
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
