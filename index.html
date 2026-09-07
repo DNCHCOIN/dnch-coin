@@ -87,7 +87,32 @@ footer{padding:40px 0;color:#777;text-align:center}
     </div>
 
   </div>
-<div id="mission-build" class="card" style="display:none; margin-top:20px;">
+<div id="mission-build" class="card" style="display:none; margin-top:20px;"><button class="btn" onclick="document.getElementById('build-submit').style.display='block'">
+  Submit Contribution
+</button>
+
+<div id="build-submit" style="display:none; margin-top:20px;">
+  <h3>Submit your work</h3>
+
+  <p>Your contribution link:</p>
+  <input
+    id="build-link"
+    type="url"
+    placeholder="https://..."
+    style="width:100%; padding:12px; margin-bottom:12px;"
+  >
+
+  <p>Describe what you built:</p>
+  <textarea
+    id="build-description"
+    placeholder="Tell us what you created and how it helps DNCH..."
+    style="width:100%; min-height:120px; padding:12px;"
+  ></textarea>
+
+  <p style="margin-top:12px;">
+    <small>Submissions are reviewed before Community Points or DNCH rewards are awarded.</small>
+  </p>
+</div>
   <h3>🎨 Build for DNCH — Mission Details</h3>
   <p><strong>Objective:</strong> Create a useful design, tool or improvement for the DNCH ecosystem.</p>
   <p><strong>Reward:</strong> 250 Community Points</p>
