@@ -15,7 +15,13 @@ section{padding:55px 0;border-top:1px solid #222}h2{font-size:34px}.grid{display
 .contract{word-break:break-all;background:#0e0e0e;border:1px solid #333;padding:18px;border-radius:12px;font-family:monospace}
 footer{padding:40px 0;color:#777;text-align:center}
 </style></head><body><div class="wrap">
-<nav><div class="brand">DNCH <span class="gold">COIN</span></div><div>Solana Mainnet</div></nav>
+<nav>
+  <div class="brand">DNCH <span class="gold">COIN</span></div>
+  <div>
+    <a class="btn" href="#portal">DNCH PORTAL</a>
+    <span>Solana Mainnet</span>
+  </div>
+</nav>
 <header class="hero"><img src="dnch-logo.png" alt="DNCH COIN"><h1>DNCH <span class="gold">COIN</span></h1>
 <p class="tag">Built for a Brighter Tomorrow.</p><a class="btn primary" href="#token">Explore DNCH</a><a class="btn" href="#contract">Contract</a></header>
 <section><h2>More Than a Token</h2><p>DNCH COIN is a community-driven token built on Solana. The project is being developed around transparency, community participation and practical utility.</p></section>
@@ -25,7 +31,33 @@ footer{padding:40px 0;color:#777;text-align:center}
 <section id="contract"><h2>Official Contract</h2><p>Always verify the mint address before interacting with DNCH.</p>
 <div class="contract">8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi</div>
 <a class="btn" href="https://explorer.solana.com/address/8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi" target="_blank">View on Solana Explorer</a></section>
-<section><h2>Roadmap</h2><div class="grid">
+<section id="portal">
+  <h2>DNCH Portal</h2>
+  <p>Connect your Solana wallet and enter the DNCH ecosystem.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🔗 Wallet</h3>
+      <p id="wallet-status">Not connected</p>
+      <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+    </div>
+
+    <div class="card">
+      <h3>🪙 DNCH Balance</h3>
+      <p class="num" id="dnch-balance">—</p>
+    </div>
+
+    <div class="card">
+      <h3>⭐ Community Points</h3>
+      <p class="num" id="community-points">0</p>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Missions Completed</h3>
+      <p class="num" id="missions-completed">0</p>
+    </div>
+  </div>
+</section><section><h2>Roadmap</h2><div class="grid">
 <div class="card"><h3>01 — Foundation</h3><p>Token, metadata, visual identity and public documentation.</p></div>
 <div class="card"><h3>02 — Community</h3><p>Official channels, community growth and transparent project updates.</p></div>
 <div class="card"><h3>03 — Utility</h3><p>Develop useful ways for the community to interact with DNCH.</p></div>
