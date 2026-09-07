@@ -80,4 +80,31 @@ footer{padding:40px 0;color:#777;text-align:center}
     </iframe>
   </div>
 </section>
-</div></body></html>
+</div>
+
+<script>
+async function connectWallet() {
+  try {
+    const provider = window.phantom?.solana;
+
+    if (!provider || !provider.isPhantom) {
+      alert("Phantom wallet was not found. Please install Phantom first.");
+      return;
+    }
+
+    const response = await provider.connect();
+    const publicKey = response.publicKey.toString();
+
+    document.getElementById("wallet-status").textContent =
+      publicKey.slice(0, 6) + "..." + publicKey.slice(-6);
+
+    console.log("Connected wallet:", publicKey);
+  } catch (err) {
+    console.error(err);
+    alert("Wallet connection was cancelled or failed.");
+  }
+}
+</script>
+
+</body>
+</html>
