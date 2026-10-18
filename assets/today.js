@@ -79,6 +79,11 @@ async function shareIdea(idea,button){
   try{await navigator.clipboard.writeText(url);confirmation=t.linkCopied}
   catch(err){window.prompt(t.shareManually,url)}
  }
+ if(confirmation){
+  status.textContent=confirmation;
+  button.textContent=confirmation;
+  setTimeout(()=>{if(button.isConnected)button.textContent=t.share+' ↗'},2600);
+ }
 }
 
 function card(idea,feature){const entry=idea[lang],kind=CATEGORIES[idea.cat],card=E('article','today-card');card.dataset.topic=idea.cat;
