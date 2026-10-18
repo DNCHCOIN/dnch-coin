@@ -1,0 +1,58 @@
+/* DNCH Drag Racing v0.1 — dark gold game shell, no third-party assets. */
+.drag-page{padding:44px 0 80px;background:radial-gradient(ellipse at 75% 0%,#29364199,transparent 47%)}
+.drag-hero{margin:10px 0 24px}.drag-hero .eyebrow{color:#ddbd83;text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:900}
+.drag-hero h1{font-size:clamp(32px,5vw,60px);margin:10px 0 8px;line-height:1.06;letter-spacing:-.04em}
+.drag-hero h1 span{color:#e5be75}.drag-hero p{color:#c1c5cd;max-width:730px;margin:0;line-height:1.7}
+.drag-topline{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.drag-pill{border:1px solid #655133;border-radius:999px;color:#f5dbab;background:#231e19;padding:7px 12px;font-size:12px;font-weight:750}
+.drag-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 20px}
+.drag-stat{background:#181b23;border:1px solid #35353c;padding:12px 15px;border-radius:13px}
+.drag-stat span{display:block;color:#b6b9c2;font-size:12px}.drag-stat strong{display:block;font-size:22px;color:#f6e0b1;font-variant-numeric:tabular-nums}
+.drag-racing-shell{border:1px solid #554831;border-radius:18px;overflow:hidden;background:#101116;box-shadow:0 14px 45px #0006}
+.drag-track{position:relative;overflow:hidden;background:#191c23}
+#drag-canvas{width:100%;display:block;aspect-ratio:960/430;height:auto;touch-action:none}
+.drag-stage{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);pointer-events:none;color:#8affb1;text-shadow:0 0 14px #3db55e,0 4px 15px #000;font-size:clamp(27px,6vw,74px);font-weight:1000;letter-spacing:.04em}
+.drag-stage.drag-idle{font-size:clamp(25px,4vw,43px);color:#f0d39c;text-shadow:0 5px 20px #000}
+.drag-dashboard{display:grid;grid-template-columns:1fr minmax(160px,1.2fr) 1fr 1fr;align-items:center;gap:14px;padding:18px 22px;border-top:1px solid #4e4338;background:linear-gradient(115deg,#242028,#121923)}
+.drag-gauge span{display:block;color:#b8bdc9;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.drag-gauge strong{font-size:clamp(24px,4vw,38px);font-weight:900;font-variant-numeric:tabular-nums;line-height:1.25;color:#f9edcf}
+.drag-gauge em{font-size:12px;color:#aaaebb;font-style:normal;margin-left:4px}
+.drag-rpm-track{height:9px;border-radius:20px;background:#464047;overflow:hidden;margin-top:9px}
+#drag-rpm-bar{display:block;height:100%;width:8%;background:linear-gradient(90deg,#76eac5,#f5c761);border-radius:inherit;transition:width .07s linear}
+#drag-rpm-bar.redline{background:#fa5f68}
+.drag-controls{display:flex;align-items:stretch;gap:10px;padding:15px 20px;background:#101218;border-top:1px solid #323138;flex-wrap:wrap}
+.drag-controls button{min-height:60px;flex:1 1 130px;border:1px solid #6c6c70;border-radius:12px;font:900 16px system-ui;letter-spacing:.05em;color:#f5f5f5;background:#292a33;cursor:pointer;touch-action:manipulation}
+.drag-controls button:disabled{opacity:.36;cursor:not-allowed}
+.drag-controls button:not(:disabled):active{transform:translateY(2px);filter:brightness(1.25)}
+#drag-start{color:#16120a!important;background:linear-gradient(115deg,#fbe1a6,#d9a54c);border-color:#f4ce87}
+#drag-gas{background:linear-gradient(120deg,#2d784b,#1c442d);border-color:#42915f;touch-action:none;user-select:none;-webkit-user-select:none}
+#drag-gas:active{background:#3a9b60}
+#drag-nitro{background:linear-gradient(110deg,#194b80,#112f53);border-color:#397bab}
+.drag-message{min-height:29px;padding:8px 22px 16px;color:#f0d6a0;font-size:14px;font-weight:700;background:#101218}
+.drag-result{background:#1b241d;border-top:1px solid #66a46d;padding:18px 23px}
+.drag-result[hidden]{display:none}.drag-result h2{margin:0 0 5px;font-size:25px;color:#a5f0ba}.drag-result p{margin:0;color:#e1e7e2}
+.drag-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:20px;margin-top:25px}
+.drag-card{background:#181920;border:1px solid #39353a;border-radius:16px;padding:20px}
+.drag-card h2{margin:0 0 9px;font-size:24px;color:#f4deb3}
+.drag-card h3{margin:17px 0 10px;color:#eee5d5;font-size:16px}
+.drag-muted{color:#c0c1cb;font-size:13px;line-height:1.6}
+.drag-car-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:17px}
+.drag-car-choice{display:flex;gap:9px;align-items:center;text-align:left;border:1px solid #534d4b;border-radius:11px;background:#21222a;color:#f9f6f4;padding:14px 10px;min-width:0;cursor:pointer}
+.drag-car-choice.active{border-color:#e5b76e;background:#37302c;box-shadow:0 0 0 1px #e7bd6755}
+.drag-car-choice:focus-visible,.drag-controls button:focus-visible,.drag-upgrade button:focus-visible{outline:3px solid #ffe4b0;outline-offset:2px}
+.drag-car-chip{width:21px;height:21px;min-width:21px;border-radius:6px;box-shadow:inset 0 0 0 2px #ffffff42}
+.drag-car-choice strong,.drag-car-choice small{display:block;overflow-wrap:anywhere}
+.drag-car-choice strong{font-size:13px}.drag-car-choice small{font-size:11px;color:#ccd0d6;line-height:1.4}
+.drag-car-spec{display:flex;justify-content:space-between;gap:15px;margin:13px 0;color:#efce9a;font-weight:800}
+.drag-auto-toggle{display:flex;align-items:center;gap:9px;font-size:14px;color:#ece7e3;margin-top:17px;cursor:pointer}
+.drag-auto-toggle input{width:19px;height:19px;accent-color:#d8a559}
+.drag-upgrade{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 0;border-top:1px solid #3c3939}
+.drag-upgrade-label strong,.drag-upgrade-label span{display:block}
+.drag-upgrade-label strong{font-size:14px}.drag-upgrade-label span{font-size:12px;color:#bdc1cb}
+.drag-upgrade button{background:#302b27;color:#f6d6a0;border:1px solid #8b704e;border-radius:10px;font-size:12px;font-weight:800;padding:10px 12px;cursor:pointer;min-width:132px}
+.drag-upgrade button:disabled{opacity:.46;cursor:not-allowed}
+.drag-how p{margin:7px 0}.drag-how kbd{border:1px solid #655d55;color:#f2d29b;background:#282731;border-radius:5px;padding:2px 6px;font:700 12px system-ui}
+.drag-privacy{margin-top:19px;font-size:12px;color:#aeb2be}
+@media(max-width:850px){.drag-grid{grid-template-columns:1fr}.drag-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.drag-car-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.drag-page{padding-top:22px}.drag-dashboard{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:11px 8px}.drag-gauge strong{font-size:24px}.drag-gauge span{font-size:9px}.drag-gauge em{display:block;margin-left:0}.drag-rpm-track{margin-top:5px}.drag-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}.drag-controls button{min-height:56px;font-size:14px;min-width:0}.drag-message{font-size:12px;padding:6px 13px 13px}.drag-card{padding:16px}.drag-car-list{grid-template-columns:1fr}.drag-car-choice{padding:11px}.drag-stat strong{font-size:21px}}
+@media(prefers-reduced-motion:reduce){#drag-rpm-bar{transition:none}.drag-controls button:active{transform:none}}
