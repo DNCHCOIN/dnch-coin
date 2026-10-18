@@ -65,10 +65,35 @@
 </form>
 <div class="my-profile-bottom"><p>Истинският DNCH акаунт и синхронизацията на данни между устройства са бъдещи подобрения.</p><a href="forum.html?pilot=1">Управление на форумния профил →</a></div>
 </section>
+<section id="my-backup" class="my-card my-backup-card" aria-labelledby="my-backup-heading">
+<div class="my-card-top"><div><div class="eyebrow">⇩ АРХИВ И ВЪЗСТАНОВЯВАНЕ · V0.2</div><h2 id="my-backup-heading">Запази своето MY DNCH</h2><p>Свали копие на любимите си идеи, изпълнените предизвикателства, музиката, запазените теми и локалното си име. После можеш да го пренесеш в друг браузър.</p></div><span class="my-card-icon" aria-hidden="true">⇄</span></div>
+<div class="my-backup-columns">
+<div class="my-backup-panel">
+<h3>Изтегли моите данни</h3><p class="my-muted">Създава JSON файл на устройството. Не включва пароли, сесии за вход, ключове за портфейли или други данни от сайта.</p>
+<button id="my-backup-export" class="btn primary" type="button">↓ Изтегли моите данни</button>
+</div>
+<div class="my-backup-panel">
+<h3>Възстанови от архив</h3><label class="my-backup-file-label" for="my-backup-input">Избери DNCH архив (.json)</label>
+<input id="my-backup-input" type="file" accept=".json,application/json" aria-describedby="my-backup-input-help">
+<p class="my-muted" id="my-backup-input-help">Файлът се проверява локално. Нищо не се променя, преди да натиснеш „Потвърди“. Запазеното се обединява със съществуващото, без да трие налични елементи.</p>
+<div id="my-backup-preview" class="my-backup-preview" hidden>
+<h4>Преглед на файла</h4><p id="my-backup-summary"></p>
+<div id="my-backup-counts" class="my-backup-counts"></div>
+<div class="my-backup-actions">
+<button id="my-backup-confirm" class="btn primary" type="button">Потвърди и обедини</button>
+<button id="my-backup-cancel" class="btn" type="button">Отказ</button>
+</div>
+</div>
+</div>
+</div>
+<p class="my-muted my-backup-privacy">Архивът не се качва никъде. Всеки, който получи файла, може да прочете запазените ти елементи и локалното име. Съхранявай го внимателно.</p>
+<p id="my-backup-status" class="my-status" role="status" aria-live="polite"></p>
+</section>
 </div>
 </div></main>
 <footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Твоето пространство, твоят избор. Данните остават в браузъра и могат да изчезнат при изчистване на данните на сайта.</p></div></footer>
 <script defer src="../assets/my-dnch.js"></script>
+<script defer src="../assets/my-dnch-backup.js"></script>
 <script src="../assets/forum-config.js"></script>
 <script src="../assets/dnch-ai-config.js"></script>
 <script src="../assets/dnch-ai.js"></script>

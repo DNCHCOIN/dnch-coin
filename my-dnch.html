@@ -65,10 +65,35 @@
 </form>
 <div class="my-profile-bottom"><p>A real unified DNCH account and cross-device sync are planned for later.</p><a href="forum.html?pilot=1">Manage your forum profile →</a></div>
 </section>
+<section id="my-backup" class="my-card my-backup-card" aria-labelledby="my-backup-heading">
+<div class="my-card-top"><div><div class="eyebrow">⇩ BACKUP & RESTORE · V0.2</div><h2 id="my-backup-heading">Keep your MY DNCH safe</h2><p>Download a copy of your saved ideas, challenge days, music, favorite topics and local greeting. Move it to another browser when you need to.</p></div><span class="my-card-icon" aria-hidden="true">⇄</span></div>
+<div class="my-backup-columns">
+<div class="my-backup-panel">
+<h3>Export my data</h3><p class="my-muted">Creates a JSON file on this device. Does not export passwords, sign-in sessions, wallet keys or any unrelated site data.</p>
+<button id="my-backup-export" class="btn primary" type="button">↓ Export my data</button>
+</div>
+<div class="my-backup-panel">
+<h3>Restore from a backup</h3><label class="my-backup-file-label" for="my-backup-input">Choose a DNCH backup (.json)</label>
+<input id="my-backup-input" type="file" accept=".json,application/json" aria-describedby="my-backup-input-help">
+<p class="my-muted" id="my-backup-input-help">The file is checked locally first. Nothing changes until you press Confirm. Saved items are merged with what's already on this browser; existing items are not deleted.</p>
+<div id="my-backup-preview" class="my-backup-preview" hidden>
+<h4>File review</h4><p id="my-backup-summary"></p>
+<div id="my-backup-counts" class="my-backup-counts"></div>
+<div class="my-backup-actions">
+<button id="my-backup-confirm" class="btn primary" type="button">Confirm & merge</button>
+<button id="my-backup-cancel" class="btn" type="button">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+<p class="my-muted my-backup-privacy">Your backup is not uploaded anywhere. Anyone who gets the file can read your saved items and local nickname. Keep it somewhere safe.</p>
+<p id="my-backup-status" class="my-status" role="status" aria-live="polite"></p>
+</section>
 </div>
 </div></main>
 <footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Your space, your choice. Data stays in the browser and may be lost if you clear the site's data.</p></div></footer>
 <script defer src="assets/my-dnch.js"></script>
+<script defer src="assets/my-dnch-backup.js"></script>
 <script src="assets/forum-config.js"></script>
 <script src="assets/dnch-ai-config.js"></script>
 <script src="assets/dnch-ai.js"></script>

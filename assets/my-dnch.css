@@ -52,3 +52,31 @@
 @media(max-width:850px){.my-sections{grid-template-columns:1fr}.my-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.my-hero{padding:47px 0 20px}}
 @media(max-width:560px){.my-stats{gap:9px}.my-stat{padding:14px}.my-card{padding:17px}.my-hero .lead{font-size:15px}.my-item{flex-direction:column;align-items:flex-start;gap:7px}.my-item-action{white-space:normal}.my-name-fields input{flex-basis:100%}.my-name-fields .btn{flex:1}.my-date{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.my-page *{scroll-behavior:auto}}
+
+
+/* MY DNCH v0.2 — browser-local backup export / confirmed restore */
+.my-backup-card{grid-column:1/-1;border-color:#6c5d47;background:linear-gradient(135deg,#252219,#171820 63%,#13141a)}
+.my-backup-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.my-backup-panel{border:1px solid #49434a;border-radius:14px;background:#1c1c23;padding:19px;min-width:0}
+.my-backup-panel h3{font-size:19px;line-height:1.35;margin:0 0 10px;color:#f5e6cb}
+.my-backup-panel .my-muted{font-size:13px;line-height:1.65}
+.my-backup-panel .btn{font-size:13px;line-height:1.4}
+.my-backup-file-label{display:block;margin:12px 0 9px;color:#f0dfc3;font-weight:800;font-size:13px}
+#my-backup-input{max-width:100%;width:100%;border:1px dashed #8f784f;border-radius:10px;padding:13px;background:#262328;color:#fafafa;font:inherit;font-size:13px}
+#my-backup-input::file-selector-button{border:1px solid #d0a96a;color:#1c1510;border-radius:8px;background:#e3b974;padding:7px 11px;margin-right:12px;cursor:pointer}
+.my-backup-preview{margin-top:18px;padding:15px;border-radius:13px;background:#24272e;border:1px solid #71654e}
+.my-backup-preview[hidden]{display:none}
+.my-backup-preview h4{margin:0 0 8px;color:#ffdea7;font-size:16px}
+#my-backup-summary{font-size:13px;color:#d8d6d8;line-height:1.6;margin:0 0 14px}
+.my-backup-counts{overflow-x:auto;max-width:100%}
+.my-backup-table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+.my-backup-table th,.my-backup-table td{padding:8px 6px;text-align:right;border-bottom:1px solid #49494e;white-space:nowrap}
+.my-backup-table th:first-child,.my-backup-table td:first-child{text-align:left}
+.my-backup-table th{color:#f1d7a5;font-weight:750}
+.my-backup-table td{color:#eeedf1}
+.my-backup-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.my-backup-actions .btn{flex:1 1 150px}
+.my-backup-privacy{margin:19px 0 10px;font-size:13px;line-height:1.6;border-left:3px solid #b99558;padding:4px 12px}
+#my-backup-status{min-height:18px;margin:8px 0 0;font-weight:750}
+@media(max-width:790px){.my-backup-columns{grid-template-columns:1fr}}
+@media(max-width:560px){.my-backup-panel{padding:14px}.my-backup-table{font-size:11px}.my-backup-table th,.my-backup-table td{padding:7px 4px}#my-backup-input::file-selector-button{margin-bottom:7px}}
