@@ -24,9 +24,14 @@ const $=id=>document.getElementById(id);
    for controlling signups. Built-in SMTP currently limits recipients to the
    Supabase organization's team; keep public rollout disabled separately. */
 const pilotRequested=new URLSearchParams(location.search).get('pilot')==='1';
-let pilotEnabled=pilotRequested;
+/* Email confirmation links can return without ?pilot=1. Initialize the SDK
+   when an auth callback contains a token or code, so the SDK can store the
+   session before showing the forum. This is a UI convenience, NOT security. */
+const authCallback=/(?:^|&)access_token=/.test(location.hash.replace(/^#/,'')) ||
+ new URLSearchParams(location.search).has('code');
+let pilotEnabled=pilotRequested||authCallback;
 try{
- if(pilotRequested)localStorage.setItem('dnch-forum-pilot-v1','1');
+ if(pilotRequested||authCallback)localStorage.setItem('dnch-forum-pilot-v1','1');
  pilotEnabled=pilotEnabled||localStorage.getItem('dnch-forum-pilot-v1')==='1';
 }catch(e){}
 if(!pilotEnabled)return;
