@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="Your DNCH Hub dashboard for saved ideas, YouTube music, daily challenges and favorite discussions. Free and stored in this browser.">
+<title>MY DNCH — Your personal space</title>
+<link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/my-dnch.html">
+<link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/my-dnch.html">
+<link rel="alternate" hreflang="bg" href="https://dnchcoin.github.io/dnch-coin/bg/my-dnch.html">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/my-dnch.css">
+</head>
+<body>
+<a class="skip" href="#my-main">Skip to your dashboard</a>
+<header class="site-head"><div class="wrap head-inner"><a class="brand" href="./">DNCH <span>HUB</span></a>
+<nav aria-label="Main navigation">
+<a href="./">Home</a><a href="today.html">DNCH Today</a><a href="radio.html">DNCH Radio</a><a href="forum.html?pilot=1">Forum</a>
+<a class="my-nav-active" aria-current="page" href="my-dnch.html">MY DNCH</a><a class="lang-link" hreflang="bg" lang="bg" href="bg/my-dnch.html">BG</a>
+</nav></div></header>
+<main class="my-page" id="my-main"><div class="wrap">
+<section class="my-hero">
+<div class="eyebrow">YOUR PERSONAL DNCH HUB</div>
+<h1 id="my-welcome">Welcome to MY DNCH</h1>
+<p class="lead">Everything you enjoy in our ecosystem, together — your ideas, music and conversations.</p>
+<div class="my-hero-row"><span id="my-current-date" class="my-date"></span><button id="my-refresh" class="btn" type="button">↻ Refresh dashboard</button></div>
+</section>
+<section class="my-privacy" aria-label="Your private space in this browser">
+<div><strong>♢ Your private space in this browser</strong><p>This is not a cloud profile. Your saved items stay in this browser on this device. Cross-device synchronization is not available yet.</p></div>
+</section>
+<section class="my-stats" aria-label="Last 7 days">
+<div class="my-stat"><span class="my-stat-icon">✦</span><strong id="my-days">0/7</strong><span>Challenge days completed</span><small>Last 7 days</small></div>
+<div class="my-stat"><span class="my-stat-icon">☆</span><strong id="my-ideas-count">0</strong><span>Saved ideas</span></div>
+<div class="my-stat"><span class="my-stat-icon">♫</span><strong id="my-music-count">0</strong><span>My songs</span></div>
+<div class="my-stat"><span class="my-stat-icon">▤</span><strong id="my-forum-count">0</strong><span>Saved topics</span></div>
+</section>
+<div class="my-sections">
+<section class="my-card" id="my-today">
+<div class="my-card-top"><div><div class="eyebrow">✦ DNCH TODAY</div><h2>MY TODAY</h2><p>Your favorite ideas and small daily wins</p></div><span class="my-card-icon">☀</span></div>
+<div class="my-challenge-bar"><span id="my-challenge-check"></span><a href="today.html">See today's challenge →</a></div>
+<div class="my-content-list" id="my-ideas-list"></div>
+<p id="my-ideas-empty" class="my-empty" hidden>No saved ideas yet. Open DNCH Today and tap ☆ on a useful idea.</p>
+<a class="my-card-link" href="today.html">Open DNCH Today →</a>
+</section>
+<section class="my-card" id="my-music">
+<div class="my-card-top"><div><div class="eyebrow">♫ DNCH RADIO</div><h2>MY MUSIC</h2><p>Your YouTube picks in DNCH Radio</p></div><span class="my-card-icon">♫</span></div>
+<div class="my-content-list" id="my-music-list"></div>
+<p id="my-music-empty" class="my-empty" hidden>You have not added any songs yet. Open DNCH Radio, paste a YouTube link and start your own list.</p>
+<a class="my-card-link" href="radio.html">Open DNCH Radio →</a>
+</section>
+<section class="my-card" id="my-community">
+<div class="my-card-top"><div><div class="eyebrow">♡ DNCH COMMUNITY</div><h2>MY COMMUNITY</h2><p>Favorite discussions in DNCH Community</p></div><span class="my-card-icon">♡</span></div>
+<div class="my-content-list" id="my-forum-list"></div>
+<p id="my-forum-empty" class="my-empty" hidden>No saved discussions yet. Visit the forum and tap ☆ on an interesting topic.</p>
+<p class="my-muted">The forum remains a pilot. If a thread is hidden or removed by moderators, its link might not open.</p>
+<a class="my-card-link" href="forum.html?pilot=1">Open DNCH Community →</a>
+</section>
+<section class="my-card" id="my-profile">
+<div class="my-card-top"><div><div class="eyebrow">♢ YOUR SPACE</div><h2>MY PROFILE</h2><p>A personal greeting on this device only</p></div><span class="my-card-icon">♢</span></div>
+<form id="my-name-form">
+<label for="my-name-input">What should MY DNCH call you?</label>
+<div class="my-name-fields"><input id="my-name-input" type="text" autocomplete="off" maxlength="32" placeholder="For example: DNCH Explorer"><button class="btn primary" type="submit">Save</button><button class="btn" id="my-name-clear" type="button">Clear</button></div>
+<p class="my-muted">This is only a dashboard greeting, not an official DNCH account profile. Up to 32 characters.</p>
+<p id="my-profile-status" class="my-status" role="status" aria-live="polite" data-saved="Name saved in this browser." data-cleared="Local name cleared."></p>
+</form>
+<div class="my-profile-bottom"><p>A real unified DNCH account and cross-device sync are planned for later.</p><a href="forum.html?pilot=1">Manage your forum profile →</a></div>
+</section>
+</div>
+</div></main>
+<footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Your space, your choice. Data stays in the browser and may be lost if you clear the site's data.</p></div></footer>
+<script defer src="assets/my-dnch.js"></script>
+<script src="assets/forum-config.js"></script>
+<script src="assets/dnch-ai-config.js"></script>
+<script src="assets/dnch-ai.js"></script>
+</body>
+</html>

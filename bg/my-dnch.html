@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="Твоето лично табло в DNCH Hub: идеи, музика, предизвикателства и запазени дискусии. Безплатно и локално в браузъра.">
+<title>MY DNCH — Моето пространство</title>
+<link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/bg/my-dnch.html">
+<link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/my-dnch.html">
+<link rel="alternate" hreflang="bg" href="https://dnchcoin.github.io/dnch-coin/bg/my-dnch.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/my-dnch.css">
+</head>
+<body>
+<a class="skip" href="#my-main">Към личното табло</a>
+<header class="site-head"><div class="wrap head-inner"><a class="brand" href="../">DNCH <span>HUB</span></a>
+<nav aria-label="Основна навигация">
+<a href="../">Начало</a><a href="today.html">DNCH Today</a><a href="radio.html">DNCH Radio</a><a href="forum.html?pilot=1">Форум</a>
+<a class="my-nav-active" aria-current="page" href="my-dnch.html">MY DNCH</a><a class="lang-link" hreflang="en" lang="en" href="../my-dnch.html">EN</a>
+</nav></div></header>
+<main class="my-page" id="my-main"><div class="wrap">
+<section class="my-hero">
+<div class="eyebrow">ТВОЯТ ЛИЧЕН DNCH HUB</div>
+<h1 id="my-welcome">Добре дошъл в MY DNCH</h1>
+<p class="lead">Всичко интересно от нашата екосистема на едно място — твоите идеи, музика и дискусии.</p>
+<div class="my-hero-row"><span id="my-current-date" class="my-date"></span><button id="my-refresh" class="btn" type="button">↻ Обнови таблото</button></div>
+</section>
+<section class="my-privacy" aria-label="Лично пространство в този браузър">
+<div><strong>♢ Лично пространство в този браузър</strong><p>Не е облачен профил. Запазеното се вижда само в този браузър, на това устройство. Синхронизация между устройства още няма.</p></div>
+</section>
+<section class="my-stats" aria-label="Последните 7 дни">
+<div class="my-stat"><span class="my-stat-icon">✦</span><strong id="my-days">0/7</strong><span>Дни с изпълнено предизвикателство</span><small>Последните 7 дни</small></div>
+<div class="my-stat"><span class="my-stat-icon">☆</span><strong id="my-ideas-count">0</strong><span>Запазени идеи</span></div>
+<div class="my-stat"><span class="my-stat-icon">♫</span><strong id="my-music-count">0</strong><span>Мои песни</span></div>
+<div class="my-stat"><span class="my-stat-icon">▤</span><strong id="my-forum-count">0</strong><span>Запазени теми</span></div>
+</section>
+<div class="my-sections">
+<section class="my-card" id="my-today">
+<div class="my-card-top"><div><div class="eyebrow">✦ DNCH TODAY</div><h2>MY TODAY</h2><p>Твоите любими идеи и малки ежедневни успехи</p></div><span class="my-card-icon">☀</span></div>
+<div class="my-challenge-bar"><span id="my-challenge-check"></span><a href="today.html">Виж днешното предизвикателство →</a></div>
+<div class="my-content-list" id="my-ideas-list"></div>
+<p id="my-ideas-empty" class="my-empty" hidden>Още нямаш запазени идеи. Отвори DNCH Today и натисни ☆ на интересна идея.</p>
+<a class="my-card-link" href="today.html">Към DNCH Today →</a>
+</section>
+<section class="my-card" id="my-music">
+<div class="my-card-top"><div><div class="eyebrow">♫ DNCH RADIO</div><h2>MY MUSIC</h2><p>Твоите YouTube песни в DNCH Radio</p></div><span class="my-card-icon">♫</span></div>
+<div class="my-content-list" id="my-music-list"></div>
+<p id="my-music-empty" class="my-empty" hidden>Още нямаш добавени песни. Отвори DNCH Radio, постави YouTube линк и направи свой списък.</p>
+<a class="my-card-link" href="radio.html">Към DNCH Radio →</a>
+</section>
+<section class="my-card" id="my-community">
+<div class="my-card-top"><div><div class="eyebrow">♡ DNCH COMMUNITY</div><h2>MY COMMUNITY</h2><p>Любими дискусии в DNCH Community</p></div><span class="my-card-icon">♡</span></div>
+<div class="my-content-list" id="my-forum-list"></div>
+<p id="my-forum-empty" class="my-empty" hidden>Все още нямаш запазени дискусии. Във форума натисни ☆ до интересна тема.</p>
+<p class="my-muted">Форумът е в тестов режим. Ако темата е скрита от модератор или премахната, линкът може да не се отвори.</p>
+<a class="my-card-link" href="forum.html?pilot=1">Към DNCH Community →</a>
+</section>
+<section class="my-card" id="my-profile">
+<div class="my-card-top"><div><div class="eyebrow">♢ YOUR SPACE</div><h2>MY PROFILE</h2><p>Лично обръщение само за това устройство</p></div><span class="my-card-icon">♢</span></div>
+<form id="my-name-form">
+<label for="my-name-input">Как да те нарича MY DNCH?</label>
+<div class="my-name-fields"><input id="my-name-input" type="text" autocomplete="off" maxlength="32" placeholder="Например: DNCH Explorer"><button class="btn primary" type="submit">Запази</button><button class="btn" id="my-name-clear" type="button">Изчисти</button></div>
+<p class="my-muted">Това е само име за поздрав в таблото, не официален DNCH профил. До 32 символа.</p>
+<p id="my-profile-status" class="my-status" role="status" aria-live="polite" data-saved="Името е запазено в този браузър." data-cleared="Личното име е изчистено."></p>
+</form>
+<div class="my-profile-bottom"><p>Истинският DNCH акаунт и синхронизацията на данни между устройства са бъдещи подобрения.</p><a href="forum.html?pilot=1">Управление на форумния профил →</a></div>
+</section>
+</div>
+</div></main>
+<footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Твоето пространство, твоят избор. Данните остават в браузъра и могат да изчезнат при изчистване на данните на сайта.</p></div></footer>
+<script defer src="../assets/my-dnch.js"></script>
+<script src="../assets/forum-config.js"></script>
+<script src="../assets/dnch-ai-config.js"></script>
+<script src="../assets/dnch-ai.js"></script>
+</body>
+</html>
