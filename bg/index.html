@@ -9,7 +9,13 @@
 <meta content="index,follow" name="robots"/>
 <link href="https://dnchcoin.github.io/dnch-coin/bg/" rel="canonical"/>
 <title>DNCH Hub — Повече от токен. Изграден от всички.</title>
-<link href="../assets/site.css" rel="stylesheet"/><link href="https://dnchcoin.github.io/dnch-coin/" hreflang="en" rel="alternate"/><link href="https://dnchcoin.github.io/dnch-coin/bg/" hreflang="bg" rel="alternate"/></head>
+<link href="../assets/site.css" rel="stylesheet"/><link href="https://dnchcoin.github.io/dnch-coin/" hreflang="en" rel="alternate"/><link href="https://dnchcoin.github.io/dnch-coin/bg/" hreflang="bg" rel="alternate"/><link rel="manifest" href="../manifest-bg.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/dnch-192.png">
+<link rel="apple-touch-icon" href="../assets/icons/dnch-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DNCH Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
 <body>
 <a class="skip" href="#main">Към съдържанието</a>
 <header class="site-head">
@@ -27,7 +33,7 @@
 <div class="eyebrow">Изграждаща се екосистема с участието на общността</div>
 <h1>Повече от токен.<br/><span class="gold">Изграден от всички.</span></h1>
 <p class="lead">Музика. Идеи. Общност. Игри. Полезни знания. Едно свързано място, в което денят започва с нещо положително.</p>
-<div class="actions"><a class="btn primary" href="#ecosystem">Разгледай визията</a><a class="btn" href="#community">Сподели идея</a></div>
+<div class="actions"><a class="btn primary" href="#ecosystem">Разгледай визията</a><a class="btn" href="#community">Сподели идея</a><button class="btn dnch-install-button" id="dnch-install-button" type="button">⌄ Инсталирай DNCH</button></div><p id="dnch-install-info" class="dnch-install-info" role="status" aria-live="polite"></p>
 <p class="hero-footnote">За едно по-светло утре. <strong>Създавай и печели.</strong> · Проект в ранен етап, развиван открито.</p>
 </div>
 <div class="hero-image"><img alt="DNCH Coin logo" fetchpriority="high" height="370" onerror="this.onerror=null;this.src='../assets/dnch-fallback.svg'" src="../dnch-logo.png" width="370"/></div>
@@ -107,5 +113,6 @@
 <script src="../assets/forum-config.js"></script>
 <script src="../assets/dnch-ai-config.js"></script>
 <script src="../assets/dnch-ai.js"></script>
+<script defer src="../assets/pwa.js"></script>
 </body>
 </html>
