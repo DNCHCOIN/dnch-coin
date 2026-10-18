@@ -12,7 +12,7 @@ const T=bg?{
  block:'Спри публикуването',unblock:'Разреши публикуване',blocked:'Ограничен',active:'Активен',admin:'Администратор',
  reportLink:'Към темата',confirmHide:'Сигурен ли си, че искаш да скриеш публикацията?',confirmBlock:'Да ограничим ли публикуването от този профил?',
  blockReason:'Причина за ограничението (5–300 символа):',mustReason:'Необходима е причина между 5 и 300 символа.',
- confirmUnblock:'Да разрешим ли отново публикуването?',saved:'Промяната е запазена.',date:'bg-BG'
+ confirmUnblock:'Да разрешим ли отново публикуването?',saved:'Промяната е запазена.',history:'История',event:'Действие',target:'Обект',actor:'Администратор',date:'bg-BG'
 }:{
  denied:'Administrator access required. Sign in with the verified project owner account.',
  error:'Something went wrong. Please try again.',loading:'Loading…',empty:'No records yet.',
@@ -23,7 +23,7 @@ const T=bg?{
  block:'Restrict posting',unblock:'Restore posting',blocked:'Restricted',active:'Active',admin:'Administrator',
  reportLink:'Open topic',confirmHide:'Hide this post from the community?',confirmBlock:'Restrict this member from publishing?',
  blockReason:'Reason for restriction (5–300 characters):',mustReason:'A reason between 5 and 300 characters is required.',
- confirmUnblock:'Allow this member to publish again?',saved:'Change saved.',date:'en-GB'
+ confirmUnblock:'Allow this member to publish again?',saved:'Change saved.',history:'History',event:'Action',target:'Target',actor:'Moderator',date:'en-GB'
 };
 const $=id=>document.getElementById(id);
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=String(txt);return e};
@@ -103,29 +103,54 @@ function memberCard(m){
  if(!isAdmin)c.appendChild(actions(button(restricted?T.unblock:T.block,()=>setMemberBlock(m,!restricted),true)));
  return c
 }
+const actionLabels=bg?{
+ topic_hidden:'Скрита тема',topic_restored:'Възстановена тема',
+ topic_locked:'Заключена тема',topic_unlocked:'Отключена тема',
+ reply_hidden:'Скрит отговор',reply_restored:'Възстановен отговор',
+ report_open:'Отворен сигнал',report_reviewed:'Прегледан сигнал',report_dismissed:'Отхвърлен сигнал',
+ member_restricted:'Ограничено публикуване',member_restored:'Възстановено публикуване'
+}:{
+ topic_hidden:'Topic hidden',topic_restored:'Topic restored',
+ topic_locked:'Topic locked',topic_unlocked:'Topic unlocked',
+ reply_hidden:'Reply hidden',reply_restored:'Reply restored',
+ report_open:'Report reopened',report_reviewed:'Report reviewed',report_dismissed:'Report dismissed',
+ member_restricted:'Posting restricted',member_restored:'Posting restored'
+};
+function auditCard(entry){
+ const label=actionLabels[entry.action]||entry.action;
+ const c=card(label,null);
+ c.append(spanLine(T.actor,getName(entry.actor_id)),spanLine(T.event,label),spanLine(T.created,safeDate(entry.created_at)));
+ const related=entry.target_type==='topic'?cache.topics.get(entry.target_id):
+               entry.target_type==='reply'?cache.replies.get(entry.target_id):null;
+ const targetLabel=entry.target_type==='member'?getName(entry.target_id):
+                   related?.title||related?.body?.slice(0,90)||entry.target_type+' · '+entry.target_id.slice(0,8);
+ c.appendChild(spanLine(T.target,targetLabel));
+ return c
+}
 function render(){
- const destinations={reports:$('admin-reports-list'),topics:$('admin-topics-list'),members:$('admin-members-list')};
+ const destinations={reports:$('admin-reports-list'),topics:$('admin-topics-list'),members:$('admin-members-list'),audit:$('admin-audit-list')};
  for(const [kind,element] of Object.entries(destinations)){
   element.replaceChildren();
-  const values=kind==='reports'?cache.reportList:kind==='topics'?cache.topicList:cache.memberList;
+  const values=kind==='reports'?cache.reportList:kind==='topics'?cache.topicList:kind==='members'?cache.memberList:cache.auditList;
   if(!values.length)element.appendChild(make('p','forum-empty',T.empty));
-  else for(const row of values)element.appendChild(kind==='reports'?reportCard(row):kind==='topics'?topicCard(row):memberCard(row));
+  else for(const row of values)element.appendChild(kind==='reports'?reportCard(row):kind==='topics'?topicCard(row):kind==='members'?memberCard(row):auditCard(row));
  }
 }
 function switchView(next){view=next;for(const t of document.querySelectorAll('.admin-tab')){
  const selected=t.dataset.view===next;t.classList.toggle('active',selected);t.setAttribute('aria-pressed',selected?'true':'false')}
- for(const v of ['reports','topics','members'])$('admin-'+v).hidden=v!==next;
+ for(const v of ['reports','topics','members','audit'])$('admin-'+v).hidden=v!==next;
 }
-async function fetchRows(table,fields,limit=100){const {data,error}=await client.from(table).select(fields).limit(limit);if(error)throw Error(table+': '+error.message);return data||[]}
+async function fetchRows(table,fields,limit=100){let query=client.from(table).select(fields);if(table==='forum_moderation_audit')query=query.order('created_at',{ascending:false});const {data,error}=await query.limit(limit);if(error)throw Error(table+': '+error.message);return data||[]}
 async function refresh(){
  msg(T.loading);
- const [reports,topics,replies,members,blocks,categories]=await Promise.all([
+ const [reports,topics,replies,members,blocks,categories,audit]=await Promise.all([
   fetchRows('forum_reports','id,thread_id,reply_id,reporter_id,reason,status,created_at'),
   fetchRows('forum_threads','id,author_id,category_id,title,body,is_hidden,is_locked,created_at'),
   fetchRows('forum_replies','id,thread_id,author_id,body,is_hidden,created_at'),
   fetchRows('forum_profiles','id,display_name,created_at'),
   fetchRows('forum_member_blocks','user_id,is_blocked,reason'),
-  fetchRows('forum_categories','id,title_en,title_bg')
+  fetchRows('forum_categories','id,title_en,title_bg'),
+  fetchRows('forum_moderation_audit','id,actor_id,target_type,target_id,action,created_at',80)
  ]);
  cache={
   reportList:reports.sort((a,b)=>(a.status==='open'?0:1)-(b.status==='open'?0:1)||Date.parse(b.created_at)-Date.parse(a.created_at)),
@@ -135,7 +160,8 @@ async function refresh(){
   replies:new Map(replies.map(t=>[t.id,t])),
   names:new Map(members.map(t=>[t.id,t.display_name])),
   categories:new Map(categories.map(t=>[t.id,t])),
-  blocks:new Map(blocks.map(t=>[t.user_id,t]))
+  blocks:new Map(blocks.map(t=>[t.user_id,t])),
+  auditList:audit
  };
  render();msg('')
 }
