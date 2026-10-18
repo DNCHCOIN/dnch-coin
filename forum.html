@@ -32,7 +32,22 @@
 <section class="forum-content" aria-labelledby="forum-topics-title">
 <div id="forum-browser"><div class="eyebrow">Discussions</div><h2 id="forum-topics-title">Recent topics</h2>
 <div class="forum-filter-wrap"><label>Categories</label><div class="forum-filters" id="forum-filters"></div></div>
-<div id="forum-topics" class="forum-list"><p>Loading…</p></div></div>
+<form id="forum-search-form" class="forum-search-form" role="search">
+<label for="forum-search-input">Search topics and posts</label>
+<div class="forum-inline"><input id="forum-search-input" type="search" maxlength="80" autocomplete="off" placeholder="Find an idea, question, or topic..."><button type="submit" class="btn primary">Search</button><button type="button" class="btn" id="forum-search-clear">Clear</button></div>
+</form>
+<div class="forum-discovery-settings">
+<label for="forum-language-filter">Language
+<select id="forum-language-filter"><option value="">All languages</option><option value="bg">Български</option><option value="en">English</option><option value="other">Other</option></select></label>
+<label for="forum-sort">Sort
+<select id="forum-sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label>
+</div>
+<div id="forum-topics" class="forum-list"><p>Loading…</p></div>
+<nav class="forum-pages" id="forum-pagination" aria-label="Page" hidden>
+<button type="button" class="btn" id="forum-page-prev">← Previous</button>
+<span id="forum-page-status" aria-live="polite"></span>
+<button type="button" class="btn" id="forum-page-next">Next →</button>
+</nav></div>
 <div id="forum-thread-view" hidden><button type="button" id="forum-back" class="btn">← All topics</button>
 <article class="forum-topic" id="forum-thread"></article>
 <h3>Replies</h3><div id="forum-replies" class="forum-list"></div>
