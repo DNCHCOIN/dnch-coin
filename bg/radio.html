@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="Откривай музика и създай свой плейлист с официалния вграден YouTube плейър. Пилотна версия на DNCH Radio.">
+<title>DNCH Radio — YouTube музикален плейър</title>
+<link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/bg/radio.html">
+<link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/radio.html">
+<link rel="alternate" hreflang="bg" href="https://dnchcoin.github.io/dnch-coin/bg/radio.html">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/radio.css">
+</head>
+<body>
+<a class="skip" href="#radio-main">Към музиката</a>
+<header class="site-head"><div class="wrap head-inner">
+<a class="brand" href="../">DNCH <span>HUB</span></a>
+<nav aria-label="Основно меню"><a href="../">Начало</a><a href="today.html">DNCH Today</a><a href="community.html">Идеи</a><a href="forum.html?pilot=1">Форум</a><a class="lang-link" href="../radio.html" hreflang="en" lang="en">EN</a></nav>
+</div></header>
+<main id="radio-main" class="radio-page">
+<div class="wrap">
+<section class="radio-hero">
+<div class="eyebrow">DNCH RADIO · ПЪРВА ВЕРСИЯ</div>
+<h1>Твоята музика. Твоят избор.</h1>
+<p class="lead">Избери музикален стил, отвори видео в официалния YouTube плейър и добавяй свои любими песни. Без регистрация, без такси.</p>
+<div class="radio-tags"><span>♫ YouTube Player · v0.1</span><span>🌍 DNCH Ecosystem</span></div>
+</section>
+<div class="radio-warning" role="note"><strong>ⓘ</strong> Това е музикален плейър, а не 24/7 радио на живо. Видеото се управлява от YouTube.</div>
+<div class="radio-layout">
+<section class="radio-player-card" aria-label="Избрано видео">
+<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Избрано видео</h2></div><span class="radio-v01">v0.1</span></div>
+<h3 id="radio-selected-title">—</h3><p class="radio-artist" id="radio-selected-artist"></p>
+<div class="radio-frame-shell" id="radio-frame-shell">
+<div class="radio-placeholder" id="radio-placeholder">
+<span aria-hidden="true" class="radio-glyph">♫</span>
+<p>Избери песен от списъка, за да заредиш YouTube плейъра.</p>
+</div>
+</div>
+<a id="radio-youtube-link" class="radio-yt-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden>Гледай в YouTube ↗</a>
+<div class="radio-controls">
+<button type="button" class="btn" id="radio-prev">← Предишна</button>
+<button type="button" class="btn" id="radio-shuffle">⇄ Разбъркай</button>
+<button type="button" class="btn" id="radio-next">Следваща →</button>
+</div>
+<p class="small">Видеото се отваря чрез YouTube. Ако вграждането е ограничено, ползвай връзката към YouTube.</p>
+</section>
+<aside class="radio-playlist-card">
+<h2>Музикални стилове</h2>
+<div id="radio-genres" class="radio-genres" role="group" aria-label="Музикални стилове"></div>
+<div class="radio-list-heading"><h3>Музикален списък</h3><span id="radio-track-count">0</span></div>
+<div id="radio-track-list" class="radio-track-list" aria-live="polite"></div>
+</aside>
+</div>
+<section class="radio-add-card" aria-labelledby="radio-add-heading">
+<div><h2 id="radio-add-heading">Добави песен от YouTube</h2><p class="small">Постави линк към видео. Твоите добавени песни се пазят само в този браузър (до 20).</p></div>
+<form id="radio-add-form">
+<div class="radio-add-fields">
+<label for="radio-add-url">YouTube линк<input id="radio-add-url" type="url" required maxlength="300" placeholder="https://www.youtube.com/watch?v=…"></label>
+<label for="radio-add-title">Име на песента (по желание)<input id="radio-add-title" type="text" maxlength="80" placeholder="Например: Любима песен"></label>
+</div>
+<button class="btn primary" type="submit">Добави към моя списък</button>
+<p id="radio-form-status" class="small" role="status" aria-live="polite"></p>
+</form>
+</section>
+<section class="radio-info-card" aria-label="Как работи?">
+<h2>Как работи?</h2><p>Натисни песен, за да заредиш официалния видеоплейър, след което използвай Play вътре в YouTube. Няма изтегляне на звук или скрито възпроизвеждане. Можеш да отваряш всяко видео и директно в YouTube.</p>
+<p class="small">YouTube може да обработва данни, когато заредиш видеоплейъра. Преди да избереш песен не се зарежда външно видео.</p><p class="small">Подбраните видеоклипове са от официални YouTube канали. Авторските права принадлежат на съответните правоносители. Възможно е даден клип да не позволява вграждане.</p>
+<a href="forum.html?pilot=1">Предложи музика и идеи във форума →</a>
+</section>
+</div>
+</main>
+<footer><div class="wrap footer-row"><div><strong>DNCH RADIO</strong><p>DNCH Radio е експериментален музикален раздел, а не собствен лицензиращ или излъчващ оператор.</p></div><p>© 2026 DNCH</p></div></footer>
+<script src="../assets/radio.js" defer></script>
+<script src="../assets/forum-config.js"></script>
+<script src="../assets/dnch-ai-config.js"></script>
+<script src="../assets/dnch-ai.js"></script>
+</body></html>

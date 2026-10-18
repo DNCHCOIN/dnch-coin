@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909">
+<meta name="description" content="Explore music and build a personal playlist using the official embedded YouTube video player. DNCH Radio early pilot.">
+<title>DNCH Radio — YouTube music player</title>
+<link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/radio.html">
+<link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/radio.html">
+<link rel="alternate" hreflang="bg" href="https://dnchcoin.github.io/dnch-coin/bg/radio.html">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/radio.css">
+</head>
+<body>
+<a class="skip" href="#radio-main">Skip to music</a>
+<header class="site-head"><div class="wrap head-inner">
+<a class="brand" href="./">DNCH <span>HUB</span></a>
+<nav aria-label="Main navigation"><a href="./">Home</a><a href="today.html">DNCH Today</a><a href="community.html">Ideas Lab</a><a href="forum.html?pilot=1">Forum</a><a class="lang-link" href="bg/radio.html" hreflang="bg" lang="bg">BG</a></nav>
+</div></header>
+<main id="radio-main" class="radio-page">
+<div class="wrap">
+<section class="radio-hero">
+<div class="eyebrow">DNCH RADIO · EARLY ACCESS</div>
+<h1>Your music. Your choice.</h1>
+<p class="lead">Pick a genre, watch a music video through YouTube's official player, and add your own favorites. No signup and no fees.</p>
+<div class="radio-tags"><span>♫ YouTube Player · v0.1</span><span>🌍 DNCH Ecosystem</span></div>
+</section>
+<div class="radio-warning" role="note"><strong>ⓘ</strong> This is a music player, not a continuous live radio stream. Playback is provided by YouTube.</div>
+<div class="radio-layout">
+<section class="radio-player-card" aria-label="Selected video">
+<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Selected video</h2></div><span class="radio-v01">v0.1</span></div>
+<h3 id="radio-selected-title">—</h3><p class="radio-artist" id="radio-selected-artist"></p>
+<div class="radio-frame-shell" id="radio-frame-shell">
+<div class="radio-placeholder" id="radio-placeholder">
+<span aria-hidden="true" class="radio-glyph">♫</span>
+<p>Choose a track from the list to load the YouTube player.</p>
+</div>
+</div>
+<a id="radio-youtube-link" class="radio-yt-link" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" hidden>Watch on YouTube ↗</a>
+<div class="radio-controls">
+<button type="button" class="btn" id="radio-prev">← Previous</button>
+<button type="button" class="btn" id="radio-shuffle">⇄ Shuffle</button>
+<button type="button" class="btn" id="radio-next">Next →</button>
+</div>
+<p class="small">This video plays on YouTube. If embedding is restricted, use the YouTube link.</p>
+</section>
+<aside class="radio-playlist-card">
+<h2>Music genres</h2>
+<div id="radio-genres" class="radio-genres" role="group" aria-label="Music genres"></div>
+<div class="radio-list-heading"><h3>Music selection</h3><span id="radio-track-count">0</span></div>
+<div id="radio-track-list" class="radio-track-list" aria-live="polite"></div>
+</aside>
+</div>
+<section class="radio-add-card" aria-labelledby="radio-add-heading">
+<div><h2 id="radio-add-heading">Add a YouTube track</h2><p class="small">Paste a video link. Your own picks stay in this browser only (up to 20).</p></div>
+<form id="radio-add-form">
+<div class="radio-add-fields">
+<label for="radio-add-url">YouTube link<input id="radio-add-url" type="url" required maxlength="300" placeholder="https://www.youtube.com/watch?v=…"></label>
+<label for="radio-add-title">Track title (optional)<input id="radio-add-title" type="text" maxlength="80" placeholder="For example: Favorite song"></label>
+</div>
+<button class="btn primary" type="submit">Add to my picks</button>
+<p id="radio-form-status" class="small" role="status" aria-live="polite"></p>
+</form>
+</section>
+<section class="radio-info-card" aria-label="How does it work?">
+<h2>How does it work?</h2><p>Select a track to load the official YouTube video player, then press Play inside YouTube. No audio extraction or hidden playback. Each video also has a direct YouTube link.</p>
+<p class="small">YouTube may process data once you load the embedded player. No YouTube video is loaded before you select a track.</p><p class="small">Featured videos come from official YouTube channels. Rights belong to their respective owners. Some videos may not allow embedding.</p>
+<a href="forum.html?pilot=1">Suggest music in DNCH Community →</a>
+</section>
+</div>
+</main>
+<footer><div class="wrap footer-row"><div><strong>DNCH RADIO</strong><p>DNCH Radio is an experimental music page, not a licensed broadcasting station.</p></div><p>© 2026 DNCH</p></div></footer>
+<script src="assets/radio.js" defer></script>
+<script src="assets/forum-config.js"></script>
+<script src="assets/dnch-ai-config.js"></script>
+<script src="assets/dnch-ai.js"></script>
+</body></html>
