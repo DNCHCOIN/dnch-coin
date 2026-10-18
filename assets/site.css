@@ -114,3 +114,39 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .admin-excerpt{font-size:14px;color:var(--muted);white-space:pre-wrap}
 #admin-locked[hidden],#admin-panel[hidden],.admin-view[hidden],#forum-admin-link[hidden]{display:none!important}
 @media(max-width:650px){.admin-hero{padding:45px 0 20px}.admin-card{padding:18px}.admin-toolbar{display:block}.admin-toolbar>#admin-refresh{margin-top:12px}}
+
+
+/* DNCH AI pop-up — isolated styles, accessible and mobile-friendly */
+.dnch-ai-root{position:fixed;bottom:24px;right:24px;z-index:10020;font:inherit}
+.dnch-ai-root *{box-sizing:border-box}
+.dnch-ai-root .dnch-ai-toggle{display:block;cursor:pointer;border:1px solid #e4b965;border-radius:999px;background:linear-gradient(130deg,#f3bf70,#ef9767);color:#171113;font-size:15px;font-weight:850;box-shadow:0 12px 36px #0009;padding:13px 21px}
+.dnch-ai-toggle:hover,.dnch-ai-toggle:focus-visible{transform:translateY(-2px);box-shadow:0 15px 38px #000c}
+.dnch-ai-root .dnch-ai-window{position:absolute;bottom:65px;right:0;width:min(405px,calc(100vw - 28px));height:min(620px,calc(100dvh - 120px));min-height:290px;background:#14161c;border:1px solid #65523a;box-shadow:0 22px 72px #000b;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;color:#f4f0e9}
+.dnch-ai-root .dnch-ai-window[hidden],.dnch-ai-root [hidden]{display:none!important}
+.dnch-ai-header{padding:16px 18px;background:linear-gradient(115deg,#34281e,#242532);border-bottom:1px solid #64533e;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dnch-ai-heading{display:flex;flex-direction:column;gap:4px}
+.dnch-ai-heading strong{font-size:18px;color:#f0c680}
+.dnch-ai-heading span{font-size:11px;color:#ccc5c0}
+.dnch-ai-root .dnch-ai-close{border:1px solid #766551;background:#252631;color:#f3e9dc;border-radius:8px;font-size:26px;width:33px;height:33px;line-height:1;cursor:pointer}
+.dnch-ai-content{padding:18px;display:flex;flex-direction:column;gap:11px;overflow:auto;flex:1;min-height:0}
+.dnch-ai-intro{font-size:16px;font-weight:800;margin:0;color:#f0c680}
+.dnch-ai-notice,.dnch-ai-login{margin:0;border:1px solid #695232;background:#2b241c;border-radius:10px;padding:12px;font-size:13px;line-height:1.6;color:#ece6dd}
+.dnch-ai-external,.dnch-ai-login a{color:#f0c680;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.dnch-ai-messages{flex:1;min-height:40px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.dnch-ai-msg{max-width:94%;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;padding:11px 12px;border-radius:12px;background:#2d3038}
+.dnch-ai-msg.is-user{align-self:flex-end;background:#5d482e;color:#fff}
+.dnch-ai-msg.is-ai{align-self:flex-start}
+.dnch-ai-status{margin:0;min-height:18px;font-size:12px;color:#deb67c}
+.dnch-ai-form{display:flex;gap:8px;align-items:end}
+.dnch-ai-input{resize:vertical;min-height:44px;max-height:106px;flex:1;min-width:0;color:#fafafa;background:#23242e;border:1px solid #4b4c55;border-radius:10px;font:inherit;font-size:14px;padding:10px}
+.dnch-ai-root .dnch-ai-send,.dnch-ai-root .dnch-ai-reset{border:1px solid #a98a51;background:#ddae68;color:#24190c;padding:11px 12px;border-radius:9px;font:inherit;font-weight:750;cursor:pointer}
+.dnch-ai-root button:disabled,.dnch-ai-input:disabled{opacity:.55;cursor:not-allowed}
+.dnch-ai-root .dnch-ai-reset{background:transparent;color:#dec595;font-size:12px;padding:7px}
+.dnch-ai-privacy{margin:auto 0 0;font-size:11px;color:#c5c5ca;line-height:1.55}
+@media(max-width:500px){
+.dnch-ai-root{bottom:15px;right:13px}
+.dnch-ai-root .dnch-ai-toggle{padding:11px 15px;font-size:14px}
+.dnch-ai-root .dnch-ai-window{bottom:57px;width:calc(100vw - 26px);height:min(600px,calc(100dvh - 108px));border-radius:16px}
+.dnch-ai-content{padding:14px}
+}
+@media(prefers-reduced-motion:reduce){.dnch-ai-toggle:hover{transform:none}}
