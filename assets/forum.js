@@ -298,7 +298,7 @@ $('forum-login-form').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('forum-email').value.trim();
  if(!email)return;
  const button=$('forum-login-form').querySelector('button');button.disabled=true;
- const {error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+ const {error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:false}});
  button.disabled=false;
  setStatus(error?T.error:T.loginSent);
 });

@@ -69,7 +69,30 @@
 <p class="my-muted">Това е само име за поздрав в таблото, не официален DNCH профил. До 32 символа.</p>
 <p id="my-profile-status" class="my-status" role="status" aria-live="polite" data-saved="Името е запазено в този браузър." data-cleared="Личното име е изчистено."></p>
 </form>
-<div class="my-profile-bottom"><p>Истинският DNCH акаунт и синхронизацията на данни между устройства са бъдещи подобрения.</p><a href="forum.html?pilot=1">Управление на форумния профил →</a></div>
+<div class="my-profile-bottom"><p>DNCH ID позволява ръчно облачно копие за одобрени пилотни акаунти. Автоматична синхронизация и публична регистрация още няма.</p><a href="forum.html?pilot=1">Управление на форумния профил →</a></div>
+</section>
+<section id="dnch-account" class="my-card my-account-card" aria-labelledby="dnch-account-heading">
+<div class="my-card-top"><div><div class="eyebrow">♢ ЗАТВОРЕН ПИЛОТ · DNCH ID v1.0</div><h2 id="dnch-account-heading">Един профил. Твоят DNCH.</h2><p>За одобрени тестови акаунти. Можеш по свое желание да запазиш личните си идеи, музика и настройки в защитен облачен запис.</p></div><span class="my-card-icon" aria-hidden="true">♙</span></div>
+<p id="dnch-account-status" role="status" aria-live="polite">Проверявам сигурната връзка…</p>
+<div id="dnch-account-guest" hidden><p class="my-muted">За момента се използва съществуващият форумен акаунт. Влез през пилотния форум и се върни тук. Няма публична регистрация през DNCH ID.</p><a class="btn" href="forum.html?pilot=1">Към форумния вход →</a></div>
+<div id="dnch-account-member" hidden>
+<p class="my-account-user">Вписан акаунт: <strong id="dnch-account-identity"></strong></p>
+<p id="dnch-account-cloud-state" class="my-muted"></p>
+<div class="my-account-actions">
+<button id="dnch-account-save" class="btn primary" type="button">Подготви облачно запазване</button>
+<button id="dnch-account-restore" class="btn" type="button">Прегледай облачно възстановяване</button>
+<button id="dnch-account-delete" class="btn my-account-delete" type="button">Изтрий облачното копие</button>
+</div>
+<div id="dnch-account-preview" class="my-backup-preview" hidden>
+<h3>Преглед преди действие</h3><p id="dnch-account-preview-message" class="my-muted"></p>
+<div id="dnch-account-preview-counts" class="my-backup-counts" data-local="В браузъра" data-cloud="В облака" data-result="След действието"></div>
+<div class="my-backup-actions">
+<button id="dnch-account-confirm" class="btn primary" type="button">Потвърди</button>
+<button id="dnch-account-cancel" class="btn" type="button">Отказ</button>
+</div>
+</div>
+</div>
+<p class="my-muted">Данните се качват само при твое потвърждение. Облачното копие не включва пароли, сесии или ключове за портфейли. Форумът остава пилотен.</p><p class="my-muted">Това е първи затворен тест, не публична регистрация или автоматична синхронизация.</p>
 </section>
 <section id="my-backup" class="my-card my-backup-card" aria-labelledby="my-backup-heading">
 <div class="my-card-top"><div><div class="eyebrow">⇩ АРХИВ И ВЪЗСТАНОВЯВАНЕ · V0.2</div><h2 id="my-backup-heading">Запази своето MY DNCH</h2><p>Свали копие на любимите си идеи, изпълнените предизвикателства, музиката, запазените теми и локалното си име. После можеш да го пренесеш в друг браузър.</p></div><span class="my-card-icon" aria-hidden="true">⇄</span></div>
@@ -100,6 +123,7 @@
 <footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Твоето пространство, твоят избор. Данните остават в браузъра и могат да изчезнат при изчистване на данните на сайта.</p></div></footer>
 <script defer src="../assets/my-dnch.js"></script>
 <script defer src="../assets/my-dnch-backup.js"></script>
+<script type="module" src="../assets/dnch-account.js"></script>
 <script src="../assets/forum-config.js"></script>
 <script src="../assets/dnch-ai-config.js"></script>
 <script src="../assets/dnch-ai.js"></script>

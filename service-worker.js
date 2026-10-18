@@ -2,7 +2,7 @@
    Never intercept Supabase, YouTube, auth redirects, forum/admin pages, or API calls.
    Never store sensitive/session pages. Online content always wins. */
 'use strict';
-const VERSION='dnch-mobile-public-v2';
+const VERSION='dnch-mobile-public-v3';
 const PREFIX='dnch-mobile-public-';
 const SCOPE=new URL(self.registration.scope);
 const PUBLIC_FILES=[
@@ -11,7 +11,7 @@ const PUBLIC_FILES=[
  './today.html','./bg/today.html',
  './radio.html','./bg/radio.html',
  './assets/site.css','./assets/my-dnch.css','./assets/pwa.js',
- './assets/my-dnch.js','./assets/my-dnch-backup.js',
+ './assets/my-dnch.js','./assets/my-dnch-backup.js','./assets/dnch-account.js',
  './assets/today.js','./assets/radio.css','./assets/radio.js',
  './assets/forum-config.js','./assets/dnch-ai-config.js','./assets/dnch-ai.js',
  './manifest.webmanifest','./manifest-bg.webmanifest',
@@ -23,7 +23,7 @@ const CRITICAL_FILES=[
  './index.html','./bg/index.html',
  './my-dnch.html','./bg/my-dnch.html',
  './offline.html','./assets/site.css','./assets/my-dnch.css',
- './assets/my-dnch.js','./assets/my-dnch-backup.js','./assets/pwa.js'
+ './assets/my-dnch.js','./assets/my-dnch-backup.js','./assets/dnch-account.js','./assets/pwa.js'
 ];
 const allowed=new Set(PUBLIC_FILES.map(p=>new URL(p,SCOPE).pathname));
 const OFFLINE=new URL('./offline.html',SCOPE).href;
