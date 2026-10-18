@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNCH Community — International Forum</title><meta name="description" content="The future DNCH community forum: ideas, music, technology and open conversation.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<a class="skip" href="#forum-main">Skip to content</a>
+<header class="site-head"><div class="wrap head-inner"><a class="brand" href="">DNCH <span>HUB</span></a>
+<nav aria-label="Main navigation"><a href="">Home</a><a href="our-story.html">Our Story</a><a href="today.html">DNCH Today</a><a href="community.html">Ideas Lab</a><a class="lang-link" href="bg/forum.html" lang="bg">BG</a></nav></div></header>
+<main id="forum-main"><div class="wrap">
+<div class="forum-hero"><span class="eyebrow">DNCH Community · Pilot</span><h1>Your idea. Our community.</h1><p class="lead">A place to discuss DNCH and anything interesting beyond crypto. Read freely. Posting will need only a verified email — no crypto wallet.</p></div>
+<div class="forum-banner" id="forum-offline" role="status"><strong>Awaiting activation</strong><p>The forum is still being prepared. Registration and posting remain disabled until a secure database is connected and tested.</p><a href="community.html">In the meantime: propose an idea in Ideas Lab →</a></div>
+<section class="forum-preview" id="forum-preview" aria-labelledby="forum-preview-title"><div class="eyebrow">Coming to DNCH</div><h2 id="forum-preview-title">Five categories. Endless conversations.</h2><div class="forum-preview-grid"><article class="forum-preview-card"><div class="card-symbol" aria-hidden="true">✦</div><h3>DNCH Ecosystem Ideas</h3><p>Ideas for the site, features and future direction</p></article>
+<article class="forum-preview-card"><div class="card-symbol" aria-hidden="true">♫</div><h3>Music & Radio</h3><p>New sounds, community radio and playlists</p></article>
+<article class="forum-preview-card"><div class="card-symbol" aria-hidden="true">⚙</div><h3>Games & Cars</h3><p>Racing, tuning, favorite games and cars</p></article>
+<article class="forum-preview-card"><div class="card-symbol" aria-hidden="true">◎</div><h3>Science & Technology</h3><p>Useful knowledge, discoveries and tools</p></article>
+<article class="forum-preview-card"><div class="card-symbol" aria-hidden="true">♡</div><h3>Open Conversation</h3><p>Any respectful topic you want to discuss</p></article></div><p class="small">These are planned categories, not published discussions.</p></section>
+<div id="forum-app" hidden>
+<div class="forum-account"><div><h2>Join the conversation</h2><p class="small">A sign-in link by email — no password and no crypto wallet. The pilot server needs to be activated first.</p></div>
+<form id="forum-login-form"><label for="forum-email">Email address</label><div class="forum-inline"><input id="forum-email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required><button class="btn primary" type="submit">Send sign-in link</button></div></form>
+<div id="forum-session" hidden><span id="forum-identity"></span> <button class="btn" type="button" id="forum-logout">Sign out</button></div>
+</div>
+<p id="forum-status" class="forum-state" aria-live="polite"></p>
+<section class="forum-content" aria-labelledby="forum-topics-title">
+<div id="forum-browser"><div class="eyebrow">Discussions</div><h2 id="forum-topics-title">Recent topics</h2>
+<div class="forum-filter-wrap"><label>Categories</label><div class="forum-filters" id="forum-filters"></div></div>
+<div id="forum-topics" class="forum-list"><p>Loading…</p></div></div>
+<div id="forum-thread-view" hidden><button type="button" id="forum-back" class="btn">← All topics</button>
+<article class="forum-topic" id="forum-thread"></article>
+<h3>Replies</h3><div id="forum-replies" class="forum-list"></div>
+<form id="forum-reply-form" hidden><label for="forum-reply">Reply</label><textarea id="forum-reply" maxlength="3000" minlength="2" required></textarea><div class="actions"><button class="btn primary" type="submit">Post reply</button></div></form>
+<p id="forum-reply-hint" class="small">To participate, first sign in by email.</p></div>
+</section>
+<section class="forum-compose" id="forum-compose-section" hidden><div class="eyebrow">Create a topic</div><h2>Create a topic</h2>
+<form id="forum-thread-form">
+<div class="forum-inline-fields"><div><label for="forum-title">Title</label><input id="forum-title" required minlength="8" maxlength="160"></div>
+<div><label for="forum-category">Category</label><select id="forum-category" required></select></div>
+<div><label for="forum-language">Topic language</label><select id="forum-language"><option value="en">English</option><option value="bg">Bulgarian</option><option value="other">Other</option></select></div></div>
+<label for="forum-body">What would you like to discuss?</label><textarea id="forum-body" minlength="20" maxlength="5000" required></textarea>
+<div class="actions"><button class="btn primary" type="submit">Publish topic</button></div></form>
+</section>
+</div>
+<section class="forum-guidelines"><h2>Participation rules</h2><p>No spam, harassment, discrimination or promises of financial returns. Public topics are visible to everyone. Do not publish personal information.</p>
+<p class="small">The initial pilot does not include automatic rewards, payments or crypto wallet integration.</p>
+</section>
+</div></main>
+<footer><div class="wrap footer-row"><div><strong>DNCH COMMUNITY</strong><p>Built for a Brighter Tomorrow. Earn by Building.</p></div><p>© 2026 DNCH</p></div></footer>
+<script src="assets/forum-config.js"></script>
+<script type="module" src="assets/forum.js"></script>
+</body></html>
