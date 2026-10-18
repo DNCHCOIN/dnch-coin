@@ -1,4 +1,4 @@
-/* DNCH Drag Racing v0.1 — dark gold game shell, no third-party assets. */
+/* DNCH Drag Racing v0.2 — dark gold game shell, no third-party assets. */
 .drag-page{padding:44px 0 80px;background:radial-gradient(ellipse at 75% 0%,#29364199,transparent 47%)}
 .drag-hero{margin:10px 0 24px}.drag-hero .eyebrow{color:#ddbd83;text-transform:uppercase;letter-spacing:.13em;font-size:12px;font-weight:900}
 .drag-hero h1{font-size:clamp(32px,5vw,60px);margin:10px 0 8px;line-height:1.06;letter-spacing:-.04em}
@@ -56,3 +56,26 @@
 @media(max-width:850px){.drag-grid{grid-template-columns:1fr}.drag-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.drag-car-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.drag-page{padding-top:22px}.drag-dashboard{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:11px 8px}.drag-gauge strong{font-size:24px}.drag-gauge span{font-size:9px}.drag-gauge em{display:block;margin-left:0}.drag-rpm-track{margin-top:5px}.drag-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}.drag-controls button{min-height:56px;font-size:14px;min-width:0}.drag-message{font-size:12px;padding:6px 13px 13px}.drag-card{padding:16px}.drag-car-list{grid-template-columns:1fr}.drag-car-choice{padding:11px}.drag-stat strong{font-size:21px}}
 @media(prefers-reduced-motion:reduce){#drag-rpm-bar{transition:none}.drag-controls button:active{transform:none}}
+
+
+/* v0.2 — six instrument readouts, physical launch setup and side-view track */
+.drag-dashboard{grid-template-columns:repeat(6,minmax(0,1fr))}
+.drag-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.drag-controls button{min-width:0}
+.drag-drive-row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #4c4540;padding:12px 0;color:#c5c6d0;font-size:13px}
+.drag-drive-row strong{color:#f3daa8;font-size:15px}
+.drag-launch-controls{padding:13px;border:1px solid #534a3b;border-radius:12px;background:#242024;margin:15px 0}
+.drag-launch-controls label{display:flex;justify-content:space-between;gap:12px;font-weight:700;font-size:14px;color:#f3d5a0}
+#drag-launch{width:100%;height:32px;margin:7px 0 0;accent-color:#e0b96c;cursor:pointer;touch-action:pan-x}
+.drag-launch-controls p{margin:0}
+.drag-rpm-track{max-width:180px}
+@media(max-width:850px){
+ .drag-dashboard{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+ .drag-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ .drag-dashboard{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px}
+ .drag-gauge strong{font-size:22px}
+ .drag-controls{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .drag-controls button{font-size:12px;padding:8px 4px;min-height:62px}
+}
