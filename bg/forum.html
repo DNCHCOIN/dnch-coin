@@ -20,6 +20,14 @@
 <form id="forum-login-form"><label for="forum-email">Имейл адрес</label><div class="forum-inline"><input id="forum-email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required><button class="btn primary" type="submit">Изпрати линк за вход</button></div></form>
 <div id="forum-session" hidden><span id="forum-identity"></span> <button class="btn" type="button" id="forum-logout">Изход</button></div>
 </div>
+
+<section class="forum-profile" id="forum-profile-panel" aria-labelledby="forum-profile-heading" hidden>
+  <div><div class="eyebrow">Профил</div><h3 id="forum-profile-heading">Как да те наричаме?</h3>
+  <p class="small">Избери публично потребителско име. Имейлът ти не се публикува. Без криптопортфейл.</p></div>
+  <form id="forum-profile-form"><label for="forum-display-name">Потребителско име</label>
+  <div class="forum-inline"><input id="forum-display-name" name="nickname" type="text" maxlength="40" minlength="3" autocomplete="nickname" spellcheck="false" required><button class="btn primary" type="submit">Запази името</button></div>
+  <p id="forum-profile-status" class="small" aria-live="polite"></p></form>
+</section>
 <p id="forum-status" class="forum-state" aria-live="polite"></p>
 <section class="forum-content" aria-labelledby="forum-topics-title">
 <div id="forum-browser"><div class="eyebrow">Дискусии</div><h2 id="forum-topics-title">Последни теми</h2>
