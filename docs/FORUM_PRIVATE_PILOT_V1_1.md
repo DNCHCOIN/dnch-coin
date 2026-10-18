@@ -63,6 +63,26 @@ where id = 1;
 
 The examples require replacing the placeholder with a real UUID and a trusted, privileged DB session. They must not be callable by an ordinary signed-in browser user.
 
+## Read-only preflight: executed 18 October 2026
+
+A reusable **SELECT-only** deployment checklist is now available at
+`supabase/tests/forum_invite_only_preflight.sql`. This can run before and
+after the migration without writing any data. It checks 15 schema/policy/grant
+conditions. It is a metadata smoke test, **not** a real user authorization test.
+
+The query was executed on the actual DNCH Community Supabase project
+**before the new migration**: **4 PASS / 11 FAIL**. Expected PASS:
+anonymous cannot read invitation membership; the existing moderation audit
+still has RLS; browser users cannot assign administrators; existing forum topics
+retain RLS. The 11 FAILs correspond to invitation tables, their policies and
+the new restricted INSERT conditions that have **not yet been deployed**.
+
+**Hard release gate:** do not merge or deploy the v1.1 forum client until:
+1. The migration has been reviewed, tested and applied to the approved pilot.
+2. The read-only preflight is rerun and returns **15 PASS / 0 FAIL**.
+3. Two real Auth accounts plus an anonymous browser pass the independent
+   behavioral RLS tests below. A PASS metadata check is not authorization proof.
+
 ## Security acceptance tests (NOT YET RUN against the database)
 
 1. `anon` can read visible topics but cannot read approvals, create posts, reply, report or update posting controls.
