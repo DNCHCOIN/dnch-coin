@@ -13,7 +13,7 @@
 #drag-canvas{width:100%;display:block;aspect-ratio:960/430;height:auto;touch-action:none}
 .drag-stage{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);pointer-events:none;color:#8affb1;text-shadow:0 0 14px #3db55e,0 4px 15px #000;font-size:clamp(27px,6vw,74px);font-weight:1000;letter-spacing:.04em}
 .drag-stage.drag-idle{font-size:clamp(25px,4vw,43px);color:#f0d39c;text-shadow:0 5px 20px #000}
-.drag-dashboard{display:grid;grid-template-columns:1fr minmax(160px,1.2fr) 1fr 1fr;align-items:center;gap:14px;padding:18px 22px;border-top:1px solid #4e4338;background:linear-gradient(115deg,#242028,#121923)}
+.drag-dashboard{display:grid;grid-template-columns:1fr minmax(145px,1.2fr) .75fr 1fr 1fr;align-items:center;gap:14px;padding:18px 22px;border-top:1px solid #4e4338;background:linear-gradient(115deg,#242028,#121923)}
 .drag-gauge span{display:block;color:#b8bdc9;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 .drag-gauge strong{font-size:clamp(24px,4vw,38px);font-weight:900;font-variant-numeric:tabular-nums;line-height:1.25;color:#f9edcf}
 .drag-gauge em{font-size:12px;color:#aaaebb;font-style:normal;margin-left:4px}
@@ -54,5 +54,5 @@
 .drag-how p{margin:7px 0}.drag-how kbd{border:1px solid #655d55;color:#f2d29b;background:#282731;border-radius:5px;padding:2px 6px;font:700 12px system-ui}
 .drag-privacy{margin-top:19px;font-size:12px;color:#aeb2be}
 @media(max-width:850px){.drag-grid{grid-template-columns:1fr}.drag-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.drag-car-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.drag-page{padding-top:22px}.drag-dashboard{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:11px 8px}.drag-gauge strong{font-size:24px}.drag-gauge span{font-size:9px}.drag-gauge em{display:block;margin-left:0}.drag-rpm-track{margin-top:5px}.drag-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}.drag-controls button{min-height:56px;font-size:14px;min-width:0}.drag-message{font-size:12px;padding:6px 13px 13px}.drag-card{padding:16px}.drag-car-list{grid-template-columns:1fr}.drag-car-choice{padding:11px}.drag-stat strong{font-size:21px}}
+@media(max-width:600px){.drag-page{padding-top:22px}.drag-dashboard{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:11px 8px}.drag-gauge strong{font-size:24px}.drag-gauge span{font-size:9px}.drag-gauge em{display:block;margin-left:0}.drag-rpm-track{margin-top:5px}.drag-controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}.drag-controls button{min-height:56px;font-size:14px;min-width:0}.drag-message{font-size:12px;padding:6px 13px 13px}.drag-card{padding:16px}.drag-car-list{grid-template-columns:1fr}.drag-car-choice{padding:11px}.drag-stat strong{font-size:21px}}
 @media(prefers-reduced-motion:reduce){#drag-rpm-bar{transition:none}.drag-controls button:active{transform:none}}
