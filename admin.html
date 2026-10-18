@@ -13,13 +13,18 @@
 <div class="admin-toolbar"><div class="admin-tabs" role="group" aria-label="Administration">
 <button type="button" class="admin-tab active" data-view="reports" aria-pressed="true">Reports</button>
 <button type="button" class="admin-tab" data-view="topics" aria-pressed="false">Topics</button>
-<button type="button" class="admin-tab" data-view="members" aria-pressed="false">Members</button></div>
+<button type="button" class="admin-tab" data-view="members" aria-pressed="false">Members</button>
+<button type="button" class="admin-tab" data-view="audit" aria-pressed="false">History</button></div>
 <button class="btn" id="admin-refresh" type="button">Refresh</button></div>
 <p class="admin-notes">Hiding a thread or reply is reversible. Restricting a member stops posting without deleting their account.</p>
 <p class="forum-state" id="admin-status" role="status" aria-live="polite"></p>
 <section id="admin-reports" class="admin-view" aria-labelledby="admin-reports-title"><h2 id="admin-reports-title">Reports</h2><div id="admin-reports-list" class="admin-list"></div></section>
 <section id="admin-topics" class="admin-view" aria-labelledby="admin-topics-title" hidden><h2 id="admin-topics-title">Topics</h2><div id="admin-topics-list" class="admin-list"></div></section>
 <section id="admin-members" class="admin-view" aria-labelledby="admin-members-title" hidden><h2 id="admin-members-title">Members</h2><div id="admin-members-list" class="admin-list"></div></section>
+<section id="admin-audit" class="admin-view" aria-labelledby="admin-audit-title" hidden>
+<h2 id="admin-audit-title">Moderation history</h2>
+<p class="small">Moderator actions recorded automatically. Showing up to the latest 80 events.</p>
+<div id="admin-audit-list" class="admin-list"></div></section>
 </div></div></main>
 <footer><div class="wrap footer-row"><div><strong>DNCH COMMUNITY</strong><p>Early-stage pilot. Public launch requires a complete moderation process.</p></div><p>© 2026 DNCH</p></div></footer>
 <script src="assets/forum-config.js"></script><script type="module" src="assets/admin.js"></script>
