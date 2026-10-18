@@ -207,7 +207,12 @@ function nitro(){
  if(E.useNitro(game.player))say(T.nitro);else say(T.already);
  hud();
 }
-function gas(state){gasHeld=!!state}
+function gas(state){
+ if(state&&game?.phase==='countdown'&&game.player.penalty===0){
+  game.player.penalty=.35;say(T.early);
+ }
+ gasHeld=!!state;
+}
 $('drag-start').addEventListener('click',start);
 $('drag-shift').addEventListener('click',shift);
 $('drag-nitro').addEventListener('click',nitro);
