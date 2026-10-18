@@ -20,7 +20,7 @@
 ## Architecture
 - `assets/drag-engine.js`: dependency-free deterministic arcade simulation, progression model and save sanitization; public window export `DNCH_DRAG_ENGINE`.
 - `assets/drag-game.js`: canvas presentation, HUD, garage, keyboard/pointer input and localStorage integration; no global API key and no network request.
-- `assets/drag-game.css`: responsive layout styled with DNCH dark-and-gold brand; mobile layout uses a five-gauge dashboard and two-column large touch controls.
+- `assets/drag-game.css`: responsive layout styled with DNCH dark-and-gold brand; mobile layout uses a four-gauge dashboard and two-column large touch controls.
 - `drag-racing.html` and `bg/drag-racing.html`: translated pages, proper metadata and PWA links.
 - Existing DNCH Radio embeds, forum signup pilot, DNCH ID cloud data, and AI settings are **unchanged**.
 - Service worker continues to cache only fixed public same-origin paths. The game is an **optional** offline resource, so an interrupted game download cannot break MY DNCH's core offline shell. Already cached game resources are usable without internet; nothing cloud-backed is implied.
