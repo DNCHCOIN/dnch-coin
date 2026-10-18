@@ -41,7 +41,7 @@ self.addEventListener('activate',event=>{
 });
 self.addEventListener('fetch',event=>{
  const request=event.request;
- if(request.method!=='GET'||!['same-origin','navigate'].includes(request.mode))return;
+ if(request.method!=='GET')return;
  const url=new URL(request.url);
  if(url.origin!==SCOPE.origin||!url.pathname.startsWith(SCOPE.pathname)||!allowed.has(url.pathname))return;
  // Do not cache auth tokens, magic-link callbacks, pilot flags or other query data.
@@ -51,7 +51,7 @@ self.addEventListener('fetch',event=>{
   try{
    const network=await fetch(request);
    if(network.ok&&network.type==='basic'){
-    await cache.put(url.href,network.clone());
+    try{await cache.put(url.href,network.clone())}catch(err){console.warn('DNCH cache storage unavailable',err)}
    }
    return network;
   }catch(error){
