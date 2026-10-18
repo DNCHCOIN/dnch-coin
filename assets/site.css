@@ -83,3 +83,6 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .forum-preview[hidden]{display:none!important}
 @media(max-width:900px){.forum-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.forum-preview-grid{grid-template-columns:1fr}}
+
+.forum-early{margin:14px 0 22px;padding:13px 17px;background:#231f19;border-left:3px solid var(--gold);color:#e1d9c8;border-radius:5px}
+.forum-early a{color:var(--gold);text-underline-offset:3px}
