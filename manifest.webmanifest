@@ -39,6 +39,11 @@
       "name": "DNCH Today",
       "short_name": "Daily ideas",
       "url": "./today.html"
+    },
+    {
+      "name": "DNCH Drag Racing",
+      "short_name": "Drag Race",
+      "url": "./drag-racing.html"
     }
   ]
 }
