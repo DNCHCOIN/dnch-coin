@@ -250,8 +250,10 @@ $('dnch-account-delete').addEventListener('click',async()=>{
   const uid=user.id;
   const {data:verified,error:authError}=await client.auth.getUser();
   if(authError||verified?.user?.id!==uid)throw Error('Sign-in changed');
-  const {error}=await client.from('dnch_account_data').delete().eq('user_id',uid);
-  if(error)throw error;
+  const {data:deleted,error}=await client.from('dnch_account_data').delete()
+   .eq('user_id',uid).eq('updated_at',cloudRow.updated_at)
+   .select('user_id').maybeSingle();
+  if(error||!deleted)throw error||new Error('Cloud version changed before delete');
   cloudRow=null;cloudState();setStatus(T.deleted);
  }catch(e){console.warn('DNCH ID delete error',e);setStatus(T.failed)}
 });
