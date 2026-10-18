@@ -216,7 +216,7 @@ async function boot(){
 }
 $('forum-search-form').addEventListener('submit',event=>{
  event.preventDefault();
- searchTerm=$('forum-search-input').value.trim().replace(/\\s+/g,' ').slice(0,80);
+ searchTerm=$('forum-search-input').value.trim().replace(/\s+/g,' ').slice(0,80);
  topicsPage=0;loadTopics();
 });
 $('forum-search-clear').addEventListener('click',()=>{
