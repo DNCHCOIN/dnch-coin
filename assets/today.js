@@ -3,7 +3,7 @@
 const CATEGORIES={"security":{"icon":"♢","en":"Digital safety","bg":"Дигитална сигурност"},"technology":{"icon":"⌘","en":"Technology","bg":"Технологии"},"nature":{"icon":"✿","en":"Nature","bg":"Природа"},"creativity":{"icon":"✎","en":"Creativity","bg":"Творчество"},"science":{"icon":"◎","en":"Science","bg":"Наука"},"community":{"icon":"♡","en":"Community","bg":"Общност"}};
 const IDEAS=[{"id":"sec01","cat":"security","en":{"title":"A different password for each important account","summary":"Avoid reusing one password across email, banking and social accounts. A password manager can help.","action":"Choose one reused password to replace today."},"bg":{"title":"Различна парола за всеки важен профил","summary":"Не използвай една и съща парола за поща, банкиране и социални мрежи. Мениджър на пароли може да помогне.","action":"Смени една парола, която използваш на повече от едно място."}},{"id":"sec02","cat":"security","en":{"title":"Give your accounts a second lock","summary":"Multi-factor authentication adds another check after your password. An authenticator or passkey is often more resilient than a text message.","action":"Review the sign-in security on one key account."},"bg":{"title":"Още една защита за профилите ти","summary":"Двуфакторното удостоверяване добавя допълнителна проверка след паролата. Приложение за кодове или passkey често е по-надеждно от SMS.","action":"Провери защитата на един от най-важните си профили."}},{"id":"sec03","cat":"security","en":{"title":"Review one app permission","summary":"Your phone can show which apps have access to your location, microphone and camera. Keep only what each app truly needs.","action":"Open your phone's privacy settings and review one app."},"bg":{"title":"Провери едно разрешение на приложение","summary":"Телефонът показва кои приложения имат достъп до местоположението, микрофона и камерата. Остави само необходимото.","action":"Отвори настройките за поверителност и провери едно приложение."}},{"id":"sec04","cat":"security","en":{"title":"Check the address before you log in","summary":"A page that looks familiar may still be a copy. Check the domain and open important sites from a saved bookmark when possible.","action":"Save the genuine address of a service you use often."},"bg":{"title":"Погледни адреса преди вход","summary":"Страница може да изглежда позната, но да е имитация. Проверявай домейна и по възможност отваряй важните сайтове от запазена отметка.","action":"Запази истинския адрес на услуга, която използваш често."}},{"id":"tech01","cat":"technology","en":{"title":"The backup you can actually restore","summary":"A backup is only useful if the files can be opened again. Keep an extra copy of something important and check it periodically.","action":"Test that you can open one file from a backup."},"bg":{"title":"Архивът трябва и да се възстановява","summary":"Резервното копие е полезно само ако файловете могат да бъдат отворени. Дръж допълнително копие на важните неща и го проверявай.","action":"Опитай да отвориш един файл от резервно копие."}},{"id":"tech02","cat":"technology","en":{"title":"Make your phone easier to use","summary":"Accessibility settings include larger text, contrast adjustments and voice input. They're useful for everyone, not only for people with disabilities.","action":"Explore one display or accessibility setting."},"bg":{"title":"Направи телефона по-удобен","summary":"Настройките за достъпност включват по-голям текст, контраст и гласово въвеждане. Те могат да бъдат полезни за всеки.","action":"Разгледай една настройка за екрана или достъпността."}},{"id":"tech03","cat":"technology","en":{"title":"Quiet one noisy notification","summary":"Not every app deserves your attention immediately. Fine-tuning alerts can make the home screen feel calmer.","action":"Disable one nonessential notification category."},"bg":{"title":"Спри едно досадно известие","summary":"Не всяко приложение трябва да прекъсва деня ти. Подреждането на известията може да направи телефона много по-спокоен.","action":"Изключи един вид ненужно известие."}},{"id":"tech04","cat":"technology","en":{"title":"Name files so future-you can find them","summary":"A filename with a clear topic and date can make browsing backups and shared folders much easier.","action":"Rename three confusing files with meaningful names."},"bg":{"title":"Именувай файловете така, че да ги намираш","summary":"Име с ясна тема и дата улеснява търсенето в архиви и общи папки.","action":"Преименувай три неясно означени файла."}},{"id":"nature01","cat":"nature","en":{"title":"Find a tiny patch of green","summary":"Plants growing between buildings, on balconies or beside sidewalks can reveal a surprising variety of shapes and patterns.","action":"Notice three different leaf shapes today."},"bg":{"title":"Открий малко зелено място","summary":"Растенията между сградите, по балконите и край тротоарите показват удивително разнообразие от форми и шарки.","action":"Забележи три различни форми на листа днес."}},{"id":"nature02","cat":"nature","en":{"title":"Look up for a minute","summary":"Clouds can transform an ordinary sky into a changing picture. You don't need equipment to enjoy the view.","action":"Watch how the clouds change for sixty seconds."},"bg":{"title":"Погледни небето за минута","summary":"Облаците могат да превърнат обикновеното небе в непрекъснато променяща се картина. Не ти трябва специално оборудване.","action":"Погледай как се променят облаците за една минута."}},{"id":"nature03","cat":"nature","en":{"title":"Listen for the small sounds","summary":"A familiar place sounds different when you give it attention: wind, footsteps, distant birds, rain on a window.","action":"Notice three sounds without looking at your phone."},"bg":{"title":"Чуй малките звуци","summary":"Познатото място звучи различно, когато му отделиш внимание: вятър, стъпки, птици, дъжд по прозореца.","action":"Забележи три звука, без да поглеждаш телефона."}},{"id":"nature04","cat":"nature","en":{"title":"A photo of the same place","summary":"Taking a photo of one familiar tree or view each month creates a personal record of the changing seasons.","action":"Choose a safe spot you could photograph again later."},"bg":{"title":"Снимай едно и също място","summary":"Ако снимаш познато дърво или гледка всеки месец, ще създадеш личен запис на сезонните промени.","action":"Избери безопасно място, което можеш да снимаш отново."}},{"id":"creative01","cat":"creativity","en":{"title":"Take an unusual angle","summary":"Changing the viewpoint can make an ordinary object look surprising. Try photographing something from near the floor or from above.","action":"Take one photo from a perspective you rarely use."},"bg":{"title":"Опитай необичаен ъгъл за снимка","summary":"Смяната на гледната точка може да направи обикновения предмет интересен. Пробвай да снимаш от ниско или отгоре.","action":"Направи една снимка от непривичен ъгъл."}},{"id":"creative02","cat":"creativity","en":{"title":"Write only two sentences","summary":"Starting is often harder than continuing. A very short journal entry can capture an idea or a good moment without becoming a chore.","action":"Write one sentence about today and one about tomorrow."},"bg":{"title":"Напиши само две изречения","summary":"Често най-трудното е началото. Кратък запис може да запази идея или хубав момент, без да се превръща в задължение.","action":"Напиши едно изречение за днес и едно за утре."}},{"id":"creative03","cat":"creativity","en":{"title":"Give an old idea a new use","summary":"An unused notebook, an old sketch or a forgotten plan might have a second life. Small experiments can unlock bigger projects.","action":"Find one unfinished idea and add a single new detail."},"bg":{"title":"Дай втори живот на стара идея","summary":"Неползван тефтер, стара рисунка или забравен план може да има ново приложение. Малките опити отварят големи възможности.","action":"Намери една недовършена идея и добави нов детайл."}},{"id":"creative04","cat":"creativity","en":{"title":"Build a tiny playlist with a theme","summary":"Music can bring memories into focus. Pick a playful theme rather than chasing a perfect ranking.","action":"Choose three songs for a 'new beginning' playlist."},"bg":{"title":"Направи кратък тематичен плейлист","summary":"Музиката връща спомени. Вместо да търсиш идеалната класация, избери забавна тема.","action":"Подбери три песни за плейлист „Ново начало“."}},{"id":"science01","cat":"science","en":{"title":"Watch how shadows move","summary":"The position and length of a shadow change as the Sun moves across the sky. Simple observations can turn a walk into a small experiment.","action":"Compare the shadow of the same object at two different times."},"bg":{"title":"Виж как се местят сенките","summary":"Положението и дължината на сянката се променят през деня. Простите наблюдения могат да превърнат разходката в малък експеримент.","action":"Сравни сянката на един предмет в два различни часа."}},{"id":"science02","cat":"science","en":{"title":"Ask one better question","summary":"Curiosity grows when a vague question becomes specific. Instead of 'How does this work?', try 'What changes when I move this part?'.","action":"Turn one everyday mystery into a testable question."},"bg":{"title":"Задай един по-точен въпрос","summary":"Любопитството расте, когато неясният въпрос стане конкретен. Вместо „Как работи?“, пробвай „Какво се променя, ако разместя тази част?“.","action":"Превърни едно любопитство в конкретен въпрос, който може да се провери."}},{"id":"science03","cat":"science","en":{"title":"The Moon is worth noticing","summary":"The Moon changes its apparent shape during the month because we see different parts of its sunlit half.","action":"Notice its phase on two different evenings."},"bg":{"title":"Луната заслужава внимание","summary":"Формата на осветената част от Луната, която виждаме, се променя през месеца заради нейното движение около Земята.","action":"Обърни внимание на фазата ѝ в две различни вечери."}},{"id":"science04","cat":"science","en":{"title":"Trace a claim to its source","summary":"A headline can skip important details. Looking for the original study, image or announcement can change how you understand a claim.","action":"Choose one surprising statement and find its original source."},"bg":{"title":"Проследи твърдението до източника","summary":"Заглавията често пропускат важни подробности. Оригиналното изследване, снимка или съобщение може да промени разбирането ни.","action":"Избери едно изненадващо твърдение и намери първоначалния му източник."}},{"id":"people01","cat":"community","en":{"title":"Pass on one useful trick","summary":"A small shortcut or skill you already know might save someone else time. Useful knowledge grows when it is shared.","action":"Teach someone one practical tip you use."},"bg":{"title":"Сподели един полезен трик","summary":"Малък трик, който вече знаеш, може да спести време на друг човек. Полезните знания растат, когато се споделят.","action":"Покажи на някого един практичен съвет, който използваш."}},{"id":"people02","cat":"community","en":{"title":"Ask about someone's latest discovery","summary":"An open question can lead to a more interesting conversation than the usual 'How are you?'.","action":"Ask a friend: 'What's something interesting you learned recently?'"},"bg":{"title":"Попитай някого какво ново е открил","summary":"Отвореният въпрос може да доведе до по-интересен разговор от обичайното „Как си?“.","action":"Попитай приятел: „Кое е най-интересното, което научи напоследък?“"}},{"id":"people03","cat":"community","en":{"title":"Say thanks for an invisible effort","summary":"Many useful things happen quietly: someone fixes a problem, tidies a shared space or helps a stranger.","action":"Thank one person for something specific."},"bg":{"title":"Благодари за незабелязано усилие","summary":"Много полезни неща стават тихо: някой поправя проблем, подрежда общо пространство или помага на непознат.","action":"Благодари на един човек за нещо конкретно."}},{"id":"people04","cat":"community","en":{"title":"One idea can start a community","summary":"Good communities make room for different interests. You don't need a perfect proposal to begin a useful discussion.","action":"Write down one topic you'd enjoy discussing with others."},"bg":{"title":"Една идея може да създаде общност","summary":"Добрите общности дават място на различни интереси. Не ти трябва съвършено предложение, за да започнеш полезен разговор.","action":"Запиши една тема, която би обсъдил с други хора."}}];
 const lang=document.documentElement.lang==='bg'?'bg':'en';
-const t=lang==='bg'?{all:'Всички',saved:'Запазени',save:'Запази идеята',remove:'Премахни от запазените',try:'Пробвай днес',result:'идеи',empty:'Няма резултати.',bookmarkNote:'Запазва се само в този браузър.'}:{all:'All',saved:'Saved',save:'Save idea',remove:'Remove saved idea',try:'Try today',result:'ideas',empty:'No matches.',bookmarkNote:'Saved only in this browser.'};
+const t=lang==='bg'?{all:'Всички',saved:'Запазени',save:'Запази идеята',remove:'Премахни от запазените',try:'Пробвай днес',result:'идеи',empty:'Няма резултати.',bookmarkNote:'Запазва се само в този браузър.',share:'Сподели',linkCopied:'Линкът към идеята е копиран.',shared:'Готово за споделяне.',shareManually:'Копирай този линк:',done:'Изпълнено за днес!',undone:'Отметката за днес е премахната.',dayComplete:'Изпълнено ✓'}:{all:'All',saved:'Saved',save:'Save idea',remove:'Remove saved idea',try:'Try today',result:'ideas',empty:'No matches.',bookmarkNote:'Saved only in this browser.',share:'Share',linkCopied:'Idea link copied.',shared:'Ready to share.',shareManually:'Copy this link:',done:'Completed for today!',undone:'Today’s check mark removed.',dayComplete:'Completed ✓'};
 const featured=document.getElementById('today-featured');
 const library=document.getElementById('today-library');
 const filters=document.getElementById('today-filters');
@@ -19,15 +19,82 @@ const selected=[0,8,16].map(offset=>IDEAS[(dayIndex*7+offset)%IDEAS.length]);
 document.getElementById('today-date').textContent=new Intl.DateTimeFormat(lang==='bg'?'bg-BG':'en-GB',{day:'numeric',month:'long',year:'numeric'}).format(date);
 const E=(tag,cls,value)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!==undefined)node.textContent=value;return node};
 const persist=()=>{try{localStorage.setItem('dnch-today-favorites-v1',JSON.stringify([...favoriteIds]))}catch(e){}};
+
+/* The daily challenge reuses an existing reviewed idea; it never claims to be new news.
+   Completion dates are kept locally, with no identity or account tracking. */
+const CHALLENGE_KEY='dnch-today-challenge-days-v1';
+const isoDay=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+const todayKey=isoDay(date);
+const challengeIdea=selected[0];
+function readCompletedDays(){
+ try{
+  const raw=JSON.parse(localStorage.getItem(CHALLENGE_KEY)||'[]');
+  return new Set(Array.isArray(raw)?raw.filter(x=>typeof x==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(x)).slice(-90):[]);
+ }catch(e){return new Set()}
+}
+const doneDays=readCompletedDays();
+function challengeStatus(){
+ const item=challengeIdea[lang];
+ document.getElementById('today-challenge-date').textContent=document.getElementById('today-date').textContent;
+ document.getElementById('today-challenge-title').textContent=item.title;
+ document.getElementById('today-challenge-text').textContent=item.summary;
+ document.getElementById('today-challenge-task').textContent=item.action;
+ const button=document.getElementById('today-challenge-complete');
+ const done=doneDays.has(todayKey);
+ button.setAttribute('aria-pressed',String(done));
+ button.classList.toggle('is-done',done);
+ button.textContent=done?t.dayComplete:button.dataset.labelComplete;
+ const pastSeven=Array.from({length:7},(_,i)=>isoDay(new Date(date.getFullYear(),date.getMonth(),date.getDate()-i))).filter(d=>doneDays.has(d)).length;
+ const week=document.getElementById('today-challenge-week');
+ week.textContent=week.dataset.weekLabel+': '+pastSeven+'/7';
+}
+document.getElementById('today-challenge-complete').addEventListener('click',()=>{
+ if(doneDays.has(todayKey))doneDays.delete(todayKey);
+ else doneDays.add(todayKey);
+ const cutoff=isoDay(new Date(date.getFullYear(),date.getMonth(),date.getDate()-90));
+ for(const key of doneDays)if(key<cutoff)doneDays.delete(key);
+ try{localStorage.setItem(CHALLENGE_KEY,JSON.stringify([...doneDays]))}catch(e){}
+ document.getElementById('today-challenge-status').textContent=doneDays.has(todayKey)?t.done:t.undone;
+ challengeStatus();
+});
+challengeStatus();
+function ideaUrl(id){return location.origin+location.pathname+'#idea='+id}
+async function shareIdea(idea){
+ const info=idea[lang];
+ const url=ideaUrl(idea.id);
+ const status=document.getElementById('today-share-status');
+ try{
+  if(typeof navigator.share==='function'){
+   await navigator.share({title:info.title,text:info.summary,url});
+   status.textContent=t.shared;
+  }else if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'){
+   await navigator.clipboard.writeText(url);
+   status.textContent=t.linkCopied;
+  }else{
+   window.prompt(t.shareManually,url);
+  }
+ }catch(e){
+  if(e&&e.name==='AbortError')return;
+  try{await navigator.clipboard.writeText(url);status.textContent=t.linkCopied}
+  catch(err){window.prompt(t.shareManually,url)}
+ }
+}
+
 function card(idea,feature){const entry=idea[lang],kind=CATEGORIES[idea.cat],card=E('article','today-card');card.dataset.topic=idea.cat;
 const top=E('div','today-card-top');
 const chip=E('span','today-chip',kind.icon+' '+kind[lang]);top.appendChild(chip);
+if(!feature){card.id='today-idea-'+idea.id;card.tabIndex=-1}
+const cardButtons=E('div','today-card-buttons');
 const bookmark=E('button','today-bookmark',favoriteIds.has(idea.id)?'★':'☆');
 bookmark.type='button';bookmark.setAttribute('aria-pressed',favoriteIds.has(idea.id)?'true':'false');
 bookmark.setAttribute('aria-label',(favoriteIds.has(idea.id)?t.remove:t.save)+': '+entry.title);
 bookmark.title=t.bookmarkNote;
 bookmark.addEventListener('click',()=>{favoriteIds.has(idea.id)?favoriteIds.delete(idea.id):favoriteIds.add(idea.id);persist();render()});
-top.appendChild(bookmark);card.appendChild(top);
+cardButtons.appendChild(bookmark);
+const share=E('button','today-share',t.share+' ↗');
+share.type='button';share.setAttribute('aria-label',t.share+': '+entry.title);
+share.addEventListener('click',()=>shareIdea(idea));
+cardButtons.appendChild(share);top.appendChild(cardButtons);card.appendChild(top);
 card.appendChild(E('h3',null,entry.title));card.appendChild(E('p','today-summary',entry.summary));
 const action=E('div','today-action');action.append(E('span','today-action-label',t.try),E('p',null,entry.action));card.appendChild(action);
 if(feature)card.classList.add('featured');
@@ -44,4 +111,15 @@ document.getElementById('today-empty').hidden=matches.length!==0||active==='save
 document.getElementById('today-saved-empty').hidden=!(active==='saved'&&favoriteIds.size===0)}
 search.addEventListener('input',render);
 render();
+function focusLinkedIdea(){
+ const m=location.hash.match(/^#idea=([A-Za-z0-9_-]{1,24})$/);
+ if(!m||!IDEAS.some(x=>x.id===m[1]))return;
+ if(active!=='all'||search.value){active='all';search.value='';render()}
+ const entry=document.getElementById('today-idea-'+m[1]);
+ if(!entry)return;
+ entry.classList.add('today-linked-idea');
+ requestAnimationFrame(()=>{entry.scrollIntoView({block:'center',behavior:'smooth'});entry.focus({preventScroll:true})});
+}
+window.addEventListener('hashchange',focusLinkedIdea);
+focusLinkedIdea();
 })();
