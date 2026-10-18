@@ -2,7 +2,7 @@
    Never intercept Supabase, YouTube, auth redirects, forum/admin pages, or API calls.
    Never store sensitive/session pages. Online content always wins. */
 'use strict';
-const VERSION='dnch-mobile-public-v3';
+const VERSION='dnch-mobile-public-v4';
 const PREFIX='dnch-mobile-public-';
 const SCOPE=new URL(self.registration.scope);
 const PUBLIC_FILES=[
@@ -10,9 +10,11 @@ const PUBLIC_FILES=[
  './my-dnch.html','./bg/my-dnch.html',
  './today.html','./bg/today.html',
  './radio.html','./bg/radio.html',
+ './drag-racing.html','./bg/drag-racing.html',
  './assets/site.css','./assets/my-dnch.css','./assets/pwa.js',
  './assets/my-dnch.js','./assets/my-dnch-backup.js','./assets/dnch-account.js',
  './assets/today.js','./assets/radio.css','./assets/radio.js',
+ './assets/drag-game.css','./assets/drag-engine.js','./assets/drag-game.js',
  './assets/forum-config.js','./assets/dnch-ai-config.js','./assets/dnch-ai.js',
  './manifest.webmanifest','./manifest-bg.webmanifest',
  './assets/icons/dnch-192.png','./assets/icons/dnch-512.png',
