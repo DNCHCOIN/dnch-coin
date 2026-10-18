@@ -1,0 +1,44 @@
+{
+  "id": "/dnch-coin/",
+  "name": "DNCH Hub — Твоето пространство",
+  "short_name": "DNCH Hub",
+  "description": "Лично пространство за DNCH Today, Radio, Community и още.",
+  "lang": "bg",
+  "dir": "ltr",
+  "start_url": "./bg/my-dnch.html",
+  "scope": "/dnch-coin/",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "./assets/icons/dnch-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/dnch-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "MY DNCH",
+      "short_name": "Лично табло",
+      "url": "./bg/my-dnch.html"
+    },
+    {
+      "name": "DNCH Radio",
+      "short_name": "Музика",
+      "url": "./bg/radio.html"
+    },
+    {
+      "name": "DNCH Today",
+      "short_name": "Идеи за деня",
+      "url": "./bg/today.html"
+    }
+  ]
+}
