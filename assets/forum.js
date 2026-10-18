@@ -83,6 +83,16 @@ function toggleLogin(session){
  $('forum-session').hidden=!user;
  $('forum-compose-section').hidden=!user;
  $('forum-identity').textContent=user?.email||'';
+ const adminLink=$('forum-admin-link');
+ if(adminLink){
+  adminLink.hidden=true;
+  if(user){
+   const id=user.id;
+   client.from('forum_admins').select('user_id').eq('user_id',id).maybeSingle().then(({data,error})=>{
+    if(!error&&data&&user?.id===id)adminLink.hidden=false;
+   }).catch(e=>console.warn('Admin check unavailable',e));
+  }
+ }
  $('forum-reply-form').hidden=!(user&&currentThread&&!currentThread.is_locked);
  $('forum-reply-hint').hidden=!!(user&&currentThread&&!currentThread.is_locked);
  document.querySelectorAll('.forum-report').forEach(btn=>{btn.hidden=!user});
