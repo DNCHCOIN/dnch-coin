@@ -65,20 +65,25 @@ self.addEventListener('fetch',event=>{
  if(url.search)return;
  event.respondWith((async()=>{
   const cache=await caches.open(VERSION);
+  const offlineCopy=async()=>{
+   const cached=await cache.match(url.href);
+   if(cached)return cached;
+   if(request.mode==='navigate')return (await cache.match(OFFLINE))||null;
+   return null;
+  };
   try{
    const network=await fetch(request);
    if(network.ok&&network.type==='basic'){
     try{await cache.put(url.href,network.clone())}catch(err){console.warn('DNCH cache storage unavailable',err)}
    }
+   // Keep serving already saved public pages through temporary server outages,
+   // but do NOT disguise a real 404/403 or cache errors as successful pages.
+   if(network.status>=500)return (await offlineCopy())||network;
    return network;
   }catch(error){
-   const cached=await cache.match(url.href);
-   if(cached)return cached;
-   if(request.mode==='navigate'){
-    const fallback=await cache.match(OFFLINE);
-    if(fallback)return fallback;
-   }
-   return new Response('DNCH: offline',{status:503,statusText:'Offline',headers:{'Content-Type':'text/plain; charset=utf-8'}});
+   return (await offlineCopy())||new Response('DNCH: offline',{
+    status:503,statusText:'Offline',headers:{'Content-Type':'text/plain; charset=utf-8'}
+   });
   }
  })());
 });
