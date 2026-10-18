@@ -29,12 +29,12 @@
 <div class="eyebrow">DNCH RADIO · ПЪРВА ВЕРСИЯ</div>
 <h1>Твоята музика. Твоят избор.</h1>
 <p class="lead">Избери музикален стил, отвори видео в официалния YouTube плейър и добавяй свои любими песни. Без регистрация, без такси.</p>
-<div class="radio-tags"><span>♫ YouTube Player · v0.1</span><span>🌍 DNCH Ecosystem</span></div>
+<div class="radio-tags"><span>♫ YouTube Player · v0.2</span><span>🌍 DNCH Ecosystem</span></div>
 </section>
 <div class="radio-warning" role="note"><strong>ⓘ</strong> Това е музикален плейър, а не 24/7 радио на живо. Видеото се управлява от YouTube.</div>
 <div class="radio-layout">
 <section class="radio-player-card" aria-label="Избрано видео">
-<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Избрано видео</h2></div><span class="radio-v01">v0.1</span></div>
+<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Избрано видео</h2></div><span class="radio-v01">v0.2</span></div>
 <h3 id="radio-selected-title">—</h3><p class="radio-artist" id="radio-selected-artist"></p>
 <div class="radio-frame-shell" id="radio-frame-shell">
 <div class="radio-placeholder" id="radio-placeholder">
@@ -49,6 +49,21 @@
 <button type="button" class="btn" id="radio-next">Следваща →</button>
 </div>
 <p class="small">Видеото се отваря чрез YouTube. Ако вграждането е ограничено, ползвай връзката към YouTube.</p>
+<div class="radio-sleep" role="group" aria-labelledby="radio-sleep-title">
+<h3 id="radio-sleep-title">Таймер за спиране</h3>
+<p class="small">Спира избрания YouTube плейър след зададеното време. Работи, докато страницата е отворена; браузърът може да забави таймера на заден план.</p>
+<div class="radio-sleep-actions">
+<label for="radio-sleep-duration">Спри след
+<select id="radio-sleep-duration">
+<option value="5">5 минути</option><option value="15" selected>15 минути</option>
+<option value="30">30 минути</option><option value="60">60 минути</option>
+</select></label>
+<button id="radio-sleep-start" type="button" class="btn" disabled>Пусни таймера</button>
+<button id="radio-sleep-cancel" type="button" class="btn" hidden>Отмени таймера</button>
+</div>
+<p class="radio-sleep-remaining" id="radio-sleep-remaining" aria-live="off">Няма активен таймер.</p>
+<p class="small radio-sleep-status" id="radio-sleep-status" role="status" aria-live="polite"></p>
+</div>
 </section>
 <aside class="radio-playlist-card">
 <h2>Музикални стилове</h2>
@@ -71,7 +86,7 @@
 <section class="radio-info-card" aria-label="Как работи?">
 <h2>Как работи?</h2><p>Натисни песен, за да заредиш официалния видеоплейър, след което използвай Play вътре в YouTube. Няма изтегляне на звук или скрито възпроизвеждане. Можеш да отваряш всяко видео и директно в YouTube.</p>
 <p class="small">YouTube може да обработва данни, когато заредиш видеоплейъра. Преди да избереш песен не се зарежда външно видео.</p><p class="small">Подбраните видеоклипове са от официални YouTube канали. Авторските права принадлежат на съответните правоносители. Възможно е даден клип да не позволява вграждане.</p>
-<a href="forum.html?pilot=1">Предложи музика и идеи във форума →</a>
+<a href="community.html">Предложи музика чрез DNCH Ideas Lab →</a>
 </section>
 </div>
 </main>
