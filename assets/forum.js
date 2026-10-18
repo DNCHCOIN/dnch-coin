@@ -51,6 +51,7 @@ function toggleLogin(session){
  $('forum-identity').textContent=user?.email||'';
  $('forum-reply-form').hidden=!(user&&currentThread&&!currentThread.is_locked);
  $('forum-reply-hint').hidden=!!(user&&currentThread&&!currentThread.is_locked);
+ document.querySelectorAll('.forum-report').forEach(btn=>{btn.hidden=!user});
  if(currentThread&&currentThread.is_locked)$('forum-reply-hint').textContent=T.locked;
  else $('forum-reply-hint').textContent=T.readonly;
 }
