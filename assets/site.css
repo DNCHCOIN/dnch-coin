@@ -180,3 +180,27 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .forum-save[aria-pressed="true"]{background:#46331f;border-color:#dcac63;color:#ffdb95}
 .forum-save:hover,.forum-save:focus-visible{border-color:#ffe6b6;outline-offset:2px}
 @media(max-width:650px){.forum-saved-filter{display:block}.forum-saved-filter .small{margin-top:10px}.forum-save{font-size:12px;padding:7px 9px}}
+
+
+/* DNCH Today v0.6 — a small completed action and shareable ideas */
+.today-challenge{position:relative;margin:12px 0 36px;padding:28px;border:1px solid #856b46;border-radius:19px;background:linear-gradient(125deg,#2e2418 0%,#1b1d27 72%,#14151c 100%);box-shadow:0 12px 45px #0005}
+.today-challenge .eyebrow{color:#ecc58b}
+.today-challenge-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:9px}
+.today-challenge-head h2{font-size:clamp(23px,3vw,31px);margin:11px 0}
+.today-challenge-date{font-size:13px;font-weight:700;color:#cfb98f}
+.today-challenge .small{font-size:13px;color:#d7ccd0}
+.today-challenge-content{border-top:1px solid #655137;margin-top:16px;padding-top:18px}
+.today-challenge-content h3{font-size:21px;color:#ffdfac;margin:0 0 8px}
+.today-challenge-content p{margin:9px 0;color:#e7deda}
+.today-challenge-task{border-left:3px solid var(--gold);padding:8px 12px;background:#1b1d22;border-radius:0 9px 9px 0;font-weight:700}
+.today-challenge-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 0}
+#today-challenge-complete{cursor:pointer}
+#today-challenge-complete.is-done{background:#354736;color:#dbf5ce;border-color:#77936b}
+#today-challenge-week{font-variant-numeric:tabular-nums}
+#today-challenge-status{margin:10px 0 0;min-height:18px}
+.today-card-buttons{display:flex;gap:7px;align-items:center;justify-content:end;flex-shrink:0}
+.today-share{cursor:pointer;border:1px solid #66573f;border-radius:9px;background:#28221e;color:#f0d5a5;font:inherit;font-size:12px;font-weight:700;padding:8px 10px;white-space:nowrap}
+.today-share:hover,.today-share:focus-visible{border-color:var(--gold);background:#40301f}
+.today-card.today-linked-idea{border-color:var(--gold);box-shadow:0 0 0 2px #b7975a}
+#today-share-status{min-height:21px;margin:12px 0 0}
+@media(max-width:630px){.today-challenge{padding:20px 17px;margin:7px 0 27px}.today-card-buttons{gap:5px}.today-share{font-size:11px;padding:8px 7px}.today-challenge-head{align-items:flex-start}}
