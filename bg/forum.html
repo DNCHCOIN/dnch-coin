@@ -1,0 +1,45 @@
+<!doctype html><html lang="bg"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNCH Community — Международен форум</title><meta name="description" content="Бъдещият форум на DNCH: дискусии, идеи, музика, технологии и свободни разговори.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="../assets/site.css">
+</head><body>
+<a class="skip" href="#forum-main">Към съдържанието</a>
+<header class="site-head"><div class="wrap head-inner"><a class="brand" href="../">DNCH <span>HUB</span></a>
+<nav aria-label="Основно меню"><a href="../">Начало</a><a href="our-story.html">Историята</a><a href="today.html">DNCH Today</a><a href="community.html">Ideas Lab</a><a class="lang-link" href="../forum.html" lang="en">EN</a></nav></div></header>
+<main id="forum-main"><div class="wrap">
+<div class="forum-hero"><span class="eyebrow">DNCH Community · Пилот</span><h1>Твоята идея. Нашата общност.</h1><p class="lead">Място за дискусии за DNCH и всичко интересно отвъд криптовалутите. Чети свободно. За публикации ще е нужен само потвърден имейл — не и криптопортфейл.</p></div>
+<div class="forum-banner" id="forum-offline" role="status"><strong>Очаква активиране</strong><p>Форумът все още се подготвя. Регистрациите и публикациите не са активни, докато не свържем и тестваме защитената база данни.</p><a href="community.html">Междувременно: предложи идея в Ideas Lab →</a></div>
+<div id="forum-app" hidden>
+<div class="forum-account"><div><h2>Участвай в разговора</h2><p class="small">Вход с линк по имейл — без парола и без криптопортфейл. За да работи, пилотният сървър трябва да е активиран.</p></div>
+<form id="forum-login-form"><label for="forum-email">Имейл адрес</label><div class="forum-inline"><input id="forum-email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required><button class="btn primary" type="submit">Изпрати линк за вход</button></div></form>
+<div id="forum-session" hidden><span id="forum-identity"></span> <button class="btn" type="button" id="forum-logout">Изход</button></div>
+</div>
+<p id="forum-status" class="forum-state" aria-live="polite"></p>
+<section class="forum-content" aria-labelledby="forum-topics-title">
+<div id="forum-browser"><div class="eyebrow">Дискусии</div><h2 id="forum-topics-title">Последни теми</h2>
+<div class="forum-filter-wrap"><label>Категории</label><div class="forum-filters" id="forum-filters"></div></div>
+<div id="forum-topics" class="forum-list"><p>Зареждане…</p></div></div>
+<div id="forum-thread-view" hidden><button type="button" id="forum-back" class="btn">← Всички теми</button>
+<article class="forum-topic" id="forum-thread"></article>
+<h3>Отговори</h3><div id="forum-replies" class="forum-list"></div>
+<form id="forum-reply-form" hidden><label for="forum-reply">Отговори</label><textarea id="forum-reply" maxlength="3000" minlength="2" required></textarea><div class="actions"><button class="btn primary" type="submit">Публикувай отговор</button></div></form>
+<p id="forum-reply-hint" class="small">За да публикуваш, първо влез с имейл.</p></div>
+</section>
+<section class="forum-compose" id="forum-compose-section" hidden><div class="eyebrow">Създай нова тема</div><h2>Създай нова тема</h2>
+<form id="forum-thread-form">
+<div class="forum-inline-fields"><div><label for="forum-title">Заглавие</label><input id="forum-title" required minlength="8" maxlength="160"></div>
+<div><label for="forum-category">Категория</label><select id="forum-category" required></select></div>
+<div><label for="forum-language">Език на темата</label><select id="forum-language"><option value="bg">Български</option><option value="en">Английски</option><option value="other">Друг</option></select></div></div>
+<label for="forum-body">За какво искаш да говорим?</label><textarea id="forum-body" minlength="20" maxlength="5000" required></textarea>
+<div class="actions"><button class="btn primary" type="submit">Публикувай темата</button></div></form>
+</section>
+</div>
+<section class="forum-guidelines"><h2>Правила за участие</h2><p>Никакъв спам, тормоз, дискриминация или обещания за финансова печалба. Публичните теми са видими за всички. Не публикувай лични данни.</p>
+<p class="small">Първоначалният пилот няма автоматични награди, разплащания или интеграция с криптопортфейл.</p>
+</section>
+</div></main>
+<footer><div class="wrap footer-row"><div><strong>DNCH COMMUNITY</strong><p>За едно по-светло утре. Създавай и печели.</p></div><p>© 2026 DNCH</p></div></footer>
+<script src="../assets/forum-config.js"></script>
+<script type="module" src="../assets/forum.js"></script>
+</body></html>
