@@ -1,7 +1,7 @@
-/* Fill in ONLY the Supabase Project URL and publishable (public/anon) key.
-   These values are intentionally blank until the owner activates the private pilot.
-   NEVER paste a service_role/secret key into a public website. */
+/* DNCH Community Supabase PUBLIC configuration.
+   This is a publishable key, not a secret. Never place a service_role or secret key in the website.
+   Activate this config on main only after Supabase Authentication redirect URLs and security testing. */
 window.DNCH_FORUM_CONFIG = Object.freeze({
-  url: "",
-  publishableKey: ""
+  url: "https://wthzcqgzcbkvhovtcmoe.supabase.co",
+  publishableKey: "sb_publishable_G4Rf57u-Ty4ZIFxLS7H2lg_OY99dVKb"
 });
