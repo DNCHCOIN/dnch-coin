@@ -65,7 +65,7 @@ function vehicle(car,parts,reaction){
   gearbox:clamp(parts.gearbox||0,0,3)
  };
  return {car:car.id,gear:1,pos:0,speed:0,rpm:car.idle,elapsed:0,finishTime:null,
-  reaction,shiftLeft:0,shiftCount:0,spin:0,accel:0,spool:0,drivenWheelRpm:0,
+  reaction,penalty:0,shiftLeft:0,shiftCount:0,spin:0,accel:0,spool:0,drivenWheelRpm:0,
   wheelAngle:0,clutch:1,throttle:0,parts:upgrades,gearShiftTime:car.shift-.045*upgrades.gearbox,
   maxWheelspin:0};
 }
@@ -95,7 +95,7 @@ function advance(v,car,dt,throttle,launchPct,tc){
  let pedal=rawThrottle*pct;
  const overall=car.ratios[v.gear]*car.finalDrive;
  const coupledRpm=v.speed/(2*Math.PI*car.tireRadius)*60*overall;
- const launchRpm=car.idle+2100+pedal*1300;
+ const launchRpm=car.idle+(2100+pedal*1300)*rawThrottle;
  // Gradual clutch take-up protects against instant engine-speed coupling.
  v.clutch=v.gear===1?clamp(v.speed/7,0,1):1;
  let rpm=v.gear===1?(1-v.clutch)*launchRpm+v.clutch*coupledRpm:coupledRpm;
@@ -170,7 +170,7 @@ function tick(race,dt,throttle){
  advance(O,aiCar,dt,oGas,79,true);
  if(P.finishTime!==null&&O.finishTime!==null){
   race.phase='finished';
-  const playerTime=P.finishTime+P.penalty||P.finishTime;
+  const playerTime=P.finishTime+P.penalty;
   const opponentTime=O.finishTime;
   race.result=playerTime<opponentTime?'win':playerTime>opponentTime?'loss':'tie';
  }else if(race.time>55){
@@ -187,7 +187,8 @@ function award(save,race){
  save.races=clamp(save.races+1,0,999999);
  if(race.result==='win')save.wins=clamp(save.wins+1,0,999999);
  const prev=save.best[save.car];
- if(!prev||race.player.finishTime<prev)save.best[save.car]=race.player.finishTime;
+ const elapsed=round(race.player.finishTime+race.player.penalty);
+ if(!prev||elapsed<prev)save.best[save.car]=elapsed;
  return credits;
 }
 global.DNCH_DRAG_ENGINE=Object.freeze({
