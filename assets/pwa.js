@@ -1,4 +1,4 @@
-/* DNCH Mobile v0.1: opt-in installation guidance and scoped PWA registration.
+/* DNCH Mobile v0.2: opt-in install, scoped worker, and connectivity guidance.
    Native install prompts only run after direct user clicks; no forced install. */
 (()=>{
 'use strict';
@@ -16,6 +16,19 @@ const T=bg?{
  done:'DNCH has been added to your apps.',dismiss:'Installation canceled. You can try again.',
  unsupported:'Installation depends on your browser. DNCH also works directly in the browser.'
 };
+// navigator.onLine is only an indicator, not a guarantee of server availability.
+const connection=document.createElement('div');
+connection.className='dnch-connection-banner';
+connection.setAttribute('role','status');
+connection.setAttribute('aria-live','polite');
+connection.textContent=bg
+ ?'Изглежда нямаш интернет. Запазените страници може да работят, но YouTube и форумът изискват връзка.'
+ :'You appear to be offline. Saved pages may work, but YouTube and the forum require internet.';
+document.body.appendChild(connection);
+function updateConnection(){connection.hidden=navigator.onLine!==false}
+window.addEventListener('online',updateConnection);
+window.addEventListener('offline',updateConnection);
+updateConnection();
 const script=document.currentScript;
 const workerUrl=script?new URL('../service-worker.js',script.src):null;
 if(workerUrl&&'serviceWorker' in navigator&&location.protocol==='https:'){
