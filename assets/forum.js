@@ -19,6 +19,17 @@ const T=bg?{
  pilotFailed:'The pilot server is unavailable. Registration and posting are not active.',signIn:'Email sign-in',reply:'Reply',locked:'This topic is locked for new replies.',user:'User'
 };
 const $=id=>document.getElementById(id);
+/* Deliberate opt-in for the first owner-only browser test.
+   This is NOT an authentication or security barrier and should not be relied on
+   for controlling signups. Built-in SMTP currently limits recipients to the
+   Supabase organization's team; keep public rollout disabled separately. */
+const pilotRequested=new URLSearchParams(location.search).get('pilot')==='1';
+let pilotEnabled=pilotRequested;
+try{
+ if(pilotRequested)localStorage.setItem('dnch-forum-pilot-v1','1');
+ pilotEnabled=pilotEnabled||localStorage.getItem('dnch-forum-pilot-v1')==='1';
+}catch(e){}
+if(!pilotEnabled)return;
 const config=window.DNCH_FORUM_CONFIG||{};
 const url=typeof config.url==='string'?config.url.trim():'';
 const key=typeof config.publishableKey==='string'?config.publishableKey.trim():'';
