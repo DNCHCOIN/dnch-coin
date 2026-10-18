@@ -6,7 +6,7 @@ const T=bg?{
  denied:'Нямаш администраторски достъп. Влез с потвърдения акаунт на собственика.',
  error:'Възникна грешка. Опитай отново.',loading:'Зареждане…',empty:'Няма записи.',
  reportTopic:'Сигнал за тема',reportReply:'Сигнал за отговор',reason:'Причина',
- author:'Автор',from:'Подател',created:'Създадена',visible:'Видима',hidden:'Скрита',locked:'Заключена',
+ author:'Автор',from:'Подател',created:'Създадена',category:'Категория',status:'Статус',visible:'Видима',hidden:'Скрита',locked:'Заключена',
  reviewed:'Разгледай',dismiss:'Отхвърли',open:'Нов сигнал',reviewedLabel:'Прегледан',dismissedLabel:'Отхвърлен',
  hide:'Скрий',show:'Покажи',lock:'Заключи',unlock:'Отключи',
  block:'Спри публикуването',unblock:'Разреши публикуване',blocked:'Ограничен',active:'Активен',admin:'Администратор',
@@ -17,7 +17,7 @@ const T=bg?{
  denied:'Administrator access required. Sign in with the verified project owner account.',
  error:'Something went wrong. Please try again.',loading:'Loading…',empty:'No records yet.',
  reportTopic:'Topic report',reportReply:'Reply report',reason:'Reason',
- author:'Author',from:'Reported by',created:'Created',visible:'Visible',hidden:'Hidden',locked:'Locked',
+ author:'Author',from:'Reported by',created:'Created',category:'Category',status:'Status',visible:'Visible',hidden:'Hidden',locked:'Locked',
  reviewed:'Mark reviewed',dismiss:'Dismiss',open:'Open report',reviewedLabel:'Reviewed',dismissedLabel:'Dismissed',
  hide:'Hide',show:'Restore',lock:'Lock',unlock:'Unlock',
  block:'Restrict posting',unblock:'Restore posting',blocked:'Restricted',active:'Active',admin:'Administrator',
@@ -72,7 +72,7 @@ function reportCard(report){
 }
 function topicCard(t){
  const c=card(t.title,t.body);
- c.append(spanLine(T.author,getName(t.author_id)),spanLine(T.created,safeDate(t.created_at)),spanLine('Category',categoryName(t.category_id)));
+ c.append(spanLine(T.author,getName(t.author_id)),spanLine(T.created,safeDate(t.created_at)),spanLine(T.category,categoryName(t.category_id)));
  const flags=make('p','admin-flags',(t.is_hidden?T.hidden:T.visible)+' · '+(t.is_locked?T.locked:T.active));c.appendChild(flags);
  const a=make('a','btn',T.reportLink);a.href=topicAddress(t.id);
  c.appendChild(actions(
@@ -99,7 +99,7 @@ async function setMemberBlock(member,blocked){
 function memberCard(m){
  const isAdmin=m.id===currentUser.id,restricted=!!cache.blocks.get(m.id)?.is_blocked;
  const c=card(getName(m.id),null);
- c.append(spanLine(T.created,safeDate(m.created_at)),spanLine('Status',isAdmin?T.admin:(restricted?T.blocked:T.active)));
+ c.append(spanLine(T.created,safeDate(m.created_at)),spanLine(T.status,isAdmin?T.admin:(restricted?T.blocked:T.active)));
  if(!isAdmin)c.appendChild(actions(button(restricted?T.unblock:T.block,()=>setMemberBlock(m,!restricted),true)));
  return c
 }
