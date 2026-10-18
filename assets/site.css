@@ -167,3 +167,16 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .forum-pages button:disabled{opacity:.45;cursor:not-allowed}
 #forum-page-status{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
 @media(max-width:700px){.forum-search-form .forum-inline{display:flex;flex-wrap:wrap}.forum-search-form input[type="search"]{flex:1 0 100%}.forum-search-form .btn{flex:1}.forum-discovery-settings{gap:10px}.forum-discovery-settings label{flex:1 1 135px;min-width:0}.forum-pages .btn{padding:9px 11px}}
+
+
+/* DNCH Community v1.1: favorite topics saved locally in the browser */
+.forum-saved-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:6px 0 20px}
+.forum-saved-filter .small{font-size:12px;line-height:1.4;color:var(--muted);margin:0}
+.forum-saved-toggle{border-color:#c39563!important;background:#231d1a!important;color:#f8dbab!important;font-size:14px!important}
+.forum-saved-toggle.active,.forum-saved-toggle[aria-pressed="true"]{background:linear-gradient(125deg,#e9b970,#f1a779)!important;color:#1c1410!important}
+#forum-saved-count{display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:23px;background:#3a342b;color:#f8e6c7;border-radius:30px;margin-left:6px;font-size:12px;font-weight:800}
+.forum-saved-toggle.active #forum-saved-count{background:#3b2920;color:#ffe3be}
+.forum-save{border:1px solid #756042;border-radius:9px;background:#242027;color:#f0cb91;padding:7px 11px;cursor:pointer;font:inherit;font-size:13px;white-space:nowrap}
+.forum-save[aria-pressed="true"]{background:#46331f;border-color:#dcac63;color:#ffdb95}
+.forum-save:hover,.forum-save:focus-visible{border-color:#ffe6b6;outline-offset:2px}
+@media(max-width:650px){.forum-saved-filter{display:block}.forum-saved-filter .small{margin-top:10px}.forum-save{font-size:12px;padding:7px 9px}}
