@@ -116,6 +116,7 @@ $('my-name-clear').addEventListener('click',()=>{
 });
 $('my-refresh').addEventListener('click',render);
 window.addEventListener('focus',render);
+window.addEventListener('my-dnch-data-updated',render);
 window.addEventListener('storage',event=>{
  if(event.key===null||Object.values(localKeys).includes(event.key))render();
 });
