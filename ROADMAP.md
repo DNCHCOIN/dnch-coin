@@ -1,42 +1,45 @@
-# DNCH Ecosystem — Phased Plan (draft)
+# DNCH Ecosystem — Phased Roadmap
 
-## Stage 0 — Site foundation (now)
+**Vision:** More Than a Coin. Started with €3. Built by Everyone. Earn by Building.
 
-- [x] Inspect current public GitHub repository and existing static homepage.
-- [x] Prepare DNCH Hub v0.1 ecosystem landing-page proposal.
-- [x] Prepare v0.2 English/Bulgarian localized pages using explicit static paths.
-- [x] Prepare an Ideas Lab **prototype** linked to GitHub Issues (not a forum).
-- [x] Draft community guidelines and contributor workflow.
-- [ ] Restore GitHub integration **write permissions** and create a feature branch and PR; 403 denied the write attempt.
-- [ ] Rotate/revoke previously exposed Helius key (and audit repository history).
-- [ ] Test on real desktop/mobile browsers, review translations, test Phantom balance readout and Github prefill.
-- [ ] Verify Solana mint authorities and actual supply directly on-chain.
-- [ ] Approve and publish v0.2 after review and security cleanup.
+## Stage 0 — Foundation (published)
 
-## Stage 1 — Community & daily content
+- [x] Audit the initial static homepage and describe the broader DNCH Ecosystem vision.
+- [x] Publish bilingual DNCH Hub v0.2 (English/Bulgarian), with honest roadmap status.
+- [x] Publish the GitHub Issues-linked Ideas Lab **prototype** (not a forum).
+- [x] Restore the scoped GitHub write integration, review via pull requests and publish approved changes.
+- [x] Publish v0.3 **Our Story** in both languages; do not invent founder biography.
+- [ ] Rotate/revoke any historic public Helius API key and audit repository history.
+- [ ] Complete real desktop/mobile cross-browser QA, test Phantom read-only balance, test Issues prefill.
+- [ ] Verify Solana mint authorities, supply and token claims directly on-chain.
 
-- [ ] Set up GitHub issue templates for ideas, bugs and community proposals.
-- [ ] Select a forum platform (e.g. Discourse) and test anti-abuse tools, moderation workflows and internationalization.
-- [ ] Introduce opt-in user accounts and a legal/privacy framework; do not require cryptocurrency for participation.
-- [ ] Start sourced, editorially reviewed DNCH Daily content; do not post AI-written 'news' without verification.
+## Stage 1 — Useful daily content & real community
 
-## Stage 2 — International radio pilot
+- [x] Prepare DNCH Today v0.4 (draft): curated, bilingual, evergreen tip library with daily rotation, topic filters, search and device-local bookmarks.
+- [ ] Owner-review and publish DNCH Today v0.4; verify on mobile and desktop.
+- [ ] Create a lightweight editorial process with sourcing, error corrections and review for any future actual news/stories; do not label rotating evergreen tips as live news.
+- [ ] Select and budget the real forum platform/hosting; see `docs/COMMUNITY_FORUM_MVP.md`.
+- [ ] Create a private pilot with email-verified optional accounts, topic discussions, moderation/reporting and backups.
+- [ ] Privacy/terms/account-deletion setup before public account registration.
+- [ ] Launch forum publicly only after moderated test and owner approval. It must not require owning DNCH Coin.
 
-- [ ] Map music licensing across initial broadcast territories and user requests.
-- [ ] Pilot a legal cleared-music stream, programme and moderated listener polls.
-- [ ] Test a nontransferable points model, caps and bot protection without cash/crypto payout promises.
-- [ ] Explore time-slot booking using approved catalogues and editorial review.
+## Stage 2 — DNCH Radio
 
-## Stage 3 — Android / iOS / gaming / AI
+- [ ] Research music licensing for the initial broadcast territories and listener voting.
+- [ ] Pilot legally licensed music streams and editorially moderated polls.
+- [ ] Explore weekly listener-curated programs, fair voting, anti-bot measures and transparent rights restrictions.
+- [ ] Introduce optional non-transferable community points only after abuse and policy review.
 
-- [ ] Define a shared API, profiles and Web/Android/iOS design system.
-- [ ] Prototype DNCH Drag Racing with one strip, a few cars and grounded tuning physics.
-- [ ] Test limited AI in translation, search and game guidance with cost and privacy limits.
+## Stage 3 — DNCH Drag Racing, mobile and AI
+
+- [ ] Define a consistent account and API design for web, Android and iOS.
+- [ ] Prototype DNCH Drag Racing with grounded tuning, one strip and a small car collection.
+- [ ] Pilot AI assistance for discovery and translation with human review, cost controls and privacy safeguards.
 
 ## Stage 4 — Optional token utilities
 
-- [ ] Identify real user problems solved by DNCH Coin.
-- [ ] Analyze legal, financial, fraud-prevention and platform-policy implications before enabling on-chain rewards.
-- [ ] Run small, measured pilots only if the product remains useful without crypto.
+- [ ] Identify specific user problems for which DNCH Coin adds value.
+- [ ] Research legal, tax and security requirements before any monetary rewards or payouts.
+- [ ] Test only optional token features that don't undermine the site's everyday non-crypto usefulness.
 
-**Guiding idea:** More than a coin. Built by everyone. Earn by Building.
+**Principle:** Build useful things first, show the real state of development and invite people to help shape the direction.

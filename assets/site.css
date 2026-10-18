@@ -11,3 +11,20 @@
 .story-step h3{margin:0 0 6px}.story-step p{color:var(--muted);margin:0}.story-finale{border-bottom:1px solid var(--line)}
 .story-cta{margin:26px 0 0;color:var(--muted)}.story-cta a{color:var(--gold);font-weight:750;text-decoration-thickness:1px;text-underline-offset:4px}
 @media(max-width:700px){.story-hero{grid-template-columns:1fr;gap:26px;padding:50px 0}.story-emblem{grid-row:1;width:205px}.story-timeline{grid-template-columns:1fr}.story-step{padding:20px}}
+
+
+/* DNCH Today v0.4 — built-in editor-reviewed daily ideas */
+nav [aria-current="page"]{color:var(--gold);font-weight:750}
+.today-promo{margin:8px 0 18px;padding:24px 28px;border-radius:17px;border:1px solid #dfba6363;background:linear-gradient(110deg,#252017,#17171d 72%);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.today-promo h2{font-size:clamp(24px,3vw,30px);margin:4px 0 8px}.today-promo p{margin:0;max-width:630px;color:#d7d0be}.today-promo .btn{flex-shrink:0}
+.today-hero{padding:90px 0 68px;min-height:390px;max-width:830px}.today-hero h1{margin:20px 0}.today-mini-stats{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px;font-weight:700;color:var(--gold);padding:9px 15px;border-radius:50px;background:#dfba6312;border:1px solid #dfba633f}
+.today-featured{border-top:1px solid var(--line)}.today-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.today-card{background:linear-gradient(150deg,#1a1b23,#101115);border:1px solid #36353d;border-radius:16px;padding:22px;display:flex;flex-direction:column;min-width:0;transition:border-color .2s,transform .2s}
+.today-card:hover{border-color:#dfba6380;transform:translateY(-2px)}.today-card.featured{background:linear-gradient(145deg,#272118,#14151c 66%);border-color:#6c5736}
+.today-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.today-chip{font-weight:700;font-size:12px;color:#edd4a3}.today-bookmark{background:transparent;color:var(--gold);border:1px solid #56505a;border-radius:50%;height:40px;width:40px;font-size:23px;line-height:1;cursor:pointer;flex-shrink:0}.today-bookmark:hover,.today-bookmark:focus-visible{background:#dfba6323;border-color:var(--gold)}
+.today-card h3{margin:18px 0 7px;font-size:20px}.today-summary{color:#c6c6d0;flex:1;margin:0 0 20px}.today-action{padding-top:15px;border-top:1px solid #34333b}.today-action-label{display:block;font-weight:800;letter-spacing:.055em;text-transform:uppercase;font-size:11px;color:var(--gold)}.today-action p{margin:7px 0 0;color:#e1e1e5}
+.today-disclosure{color:var(--muted);font-size:14px;line-height:1.7;margin:24px 0 0}.today-controls{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.7fr);gap:26px;margin:26px 0 15px;align-items:start}.today-controls label,.today-filter-label{display:block;font-weight:750;font-size:14px;margin-bottom:10px}.today-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.today-filter{background:#181921;border:1px solid #4a4b55;border-radius:40px;padding:8px 12px;color:#ddd;font:inherit;font-size:13px;cursor:pointer}.today-filter:hover,.today-filter:focus-visible,.today-filter.active{color:#15110b;background:var(--gold);border-color:var(--gold)}
+#today-count{margin:22px 0 15px}.today-outro{border-bottom:1px solid var(--line)}
+.today-page [hidden]{display:none!important}
+@media(max-width:900px){.today-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.today-controls{grid-template-columns:1fr}}
+@media(max-width:630px){.today-promo{display:block;padding:23px 20px}.today-promo .btn{margin-top:19px}.today-hero{padding:58px 0 43px;min-height:0}.today-grid{grid-template-columns:1fr}.today-card{padding:20px}.today-filters{gap:7px}.today-filter{padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){.today-card{transition:none}.today-card:hover{transform:none}}

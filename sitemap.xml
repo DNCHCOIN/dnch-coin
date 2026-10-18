@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dnchcoin.github.io/dnch-coin/</loc>
-  </url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/bg/</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/our-story.html</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/bg/our-story.html</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/community.html</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/bg/community.html</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/today.html</loc></url>
+  <url><loc>https://dnchcoin.github.io/dnch-coin/bg/today.html</loc></url>
 </urlset>
