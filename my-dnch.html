@@ -71,6 +71,29 @@
 </form>
 <div class="my-profile-bottom"><p>A real unified DNCH account and cross-device sync are planned for later.</p><a href="forum.html?pilot=1">Manage your forum profile →</a></div>
 </section>
+<section id="dnch-account" class="my-card my-account-card" aria-labelledby="dnch-account-heading">
+<div class="my-card-top"><div><div class="eyebrow">♢ PRIVATE PILOT · DNCH ID v1.0</div><h2 id="dnch-account-heading">One account. Your DNCH.</h2><p>For approved pilot accounts. You can choose to save your ideas, music and preferences in a protected cloud record.</p></div><span class="my-card-icon" aria-hidden="true">♙</span></div>
+<p id="dnch-account-status" role="status" aria-live="polite">Checking secure connection…</p>
+<div id="dnch-account-guest" hidden><p class="my-muted">For now, use your existing forum test account. Sign in through the pilot forum and return here. DNCH ID does not offer public registration.</p><a class="btn" href="forum.html?pilot=1">Open forum sign-in →</a></div>
+<div id="dnch-account-member" hidden>
+<p class="my-account-user">Signed-in account: <strong id="dnch-account-identity"></strong></p>
+<p id="dnch-account-cloud-state" class="my-muted"></p>
+<div class="my-account-actions">
+<button id="dnch-account-save" class="btn primary" type="button">Prepare cloud backup</button>
+<button id="dnch-account-restore" class="btn" type="button">Preview cloud restore</button>
+<button id="dnch-account-delete" class="btn my-account-delete" type="button">Delete cloud copy</button>
+</div>
+<div id="dnch-account-preview" class="my-backup-preview" hidden>
+<h3>Review before action</h3><p id="dnch-account-preview-message" class="my-muted"></p>
+<div id="dnch-account-preview-counts" class="my-backup-counts" data-local="In this browser" data-cloud="In the cloud" data-result="After action"></div>
+<div class="my-backup-actions">
+<button id="dnch-account-confirm" class="btn primary" type="button">Confirm</button>
+<button id="dnch-account-cancel" class="btn" type="button">Cancel</button>
+</div>
+</div>
+</div>
+<p class="my-muted">Nothing is uploaded without your confirmation. Cloud data never includes passwords, sessions, or wallet keys. The forum remains a pilot.</p><p class="my-muted">This is a closed pilot, not public registration or automatic synchronization.</p>
+</section>
 <section id="my-backup" class="my-card my-backup-card" aria-labelledby="my-backup-heading">
 <div class="my-card-top"><div><div class="eyebrow">⇩ BACKUP & RESTORE · V0.2</div><h2 id="my-backup-heading">Keep your MY DNCH safe</h2><p>Download a copy of your saved ideas, challenge days, music, favorite topics and local greeting. Move it to another browser when you need to.</p></div><span class="my-card-icon" aria-hidden="true">⇄</span></div>
 <div class="my-backup-columns">
@@ -100,6 +123,7 @@
 <footer><div class="wrap footer-row"><div><strong>MY DNCH</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>Your space, your choice. Data stays in the browser and may be lost if you clear the site's data.</p></div></footer>
 <script defer src="assets/my-dnch.js"></script>
 <script defer src="assets/my-dnch-backup.js"></script>
+<script type="module" src="assets/dnch-account.js"></script>
 <script src="assets/forum-config.js"></script>
 <script src="assets/dnch-ai-config.js"></script>
 <script src="assets/dnch-ai.js"></script>
