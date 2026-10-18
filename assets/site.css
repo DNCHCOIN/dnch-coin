@@ -97,3 +97,20 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .forum-profile[hidden]{display:none!important}
 @media(max-width:750px){.forum-profile{grid-template-columns:1fr;gap:13px;padding:20px}}
 @media(max-width:560px){.forum-profile .forum-inline{display:block}.forum-profile .forum-inline button{display:block;width:100%;margin-top:10px}}
+
+
+/* DNCH Community administration — server-side authorization required */
+.admin-page{min-height:65vh}.admin-hero{padding:75px 0 35px}.admin-hero h1{margin:15px 0 18px}
+.admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:15px 0}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap}.admin-tab{border:1px solid #474852;border-radius:10px;padding:11px 16px;background:#18191e;color:#e0e0e9;cursor:pointer;font:inherit;font-weight:650}
+.admin-tab.active,.admin-tab:focus-visible,.admin-tab:hover{background:var(--gold);border-color:var(--gold);color:#1b150d}
+.admin-notes{font-size:14px;color:var(--muted);margin:10px 0}
+.admin-view{padding:15px 0 80px;border:0}.admin-view h2{margin:15px 0 25px}
+.admin-list{display:grid;gap:15px}.admin-card{background:linear-gradient(135deg,#1b1b23,#121218);border:1px solid #393a42;padding:24px;border-radius:15px;overflow-wrap:anywhere}
+.admin-card h3{margin:0 0 14px;font-size:20px}.admin-description{color:#cfd0d9;white-space:pre-wrap;max-height:210px;overflow:auto}
+.admin-line{font-size:14px;color:#c8cad1;margin:8px 0}.admin-line strong{color:var(--gold)}
+.admin-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.admin-actions .btn{font-size:13px;padding:7px 12px}.admin-flags{font-size:13px;color:var(--gold)}
+.admin-excerpt{font-size:14px;color:var(--muted);white-space:pre-wrap}
+#admin-locked[hidden],#admin-panel[hidden],.admin-view[hidden],#forum-admin-link[hidden]{display:none!important}
+@media(max-width:650px){.admin-hero{padding:45px 0 20px}.admin-card{padding:18px}.admin-toolbar{display:block}.admin-toolbar>#admin-refresh{margin-top:12px}}
