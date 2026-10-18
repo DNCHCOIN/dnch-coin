@@ -32,7 +32,22 @@
 <section class="forum-content" aria-labelledby="forum-topics-title">
 <div id="forum-browser"><div class="eyebrow">Дискусии</div><h2 id="forum-topics-title">Последни теми</h2>
 <div class="forum-filter-wrap"><label>Категории</label><div class="forum-filters" id="forum-filters"></div></div>
-<div id="forum-topics" class="forum-list"><p>Зареждане…</p></div></div>
+<form id="forum-search-form" class="forum-search-form" role="search">
+<label for="forum-search-input">Търси в темите и публикациите</label>
+<div class="forum-inline"><input id="forum-search-input" type="search" maxlength="80" autocomplete="off" placeholder="Намери идея, въпрос или тема..."><button type="submit" class="btn primary">Търси</button><button type="button" class="btn" id="forum-search-clear">Изчисти</button></div>
+</form>
+<div class="forum-discovery-settings">
+<label for="forum-language-filter">Език
+<select id="forum-language-filter"><option value="">Всички езици</option><option value="bg">Български</option><option value="en">English</option><option value="other">Other</option></select></label>
+<label for="forum-sort">Подреди
+<select id="forum-sort"><option value="newest">Най-новите</option><option value="oldest">Най-старите</option></select></label>
+</div>
+<div id="forum-topics" class="forum-list"><p>Зареждане…</p></div>
+<nav class="forum-pages" id="forum-pagination" aria-label="Страница" hidden>
+<button type="button" class="btn" id="forum-page-prev">← Назад</button>
+<span id="forum-page-status" aria-live="polite"></span>
+<button type="button" class="btn" id="forum-page-next">Напред →</button>
+</nav></div>
 <div id="forum-thread-view" hidden><button type="button" id="forum-back" class="btn">← Всички теми</button>
 <article class="forum-topic" id="forum-thread"></article>
 <h3>Отговори</h3><div id="forum-replies" class="forum-list"></div>
