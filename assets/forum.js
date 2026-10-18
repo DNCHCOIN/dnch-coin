@@ -200,7 +200,7 @@ $('forum-profile-form').addEventListener('submit',async e=>{
  const field=$('forum-display-name'),button=$('forum-profile-form').querySelector('button');
  const name=field.value.normalize('NFC').trim();
  const message=$('forum-profile-status');
- if(!/^[\\p{L}\\p{N}_.-]{3,40}$/u.test(name)
+ if(!/^[\p{L}\p{N}_.-]{3,40}$/u.test(name)
     || /^(admin|administrator|moderator|support|system|staff|official|root|dnch|dnchcoin)([._-].*)?$/i.test(name)){
    message.textContent=bg
     ?'Използвай 3–40 букви, цифри, точка, тире или долна черта. Без служебни имена.'
