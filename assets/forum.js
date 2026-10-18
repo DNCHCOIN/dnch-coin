@@ -142,7 +142,7 @@ async function boot(){
  if(error){console.warn('Categories unavailable',error.message);offline.querySelector('p').textContent=T.pilotFailed;return}
  categories=data||[];
  if(categories.length===0){offline.querySelector('p').textContent=T.pilotFailed;return}
- offline.hidden=true;panel.hidden=false;renderFilters();
+ offline.hidden=true;panel.hidden=false;const preview=$('forum-preview');if(preview)preview.hidden=true;renderFilters();
  const {data:sessionData}=await client.auth.getSession();
  toggleLogin(sessionData?.session);
  client.auth.onAuthStateChange((_event,s)=>{toggleLogin(s)});
