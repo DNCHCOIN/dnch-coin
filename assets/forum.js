@@ -20,6 +20,21 @@ const T=bg?{
  savedEmpty:'No saved topics yet. Tap ☆ on a discussion you want to revisit.',savedTitle:'Saved topics',save:'☆ Save',unsave:'★ Saved',savedNotice:'Topic saved in this browser.',removedNotice:'Topic removed from saved topics.',saveFull:'You can save up to 100 topics.',
  pilotFailed:'The pilot server is unavailable. Registration and posting are not active.',signIn:'Email sign-in',reply:'Reply',locked:'This topic is locked for new replies.',user:'User'
 };
+const AccessT=bg?{
+ checking:'Проверяваме достъпа до частния пилот…',
+ approved:'Достъпът е одобрен. Можеш да създаваш теми и да отговаряш.',
+ invite:'Влезлият профил може да чете, но публикуването е само с покана от екипа.',
+ paused:'Публикуването временно е спряно. Одобрените участници могат да подават сигнали.',
+ blocked:'Публикуването от този профил е ограничено от модератор.',
+ unavailable:'Не успяхме да проверим пилотния достъп. Публикуването е изключено до успешна проверка.'
+}:{
+ checking:'Checking private pilot access…',
+ approved:'Pilot access approved. You may create topics and replies.',
+ invite:'This signed-in account can read, but posting is by invitation only.',
+ paused:'Posting is temporarily paused. Approved members may still report content.',
+ blocked:'Posting from this account has been restricted by moderation.',
+ unavailable:'Could not verify pilot access. Posting is disabled until the check succeeds.'
+};
 const $=id=>document.getElementById(id);
 /* Deliberate opt-in for the first owner-only browser test.
    This is NOT an authentication or security barrier and should not be relied on
@@ -51,6 +66,53 @@ try{
  client=mod.createClient(url,key,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
 }catch(e){console.warn('Forum SDK unavailable',e);return}
 let user=null,categories=[],currentCategory=null,currentThread=null;
+let accessCheckSerial=0;
+let pilotAccess={checked:false,approved:false,enabled:false,blocked:false,error:false};
+const canPost=()=>!!(user&&pilotAccess.checked&&pilotAccess.approved&&pilotAccess.enabled&&!pilotAccess.blocked);
+const canReport=()=>!!(user&&pilotAccess.checked&&pilotAccess.approved);
+function applyPilotAccess(){
+ const signedIn=!!user,allowed=canPost();
+ $('forum-compose-section').hidden=!allowed;
+ $('forum-reply-form').hidden=!(allowed&&currentThread&&!currentThread.is_locked);
+ $('forum-reply-hint').hidden=!!(allowed&&currentThread&&!currentThread.is_locked);
+ document.querySelectorAll('.forum-report').forEach(btn=>{btn.hidden=!canReport()});
+ const hint=$('forum-reply-hint');
+ hint.textContent=currentThread?.is_locked?T.locked:
+  !signedIn?T.readonly:!pilotAccess.checked?(pilotAccess.error?AccessT.unavailable:AccessT.checking):
+  !pilotAccess.approved?AccessT.invite:!pilotAccess.enabled?AccessT.paused:
+  pilotAccess.blocked?AccessT.blocked:T.readonly;
+ const notice=$('forum-pilot-access');
+ if(notice){
+  notice.hidden=!signedIn;
+  notice.textContent=!signedIn?'':pilotAccess.error?AccessT.unavailable:
+   !pilotAccess.checked?AccessT.checking:!pilotAccess.approved?AccessT.invite:
+   !pilotAccess.enabled?AccessT.paused:pilotAccess.blocked?AccessT.blocked:AccessT.approved;
+ }
+}
+async function refreshPilotAccess(id){
+ const check=++accessCheckSerial;
+ try{
+  const [membership,settings,block]=await Promise.all([
+   client.from('forum_pilot_members').select('user_id').eq('user_id',id).maybeSingle(),
+   client.from('forum_pilot_controls').select('posting_enabled').eq('id',1).maybeSingle(),
+   client.from('forum_member_blocks').select('is_blocked').eq('user_id',id).maybeSingle()
+  ]);
+  if(check!==accessCheckSerial||user?.id!==id)return;
+  if(membership.error||settings.error||block.error||!settings.data){
+   pilotAccess={checked:false,approved:false,enabled:false,blocked:false,error:true};
+  }else{
+   pilotAccess={
+    checked:true,approved:!!membership.data,enabled:settings.data.posting_enabled===true,
+    blocked:block.data?.is_blocked===true,error:false
+   };
+  }
+ }catch(e){
+  if(check!==accessCheckSerial||user?.id!==id)return;
+  console.warn('Private pilot access could not be checked');
+  pilotAccess={checked:false,approved:false,enabled:false,blocked:false,error:true};
+ }
+ applyPilotAccess();
+}
 let loadSerial=0;
 const PAGE_SIZE=10;
 let searchTerm='',languageFilter='',sortNewest=true,topicsPage=0,savedOnly=false;
@@ -131,12 +193,16 @@ async function loadMyProfile(id){
 function toggleLogin(session){
  const priorId=user?.id||null;
  user=session?.user||null;
+ const changed=priorId!==(user?.id||null);
+ if(changed){
+  ++accessCheckSerial;
+  pilotAccess={checked:false,approved:false,enabled:false,blocked:false,error:false};
+ }
  $('forum-profile-panel').hidden=!user;
  if(!user)++profileLoadId;
  if(user&&user.id!==priorId)loadMyProfile(user.id);
  $('forum-login-form').hidden=!!user;
  $('forum-session').hidden=!user;
- $('forum-compose-section').hidden=!user;
  $('forum-identity').textContent=user?.email||'';
  const adminLink=$('forum-admin-link');
  if(adminLink){
@@ -148,11 +214,8 @@ function toggleLogin(session){
    }).catch(e=>console.warn('Admin check unavailable',e));
   }
  }
- $('forum-reply-form').hidden=!(user&&currentThread&&!currentThread.is_locked);
- $('forum-reply-hint').hidden=!!(user&&currentThread&&!currentThread.is_locked);
- document.querySelectorAll('.forum-report').forEach(btn=>{btn.hidden=!user});
- if(currentThread&&currentThread.is_locked)$('forum-reply-hint').textContent=T.locked;
- else $('forum-reply-hint').textContent=T.readonly;
+ applyPilotAccess();
+ if(user&&changed)void refreshPilotAccess(user.id);
 }
 function renderFilters(){
  const filters=$('forum-filters');filters.replaceChildren();
@@ -175,9 +238,9 @@ function footer(item){
  return el;
 }
 function reportButton(type,id){
- const b=make('button','forum-report',T.report);b.type='button';b.hidden=!user;
+ const b=make('button','forum-report',T.report);b.type='button';b.hidden=!canReport();
  b.addEventListener('click',async()=>{
-  if(!user){setStatus(T.readonly);return}
+  if(!canReport()){setStatus(AccessT.invite);return}
   const reason=window.prompt(T.reportPrompt);
   if(reason===null)return;
   if(reason.trim().length<10||reason.trim().length>500){setStatus(T.invalid);return}
@@ -336,7 +399,7 @@ $('forum-profile-form').addEventListener('submit',async e=>{
  if(currentThread)await openTopic(currentThread.id);else await loadTopics();
 });
 $('forum-thread-form').addEventListener('submit',async e=>{
- e.preventDefault();if(!user||!categories.length)return;
+ e.preventDefault();if(!canPost()||!categories.length){setStatus(AccessT.invite);return}
  const title=$('forum-title').value.trim(),body=$('forum-body').value.trim(),category_id=Number($('forum-category').value);
  if(title.length<8||title.length>160||body.length<20||body.length>5000||!categories.some(c=>c.id===category_id))return;
  const button=$('forum-thread-form').querySelector('button');button.disabled=true;
@@ -346,7 +409,7 @@ $('forum-thread-form').addEventListener('submit',async e=>{
  $('forum-thread-form').reset();currentCategory=null;searchTerm='';languageFilter='';sortNewest=true;topicsPage=0;savedOnly=false;$('forum-search-input').value='';$('forum-language-filter').value='';$('forum-sort').value='newest';renderFilters();history.replaceState(null,'',location.pathname+location.search);await loadTopics();setStatus(T.created);
 });
 $('forum-reply-form').addEventListener('submit',async e=>{
- e.preventDefault();if(!user||!currentThread||currentThread.is_locked)return;
+ e.preventDefault();if(!canPost()||!currentThread||currentThread.is_locked){setStatus(AccessT.invite);return}
  const body=$('forum-reply').value.trim();if(body.length<2||body.length>3000)return;
  const id=currentThread.id;const button=$('forum-reply-form').querySelector('button');button.disabled=true;
  const {error}=await client.from('forum_replies').insert({author_id:user.id,thread_id:id,body});
@@ -356,5 +419,6 @@ $('forum-reply-form').addEventListener('submit',async e=>{
 });
 $('forum-back').addEventListener('click',()=>{history.replaceState(null,'',location.pathname+location.search);loadTopics()});
 window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#topic=([0-9a-f-]{36})$/i);if(m)openTopic(m[1]);else loadTopics()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user)void refreshPilotAccess(user.id)});
 boot().catch(e=>{console.warn('Forum init error',e);offline.querySelector('p').textContent=T.pilotFailed;offline.hidden=false;panel.hidden=true});
 })();
