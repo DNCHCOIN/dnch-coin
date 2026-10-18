@@ -59,7 +59,10 @@ begin
        else 'report_dismissed' end);
     end if;
   elsif TG_TABLE_NAME = 'forum_member_blocks' then
-    if TG_OP='INSERT' or old.is_blocked is distinct from new.is_blocked then
+    if TG_OP='INSERT' then
+      insert into public.forum_moderation_audit(actor_id,target_type,target_id,action)
+      values(actor,'member',new.user_id,case when new.is_blocked then 'member_restricted' else 'member_restored' end);
+    elsif old.is_blocked is distinct from new.is_blocked then
       insert into public.forum_moderation_audit(actor_id,target_type,target_id,action)
       values(actor,'member',new.user_id,case when new.is_blocked then 'member_restricted' else 'member_restored' end);
     end if;
