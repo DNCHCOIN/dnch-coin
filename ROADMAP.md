@@ -15,8 +15,8 @@
 
 ## Stage 1 — Useful daily content & real community
 
-- [x] Prepare DNCH Today v0.4 (draft): curated, bilingual, evergreen tip library with daily rotation, topic filters, search and device-local bookmarks.
-- [ ] Owner-review and publish DNCH Today v0.4; verify on mobile and desktop.
+- [x] Publish DNCH Today as a bilingual public prototype: evergreen idea library, daily rotation, topic filters, search and device-local bookmarks (not a live news feed).
+- [ ] Complete owner review and real Android/desktop testing of the published DNCH Today prototype.
 - [ ] Create a lightweight editorial process with sourcing, error corrections and review for any future actual news/stories; do not label rotating evergreen tips as live news.
 - [ ] Select and budget the real forum platform/hosting; see `docs/COMMUNITY_FORUM_MVP.md`.
 - [ ] Create a private pilot with email-verified optional accounts, topic discussions, moderation/reporting and backups.
@@ -33,7 +33,8 @@
 ## Stage 3 — DNCH Drag Racing, mobile and AI
 
 - [ ] Define a consistent account and API design for web, Android and iOS.
-- [ ] Prototype DNCH Drag Racing with grounded tuning, one strip and a small car collection.
+- [x] Publish DNCH Drag Racing playable alpha v0.2: one 402 m strip, three fictional cars and tunable traction/gear/engine settings.
+- [ ] Complete owner phone playtest and tune the simplified physics based on feedback.
 - [ ] Pilot AI assistance for discovery and translation with human review, cost controls and privacy safeguards.
 
 ## Stage 4 — Optional token utilities
