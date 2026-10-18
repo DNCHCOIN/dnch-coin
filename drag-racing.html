@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090909">
-<meta name="description" content="Race a 402 m drag strip, tune a fictional V8 or turbo car, shift gears and beat your rival. Free browser game; local-only scores.">
+<meta name="description" content="Race a 402 m drag strip, tune a fictional V8 or turbo car, shift gears and beat your rival. Side-view physics for traction, engine torque, gearing and local records.">
 <title>DNCH Drag Racing — Quarter-Mile Challenge</title>
 <link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/drag-racing.html">
 <link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/drag-racing.html">
@@ -26,10 +26,10 @@
 <a class="lang-link" lang="bg" hreflang="bg" href="bg/drag-racing.html">BG</a>
 </nav></div></header>
 <main class="drag-page" id="drag-main"><div class="wrap">
-<div class="drag-topline"><span class="drag-pill">FREE • NO ACCOUNT • NO CRYPTO REWARDS</span><span class="drag-pill">DNCH DRAG · v0.1</span></div>
+<div class="drag-topline"><span class="drag-pill">FREE • NO ACCOUNT • NO CRYPTO REWARDS</span><span class="drag-pill">DNCH DRAG · v0.2</span></div>
 <section class="drag-hero">
-<div class="eyebrow">DNCH GAMES · PLAYABLE ALPHA v0.1</div><h1>DRAG <span>RACING.</span></h1>
-<p>402 metres. Perfect launches. Manual shifts. One rival to beat. Your garage, your rules.</p>
+<div class="eyebrow">DNCH GAMES · PLAYABLE ALPHA v0.2</div><h1>DRAG <span>RACING.</span></h1>
+<p>402 metres. Adjustable launches. Torque curves. Wheelspin. One rival to beat. Your garage, your rules.</p>
 </section>
 <div class="drag-stats">
 <div class="drag-stat"><span>GARAGE CREDITS</span><strong><span id="drag-credits">300</span> CR</strong></div>
@@ -47,13 +47,14 @@
 <div class="drag-gauge"><span>ENGINE RPM</span><strong id="drag-rpm">950</strong><div class="drag-rpm-track"><span id="drag-rpm-bar"></span></div></div>
 <div class="drag-gauge"><span>GEAR</span><strong id="drag-gear">1</strong></div>
 <div class="drag-gauge"><span>DISTANCE</span><strong id="drag-distance">0</strong><em>/ 402 m</em></div>
+<div class="drag-gauge"><span>WHEELSPIN</span><strong id="drag-slip">0%</strong></div>
 <div class="drag-gauge"><span>TIME</span><strong id="drag-time">0.00</strong><em>s</em></div>
 </div>
 <div class="drag-controls">
 <button id="drag-start" type="button">START RACE</button>
 <button id="drag-gas" type="button" aria-label="HOLD GAS" disabled>HOLD GAS</button>
 <button id="drag-shift" type="button" disabled>SHIFT</button>
-<button id="drag-nitro" type="button" disabled>NITRO</button>
+
 </div>
 <div class="drag-message" id="drag-message" role="status" aria-live="polite"></div>
 <div class="drag-result" id="drag-result" hidden><h2 id="drag-result-title"></h2><p id="drag-result-detail"></p></div>
@@ -64,20 +65,27 @@
 <div class="drag-car-list" id="drag-cars"></div>
 <div class="drag-car-spec"><span id="drag-selected">V8 Street Beast</span><span id="drag-spec">360 HP • 1550 kg</span></div>
 <label class="drag-auto-toggle"><input id="drag-auto" type="checkbox"> Automatic shifting (easier on mobile)</label>
+<div class="drag-drive-row"><span>Drivetrain and induction</span><strong id="drag-drive">RWD · NA</strong></div>
+<div class="drag-launch-controls">
+<label for="drag-launch">Launch throttle: <strong id="drag-launch-value">68%</strong></label>
+<input type="range" id="drag-launch" min="35" max="100" value="68" step="5">
+<p class="drag-muted">Too much launch throttle can cause wheelspin and cost time.</p>
+</div>
+<label class="drag-auto-toggle"><input id="drag-tcs" type="checkbox"> Traction control (limits wheelspin)</label>
 <h3>TUNING WORKSHOP</h3>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Engine</strong><span id="drag-level-engine">0 / 3</span></div><button id="drag-upgrade-engine" type="button">Upgrade</button></div>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Traction</strong><span id="drag-level-grip">0 / 3</span></div><button id="drag-upgrade-grip" type="button">Upgrade</button></div>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Transmission</strong><span id="drag-level-gearbox">0 / 3</span></div><button id="drag-upgrade-gearbox" type="button">Upgrade</button></div>
 </section>
 <section class="drag-card drag-how">
-<h2>HOW TO PLAY</h2>
-<p>Tap <strong>START RACE</strong> and wait for the green light. Then hold GAS to accelerate.</p><p>Use SHIFT before the rev counter hits red. Activate NITRO after reaching second gear.</p><p>Desktop: <kbd>→</kbd> or <kbd>W</kbd> for gas, <kbd>Space</kbd> / <kbd>↑</kbd> to shift, <kbd>N</kbd> for nitro, <kbd>Enter</kbd> to start.</p><p>Earn fictional game credits after a completed race and spend them on engine, traction and gearbox upgrades. No purchases or blockchain payments.</p>
+<h2>HOW TO PLAY</h2><p>Side-view engine torque, clutch and traction simulation. Try RWD, FWD or AWD and adjust launch throttle.</p>
+<p>Tap <strong>START RACE</strong> and wait for the green light. Then hold GAS to accelerate.</p><p>Watch RPM and shift close to the redline, before the rev limiter.</p><p>Desktop: <kbd>→</kbd> or <kbd>W</kbd> for gas, <kbd>Space</kbd> / <kbd>↑</kbd> to shift, <kbd>Enter</kbd> to start.</p><p>Earn fictional game credits after a completed race and spend them on engine, traction and gearbox upgrades. No purchases or blockchain payments.</p>
 <p class="drag-privacy">All garage credits, upgrades and personal bests are stored only in this browser. Clearing browser storage erases them. No online ranking or cross-device sync yet.</p>
 </section>
 </div>
 <p class="drag-privacy"><a href="./">← Explore DNCH Hub</a></p>
 </div></main>
-<footer><div class="wrap footer-row"><div><strong>DNCH GAMES</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>DNCH Drag Racing v0.1 is a free arcade prototype with fictional car designs. Game credits have no real-world value.</p></div></footer>
+<footer><div class="wrap footer-row"><div><strong>DNCH GAMES</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>DNCH Drag Racing v0.2 is a free prototype with simplified vehicle physics with fictional car designs. Game credits have no real-world value.</p></div></footer>
 <script defer src="assets/drag-engine.js"></script>
 <script defer src="assets/drag-game.js"></script>
 <script defer src="assets/pwa.js"></script>

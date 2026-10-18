@@ -1,12 +1,13 @@
-/* DNCH Drag Racing v0.1 — canvas visuals and keyboard/touch garage UI. */
+/* DNCH Drag Racing v0.2 — side-view cars, traction telemetry and pilot physics controls. */
 (()=>{
 'use strict';
 const E=window.DNCH_DRAG_ENGINE;
 if(!E)return;
 const bg=document.documentElement.lang==='bg';
 const T=bg?{
- ready:'Избери кола, направи тунинг и натисни СТАРТ.',count:'Приготви се…',go:'СТАРТ! Дръж ГАЗ!',shift:'Смени предавката преди червената зона.',nitro:'НИТРО — само след първа предавка!',
- already:'Нитрото е използвано или още не е налично.',goodShift:'Скоростта е сменена!',finalWin:'ПОБЕДА!',finalLoss:'СЛЕДВАЩИЯ ПЪТ!',finalTie:'РАВЕНСТВО!',
+ ready:'Избери кола, направи тунинг и натисни СТАРТ.',count:'Приготви се…',go:'СТАРТ! Дръж ГАЗ!',shift:'Смени предавката преди червената зона.',nitro:'',
+ already:'',goodShift:'Скоростта е сменена!',finalWin:'ПОБЕДА!',finalLoss:'СЛЕДВАЩИЯ ПЪТ!',finalTie:'РАВЕНСТВО!',
+ launch:'Газ при старт',tc:'Тракшън контрол',spin:'Буксуване',drive:'Задвижване',rpmDrop:'Сменяй близо до червените обороти.',
  result:'Твоето време',opponent:'Съперник',payout:'Награда',record:'Личен рекорд',credits:'Кредити',
  insufficient:'Недостатъчно игрови кредити.',max:'Максимален тунинг!',upgraded:'Подобрението е монтирано.',
  playAgain:'Нов старт',offline:'Играта работи без акаунт. Рекордите са само в този браузър.',
@@ -14,8 +15,9 @@ const T=bg?{
  ai:'Съперник',you:'ТИ',garage:'ГАРАЖ',race:'СЪСТЕЗАНИЕ',
  start:'СТАРТ',gas:'ГАЗ',manual:'СМЯНА',boost:'НИТРО',finished:'ФИНИШ',early:'Чакай зеленото!'
 }:{
- ready:'Pick a car, tune it, and press START.',count:'Get ready…',go:'GO! Hold GAS!',shift:'Shift before the redline.',nitro:'NITRO — after first gear only!',
- already:'Nitro is already used or not available yet.',goodShift:'Gear changed!',finalWin:'VICTORY!',finalLoss:'NEXT TIME!',finalTie:'DRAW!',
+ ready:'Pick a car, tune it, and press START.',count:'Get ready…',go:'GO! Hold GAS!',shift:'Shift before the redline.',nitro:'',
+ already:'',goodShift:'Gear changed!',finalWin:'VICTORY!',finalLoss:'NEXT TIME!',finalTie:'DRAW!',
+ launch:'Launch throttle',tc:'Traction control',spin:'Wheelspin',drive:'Drivetrain',rpmDrop:'Shift near the engine redline.',
  result:'Your time',opponent:'Opponent',payout:'Reward',record:'Personal best',credits:'Credits',
  insufficient:'Not enough game credits.',max:'Fully upgraded!',upgraded:'Upgrade installed.',
  playAgain:'Race again',offline:'The game needs no account. Records stay in this browser.',
@@ -25,9 +27,9 @@ const T=bg?{
 };
 const $=id=>document.getElementById(id);
 const canvas=$('drag-canvas'),ctx=canvas.getContext('2d');
-const KEY='dnch-drag-v1';
+const KEY='dnch-drag-v2',PREVIOUS_KEY='dnch-drag-v1';
 let save=E.DEFAULT();
-try{save=E.sanitize(JSON.parse(localStorage.getItem(KEY)))}catch(err){save=E.DEFAULT()}
+try{save=E.sanitize(JSON.parse(localStorage.getItem(KEY)||localStorage.getItem(PREVIOUS_KEY)))}catch(err){save=E.DEFAULT()}
 let game=null,gasHeld=false,frame=0,lastFrame=0,announced=false;
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
 function format(n){return(Number(n)||0).toFixed(2)}
@@ -36,82 +38,108 @@ function say(txt){$('drag-message').textContent=txt}
 function drawBox(x,y,w,h,color,r=10){
  ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();
 }
-function paintCar(x,y,color,accent,nitro=false){
- const w=128,h=57;
+function shadeCar(x,y,car,angle,spin,speed){
+ const col=car.color,accent=car.accent;
  ctx.save();ctx.translate(x,y);
- ctx.shadowBlur=18;ctx.shadowColor=nitro?'#19b9ff':'#000b';
- drawBox(-58,-21,118,47,'#000a',15);ctx.shadowBlur=0;
- drawBox(-61,-23,120,48,color,15);
- drawBox(-23,-20,46,42,accent,9);
- drawBox(-16,-17,25,36,'#071522',6);
- ctx.fillStyle='#ffffff40';ctx.fillRect(-13,-16,2,32);
- drawBox(-49,-30,25,9,'#101217',4);drawBox(27,-30,24,9,'#101217',4);
- drawBox(-49,26,25,9,'#101217',4);drawBox(27,26,24,9,'#101217',4);
- drawBox(48,-17,11,11,'#fff6cc',4);drawBox(48,9,11,11,'#fff6cc',4);
- drawBox(-61,-17,7,10,'#f23d4e',2);drawBox(-61,10,7,10,'#f23d4e',2);
- ctx.strokeStyle='#ffffff33';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(31,-20);ctx.lineTo(31,21);ctx.stroke();
- if(nitro){ctx.fillStyle='#53dcff';for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(-60,-10+i*12);ctx.lineTo(-90-Math.random()*20,-6+i*12);ctx.lineTo(-60,-2+i*12);ctx.fill()}}
+ // The chassis follows speed and tire slip with subtle squat.
+ ctx.translate(0,Math.min(3,speed/28));
+ ctx.shadowColor='#000b';ctx.shadowBlur=14;
+ // Wheelbase and body silhouette, side view facing right.
+ ctx.fillStyle='#000a';ctx.beginPath();ctx.ellipse(2,-4,109,10,0,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+ ctx.beginPath();ctx.moveTo(-93,-18);ctx.lineTo(-84,-46);ctx.lineTo(-34,-56);
+ ctx.lineTo(19,-61);ctx.lineTo(54,-49);ctx.lineTo(88,-33);ctx.lineTo(98,-18);
+ ctx.lineTo(96,-10);ctx.lineTo(-97,-10);ctx.closePath();ctx.fillStyle=col;ctx.fill();
+ ctx.beginPath();ctx.moveTo(-53,-48);ctx.lineTo(-28,-72);ctx.lineTo(20,-74);
+ ctx.lineTo(54,-53);ctx.closePath();ctx.fillStyle=accent;ctx.fill();
+ ctx.beginPath();ctx.moveTo(-48,-50);ctx.lineTo(-26,-67);ctx.lineTo(12,-68);
+ ctx.lineTo(12,-50);ctx.closePath();ctx.fillStyle='#152332';ctx.fill();
+ ctx.beginPath();ctx.moveTo(17,-68);ctx.lineTo(46,-52);ctx.lineTo(17,-52);
+ ctx.closePath();ctx.fill();
+ ctx.lineWidth=2;ctx.strokeStyle='#ffffff58';ctx.beginPath();ctx.moveTo(-92,-20);
+ ctx.lineTo(88,-20);ctx.stroke();
+ ctx.strokeStyle='#141b23';ctx.beginPath();ctx.moveTo(15,-52);ctx.lineTo(15,-21);ctx.stroke();
+ ctx.fillStyle='#fff2c6';ctx.fillRect(88,-27,9,8);
+ ctx.fillStyle='#e2414c';ctx.fillRect(-95,-25,9,9);
+ for(const wx of [-54,57]){
+  ctx.beginPath();ctx.arc(wx,-11,22,0,Math.PI*2);ctx.fillStyle='#090c14';ctx.fill();
+  ctx.beginPath();ctx.arc(wx,-11,14,0,Math.PI*2);ctx.fillStyle='#717d87';ctx.fill();
+  ctx.save();ctx.translate(wx,-11);ctx.rotate(angle*(wx<0?1:1));
+  ctx.strokeStyle='#dfddd8';ctx.lineWidth=4;
+  for(let a=0;a<5;a++){ctx.rotate(2*Math.PI/5);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(12,0);ctx.stroke()}
+  ctx.restore();
+  ctx.beginPath();ctx.arc(wx,-11,4,0,Math.PI*2);ctx.fillStyle='#20252b';ctx.fill();
+ }
+ if(spin>.10&&speed<32){
+  // Deterministic slip visualization behind the powered wheels.
+  ctx.fillStyle='#b1b9c0'+(Math.floor(Math.min(.6,spin*.4)*255)).toString(16).padStart(2,'0');
+  for(let k=0;k<5;k++){
+   const sx=-91-k*18-(Math.sin((angle+k)*.7)+1)*6;
+   const sy=-12-k*10;
+   ctx.beginPath();ctx.ellipse(sx,sy,10+k*3,6+k*3,0,0,Math.PI*2);ctx.fill();
+  }
+ }
  ctx.restore();
 }
 function track(){
  if(!ctx)return;
- const w=960,h=430;
+ const w=960,h=430,progress=game?.player.pos||0,scroll=progress*3.6;
  ctx.clearRect(0,0,w,h);
- const gr=ctx.createLinearGradient(0,0,0,h);
- gr.addColorStop(0,'#12151b');gr.addColorStop(.28,'#222b2b');gr.addColorStop(.3,'#11141a');gr.addColorStop(1,'#111117');
- ctx.fillStyle=gr;ctx.fillRect(0,0,w,h);
- // Metal barriers and crowd / city lights.
- for(let i=0;i<22;i++){
-  const x=(i*64-(game?.player.pos||0)*.9%64+64)%1050-25;
-  drawBox(x,17,4,54,'#a99964',1);
-  drawBox(x,357,4,55,'#82714b',1);
-  ctx.fillStyle=i%3===0?'#e1b85b':'#5e7f85';
-  ctx.fillRect(x,11,7,5);ctx.fillRect(x,414,7,4);
+ const sky=ctx.createLinearGradient(0,0,0,220);
+ sky.addColorStop(0,'#07111e');sky.addColorStop(.7,'#223042');sky.addColorStop(1,'#483f43');
+ ctx.fillStyle=sky;ctx.fillRect(0,0,w,220);
+ ctx.fillStyle='#e9cb84';ctx.font='700 16px system-ui';
+ ctx.fillText('DNCH DRAG · PERFORMANCE v0.2',22,27);
+ // Track lights and night city form a scrolling parallax.
+ for(let i=0;i<32;i++){
+  const px=(i*68-scroll*.15%68+1060)%1080-60;
+  const building=(i*37%58)+28;
+  ctx.fillStyle=i%3?'#18212c':'#252a36';
+  ctx.fillRect(px,188-building,49,building+23);
+  ctx.fillStyle='#d2aa61';for(let j=0;j<2;j++)ctx.fillRect(px+11+j*20,183-building+10,5,5);
  }
- drawBox(0,87,w,269,'#282c31',0);
- drawBox(0,94,w,8,'#b99a5e',0);
- drawBox(0,344,w,8,'#b99a5e',0);
- ctx.strokeStyle='#51545b';ctx.lineWidth=3;ctx.setLineDash([26,23]);
- const shift=((game?.player.pos||0)*2.5)%49;ctx.lineDashOffset=-shift;
- ctx.beginPath();ctx.moveTo(0,219);ctx.lineTo(w,219);ctx.stroke();ctx.setLineDash([]);
- // Lane guides scrolling by distance.
- for(let i=0;i<28;i++){
-  const x=((i*57-shift*2)%1100+1100)%1100-55;
-  drawBox(x,106,22,3,'#ffffff13',1);drawBox(x,333,22,3,'#ffffff13',1);
+ ctx.fillStyle='#111820';ctx.fillRect(0,193,w,237);
+ for(const y of [195,319]){ctx.fillStyle='#615a4d';ctx.fillRect(0,y,w,4)}
+ ctx.fillStyle='#24262c';ctx.fillRect(0,203,w,106);ctx.fillRect(0,326,w,104);
+ ctx.fillStyle='#ac955c';ctx.fillRect(0,203,w,3);ctx.fillRect(0,427,w,3);
+ ctx.strokeStyle='#717379';ctx.lineWidth=3;ctx.setLineDash([40,33]);
+ ctx.lineDashOffset=-scroll%73;ctx.beginPath();ctx.moveTo(0,318);ctx.lineTo(w,318);ctx.stroke();ctx.setLineDash([]);
+ for(let n=50;n<500;n+=50){
+  const x=286+(n-progress)*3.0;
+  if(x<-25||x>980)continue;
+  ctx.fillStyle='#a39d8c';ctx.fillRect(x,197,4,227);
+  ctx.font='700 14px system-ui';ctx.fillStyle='#e3cc9f';ctx.fillText(n+' m',x+7,217);
+ }
+ const finishX=286+(E.DISTANCE-progress)*3.0;
+ if(finishX>0&&finishX<w){
+  for(let i=0;i<22;i++)for(let j=0;j<2;j++){
+   ctx.fillStyle=(i+j)%2?'#e9e8db':'#0e1013';
+   ctx.fillRect(finishX+j*13,194+i*11,13,11);
+  }
  }
  if(game){
-  const fin=280+(E.DISTANCE-game.player.pos)*2;
-  if(fin>-50&&fin<w+40){
-   for(let row=0;row<14;row++)for(let col=0;col<3;col++)
-    drawBox(fin+col*11,97+row*18,11,18,(row+col)%2?'#161616':'#f3f0e4',0);
-  }
   const rival=carOf(game.opponentName),mine=carOf(save.car);
-  const aiX=280+(game.opponent.pos-game.player.pos)*2;
-  paintCar(E.clamp(aiX,46,885),160,rival.color,rival.accent,game.opponent.nitroLeft>0);
-  paintCar(280,285,mine.color,mine.accent,game.player.nitroLeft>0);
+  const dx=(game.opponent.pos-game.player.pos)*3.0;
+  shadeCar(E.clamp(287+dx,-115,1090),306,rival,game.opponent.wheelAngle,game.opponent.spin,game.opponent.speed);
+  shadeCar(287,423,mine,game.player.wheelAngle,game.player.spin,game.player.speed);
  }else{
-  paintCar(276,285,carOf(save.car).color,carOf(save.car).accent);
-  paintCar(246,160,'#72a2ae','#35505e');
+  shadeCar(258,306,carOf('turbo'),.4,0,0);
+  shadeCar(287,423,carOf(save.car),0,0,0);
  }
- ctx.font='700 17px system-ui';ctx.fillStyle='#dce0e2';
- ctx.fillText(T.ai,25,145);ctx.fillText(T.you,25,269);
- ctx.font='700 14px system-ui';ctx.fillStyle='#deb972';
- ctx.fillText('DNCH DRAG • ¼ MILE',22,33);
- const fraction=game?game.player.pos/E.DISTANCE:0;
- drawBox(550,27,340,10,'#151821',6);
- drawBox(550,27,Math.max(0,340*fraction),10,'#dfb86c',6);
- ctx.textAlign='right';ctx.fillStyle='#eef2f5';ctx.fillText(Math.round((game?.player.pos||0))+' / 402 m',892,20);
- ctx.textAlign='left';
- // Drag racing light tree.
+ ctx.font='800 15px system-ui';ctx.fillStyle='#f0dbae';
+ ctx.fillText(T.ai,16,255);ctx.fillText(T.you,16,374);
+ ctx.fillStyle='#111924';ctx.fillRect(570,32,325,11);
+ ctx.fillStyle='#dfbc78';ctx.fillRect(570,32,325*E.clamp(progress/E.DISTANCE,0,1),11);
+ ctx.textAlign='right';ctx.fillStyle='#f8e9bd';ctx.font='700 17px system-ui';
+ ctx.fillText(Math.round(progress)+' / 402 m',896,28);ctx.textAlign='left';
+ // Drag launch light — count orange bulbs, then green.
  for(let i=0;i<4;i++){
-  const visible=game&&game.phase!=='finished';
-  const countdown=game?.phase==='countdown';
-  const green=game?.phase==='running';
-  const active=(i===3&&green)||(countdown&&i===Math.min(2,Math.floor(game.clock)));
-  ctx.beginPath();ctx.arc(917,138+i*49,15,0,Math.PI*2);
-  const lit=i===3?'#61f09e':'#f6bd54';
-  ctx.fillStyle=active?lit:'#24242a';ctx.shadowColor=active?lit:'transparent';ctx.shadowBlur=active?23:0;ctx.fill();ctx.shadowBlur=0;
-  ctx.strokeStyle='#626367';ctx.lineWidth=2;ctx.stroke();
+  const lit=game&&((game.phase==='countdown'&&i===Math.min(2,Math.floor(game.clock)))||
+   (game.phase==='running'&&i===3));
+  ctx.beginPath();ctx.arc(925,61+i*36,11,0,Math.PI*2);
+  ctx.fillStyle=lit?(i===3?'#7cffa1':'#f5bd5b'):'#34353a';
+  ctx.shadowColor=lit?(i===3?'#7cffa1':'#f6a83a'):'transparent';
+  ctx.shadowBlur=lit?15:0;ctx.fill();ctx.shadowBlur=0;
+  ctx.strokeStyle='#8c8170';ctx.lineWidth=1.5;ctx.stroke();
  }
 }
 function refreshGarage(){
@@ -133,7 +161,8 @@ function refreshGarage(){
  $('drag-credits').textContent=String(save.credits);
  $('drag-best').textContent=save.best[save.car]?format(save.best[save.car])+' s':'—';
  $('drag-history').textContent=save.wins+' / '+save.races;
- $('drag-spec').textContent=Math.round(stats.hp*(1+.125*parts.engine))+' HP • '+stats.mass+' kg';
+ $('drag-spec').textContent=Math.round(stats.hp*(1+.105*parts.engine))+' HP · '+stats.mass+' kg · '+stats.drive+' · '+stats.induction;
+ $('drag-drive').textContent=stats.drive+' · '+stats.induction;
  for(const part of ['engine','grip','gearbox']){
   const level=parts[part],price=E.LEVEL_COST[part][level];
   const button=$('drag-upgrade-'+part);
@@ -142,13 +171,16 @@ function refreshGarage(){
   button.disabled=level>=3||save.credits<(price||0)||(game&&game.phase!=='finished');
  }
  $('drag-auto').checked=save.autoShift;
+ $('drag-tcs').checked=save.tractionControl;
+ $('drag-launch').value=String(save.launchPct);
+ $('drag-launch-value').textContent=String(save.launchPct)+'%';
 }
 function hud(){
  if(!game){
   $('drag-speed').textContent='0';$('drag-rpm').textContent='950';
   $('drag-gear').textContent='1';$('drag-distance').textContent='0';
   $('drag-time').textContent='0.00';$('drag-rpm-bar').style.width='8%';
-  $('drag-nitro').disabled=true;$('drag-shift').disabled=true;return;
+  $('drag-shift').disabled=true;$('drag-slip').textContent='0%';return;
  }
  const v=game.player;
  $('drag-speed').textContent=String(Math.round(v.speed*3.6));
@@ -156,9 +188,9 @@ function hud(){
  $('drag-gear').textContent=String(v.gear);
  $('drag-distance').textContent=String(Math.round(v.pos));
  $('drag-time').textContent=format(game.time);
- $('drag-rpm-bar').style.width=(E.clamp(v.rpm/7600,0,1)*100).toFixed(1)+'%';
- $('drag-rpm-bar').classList.toggle('redline',v.rpm>6700);
- $('drag-nitro').disabled=game.phase!=='running'||v.nitroUsed||v.gear<2||v.finishTime!==null;
+ $('drag-rpm-bar').style.width=(E.clamp(v.rpm/carOf(game.player.car).redline,0,1)*100).toFixed(1)+'%';
+ $('drag-rpm-bar').classList.toggle('redline',v.rpm>carOf(game.player.car).redline-350);
+ $('drag-slip').textContent=Math.round(Math.min(v.spin,3)*100)+'%';
  $('drag-shift').disabled=game.phase!=='running'||v.gear>=5||v.shiftLeft>0||v.finishTime!==null;
  $('drag-gas').disabled=game.phase==='finished';
 }
@@ -167,9 +199,9 @@ function settle(){
  announced=true;gasHeld=false;const payout=E.award(save,game);
  persist();refreshGarage();hud();
  const result=game.result==='win'?T.finalWin:game.result==='loss'?T.finalLoss:T.finalTie;
- const own=game.player.pos>=E.DISTANCE?format(game.player.finishTime)+' s':'DNF';
+ const own=game.player.pos>=E.DISTANCE?format(game.player.finishTime+game.player.penalty)+' s':'DNF';
  $('drag-result-title').textContent=result;
- $('drag-result-detail').textContent=T.result+': '+own+' · '+T.opponent+': '+format(game.opponent.finishTime)+' s · '+T.payout+': '+payout+' CR';
+ $('drag-result-detail').textContent=T.result+': '+own+' · '+T.opponent+': '+(game.opponent.finishTime===null?'DNF':format(game.opponent.finishTime)+' s')+' · '+T.payout+': '+payout+' CR'+' · '+T.spin+': '+Math.round(game.player.maxWheelspin*100)+'%';
  $('drag-result').hidden=false;$('drag-stage').textContent=T.finished;
  say(result);$('drag-start').textContent=T.playAgain;
 }
@@ -190,8 +222,8 @@ function step(time){
  frame=requestAnimationFrame(step);
 }
 function start(){
- if(game&&game.phase==='running')return;
- game=E.makeRace(save.car,save.parts[save.car],save.autoShift);
+ if(game&&(game.phase==='running'||game.phase==='countdown'))return;
+ game=E.makeRace(save.car,save.parts[save.car],save.autoShift,{launchPct:save.launchPct,tractionControl:save.tractionControl});
  announced=false;gasHeld=false;
  $('drag-result').hidden=true;$('drag-start').textContent=T.playAgain;
  $('drag-stage').textContent='3';$('drag-stage').classList.remove('drag-idle');
@@ -202,11 +234,6 @@ function shift(){
  if(!game||game.phase!=='running')return;
  if(E.shift(game.player)){say(T.goodShift);hud()}
 }
-function nitro(){
- if(!game||game.phase!=='running')return;
- if(E.useNitro(game.player))say(T.nitro);else say(T.already);
- hud();
-}
 function gas(state){
  if(state&&game?.phase==='countdown'&&game.player.penalty===0){
   game.player.penalty=.35;say(T.early);
@@ -215,23 +242,23 @@ function gas(state){
 }
 $('drag-start').addEventListener('click',start);
 $('drag-shift').addEventListener('click',shift);
-$('drag-nitro').addEventListener('click',nitro);
 $('drag-gas').addEventListener('pointerdown',ev=>{ev.preventDefault();ev.currentTarget.setPointerCapture?.(ev.pointerId);gas(true)});
 for(const e of ['pointerup','pointercancel','lostpointercapture','pointerleave'])$('drag-gas').addEventListener(e,()=>gas(false));
 document.addEventListener('pointerup',()=>gas(false));
 document.addEventListener('keydown',ev=>{
  if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
  const k=ev.key.toLowerCase();
- if(['arrowright','w',' ','arrowup','n','enter'].includes(k))ev.preventDefault();
+ if(['arrowright','w',' ','arrowup','enter'].includes(k))ev.preventDefault();
  if(k==='arrowright'||k==='w')gas(true);
  if((k===' '||k==='arrowup')&&!ev.repeat)shift();
- if(k==='n'&&!ev.repeat)nitro();
  if(k==='enter'&&!ev.repeat)start();
 });
 document.addEventListener('keyup',ev=>{const k=ev.key.toLowerCase();if(k==='arrowright'||k==='w')gas(false)});
 window.addEventListener('blur',()=>gas(false));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)gas(false);lastFrame=0});
-$('drag-auto').addEventListener('change',ev=>{save.autoShift=!!ev.target.checked;persist();if(game)game.autoShift=save.autoShift});
+$('drag-auto').addEventListener('change',ev=>{save.autoShift=!!ev.target.checked;persist();if(game&&game.phase==='countdown')game.autoShift=save.autoShift});
+$('drag-tcs').addEventListener('change',ev=>{save.tractionControl=!!ev.target.checked;persist();if(game&&game.phase==='countdown')game.options.tractionControl=save.tractionControl});
+$('drag-launch').addEventListener('input',ev=>{save.launchPct=E.clamp(Number(ev.target.value)||68,35,100);$('drag-launch-value').textContent=save.launchPct+'%';persist();if(game&&game.phase==='countdown')game.options.launchPct=save.launchPct});
 for(const part of ['engine','grip','gearbox']){
  $('drag-upgrade-'+part).addEventListener('click',()=>{
   if(game&&game.phase!=='finished')return;
