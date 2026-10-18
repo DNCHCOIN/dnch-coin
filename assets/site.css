@@ -213,3 +213,15 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .dnch-install-info{border-left:3px solid #d6af71;background:#2b251e;color:#f0d9ae;padding:9px 12px;border-radius:0 10px 10px 0;font-size:13px;line-height:1.6;max-width:680px;margin:12px 0}
 .dnch-install-info:empty{display:none}
 @media(max-width:600px){.dnch-install-button{font-size:13px!important;padding:10px 13px!important}#dnch-install-info{font-size:12px}}
+
+
+/* DNCH Mobile v0.2 — connectivity indicator. Left aligned to avoid the AI preview bubble. */
+.dnch-connection-banner{
+ position:fixed;bottom:14px;left:14px;z-index:22;
+ max-width:min(440px,calc(100vw - 28px));
+ background:#302519;color:#f7e6c5;border:1px solid #a67c43;
+ box-shadow:0 8px 26px #000b;border-radius:12px;padding:12px 15px;
+ font-size:13px;line-height:1.55;pointer-events:none
+}
+.dnch-connection-banner[hidden]{display:none!important}
+@media(max-width:550px){.dnch-connection-banner{font-size:12px;bottom:8px;left:8px;max-width:calc(100vw - 16px);padding:10px 12px}}
