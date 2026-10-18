@@ -4,7 +4,7 @@
 
 DNCH Today already rotates **three** editorially curated evergreen ideas each local calendar day. This update does not duplicate that rotation or fabricate live news. Instead it adds:
 
-- **Today's challenge / Днешното предизвикателство:** a highlighted practical action taken from the first of the existing day's three featured ideas.
+- **Today's challenge / Днешното предизвикателство:** a highlighted practical action taken from the original unfiltered daily selection. With the later v0.7 personal interests feature, this action stays fixed for the day even if the visitor filters the three featured ideas.
 - An **I've done it / Изпълних го** control. Visitors can mark/unmark today's action and see how many of the last seven local calendar days were marked complete.
 - Local completion dates in browser storage under `dnch-today-challenge-days-v1`, limited to roughly 90 recent entries on subsequent writes. No email, session identity, content of user activity, server API or rewards.
 - A **Share / Сподели** button on every featured and library idea. Mobile devices with Web Share use the native share sheet; other browsers copy a link or show a manual-copy fallback.
