@@ -28,3 +28,50 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 @media(max-width:900px){.today-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.today-controls{grid-template-columns:1fr}}
 @media(max-width:630px){.today-promo{display:block;padding:23px 20px}.today-promo .btn{margin-top:19px}.today-hero{padding:58px 0 43px;min-height:0}.today-grid{grid-template-columns:1fr}.today-card{padding:20px}.today-filters{gap:7px}.today-filter{padding:8px 10px}}
 @media(prefers-reduced-motion:reduce){.today-card{transition:none}.today-card:hover{transform:none}}
+
+
+/* DNCH Community v0.5 — forum pilot, no fake demo posts */
+.forum-hero{padding:80px 0 40px;max-width:840px}
+.forum-banner{border:1px solid #917742;background:linear-gradient(110deg,#292318,#191919);border-radius:17px;padding:25px;margin-bottom:35px}
+.forum-banner strong{color:var(--gold);font-size:18px}
+.forum-banner p{color:#e1d6bd;margin:9px 0}
+.forum-banner a{color:var(--gold);font-weight:750}
+.forum-banner[hidden],#forum-app[hidden],#forum-app [hidden]{display:none!important}
+.forum-account{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:25px;padding:22px;border:1px solid var(--line);border-radius:16px;background:#16171d}
+.forum-account h2{margin:0 0 7px;font-size:25px}
+.forum-account p{margin:0}
+.forum-inline{display:flex;gap:10px;align-items:center}
+.forum-inline input{flex:1;min-width:0}
+#forum-session{display:flex;gap:14px;align-items:center;justify-content:flex-end;flex-wrap:wrap;overflow-wrap:anywhere}
+.forum-state{color:var(--gold);min-height:24px;font-size:14px}
+.forum-content{padding-top:50px}
+.forum-filter-wrap{margin:28px 0}
+.forum-filter-wrap label{font-size:14px;font-weight:800}
+.forum-filters{display:flex;flex-wrap:wrap;gap:8px}
+.forum-filter{border:1px solid #444751;background:#1a1a22;color:#e1e1e7;padding:8px 12px;border-radius:40px;cursor:pointer;font:inherit;font-size:13px}
+.forum-filter:hover,.forum-filter.active,.forum-filter:focus-visible{background:var(--gold);color:#18130b;border-color:var(--gold)}
+.forum-list{display:grid;gap:14px}
+.forum-topic-card,.forum-reply{background:linear-gradient(145deg,#191b22,#111116);border:1px solid #353640;border-radius:16px;padding:22px;overflow-wrap:anywhere}
+.forum-topic-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.forum-label{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.04em}
+.forum-language{font-size:12px;color:#babac9}
+.forum-topic-card h2,.forum-topic-card h3{margin:10px 0}
+.forum-topic-open{border:0;background:transparent;color:inherit;text-align:left;padding:0;font:inherit;font-weight:700;cursor:pointer}
+.forum-topic-open:hover,.forum-topic-open:focus-visible{color:var(--gold);text-decoration:underline}
+.forum-topic-body{white-space:pre-wrap;overflow-wrap:anywhere;color:#ced0d9}
+.forum-post-actions,.forum-post-meta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.forum-post-actions{padding-top:13px;border-top:1px solid #373742}
+.forum-post-meta{justify-content:start;color:#b0b0bd;font-size:13px}
+.forum-report{background:transparent;border:1px solid #4c4d56;padding:6px 11px;border-radius:8px;color:#d2d2db;cursor:pointer}
+.forum-report:hover{border-color:var(--gold)}
+.forum-empty{color:var(--muted);padding:15px}
+#forum-back{margin-bottom:22px}
+#forum-reply-form{margin:24px 0}
+.forum-compose{padding:55px 0}
+.forum-inline-fields{display:grid;grid-template-columns:1.4fr .9fr .7fr;gap:15px;margin-bottom:18px}
+.forum-compose label,#forum-reply-form label{display:block;margin:0 0 8px;font-weight:700}
+.forum-compose textarea{min-height:175px}
+.forum-guidelines{border-bottom:1px solid var(--line)}
+.forum-guidelines p{color:var(--muted);max-width:790px}
+@media(max-width:850px){.forum-account{grid-template-columns:1fr}.forum-inline-fields{grid-template-columns:1fr 1fr}.forum-inline-fields>div:first-child{grid-column:1/-1}}
+@media(max-width:560px){.forum-hero{padding:54px 0 22px}.forum-inline{display:block}.forum-inline button{margin-top:11px;width:100%}.forum-inline-fields{grid-template-columns:1fr}.forum-inline-fields>div:first-child{grid-column:auto}.forum-topic-card,.forum-reply{padding:18px}.forum-account{padding:18px}}
