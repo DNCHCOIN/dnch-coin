@@ -42,11 +42,12 @@ function sanitize(raw){
   out.tractionControl=raw.tractionControl===true;
  }
  for(const car of CARS){
-  const best=raw.best?.[car.id];
-  if(Number.isFinite(best)&&best>=5&&best<=55){
-   if(raw.version===2)out.best[car.id]=round(best);
-   else out.legacyBest[car.id]=round(best);
-  }
+  const previous=raw.version===1?raw.best?.[car.id]:raw.legacyBest?.[car.id];
+  if(Number.isFinite(previous)&&previous>=5&&previous<=55)
+   out.legacyBest[car.id]=round(previous);
+  const current=raw.version===2?raw.best?.[car.id]:null;
+  if(Number.isFinite(current)&&current>=5&&current<=55)
+   out.best[car.id]=round(current);
  }
  return out;
 }
