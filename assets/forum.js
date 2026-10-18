@@ -7,13 +7,13 @@ const locale=document.documentElement.lang==='bg'?'bg':'en';
 const bg=locale==='bg';
 const T=bg?{
  all:'Всички теми',loading:'Зареждане...',error:'Възникна грешка. Опитай отново.',loginSent:'Провери пощата си за линк за вход. Ако няма писмо, провери и папка „Спам“.',logout:'Излезе от профила.',
- empty:'Все още няма теми в тази категория.',noReplies:'Все още няма отговори.',
+ empty:'Все още няма теми в тази категория.',noMatches:'Няма намерени теми. Пробвай други думи или филтри.',pageText:'Страница',pageOf:'от',results:'теми',noReplies:'Все още няма отговори.',
  report:'Докладвай',reportPrompt:'Защо докладваш тази публикация? (10–500 символа)',reported:'Сигналът е изпратен за преглед. Благодарим!',invalid:'Опиши причината с поне 10 символа.',wait:'Изчакай малко и опитай отново.',
  created:'Темата е публикувана.',replied:'Отговорът е публикуван.',readonly:'Влез с имейл, за да участваш.',member:'Участник',date:'bg-BG',
  pilotFailed:'Пилотният сървър не е достъпен. Регистрациите и публикациите не работят.',signIn:'Вход с имейл',reply:'Отговори',locked:'Темата е заключена за нови отговори.',user:'Потребител'
 }:{
  all:'All topics',loading:'Loading...',error:'Something went wrong. Please try again.',loginSent:'Check your email for a sign-in link. Check spam if needed.',logout:'You have signed out.',
- empty:'No topics in this category yet.',noReplies:'No replies yet.',
+ empty:'No topics in this category yet.',noMatches:'No topics found. Try other words or filters.',pageText:'Page',pageOf:'of',results:'topics',noReplies:'No replies yet.',
  report:'Report',reportPrompt:'Why are you reporting this content? (10–500 characters)',reported:'Your report was sent for review. Thank you!',invalid:'Describe the reason with at least 10 characters.',wait:'Please wait and try again.',
  created:'Your topic was published.',replied:'Your reply was published.',readonly:'Sign in with email to participate.',member:'Member',date:'en-GB',
  pilotFailed:'The pilot server is unavailable. Registration and posting are not active.',signIn:'Email sign-in',reply:'Reply',locked:'This topic is locked for new replies.',user:'User'
@@ -50,6 +50,18 @@ try{
 }catch(e){console.warn('Forum SDK unavailable',e);return}
 let user=null,categories=[],currentCategory=null,currentThread=null;
 let loadSerial=0;
+const PAGE_SIZE=10;
+let searchTerm='',languageFilter='',sortNewest=true,topicsPage=0;
+function updatePagination(total){
+ const pages=Math.ceil(total/PAGE_SIZE);
+ const nav=$('forum-pagination');
+ nav.hidden=pages<=1;
+ $('forum-page-prev').disabled=topicsPage<=0;
+ $('forum-page-next').disabled=topicsPage>=pages-1;
+ $('forum-page-status').textContent=pages
+  ?T.pageText+' '+(topicsPage+1)+' '+T.pageOf+' '+pages+' · '+total+' '+T.results
+  : '';
+}
 const profileCache=new Map();
 async function authorNames(ids){
  const missing=[...new Set(ids.filter(Boolean))].filter(id=>!profileCache.has(id));
@@ -107,7 +119,7 @@ function renderFilters(){
   const selected=cat.id===currentCategory;
   btn.setAttribute('aria-pressed',selected?'true':'false');
   if(selected)btn.classList.add('active');
-  btn.addEventListener('click',()=>{currentCategory=cat.id;renderFilters();loadTopics()});
+  btn.addEventListener('click',()=>{currentCategory=cat.id;topicsPage=0;renderFilters();loadTopics()});
   filters.appendChild(btn);
  }
  $('forum-category').replaceChildren(...categories.map(c=>{const o=make('option',null,locale==='bg'?c.title_bg:c.title_en);o.value=String(c.id);return o}));
@@ -149,15 +161,23 @@ function renderTopic(row,detail=false){
 async function loadTopics(){
  const ticket=++loadSerial;setStatus(T.loading);
  $('forum-browser').hidden=false;$('forum-thread-view').hidden=true;currentThread=null;toggleLogin({user});
- let request=client.from('forum_threads').select('id,category_id,author_id,title,body,language,is_locked,created_at').order('created_at',{ascending:false}).limit(50);
+ let request=client.from('forum_threads')
+  .select('id,category_id,author_id,title,body,language,is_locked,created_at',{count:'exact'});
  if(currentCategory!==null)request=request.eq('category_id',currentCategory);
- const {data,error}=await request;
+ if(languageFilter)request=request.eq('language',languageFilter);
+ if(searchTerm)request=request.textSearch('search_document',searchTerm,{type:'websearch',config:'simple'});
+ request=request.order('created_at',{ascending:!sortNewest}).range(topicsPage*PAGE_SIZE,topicsPage*PAGE_SIZE+PAGE_SIZE-1);
+ const {data,error,count}=await request;
  if(ticket!==loadSerial)return;
  const list=$('forum-topics');list.replaceChildren();
- if(error){setStatus(T.error);console.warn(error.message);return}
+ if(error){$('forum-pagination').hidden=true;setStatus(T.error);console.warn(error.message);return}
+ const total=count||0, lastPage=Math.max(0,Math.ceil(total/PAGE_SIZE)-1);
+ if(topicsPage>lastPage){topicsPage=lastPage;return loadTopics()}
  await authorNames((data||[]).map(x=>x.author_id));
- if(!data?.length)list.appendChild(make('p','forum-empty',T.empty));
+ if(ticket!==loadSerial)return;
+ if(!data?.length)list.appendChild(make('p','forum-empty',(searchTerm||languageFilter)?T.noMatches:T.empty));
  else list.replaceChildren(...data.map(x=>renderTopic(x)));
+ updatePagination(total);
  setStatus('');
 }
 async function openTopic(id){
@@ -194,6 +214,26 @@ async function boot(){
  const match=location.hash.match(/^#topic=([0-9a-f-]{36})$/i);
  if(match)await openTopic(match[1]);else await loadTopics();
 }
+$('forum-search-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ searchTerm=$('forum-search-input').value.trim().replace(/\s+/g,' ').slice(0,80);
+ topicsPage=0;loadTopics();
+});
+$('forum-search-clear').addEventListener('click',()=>{
+ searchTerm='';topicsPage=0;$('forum-search-input').value='';loadTopics();
+});
+$('forum-language-filter').addEventListener('change',event=>{
+ languageFilter=event.target.value;topicsPage=0;loadTopics();
+});
+$('forum-sort').addEventListener('change',event=>{
+ sortNewest=event.target.value!=='oldest';topicsPage=0;loadTopics();
+});
+$('forum-page-prev').addEventListener('click',()=>{
+ if(topicsPage>0){topicsPage--;loadTopics()}
+});
+$('forum-page-next').addEventListener('click',()=>{
+ if(!$('forum-page-next').disabled){topicsPage++;loadTopics()}
+});
 $('forum-login-form').addEventListener('submit',async e=>{
  e.preventDefault();const email=$('forum-email').value.trim();
  if(!email)return;
@@ -243,7 +283,7 @@ $('forum-thread-form').addEventListener('submit',async e=>{
  const {error}=await client.from('forum_threads').insert({author_id:user.id,title,body,category_id,language:$('forum-language').value});
  button.disabled=false;
  if(error){console.warn(error.message);setStatus(error.code==='23514'?T.invalid:T.error);return}
- $('forum-thread-form').reset();currentCategory=null;renderFilters();history.replaceState(null,'',location.pathname);await loadTopics();setStatus(T.created);
+ $('forum-thread-form').reset();currentCategory=null;searchTerm='';languageFilter='';sortNewest=true;topicsPage=0;$('forum-search-input').value='';$('forum-language-filter').value='';$('forum-sort').value='newest';renderFilters();history.replaceState(null,'',location.pathname+location.search);await loadTopics();setStatus(T.created);
 });
 $('forum-reply-form').addEventListener('submit',async e=>{
  e.preventDefault();if(!user||!currentThread||currentThread.is_locked)return;
@@ -254,7 +294,7 @@ $('forum-reply-form').addEventListener('submit',async e=>{
  if(error){console.warn(error.message);setStatus(T.error);return}
  $('forum-reply').value='';await openTopic(id);setStatus(T.replied);
 });
-$('forum-back').addEventListener('click',()=>{history.replaceState(null,'',location.pathname);loadTopics()});
+$('forum-back').addEventListener('click',()=>{history.replaceState(null,'',location.pathname+location.search);loadTopics()});
 window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#topic=([0-9a-f-]{36})$/i);if(m)openTopic(m[1]);else loadTopics()});
 boot().catch(e=>{console.warn('Forum init error',e);offline.querySelector('p').textContent=T.pilotFailed;offline.hidden=false;panel.hidden=true});
 })();
