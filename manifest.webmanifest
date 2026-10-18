@@ -1,0 +1,44 @@
+{
+  "id": "/dnch-coin/",
+  "name": "DNCH Hub — More Than a Coin",
+  "short_name": "DNCH Hub",
+  "description": "Your connected space for DNCH Today, Radio, Community, and more.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./my-dnch.html",
+  "scope": "/dnch-coin/",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "./assets/icons/dnch-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/dnch-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "MY DNCH",
+      "short_name": "My Dashboard",
+      "url": "./my-dnch.html"
+    },
+    {
+      "name": "DNCH Radio",
+      "short_name": "YouTube music",
+      "url": "./radio.html"
+    },
+    {
+      "name": "DNCH Today",
+      "short_name": "Daily ideas",
+      "url": "./today.html"
+    }
+  ]
+}
