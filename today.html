@@ -21,7 +21,22 @@
 <div class="eyebrow">Your everyday spark</div><h1>A little useful. Every day.</h1>
 <p class="lead">One small idea can brighten your whole day. Explore practical tips, curious discoveries and tiny reasons to smile — without noise or sensational headlines.</p><div class="today-mini-stats"><span aria-hidden="true">✦</span> Daily selection <span aria-hidden="true">·</span> <span id="today-date">Selected for</span></div>
 </div>
-<section class="today-featured" aria-labelledby="featured-title">
+<section class="today-challenge" aria-labelledby="today-challenge-heading">
+ <div class="eyebrow">✦ A tiny step today</div>
+ <div class="today-challenge-head"><h2 id="today-challenge-heading">Today's challenge</h2><span id="today-challenge-date" class="today-challenge-date"></span></div>
+ <p class="small">One practical action from our curated idea library. Mark it complete when you've tried it.</p>
+ <div class="today-challenge-content">
+  <h3 id="today-challenge-title"></h3>
+  <p id="today-challenge-text"></p>
+  <p id="today-challenge-task" class="today-challenge-task"></p>
+ </div>
+ <div class="today-challenge-actions">
+  <button id="today-challenge-complete" class="btn primary" type="button" aria-pressed="false" data-label-complete="I've done it ✓" data-label-undo="Mark as not done">I've done it ✓</button>
+  <span id="today-challenge-week" class="small" data-week-label="Completed in the last 7 days"></span>
+ </div>
+ <p id="today-challenge-status" class="small" role="status" aria-live="polite"></p>
+ </section>
+ <section class="today-featured" aria-labelledby="featured-title">
 <div class="section-top"><div><div class="eyebrow">Daily selection</div><h2 id="featured-title">Three ideas for today</h2></div></div>
 <div id="today-featured" class="today-grid" aria-live="polite"></div>
 <p class="today-disclosure">These picks rotate automatically each day from an edited library of timeless ideas. This is not a live news feed.</p>
