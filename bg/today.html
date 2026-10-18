@@ -21,7 +21,22 @@
 <div class="eyebrow">Твоето ежедневно вдъхновение</div><h1>По нещо полезно. Всеки ден.</h1>
 <p class="lead">Една кратка идея може да промени целия ти ден. Открий практични съвети, любопитни неща и малки поводи за усмивка — без шум и сензации.</p><div class="today-mini-stats"><span aria-hidden="true">✦</span> Ежедневна селекция <span aria-hidden="true">·</span> <span id="today-date">Избрано за</span></div>
 </div>
-<section class="today-featured" aria-labelledby="featured-title">
+<section class="today-challenge" aria-labelledby="today-challenge-heading">
+ <div class="eyebrow">✦ Малка стъпка днес</div>
+ <div class="today-challenge-head"><h2 id="today-challenge-heading">Днешното предизвикателство</h2><span id="today-challenge-date" class="today-challenge-date"></span></div>
+ <p class="small">Една практична задача от нашата библиотека. Отбележи я като изпълнена, когато я пробваш.</p>
+ <div class="today-challenge-content">
+  <h3 id="today-challenge-title"></h3>
+  <p id="today-challenge-text"></p>
+  <p id="today-challenge-task" class="today-challenge-task"></p>
+ </div>
+ <div class="today-challenge-actions">
+  <button id="today-challenge-complete" class="btn primary" type="button" aria-pressed="false" data-label-complete="Изпълних го ✓" data-label-undo="Отмени отметката">Изпълних го ✓</button>
+  <span id="today-challenge-week" class="small" data-week-label="Изпълнени през последните 7 дни"></span>
+ </div>
+ <p id="today-challenge-status" class="small" role="status" aria-live="polite"></p>
+ </section>
+ <section class="today-featured" aria-labelledby="featured-title">
 <div class="section-top"><div><div class="eyebrow">Ежедневна селекция</div><h2 id="featured-title">Три идеи за днес</h2></div></div>
 <div id="today-featured" class="today-grid" aria-live="polite"></div>
 <p class="today-disclosure">Тези предложения се сменят автоматично всеки ден от редактирана библиотека с трайно полезни идеи. Това не е новинарски поток на живо.</p>
