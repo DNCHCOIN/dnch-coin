@@ -10,12 +10,14 @@ const T=bg?{
  empty:'Все още няма теми в тази категория.',noMatches:'Няма намерени теми. Пробвай други думи или филтри.',pageText:'Страница',pageOf:'от',results:'теми',noReplies:'Все още няма отговори.',
  report:'Докладвай',reportPrompt:'Защо докладваш тази публикация? (10–500 символа)',reported:'Сигналът е изпратен за преглед. Благодарим!',invalid:'Опиши причината с поне 10 символа.',wait:'Изчакай малко и опитай отново.',
  created:'Темата е публикувана.',replied:'Отговорът е публикуван.',readonly:'Влез с имейл, за да участваш.',member:'Участник',date:'bg-BG',
+ savedEmpty:'Нямаш запазени теми. Натисни ☆ при интересна дискусия.',savedTitle:'Моите любими',save:'☆ Запази',unsave:'★ Запазена',savedNotice:'Темата е добавена в любимите.',removedNotice:'Темата е премахната от любимите.',saveFull:'Достигнат е лимитът от 100 запазени теми.',
  pilotFailed:'Пилотният сървър не е достъпен. Регистрациите и публикациите не работят.',signIn:'Вход с имейл',reply:'Отговори',locked:'Темата е заключена за нови отговори.',user:'Потребител'
 }:{
  all:'All topics',loading:'Loading...',error:'Something went wrong. Please try again.',loginSent:'Check your email for a sign-in link. Check spam if needed.',logout:'You have signed out.',
  empty:'No topics in this category yet.',noMatches:'No topics found. Try other words or filters.',pageText:'Page',pageOf:'of',results:'topics',noReplies:'No replies yet.',
  report:'Report',reportPrompt:'Why are you reporting this content? (10–500 characters)',reported:'Your report was sent for review. Thank you!',invalid:'Describe the reason with at least 10 characters.',wait:'Please wait and try again.',
  created:'Your topic was published.',replied:'Your reply was published.',readonly:'Sign in with email to participate.',member:'Member',date:'en-GB',
+ savedEmpty:'No saved topics yet. Tap ☆ on a discussion you want to revisit.',savedTitle:'Saved topics',save:'☆ Save',unsave:'★ Saved',savedNotice:'Topic saved in this browser.',removedNotice:'Topic removed from saved topics.',saveFull:'You can save up to 100 topics.',
  pilotFailed:'The pilot server is unavailable. Registration and posting are not active.',signIn:'Email sign-in',reply:'Reply',locked:'This topic is locked for new replies.',user:'User'
 };
 const $=id=>document.getElementById(id);
@@ -51,7 +53,48 @@ try{
 let user=null,categories=[],currentCategory=null,currentThread=null;
 let loadSerial=0;
 const PAGE_SIZE=10;
-let searchTerm='',languageFilter='',sortNewest=true,topicsPage=0;
+let searchTerm='',languageFilter='',sortNewest=true,topicsPage=0,savedOnly=false;
+// Bookmark IDs are local to this device/browser; none are sent to another service.
+const BOOKMARK_KEY='dnch-forum-saved-topics-v1';
+const isTopicId=id=>/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+function loadSavedTopics(){
+ try{
+  const data=JSON.parse(localStorage.getItem(BOOKMARK_KEY)||'[]');
+  return new Set(Array.isArray(data)?data.filter(id=>typeof id==='string'&&isTopicId(id)).slice(-100):[]);
+ }catch(e){return new Set()}
+}
+const savedTopics=loadSavedTopics();
+function persistSavedTopics(){
+ try{localStorage.setItem(BOOKMARK_KEY,JSON.stringify([...savedTopics]))}
+ catch(e){console.warn('Bookmarks could not be saved to this browser')}
+}
+function updateSavedControls(){
+ $('forum-saved-count').textContent=String(savedTopics.size);
+ $('forum-saved-toggle').setAttribute('aria-pressed',String(savedOnly));
+ $('forum-saved-toggle').classList.toggle('active',savedOnly);
+ for(const b of document.querySelectorAll('.forum-save')){
+  const saved=savedTopics.has(b.dataset.topicId);
+  b.textContent=saved?T.unsave:T.save;
+  b.setAttribute('aria-pressed',String(saved));
+  b.setAttribute('aria-label',saved?T.unsave:T.save);
+ }
+}
+function savedTopicButton(id){
+ const b=make('button','forum-save',savedTopics.has(id)?T.unsave:T.save);
+ b.type='button';b.dataset.topicId=id;
+ b.addEventListener('click',()=>{
+  if(savedTopics.has(id)){savedTopics.delete(id);setStatus(T.removedNotice)}
+  else{
+   if(savedTopics.size>=100){setStatus(T.saveFull);return}
+   savedTopics.add(id);setStatus(T.savedNotice);
+  }
+  persistSavedTopics();
+  updateSavedControls();
+  if(savedOnly&&!currentThread)loadTopics();
+ });
+ return b;
+}
+
 function updatePagination(total){
  const pages=Math.ceil(total/PAGE_SIZE);
  const nav=$('forum-pagination');
@@ -155,6 +198,7 @@ function renderTopic(row,detail=false){
  card.appendChild(h);
  card.appendChild(make('p','forum-topic-body',row.body));
  const actions=make('div','forum-post-actions');actions.appendChild(footer(row));
+ actions.appendChild(savedTopicButton(row.id));
  if(detail)actions.appendChild(reportButton('thread',row.id));
  card.appendChild(actions);return card;
 }
@@ -166,6 +210,10 @@ async function loadTopics(){
  if(currentCategory!==null)request=request.eq('category_id',currentCategory);
  if(languageFilter)request=request.eq('language',languageFilter);
  if(searchTerm)request=request.textSearch('search_document',searchTerm,{type:'websearch',config:'simple'});
+ if(savedOnly){
+  if(!savedTopics.size){$('forum-topics').replaceChildren(make('p','forum-empty',T.savedEmpty));updatePagination(0);setStatus('');return}
+  request=request.in('id',[...savedTopics]);
+ }
  request=request.order('created_at',{ascending:!sortNewest}).range(topicsPage*PAGE_SIZE,topicsPage*PAGE_SIZE+PAGE_SIZE-1);
  const {data,error,count}=await request;
  if(ticket!==loadSerial)return;
@@ -175,8 +223,9 @@ async function loadTopics(){
  if(topicsPage>lastPage){topicsPage=lastPage;return loadTopics()}
  await authorNames((data||[]).map(x=>x.author_id));
  if(ticket!==loadSerial)return;
- if(!data?.length)list.appendChild(make('p','forum-empty',(searchTerm||languageFilter)?T.noMatches:T.empty));
+ if(!data?.length)list.appendChild(make('p','forum-empty',(searchTerm||languageFilter)?T.noMatches:savedOnly?T.savedEmpty:T.empty));
  else list.replaceChildren(...data.map(x=>renderTopic(x)));
+ updateSavedControls();
  updatePagination(total);
  setStatus('');
 }
@@ -193,6 +242,7 @@ async function openTopic(id){
  currentThread=data;
  $('forum-browser').hidden=true;$('forum-thread-view').hidden=false;
  $('forum-thread').replaceChildren(renderTopic(data,true));
+ updateSavedControls();
  const replies=$('forum-replies');replies.replaceChildren();
  if(!result.data?.length)replies.appendChild(make('p','forum-empty',T.noReplies));
  else for(const reply of result.data){
@@ -207,13 +257,23 @@ async function boot(){
  if(error){console.warn('Categories unavailable',error.message);offline.querySelector('p').textContent=T.pilotFailed;return}
  categories=data||[];
  if(categories.length===0){offline.querySelector('p').textContent=T.pilotFailed;return}
- offline.hidden=true;panel.hidden=false;const preview=$('forum-preview');if(preview)preview.hidden=true;renderFilters();
+ offline.hidden=true;panel.hidden=false;const preview=$('forum-preview');if(preview)preview.hidden=true;renderFilters();updateSavedControls();
  const {data:sessionData}=await client.auth.getSession();
  toggleLogin(sessionData?.session);
  client.auth.onAuthStateChange((_event,s)=>{toggleLogin(s)});
  const match=location.hash.match(/^#topic=([0-9a-f-]{36})$/i);
  if(match)await openTopic(match[1]);else await loadTopics();
 }
+$('forum-saved-toggle').addEventListener('click',()=>{
+ savedOnly=!savedOnly;topicsPage=0;updateSavedControls();loadTopics();
+});
+window.addEventListener('storage',event=>{
+ if(event.key!==BOOKMARK_KEY)return;
+ const values=loadSavedTopics();savedTopics.clear();
+ for(const id of values)savedTopics.add(id);
+ updateSavedControls();
+ if(savedOnly)loadTopics();
+});
 $('forum-search-form').addEventListener('submit',event=>{
  event.preventDefault();
  searchTerm=$('forum-search-input').value.trim().replace(/\s+/g,' ').slice(0,80);
@@ -283,7 +343,7 @@ $('forum-thread-form').addEventListener('submit',async e=>{
  const {error}=await client.from('forum_threads').insert({author_id:user.id,title,body,category_id,language:$('forum-language').value});
  button.disabled=false;
  if(error){console.warn(error.message);setStatus(error.code==='23514'?T.invalid:T.error);return}
- $('forum-thread-form').reset();currentCategory=null;searchTerm='';languageFilter='';sortNewest=true;topicsPage=0;$('forum-search-input').value='';$('forum-language-filter').value='';$('forum-sort').value='newest';renderFilters();history.replaceState(null,'',location.pathname+location.search);await loadTopics();setStatus(T.created);
+ $('forum-thread-form').reset();currentCategory=null;searchTerm='';languageFilter='';sortNewest=true;topicsPage=0;savedOnly=false;$('forum-search-input').value='';$('forum-language-filter').value='';$('forum-sort').value='newest';renderFilters();history.replaceState(null,'',location.pathname+location.search);await loadTopics();setStatus(T.created);
 });
 $('forum-reply-form').addEventListener('submit',async e=>{
  e.preventDefault();if(!user||!currentThread||currentThread.is_locked)return;
