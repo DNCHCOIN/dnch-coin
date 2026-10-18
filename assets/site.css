@@ -204,3 +204,12 @@ nav [aria-current="page"]{color:var(--gold);font-weight:750}
 .today-card.today-linked-idea{border-color:var(--gold);box-shadow:0 0 0 2px #b7975a}
 #today-share-status{min-height:21px;margin:12px 0 0}
 @media(max-width:630px){.today-challenge{padding:20px 17px;margin:7px 0 27px}.today-card-buttons{gap:5px}.today-share{font-size:11px;padding:8px 7px}.today-challenge-head{align-items:flex-start}}
+
+
+/* DNCH Mobile v0.1 — compact opt-in installation entry */
+.dnch-install-button{border:1px solid #d3ae71!important;color:#f7d9a3!important;background:linear-gradient(125deg,#312719,#1a1b24)!important;font-weight:800;cursor:pointer}
+.dnch-install-button:hover,.dnch-install-button:focus-visible{border-color:#f1d4a1!important;background:#3d2b1b!important}
+#dnch-install-button[hidden]{display:none!important}
+.dnch-install-info{border-left:3px solid #d6af71;background:#2b251e;color:#f0d9ae;padding:9px 12px;border-radius:0 10px 10px 0;font-size:13px;line-height:1.6;max-width:680px;margin:12px 0}
+.dnch-install-info:empty{display:none}
+@media(max-width:600px){.dnch-install-button{font-size:13px!important;padding:10px 13px!important}#dnch-install-info{font-size:12px}}

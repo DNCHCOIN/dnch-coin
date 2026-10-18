@@ -10,6 +10,12 @@
 <link rel="alternate" hreflang="bg" href="https://dnchcoin.github.io/dnch-coin/bg/my-dnch.html">
 <link rel="stylesheet" href="assets/site.css">
 <link rel="stylesheet" href="assets/my-dnch.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/dnch-192.png">
+<link rel="apple-touch-icon" href="assets/icons/dnch-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DNCH Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 </head>
 <body>
 <a class="skip" href="#my-main">Skip to your dashboard</a>
@@ -23,7 +29,7 @@
 <div class="eyebrow">YOUR PERSONAL DNCH HUB</div>
 <h1 id="my-welcome">Welcome to MY DNCH</h1>
 <p class="lead">Everything you enjoy in our ecosystem, together — your ideas, music and conversations.</p>
-<div class="my-hero-row"><span id="my-current-date" class="my-date"></span><button id="my-refresh" class="btn" type="button">↻ Refresh dashboard</button></div>
+<div class="my-hero-row"><span id="my-current-date" class="my-date"></span><button id="my-refresh" class="btn" type="button">↻ Refresh dashboard</button><button class="btn dnch-install-button" id="dnch-install-button" type="button">⌄ Install DNCH</button></div><p id="dnch-install-info" class="dnch-install-info" role="status" aria-live="polite"></p>
 </section>
 <section class="my-privacy" aria-label="Your private space in this browser">
 <div><strong>♢ Your private space in this browser</strong><p>This is not a cloud profile. Your saved items stay in this browser on this device. Cross-device synchronization is not available yet.</p></div>
@@ -97,5 +103,6 @@
 <script src="assets/forum-config.js"></script>
 <script src="assets/dnch-ai-config.js"></script>
 <script src="assets/dnch-ai.js"></script>
+<script defer src="assets/pwa.js"></script>
 </body>
 </html>

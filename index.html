@@ -9,7 +9,13 @@
 <meta content="index,follow" name="robots"/>
 <link href="https://dnchcoin.github.io/dnch-coin/" rel="canonical"/>
 <title>DNCH Hub — More Than a Coin. Built by Everyone.</title>
-<link href="assets/site.css" rel="stylesheet"/><link href="https://dnchcoin.github.io/dnch-coin/" hreflang="en" rel="alternate"/><link href="https://dnchcoin.github.io/dnch-coin/bg/" hreflang="bg" rel="alternate"/></head>
+<link href="assets/site.css" rel="stylesheet"/><link href="https://dnchcoin.github.io/dnch-coin/" hreflang="en" rel="alternate"/><link href="https://dnchcoin.github.io/dnch-coin/bg/" hreflang="bg" rel="alternate"/><link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/dnch-192.png">
+<link rel="apple-touch-icon" href="assets/icons/dnch-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="DNCH Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-head">
@@ -27,7 +33,7 @@
 <div class="eyebrow">An emerging community-built ecosystem</div>
 <h1>More than a coin.<br/><span class="gold">Built by everyone.</span></h1>
 <p class="lead">Music. Ideas. Community. Gaming. Useful knowledge. One connected place to start the day with something positive.</p>
-<div class="actions"><a class="btn primary" href="#ecosystem">Explore the vision</a><a class="btn" href="#community">Share an idea</a></div>
+<div class="actions"><a class="btn primary" href="#ecosystem">Explore the vision</a><a class="btn" href="#community">Share an idea</a><button class="btn dnch-install-button" id="dnch-install-button" type="button">⌄ Install DNCH</button></div><p id="dnch-install-info" class="dnch-install-info" role="status" aria-live="polite"></p>
 <p class="hero-footnote">Built for a Brighter Tomorrow. <strong>Earn by Building.</strong> · Early-stage project, developed openly.</p>
 </div>
 <div class="hero-image"><img alt="DNCH Coin logo" fetchpriority="high" height="370" onerror="this.onerror=null;this.src='./assets/dnch-fallback.svg'" src="dnch-logo.png" width="370"/></div>
@@ -107,5 +113,6 @@
 <script src="assets/forum-config.js"></script>
 <script src="assets/dnch-ai-config.js"></script>
 <script src="assets/dnch-ai.js"></script>
+<script defer src="assets/pwa.js"></script>
 </body>
 </html>
