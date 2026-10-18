@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090909">
-<meta name="description" content="Играй DNCH Drag Racing: 402 метра драг, ръчни скорости, нитро и тунинг в браузъра. Безплатна игра с локални рекорди.">
+<meta name="description" content="Играй DNCH Drag Racing: 402 метра драг, ръчни скорости, сцепление, буксуване, страничен изглед и тунинг в браузъра. Безплатна игра с локални рекорди.">
 <title>DNCH Drag Racing — 402 метра адреналин</title>
 <link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/bg/drag-racing.html">
 <link rel="alternate" hreflang="en" href="https://dnchcoin.github.io/dnch-coin/drag-racing.html">
@@ -26,10 +26,10 @@
 <a class="lang-link" lang="en" hreflang="en" href="../drag-racing.html">EN</a>
 </nav></div></header>
 <main class="drag-page" id="drag-main"><div class="wrap">
-<div class="drag-topline"><span class="drag-pill">БЕЗПЛАТНО • БЕЗ АКАУНТ • БЕЗ КРИПТО НАГРАДИ</span><span class="drag-pill">DNCH DRAG · v0.1</span></div>
+<div class="drag-topline"><span class="drag-pill">БЕЗПЛАТНО • БЕЗ АКАУНТ • БЕЗ КРИПТО НАГРАДИ</span><span class="drag-pill">DNCH DRAG · v0.2</span></div>
 <section class="drag-hero">
-<div class="eyebrow">DNCH GAMES · ИГРАЕМА АЛФА v0.1</div><h1>DRAG <span>RACING.</span></h1>
-<p>402 метра. Перфектен старт. Ръчни скорости. Един съперник. Твоят гараж, твоите правила.</p>
+<div class="eyebrow">DNCH GAMES · ИГРАЕМА АЛФА v0.2</div><h1>DRAG <span>RACING.</span></h1>
+<p>402 метра. Сцепление. Буксуване. Въртящ момент. Един съперник. Твоят гараж, твоите правила.</p>
 </section>
 <div class="drag-stats">
 <div class="drag-stat"><span>ИГРОВИ КРЕДИТИ</span><strong><span id="drag-credits">300</span> CR</strong></div>
@@ -47,13 +47,14 @@
 <div class="drag-gauge"><span>ОБОРОТИ</span><strong id="drag-rpm">950</strong><div class="drag-rpm-track"><span id="drag-rpm-bar"></span></div></div>
 <div class="drag-gauge"><span>ПРЕДАВКА</span><strong id="drag-gear">1</strong></div>
 <div class="drag-gauge"><span>ДИСТАНЦИЯ</span><strong id="drag-distance">0</strong><em>/ 402 m</em></div>
+<div class="drag-gauge"><span>БУКСУВАНЕ</span><strong id="drag-slip">0%</strong></div>
 <div class="drag-gauge"><span>ВРЕМЕ</span><strong id="drag-time">0.00</strong><em>s</em></div>
 </div>
 <div class="drag-controls">
 <button id="drag-start" type="button">СТАРТ</button>
 <button id="drag-gas" type="button" aria-label="ДРЪЖ ГАЗ" disabled>ДРЪЖ ГАЗ</button>
 <button id="drag-shift" type="button" disabled>СМЯНА</button>
-<button id="drag-nitro" type="button" disabled>НИТРО</button>
+
 </div>
 <div class="drag-message" id="drag-message" role="status" aria-live="polite"></div>
 <div class="drag-result" id="drag-result" hidden><h2 id="drag-result-title"></h2><p id="drag-result-detail"></p></div>
@@ -64,20 +65,27 @@
 <div class="drag-car-list" id="drag-cars"></div>
 <div class="drag-car-spec"><span id="drag-selected">V8 Street Beast</span><span id="drag-spec">360 HP • 1550 kg</span></div>
 <label class="drag-auto-toggle"><input id="drag-auto" type="checkbox"> Автоматична смяна на скорости (по-лесно за телефон)</label>
+<div class="drag-drive-row"><span>Задвижване и пълнене</span><strong id="drag-drive">RWD · NA</strong></div>
+<div class="drag-launch-controls">
+<label for="drag-launch">Газ при потегляне: <strong id="drag-launch-value">68%</strong></label>
+<input type="range" id="drag-launch" min="35" max="100" value="68" step="5">
+<p class="drag-muted">При твърде много газ колелата превъртат и губиш време.</p>
+</div>
+<label class="drag-auto-toggle"><input id="drag-tcs" type="checkbox"> Тракшън контрол (ограничава буксуването)</label>
 <h3>ТУНИНГ РАБОТИЛНИЦА</h3>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Двигател</strong><span id="drag-level-engine">0 / 3</span></div><button id="drag-upgrade-engine" type="button">Подобрение</button></div>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Сцепление</strong><span id="drag-level-grip">0 / 3</span></div><button id="drag-upgrade-grip" type="button">Подобрение</button></div>
 <div class="drag-upgrade"><div class="drag-upgrade-label"><strong>Скоростна кутия</strong><span id="drag-level-gearbox">0 / 3</span></div><button id="drag-upgrade-gearbox" type="button">Подобрение</button></div>
 </section>
 <section class="drag-card drag-how">
-<h2>КАК СЕ ИГРАЕ</h2>
-<p>Натисни <strong>СТАРТ</strong> и изчакай зелената светлина. След това задръж ГАЗ, за да ускориш.</p><p>Сменяй скоростите, преди оборотомерът да стигне червено. Използвай НИТРО след втора предавка.</p><p>На компютър: <kbd>→</kbd> или <kbd>W</kbd> за газ, <kbd>Space</kbd> / <kbd>↑</kbd> за скорости, <kbd>N</kbd> за нитро, <kbd>Enter</kbd> за старт.</p><p>Печелиш измислени игрови кредити след завършен драг и ги влагаш в мотор, сцепление и скорости. Няма покупки или плащания с криптовалути.</p>
+<h2>КАК СЕ ИГРАЕ</h2><p>Изглед отстрани с модел на въртящ момент, съединител и сцепление. Избери RWD, FWD или AWD и настрой газта при старт.</p>
+<p>Натисни <strong>СТАРТ</strong> и изчакай зелената светлина. След това задръж ГАЗ, за да ускориш.</p><p>Следи оборотите и сменяй близо до червената зона, преди ограничителя.</p><p>На компютър: <kbd>→</kbd> или <kbd>W</kbd> за газ, <kbd>Space</kbd> / <kbd>↑</kbd> за скорости, <kbd>N</kbd> for nitro, <kbd>Enter</kbd> за старт.</p><p>Печелиш измислени игрови кредити след завършен драг и ги влагаш в мотор, сцепление и скорости. Няма покупки или плащания с криптовалути.</p>
 <p class="drag-privacy">Игровите кредити, тунингът и рекордите се съхраняват само в този браузър. При изтриване на данните могат да се загубят. Все още няма онлайн класация или синхронизация между устройства.</p>
 </section>
 </div>
 <p class="drag-privacy"><a href="../">← Към DNCH Hub</a></p>
 </div></main>
-<footer><div class="wrap footer-row"><div><strong>DNCH GAMES</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>DNCH Drag Racing v0.1 е безплатна аркадна игра с измислени автомобили. Игровите кредити нямат парична стойност.</p></div></footer>
+<footer><div class="wrap footer-row"><div><strong>DNCH GAMES</strong><p>Started with €3. Built by Everyone.<br>© 2026 DNCH</p></div><p>DNCH Drag Racing v0.2 е безплатна игра с опростена автомобилна физика с измислени автомобили. Игровите кредити нямат парична стойност.</p></div></footer>
 <script defer src="../assets/drag-engine.js"></script>
 <script defer src="../assets/drag-game.js"></script>
 <script defer src="../assets/pwa.js"></script>
