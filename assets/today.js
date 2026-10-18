@@ -59,23 +59,24 @@ document.getElementById('today-challenge-complete').addEventListener('click',()=
 });
 challengeStatus();
 function ideaUrl(id){return location.origin+location.pathname+'#idea='+id}
-async function shareIdea(idea){
+async function shareIdea(idea,button){
  const info=idea[lang];
  const url=ideaUrl(idea.id);
  const status=document.getElementById('today-share-status');
+ let confirmation='';
  try{
   if(typeof navigator.share==='function'){
    await navigator.share({title:info.title,text:info.summary,url});
-   status.textContent=t.shared;
+   confirmation=t.shared;
   }else if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'){
    await navigator.clipboard.writeText(url);
-   status.textContent=t.linkCopied;
+   confirmation=t.linkCopied;
   }else{
    window.prompt(t.shareManually,url);
   }
  }catch(e){
   if(e&&e.name==='AbortError')return;
-  try{await navigator.clipboard.writeText(url);status.textContent=t.linkCopied}
+  try{await navigator.clipboard.writeText(url);confirmation=t.linkCopied}
   catch(err){window.prompt(t.shareManually,url)}
  }
 }
@@ -93,7 +94,7 @@ bookmark.addEventListener('click',()=>{favoriteIds.has(idea.id)?favoriteIds.dele
 cardButtons.appendChild(bookmark);
 const share=E('button','today-share',t.share+' ↗');
 share.type='button';share.setAttribute('aria-label',t.share+': '+entry.title);
-share.addEventListener('click',()=>shareIdea(idea));
+share.addEventListener('click',()=>shareIdea(idea,share));
 cardButtons.appendChild(share);top.appendChild(cardButtons);card.appendChild(top);
 card.appendChild(E('h3',null,entry.title));card.appendChild(E('p','today-summary',entry.summary));
 const action=E('div','today-action');action.append(E('span','today-action-label',t.try),E('p',null,entry.action));card.appendChild(action);
