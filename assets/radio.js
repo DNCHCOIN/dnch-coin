@@ -47,8 +47,43 @@ function readCustom(){
 }
 let custom=readCustom(),filter='all',currentId=null;
 const genreValues=['all','pop','rock','dance','chill','mine'];
+const SLEEP=bg?{
+ inactive:'Няма активен таймер.',remaining:'Остават',started:'Таймерът е настроен за {m} минути.',
+ canceled:'Таймерът е отменен.',finished:'Времето изтече. Вграденият плейър е спрян.',
+ select:'Първо избери видео.'
+}:{
+ inactive:'No active timer.',remaining:'Time left',started:'Timer set for {m} minutes.',
+ canceled:'Timer canceled.',finished:'Time is up. The embedded player has been stopped.',
+ select:'Choose a video first.'
+};
+const SLEEP_DURATIONS=new Set([5,15,30,60]);
+let sleepDeadline=null,sleepInterval=null;
 function tracks(){return filter==='all'?[...curated,...custom]:filter==='mine'?custom:curated.filter(t=>t.genre===filter)}
+function updateSleepUI(){
+ const hasVideo=Boolean(currentId);
+ $('radio-sleep-start').disabled=!hasVideo;
+ $('radio-sleep-cancel').hidden=sleepDeadline===null;
+ const seconds=sleepDeadline===null?null:Math.max(0,Math.ceil((sleepDeadline-Date.now())/1000));
+ $('radio-sleep-remaining').textContent=seconds===null?SLEEP.inactive:
+  SLEEP.remaining+': '+String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+}
+function stopSleepTimer(){
+ if(sleepInterval!==null)window.clearInterval(sleepInterval);
+ sleepInterval=null;sleepDeadline=null;
+ updateSleepUI();
+}
+function checkSleepTimer(){
+ if(sleepDeadline===null)return;
+ if(Date.now()>=sleepDeadline){
+  stopSleepTimer();
+  clearVideo();
+  $('radio-sleep-status').textContent=SLEEP.finished;
+  return;
+ }
+ updateSleepUI();
+}
 function clearVideo(){
+ stopSleepTimer();
  const shell=$('radio-frame-shell');
  shell.replaceChildren();
  const p=make('div','radio-placeholder');
@@ -58,6 +93,7 @@ function clearVideo(){
  $('radio-selected-title').textContent='—';
  $('radio-selected-artist').textContent='';
  currentId=null;
+ updateSleepUI();
 }
 function selectTrack(track){
  if(!track||!validId(track.id))return;
@@ -79,6 +115,7 @@ function selectTrack(track){
  const link=$('radio-youtube-link');
  link.href='https://www.youtube.com/watch?v='+track.id;link.hidden=false;
  renderTracks();
+ updateSleepUI();
 }
 function genreButtons(){
  const parent=$('radio-genres');parent.replaceChildren();
@@ -143,6 +180,23 @@ function extractId(value){
   return validId(id)?id:null;
  }catch{return null}
 }
+$('radio-sleep-start').addEventListener('click',()=>{
+ if(!currentId){$('radio-sleep-status').textContent=SLEEP.select;return}
+ const minutes=Number($('radio-sleep-duration').value);
+ if(!SLEEP_DURATIONS.has(minutes))return;
+ stopSleepTimer();
+ sleepDeadline=Date.now()+minutes*60*1000;
+ sleepInterval=window.setInterval(checkSleepTimer,1000);
+ $('radio-sleep-status').textContent=SLEEP.started.replace('{m}',String(minutes));
+ checkSleepTimer();
+});
+$('radio-sleep-cancel').addEventListener('click',()=>{
+ if(sleepDeadline===null)return;
+ stopSleepTimer();
+ $('radio-sleep-status').textContent=SLEEP.canceled;
+});
+document.addEventListener('visibilitychange',checkSleepTimer);
+window.addEventListener('pageshow',checkSleepTimer);
 $('radio-prev').addEventListener('click',()=>nav(-1));
 $('radio-next').addEventListener('click',()=>nav(1));
 $('radio-shuffle').addEventListener('click',()=>{
@@ -169,5 +223,5 @@ window.addEventListener('storage',event=>{
  if(currentId&&!curated.some(t=>t.id===currentId)&&!custom.some(t=>t.id===currentId))clearVideo();
  renderTracks();
 });
-genreButtons();renderTracks();
+genreButtons();renderTracks();updateSleepUI();
 })();
