@@ -80,3 +80,19 @@
 #my-backup-status{min-height:18px;margin:8px 0 0;font-weight:750}
 @media(max-width:790px){.my-backup-columns{grid-template-columns:1fr}}
 @media(max-width:560px){.my-backup-panel{padding:14px}.my-backup-table{font-size:11px}.my-backup-table th,.my-backup-table td{padding:7px 4px}#my-backup-input::file-selector-button{margin-bottom:7px}}
+
+
+/* DNCH ID v1.0 — private-pilot account actions */
+.my-account-card{grid-column:1/-1;border-color:#645b48;background:linear-gradient(140deg,#24221b,#181922 68%,#111419)}
+#dnch-account-status{color:#f1dcaf;font-weight:750;font-size:13px;line-height:1.6;margin:9px 0 14px}
+.my-account-user{font-size:14px;color:#e4d9c9;overflow-wrap:anywhere;margin:3px 0 12px}
+.my-account-user strong{color:#ffe0ab}
+.my-account-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:13px 0}
+.my-account-actions>.btn{font-size:13px;flex:1 1 190px}
+.my-account-delete{border-color:#845754!important;color:#ffcac8!important}
+.my-account-delete:hover{background:#412626!important}
+.my-account-actions button:disabled{opacity:.45;cursor:not-allowed}
+#dnch-account-preview{margin-top:15px}
+#dnch-account-preview h3{color:#f6d6a2;font-size:17px;margin:0 0 9px}
+#dnch-account-guest .btn{display:inline-block;margin:10px 0;color:#f7dbaf;border-color:#9a774c}
+@media(max-width:600px){.my-account-card{padding:18px}.my-account-actions>.btn{flex:1 1 100%}}
