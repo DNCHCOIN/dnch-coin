@@ -39,6 +39,11 @@
       "name": "DNCH Today",
       "short_name": "Идеи за деня",
       "url": "./bg/today.html"
+    },
+    {
+      "name": "DNCH Drag Racing",
+      "short_name": "Драг игра",
+      "url": "./bg/drag-racing.html"
     }
   ]
 }
