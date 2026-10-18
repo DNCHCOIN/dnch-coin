@@ -59,8 +59,26 @@ async function authorNames(ids){
  for(const row of data||[])profileCache.set(row.id,row.display_name);
 }
 const author=id=>profileCache.get(id)||T.member;
+let profileLoadId=0;
+async function loadMyProfile(id){
+ const request=++profileLoadId;
+ const {data,error}=await client.from('forum_profiles')
+  .select('id,display_name').eq('id',id).maybeSingle();
+ if(request!==profileLoadId||user?.id!==id)return;
+ if(error||!data){
+  $('forum-profile-status').textContent=bg?'Профилът временно не е достъпен.':'Your profile is temporarily unavailable.';
+  return;
+ }
+ profileCache.set(id,data.display_name);
+ $('forum-display-name').value=data.display_name;
+ $('forum-identity').textContent=data.display_name;
+}
 function toggleLogin(session){
+ const priorId=user?.id||null;
  user=session?.user||null;
+ $('forum-profile-panel').hidden=!user;
+ if(!user)++profileLoadId;
+ if(user&&user.id!==priorId)loadMyProfile(user.id);
  $('forum-login-form').hidden=!!user;
  $('forum-session').hidden=!user;
  $('forum-compose-section').hidden=!user;
@@ -175,6 +193,38 @@ $('forum-login-form').addEventListener('submit',async e=>{
  setStatus(error?T.error:T.loginSent);
 });
 $('forum-logout').addEventListener('click',async()=>{const {error}=await client.auth.signOut();setStatus(error?T.error:T.logout)});
+
+$('forum-profile-form').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!user)return;
+ const field=$('forum-display-name'),button=$('forum-profile-form').querySelector('button');
+ const name=field.value.normalize('NFC').trim();
+ const message=$('forum-profile-status');
+ if(!/^[\\p{L}\\p{N}_.-]{3,40}$/u.test(name)
+    || /^(admin|administrator|moderator|support|system|staff|official|root|dnch|dnchcoin)([._-].*)?$/i.test(name)){
+   message.textContent=bg
+    ?'Използвай 3–40 букви, цифри, точка, тире или долна черта. Без служебни имена.'
+    :'Use 3–40 letters, numbers, dots, dashes or underscores. No reserved names.';
+   return;
+ }
+ button.disabled=true;
+ const id=user.id;
+ const {data,error}=await client.from('forum_profiles').update({display_name:name})
+  .eq('id',id).select('id,display_name').maybeSingle();
+ button.disabled=false;
+ if(id!==user?.id)return;
+ if(error||!data){
+  message.textContent=error?.code==='23505'
+    ?(bg?'Това име вече е заето. Избери друго.':'That name is taken. Try another.')
+    :(bg?'Не успях да запазя името. Провери символите и опитай отново.':'Could not save. Check the name and try again.');
+  return;
+ }
+ profileCache.set(id,data.display_name);
+ $('forum-identity').textContent=data.display_name;
+ field.value=data.display_name;
+ message.textContent=bg?'Потребителското име е запазено.':'Display name saved.';
+ if(currentThread)await openTopic(currentThread.id);else await loadTopics();
+});
 $('forum-thread-form').addEventListener('submit',async e=>{
  e.preventDefault();if(!user||!categories.length)return;
  const title=$('forum-title').value.trim(),body=$('forum-body').value.trim(),category_id=Number($('forum-category').value);
