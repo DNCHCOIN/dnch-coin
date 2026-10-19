@@ -1,0 +1,60 @@
+<!doctype html><html lang="bg"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ИИ Въча Асистент · Река Въча</title><style>body{margin:0;background:#0e3529;color:#eaf5eb;font:15px/1.5 system-ui,sans-serif}.wrap{max-width:1100px;margin:auto;padding:0 24px}.section{padding:34px 0}.title{font-size:clamp(29px,4vw,42px)}.lead{max-width:800px}.eyebrow{font-size:12px;font-weight:800}.btn{border-radius:12px;font-weight:800}a{color:inherit}header{padding:14px 0;background:#071e18}/* ИИ Въча Асистент: отворен бета режим с конкретни полезни правила */
+.va-section{background:linear-gradient(130deg,#0e3529,#153f38 52%,#1c4c3e);color:#edf8f0;position:relative;overflow:hidden}
+.va-section::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 70% 13%,rgba(132,201,174,.16),transparent 55%);pointer-events:none}
+.va-section .eyebrow{color:#a6ecd0}.va-section .title{color:#fff}.va-section .lead{color:#d1ecdd}
+.va-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:20px;align-items:start;margin-top:28px}
+.va-card{background:#f9fcf8;color:#163d30;border-radius:21px;padding:24px;box-shadow:0 18px 52px #071f1840}
+.va-card label{font-size:12px;font-weight:800;display:block;color:#275d47}
+.va-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px}
+.va-field{display:flex;flex-direction:column;gap:6px}
+.va-card select,.va-card textarea{width:100%;border:1px solid #cbded1;background:#fff;color:#183f30;border-radius:10px;padding:12px;font-size:13px;min-width:0;font-family:inherit}
+.va-card select:focus,.va-card textarea:focus{outline:2px solid #67b987;outline-offset:2px}
+.va-card textarea{resize:vertical;min-height:84px;margin-top:7px;line-height:1.5}
+.va-card .btn{border:0;background:#215b44;color:white;font-size:13px;padding:13px 18px;margin-top:15px}
+.va-card .btn:disabled{opacity:.55;cursor:wait}
+.va-prompts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.va-prompts button{font:inherit;font-size:11px;color:#2c6b4b;border:1px solid #b9d6c4;border-radius:30px;padding:8px 10px;background:#edf7ef;cursor:pointer}
+.va-result{border:1px solid #5f937e;background:rgba(6,31,25,.63);border-radius:21px;padding:22px;color:#f1faef;min-height:280px}
+.va-result h3{font-size:22px;margin:10px 0 8px;line-height:1.2}
+.va-result p{font-size:13px;line-height:1.6}
+.va-result .va-small{opacity:.72;font-size:11px;line-height:1.5}
+.va-answer-tag{display:inline-block;font-size:11px;color:#b7f2ce;border:1px solid #6aa28a;padding:5px 11px;border-radius:30px}
+.va-answer-row{padding:11px 0;border-top:1px solid #5179678a}
+.va-answer-row h4{color:#b8efcf;margin:0 0 4px;font-size:13px}
+.va-answer-row p{margin:0;color:#e5f1e9;font-size:12px}
+.va-result .va-legal{margin:16px 0 0;background:#fff4d0;color:#644821;padding:13px 14px;border-radius:12px;font-size:11px;line-height:1.6}
+.va-legal a{font-weight:800;text-decoration:underline}
+.va-status{color:#ddf1e3;font-size:11px;line-height:1.65;margin-top:12px;max-width:930px}
+.va-result .va-wait{opacity:.85}
+@media(max-width:950px){.va-grid{grid-template-columns:1fr}}
+@media(max-width:570px){.va-fields{grid-template-columns:1fr}.va-card,.va-result{padding:17px}.va-section{padding-block:60px}}
+</style></head><body><header><div class="wrap"><a href="https://dnchcoin.github.io/dnch-coin/vacha-river/">← Река Въча · Начало</a></div></header><section id="assistant" class="section va-section" aria-labelledby="va-title">
+<div class="wrap">
+  <div class="section-head"><div><span class="eyebrow">04 / Умен помощник · Бета</span>
+    <h2 id="va-title" class="title">🐟 ИИ Въча Асистент</h2>
+    <p class="lead">Попитай за риболовни подходи, видове места, примамки и идеи за разходка. Асистентът съчетава въпроса ти със сезона, прогнозата и наличните измервания на реката.</p>
+  </div></div>
+  <div class="va-grid">
+    <form id="vacha-ai-form" class="va-card">
+      <div class="va-fields">
+        <div class="va-field"><label for="va-region">Къде?</label><select id="va-region"><option value="any">Още не съм решил</option><option value="upper">Кричим / горен участък</option><option value="middle">Надолу след Кричим</option><option value="lower">Към вливането в Марица</option></select></div>
+        <div class="va-field"><label for="va-target">Какво те интересува?</label><select id="va-target"><option value="observe">Природа и общи насоки</option><option value="trout">Пъстърва</option><option value="chub">Речен кефал</option></select></div>
+        <div class="va-field"><label for="va-method">Начин</label><select id="va-method"><option value="spinning">UL спининг</option><option value="fly">Мухарски риболов</option><option value="photos">Снимки и наблюдение</option></select></div>
+        <div class="va-field"><label for="va-clarity">Бистрота / време</label><select id="va-clarity" aria-label="Наблюдавана бистрота"><option value="unknown">Не знам бистротата</option><option value="clear">Бистра вода</option><option value="turbid">Мътна вода</option></select></div>
+      </div>
+      <label for="va-question">Попитай за Въча</label>
+      <textarea id="va-question" placeholder="Например: Къде да наблюдавам пъстърви? Какви примамки се ползват при бистра вода?" maxlength="400"></textarea>
+      <button class="btn" id="va-submit" type="submit">🐟 Предложи ми план</button>
+      <div class="va-prompts" aria-label="Примерни въпроси">
+        <button data-va-prompt="Къде са подходящите места за наблюдение на пъстърви?" type="button">📍 Места</button>
+        <button data-va-prompt="Кои са подходящите малки примамки и нимфи?" type="button">🎣 Примамки</button>
+        <button data-va-prompt="Какви снимки да направя на реката и водните насекоми?" type="button">📸 Идеи за снимки</button>
+        <button data-va-prompt="Какво да проверя след дъжд и по-високо ниво?" type="button">💧 След дъжд</button>
+      </div>
+    </form>
+    <div id="vacha-ai-result" class="va-result" role="region" aria-live="polite" aria-label="Препоръки от Въча Асистент"><div class="va-answer-tag">Помощникът е готов</div><h3>Попитай ме за реката.</h3><p>Избери района и интереса си, после натисни „Предложи ми план“. Ще получиш идеи и оценка доколко наличните измервания са актуални.</p><p class="va-small">Не споделяме непотвърдени „тайни места“ или твърдения, че нивото е безопасно.</p></div>
+  </div>
+  <p class="va-status"><b>Как работи:</b> това е първа версия с прозрачен алгоритъм и проверка на публични данни, а не активен генеративен езиков модел. Истинският разговорен ИИ ще бъде включен след отделно одобрение на API разходите и мерки срещу злоупотреби. Преди риболов винаги проверявай забраните за периода и съответния участък.</p>
+</div>
+</section>
+    <footer class="wrap" style="padding:20px 0 35px;font-size:12px">POWERED BY YORDAN VANKOV 90 EOOD &amp; DNCH STUDIO</footer><script src="./vacha-assistant.js" defer></script></body></html>
