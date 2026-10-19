@@ -1,0 +1,23 @@
+name: Wallet balance tests
+on:
+  pull_request:
+    paths:
+      - 'assets/wallet.js'
+      - 'tests/wallet.test.cjs'
+      - '.github/workflows/wallet-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'assets/wallet.js'
+      - 'tests/wallet.test.cjs'
+      - '.github/workflows/wallet-tests.yml'
+jobs:
+  wallet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check assets/wallet.js
+      - run: node --test tests/wallet.test.cjs
