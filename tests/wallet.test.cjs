@@ -15,7 +15,7 @@ async function run({response,responses,connectError,fetchError,phantom=true,lang
  const context={
   document:{documentElement:{lang},getElementById:id=>elements[id],createElement:()=>({style:{}})},
   window:{phantom:phantom?{solana:provider}:undefined},
-  fetch:async(url,opts)=>{calls++;request=JSON.parse(opts.body);if(fetchError)throw fetchError;return responses?.[calls-1]??response??{ok:true,json:async()=>({result:{value:[]}})}},
+  fetch:async(url,opts)=>{if(url.includes('/functions/v1/dnch-wallet-balance'))return {ok:false,status:503};calls++;request=JSON.parse(opts.body);if(fetchError)throw fetchError;return responses?.[calls-1]??response??{ok:true,json:async()=>({result:{value:[]}})}},
   AbortController, setTimeout,clearTimeout,BigInt,console:{warn(){}}
  };
  vm.runInNewContext(source,context);
@@ -66,4 +66,14 @@ test('403 on both RPCs offers read-only explorer link',async()=>{
  assert.match(x.balance.textContent,/403/);
  assert.match(x.fallbackLink.href,/solscan.io\/account\/FL7GW7testWalletAddresszzqZev/);
  assert.equal(x.fallbackLink.rel,'noopener noreferrer');
+});
+
+test('edge balance is preferred when backend responds successfully',async()=>{
+ const button={disabled:false,addEventListener(_,cb){this.click=cb}};
+ const status={textContent:'',dataset:{}},balance={textContent:'—'};
+ const elems={'connect-wallet':button,'wallet-status':status,'dnch-balance':balance};
+ let rpcCalls=0;
+ const ctx={document:{documentElement:{lang:'en'},getElementById:id=>elems[id]},window:{phantom:{solana:{isPhantom:true,connect:async()=>({publicKey:{toString:()=> 'FL7GW7testWalletAddresszzqZev'}})}}},fetch:async(url)=>{if(url.includes('/functions/v1/'))return {ok:true,json:async()=>({raw:'1010000000000',decimals:9})};rpcCalls++;throw Error('Direct RPC should not run');},AbortController,setTimeout,clearTimeout,BigInt,console:{warn(){}}};
+ vm.runInNewContext(source,ctx);await button.click();
+ assert.equal(balance.textContent,'1,010 DNCH');assert.equal(rpcCalls,0);
 });
