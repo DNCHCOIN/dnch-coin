@@ -35,6 +35,9 @@
    const list=el('telegram-queue');list.replaceChildren();status('Зареждане на материалите…');
    try{
      const data=await call('GET');
+     el('telegram-config-status').textContent=data.configured
+       ? '✅ Токенът е записан защитено. За проверка натисни „Провери / свържи отново“ и изпрати /start на бота.'
+       : '⚠️ Ботът още не е активиран. Вземи токена от BotFather, въведи го тук и натисни „Активирай бота и снимките“.';
      const allowed=el('telegram-allow-list');allowed.replaceChildren();
      const reporters=data.reporters||[];
      elem(allowed,'p','Разрешени активни профили: '+reporters.filter(x=>x.is_active).length+' / 2','lead');
@@ -77,6 +80,24 @@
      }
    }catch(e){status('Неуспешно зареждане: '+e.message)}
  }
+ el('telegram-setup-form').addEventListener('submit',async e=>{
+   e.preventDefault();
+   const field=el('telegram-bot-token'),token=field.value.trim();
+   if(!/^\\d{5,16}:[A-Za-z0-9_-]{20,100}$/.test(token)){
+     status('Токенът не е в правилния формат. Копирай целия токен от BotFather.');return;
+   }
+   const button=el('telegram-setup-submit');button.disabled=true;
+   status('Проверяваме токена с Telegram и активираме връзката…');
+   try{
+     const result=await call('POST','setup-bot',{token});
+     if(!result.activated)throw Error('Telegram не потвърди активирането.');
+     field.value='';
+     await refresh();
+     status('✅ @VachaRiverBot е активиран. Изпрати /start и пробна снимка от разрешен профил.');
+   }catch(err){
+     status('Неуспешно активиране: '+err.message);
+   }finally{button.disabled=false}
+ });
  el('telegram-allow-form').addEventListener('submit',async e=>{
    e.preventDefault();
    const telegram_user_id=Number(el('tg-allow-id').value);
