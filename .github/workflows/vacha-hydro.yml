@@ -1,7 +1,7 @@
 name: Update Vacha hydrology (5 min check)
 on:
   schedule:
-    - cron: '2-57/5 * * * *'
+    - cron: '*/5 * * * *'
   push:
     paths:
       - '.github/workflows/vacha-hydro.yml'
@@ -23,6 +23,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify on-demand hydrology gateway
+        shell: bash
+        continue-on-error: true
+        run: |
+          python -c 'import json,urllib.request; d=json.load(urllib.request.urlopen("https://wthzcqgzcbkvhovtcmoe.supabase.co/functions/v1/vacha-hydro",timeout=20)); print("NIMH edge latest:",d.get("latest",{}).get("observedAt"),"level",d.get("latest",{}).get("levelCm"),"error",d.get("error"))'
       - name: Get public observations from NIMH
         run: python vacha-river/scripts/update_hydro.py
       - name: Commit new observations if changed
