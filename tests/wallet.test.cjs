@@ -7,12 +7,12 @@ const path=require('node:path');
 const source=fs.readFileSync(path.join(__dirname,'../assets/wallet.js'),'utf8');
 async function run({response,connectError,fetchError,phantom=true,lang='en'}={}){
  const button={disabled:false,textContent:'Connect wallet',addEventListener(_,handler){this.click=handler}};
- const status={textContent:'Not connected'},balance={textContent:'—'};
+ const status={textContent:'Not connected',dataset:{}},balance={textContent:'—',insertAdjacentElement(){}};
  const elements={'connect-wallet':button,'wallet-status':status,'dnch-balance':balance};
  let calls=0,request;
  const provider={isPhantom:true,async connect(){if(connectError)throw connectError;return {publicKey:{toString:()=> 'FL7GW7testWalletAddresszzqZev'}}}};
  const context={
-  document:{documentElement:{lang},getElementById:id=>elements[id]},
+  document:{documentElement:{lang},getElementById:id=>elements[id],createElement:()=>({style:{}})},
   window:{phantom:phantom?{solana:provider}:undefined},
   fetch:async(url,opts)=>{calls++;request=JSON.parse(opts.body);if(fetchError)throw fetchError;return response??{ok:true,json:async()=>({result:{value:[]}})}},
   AbortController, setTimeout,clearTimeout,BigInt,console:{warn(){}}
