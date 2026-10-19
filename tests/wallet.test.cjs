@@ -5,21 +5,22 @@ const fs=require('node:fs');
 const vm=require('node:vm');
 const path=require('node:path');
 const source=fs.readFileSync(path.join(__dirname,'../assets/wallet.js'),'utf8');
-async function run({response,connectError,fetchError,phantom=true,lang='en'}={}){
+async function run({response,responses,connectError,fetchError,phantom=true,lang='en'}={}){
  const button={disabled:false,textContent:'Connect wallet',addEventListener(_,handler){this.click=handler}};
- const status={textContent:'Not connected',dataset:{}},balance={textContent:'—',insertAdjacentElement(){}};
+ let fallbackLink;
+ const status={textContent:'Not connected',dataset:{}},balance={textContent:'—',insertAdjacentElement(_,el){fallbackLink=el}};
  const elements={'connect-wallet':button,'wallet-status':status,'dnch-balance':balance};
  let calls=0,request;
  const provider={isPhantom:true,async connect(){if(connectError)throw connectError;return {publicKey:{toString:()=> 'FL7GW7testWalletAddresszzqZev'}}}};
  const context={
   document:{documentElement:{lang},getElementById:id=>elements[id],createElement:()=>({style:{}})},
   window:{phantom:phantom?{solana:provider}:undefined},
-  fetch:async(url,opts)=>{calls++;request=JSON.parse(opts.body);if(fetchError)throw fetchError;return response??{ok:true,json:async()=>({result:{value:[]}})}},
+  fetch:async(url,opts)=>{calls++;request=JSON.parse(opts.body);if(fetchError)throw fetchError;return responses?.[calls-1]??response??{ok:true,json:async()=>({result:{value:[]}})}},
   AbortController, setTimeout,clearTimeout,BigInt,console:{warn(){}}
  };
  vm.runInNewContext(source,context);
  await button.click();
- return {button,status,balance,calls,request};
+ return {button,status,balance,calls,request,fallbackLink};
 }
 const account=amount=>({account:{data:{parsed:{info:{tokenAmount:{amount}}}}}});
 test('zero token accounts displays 0 DNCH',async()=>{
@@ -51,4 +52,18 @@ test('Phantom missing avoids network requests',async()=>{
 test('malformed RPC payload is not displayed as zero',async()=>{
  const x=await run({response:{ok:true,json:async()=>({result:{value:[account('bad')]}})}});
  assert.match(x.balance.textContent,/Unable to check/);
+});
+
+test('403 on first RPC falls back to second endpoint',async()=>{
+ const x=await run({responses:[{ok:false,status:403},{ok:true,json:async()=>({result:{value:[account('1010000000000')]}})}]});
+ assert.equal(x.calls,2);
+ assert.equal(x.balance.textContent,'1,010 DNCH');
+ assert.equal(x.fallbackLink,undefined);
+});
+test('403 on both RPCs offers read-only explorer link',async()=>{
+ const x=await run({response:{ok:false,status:403}});
+ assert.equal(x.calls,2);
+ assert.match(x.balance.textContent,/403/);
+ assert.match(x.fallbackLink.href,/solscan.io\/account\/FL7GW7testWalletAddresszzqZev/);
+ assert.equal(x.fallbackLink.rel,'noopener noreferrer');
 });
