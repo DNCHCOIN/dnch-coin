@@ -20,6 +20,7 @@ const T=bg?{
  savedEmpty:'No saved topics yet. Tap ☆ on a discussion you want to revisit.',savedTitle:'Saved topics',save:'☆ Save',unsave:'★ Saved',savedNotice:'Topic saved in this browser.',removedNotice:'Topic removed from saved topics.',saveFull:'You can save up to 100 topics.',
  pilotFailed:'The pilot server is unavailable. Registration and posting are not active.',signIn:'Email sign-in',reply:'Reply',locked:'This topic is locked for new replies.',user:'User'
 };
+const forumPostError=error=>{const m=String(error?.message||'');if(m.includes('Duplicate topic')||m.includes('Duplicate reply'))return bg?'Вече публикува същото съдържание. Изчакай 10 минути или промени текста.':'You already posted the same content. Wait 10 minutes or change the text.';if(m.includes('Wait a minute before creating another topic'))return bg?'Изчакай 60 секунди преди нова тема.':'Wait 60 seconds before posting another topic.';if(m.includes('Wait before replying again'))return bg?'Изчакай 15 секунди преди нов отговор.':'Wait 15 seconds before replying again.';return error?.code==='23514'?T.invalid:T.error};
 const $=id=>document.getElementById(id);
 /* Deliberate opt-in for the first owner-only browser test.
    This is NOT an authentication or security barrier and should not be relied on
@@ -342,7 +343,7 @@ $('forum-thread-form').addEventListener('submit',async e=>{
  const button=$('forum-thread-form').querySelector('button');button.disabled=true;
  const {error}=await client.from('forum_threads').insert({author_id:user.id,title,body,category_id,language:$('forum-language').value});
  button.disabled=false;
- if(error){console.warn(error.message);setStatus(error.code==='23514'?T.invalid:T.error);return}
+ if(error){console.warn(error.message);setStatus(forumPostError(error));return}
  $('forum-thread-form').reset();currentCategory=null;searchTerm='';languageFilter='';sortNewest=true;topicsPage=0;savedOnly=false;$('forum-search-input').value='';$('forum-language-filter').value='';$('forum-sort').value='newest';renderFilters();history.replaceState(null,'',location.pathname+location.search);await loadTopics();setStatus(T.created);
 });
 $('forum-reply-form').addEventListener('submit',async e=>{
@@ -351,7 +352,7 @@ $('forum-reply-form').addEventListener('submit',async e=>{
  const id=currentThread.id;const button=$('forum-reply-form').querySelector('button');button.disabled=true;
  const {error}=await client.from('forum_replies').insert({author_id:user.id,thread_id:id,body});
  button.disabled=false;
- if(error){console.warn(error.message);setStatus(T.error);return}
+ if(error){console.warn(error.message);setStatus(forumPostError(error));return}
  $('forum-reply').value='';await openTopic(id);setStatus(T.replied);
 });
 $('forum-back').addEventListener('click',()=>{history.replaceState(null,'',location.pathname+location.search);loadTopics()});
