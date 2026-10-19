@@ -9,16 +9,32 @@ const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const client=window.supabase?.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true}});
 if(!client){msg('Неуспешно зареждане на модула за галерията. Проверете връзката.');return}
 let user=null;
-function card(r,own=false){const link=client.storage.from(bucket).getPublicUrl(r.object_path).data.publicUrl;
-  const fig=document.createElement('figure');const pic=document.createElement('img');pic.src=link;pic.alt=r.caption||'Снимка от река Въча';pic.loading='lazy';const caption=document.createElement('figcaption');caption.textContent=r.caption||'Река Въча';
+function card(r,own=false){
+  const link=client.storage.from(bucket).getPublicUrl(r.object_path).data.publicUrl;
+  const fig=document.createElement('figure');
+  const view=document.createElement('a');
+  view.href=link;view.target='_blank';view.rel='noopener noreferrer';
+  view.setAttribute('aria-label','Отвори цялата снимка в пълен размер');
+  const pic=document.createElement('img');
+  pic.src=link;pic.alt=r.caption||'Снимка от река Въча';pic.loading='lazy';pic.decoding='async';
+  view.appendChild(pic);
+  const caption=document.createElement('figcaption');
+  caption.textContent=r.caption||'Река Въча';
+  if(r.credit==='Ванко'){
+    const reporter=document.createElement('a');reporter.href='./ivan.html';
+    reporter.className='gallery-reporter';
+    reporter.textContent='📖 Историите на Иван →';
+    caption.appendChild(reporter);
+  }
   if(own){const info=document.createElement('small');info.textContent=r.status==='pending'?'⏳ Очаква одобрение':r.status==='rejected'?'Не е одобрена':'Публикувана';caption.appendChild(info)}
-  fig.append(pic,caption);return fig;}
+  fig.append(view,caption);return fig;
+}
 async function load(){try{
   const pub=await client.from('vacha_photos').select('id,object_path,caption,created_at,status').eq('status','approved').order('created_at',{ascending:false}).limit(36);
   if(pub.error)throw pub.error;
   const telegram=await client.from('vacha_telegram_public').select('object_path,caption,credit,published_at').order('published_at',{ascending:false}).limit(36);
   if(telegram.error)console.warn('Telegram public gallery unavailable',telegram.error);
-  const telegramRows=(telegram.data||[]).map(x=>({object_path:x.object_path,caption:(x.caption||'Снимка от Въча')+' · 📷 '+x.credit}));
+  const telegramRows=(telegram.data||[]).map(x=>({object_path:x.object_path,caption:(x.caption||'Снимка от Въча')+' · 📷 '+x.credit,credit:x.credit}));
   const allRows=[...telegramRows,...(pub.data||[])];
   const out=id('gallery-public');out.replaceChildren(...allRows.map(x=>card(x)));
   id('gallery-list-status').textContent=allRows.length?'Публикувани снимки: '+allRows.length:'Още няма одобрени снимки. Бъди първият, който ще сподели Въча!';
