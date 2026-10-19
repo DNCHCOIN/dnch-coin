@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10382e">
+<meta name="description" content="Практичен наръчник за примамки, спинингови въдици, макари и техники за речен риболов. Научи кое оборудване кога и как да използваш.">
+<title>Риболовен наръчник | Река Въча</title>
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+:root{--forest:#103d31;--deep:#08271f;--green:#235c44;--mint:#ceeccf;--paper:#f7f9f3;--ink:#193c2d;--muted:#577466;--stroke:#d7e6d8;--gold:#f2c57b;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #f3bf63;outline-offset:3px}
+.wrap{max-width:1160px;margin-inline:auto;padding-inline:24px}
+header{background:#103c2e;color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 3px 18px #07190b18}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:15px}
+.brand{font-size:16px;font-weight:900;letter-spacing:.025em;text-decoration:none}
+.links{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;font-weight:800}
+.links a{text-decoration:none}.links a:hover{text-decoration:underline}
+.hero{color:#fff;background:linear-gradient(90deg,rgba(6,36,26,.95),rgba(10,56,41,.88),rgba(10,49,35,.57)),url("./photos/vacha-05.webp") center/cover;padding:76px 0 79px}
+.eyebrow{display:inline-block;color:#d1f1d0;font-size:11px;font-weight:850;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:clamp(40px,7vw,73px);letter-spacing:-.06em;line-height:1.08;max-width:790px;margin:13px 0 19px}
+.hero p{max-width:670px;margin:0;color:#e0f2e6;font-size:16px}
+.hero-actions{display:flex;gap:11px;margin-top:24px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:11px 17px;min-height:44px;font-size:13px;font-weight:850;text-decoration:none;border:1px solid transparent}
+.btn.primary{background:#d0f3bd;color:#10402d}.btn.outline{border-color:#ffffff70;color:#fff;background:#ffffff18}
+.btn.dark{background:var(--green);color:#fff}
+.intro{padding-top:36px}.note{border:1px solid #cbded0;background:#e8f2e8;padding:17px 19px;border-radius:16px;margin:0 0 25px;color:#345940}
+.quicknav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 15px}
+.quicknav a{display:flex;align-items:center;gap:13px;padding:21px;background:#fff;border:1px solid var(--stroke);border-radius:18px;text-decoration:none;box-shadow:0 8px 24px #1536230e}
+.quicknav a:hover{border-color:#6ba782}
+.quicknav .symbol{display:grid;place-items:center;width:45px;height:45px;background:#e5f0e2;border-radius:13px;font-size:24px;flex:none}
+.quicknav b{display:block;font-size:16px}.quicknav small{color:var(--muted);font-size:12px}
+main{padding-bottom:85px}
+section.topic{padding-top:65px;scroll-margin-top:84px}
+.headline{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.kicker{text-transform:uppercase;letter-spacing:.15em;font-size:10px;font-weight:900;color:#477e5b}
+h2{font-size:clamp(29px,4.6vw,43px);letter-spacing:-.047em;line-height:1.18;margin:8px 0 8px}
+.subtitle{margin:0;max-width:740px;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.card{background:#fff;border:1px solid var(--stroke);border-radius:20px;overflow:hidden;box-shadow:0 13px 38px #13442a0d}
+.card-body{padding:21px 23px 24px}.card h3{margin:0 0 7px;font-size:22px;letter-spacing:-.025em}
+.card p{color:#557160;font-size:14px;margin:0 0 13px}
+.card .pill{display:inline-block;padding:5px 10px;border-radius:100px;background:#e8f2e7;color:#326c4c;font-size:11px;font-weight:850;margin:0 0 13px}
+.visual{height:105px;display:flex;align-items:center;justify-content:start;padding:0 24px;background:linear-gradient(110deg,#e0f2dd,#c3ddcb);position:relative;overflow:hidden}
+.visual::after{content:"";position:absolute;border-radius:50%;width:145px;height:145px;right:19px;top:-68px;border:18px solid #ffffff58}
+.visual .big{font-size:42px;filter:drop-shadow(0 8px 8px #2b513625);z-index:1}
+.card strong{color:#204d38}
+details{border-top:1px solid #e8eee8;margin-top:14px;padding-top:12px}
+summary{cursor:pointer;font-size:13px;font-weight:900;color:#236049}
+details p{margin:12px 0 0!important}
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.spec{padding:22px 22px 23px;background:#fff;border-radius:19px;border:1px solid var(--stroke)}
+.spec .mark{font-size:28px;display:block;margin-bottom:10px}.spec h3{font-size:21px;letter-spacing:-.02em;margin:0 0 8px}.spec p{font-size:14px;color:var(--muted);margin:0}
+.spec ul{padding-left:21px;margin:12px 0 0;color:#395f49;font-size:13px}
+.water-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--stroke);border-radius:17px;overflow:hidden;font-size:13px}
+.water-table th{text-align:left;background:#e6efe5;color:#275640;font-size:12px}
+.water-table th,.water-table td{padding:16px 18px;border-bottom:1px solid #e6ede6;vertical-align:top}
+.water-table tr:last-child td{border-bottom:0}
+.callout{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;border-radius:22px;padding:29px;background:linear-gradient(115deg,#123d2e,#28664c);color:#fff;margin-top:22px}
+.callout h3{font-size:23px;margin:0 0 8px}.callout p{margin:0;color:#dceee4;max-width:740px}
+.callout .btn{white-space:nowrap}
+.next{margin-top:60px;border-radius:22px;border:1px dashed #87b39a;padding:30px;background:#eaf3e8}
+.next h2{font-size:29px}.next p{max-width:800px;color:#486957}.next .steps{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.next .steps span{padding:8px 12px;background:#fff;border-radius:12px;color:#346b4c;font-weight:800;font-size:12px}
+footer{background:#102f25;color:#e5f0e8;padding:30px 0;font-size:12px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:820px){.cards,.specs{grid-template-columns:1fr 1fr}.specs .spec:last-child{grid-column:span 2}.callout{grid-template-columns:1fr}.hero{padding:52px 0}}
+@media(max-width:600px){.wrap{padding-inline:18px}.nav{gap:12px}.links{gap:11px}.quicknav,.cards,.specs{grid-template-columns:1fr}.specs .spec:last-child{grid-column:auto}.quicknav a{padding:14px 16px}.hero p{font-size:14px}.visual{height:82px}.card-body{padding:19px}.water-table th,.water-table td{padding:12px 10px;font-size:12px}.callout{padding:23px}.headline{align-items:start}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="./">🐟 РЕКА ВЪЧА</a><nav class="links" aria-label="Основна навигация"><a href="./">Начало</a><a href="./#monitoring">Реката</a><a href="./ivan.html">Историите на Иван</a><a href="./community.html">Общност</a></nav></div></header>
+<div class="hero"><div class="wrap">
+<span class="eyebrow">Vacha River · Риболовна академия</span>
+<h1>От първата примамка до уверения кастинг.</h1>
+<p>Практичен наръчник за това как да избереш примамка, въдица и макара, как да ги комбинираш и кога коя техника работи най-добре на реката.</p>
+<div class="hero-actions"><a class="btn primary" href="#lures">Научи за примамките ↓</a><a class="btn outline" href="./#assistant">Попитай риболовния асистент ↗</a></div>
+</div></div>
+<main class="wrap">
+<div class="intro">
+<p class="note"><strong>🎣 Първо знанието, после оборудването.</strong> Тази страница е независим образователен наръчник, не онлайн магазин. Теглата и размерите са ориентировъчни и се съобразяват с конкретните условия, въдица и примамка. Проверявай актуалните правила за конкретния водоем.</p>
+<nav class="quicknav" aria-label="Раздели на наръчника">
+<a href="#lures"><span class="symbol">🪝</span><span><b>Примамки</b><small>Видове, водене и избор</small></span></a>
+<a href="#rods"><span class="symbol">🎣</span><span><b>Въдици</b><small>Дължина, акция и тест</small></span></a>
+<a href="#reels"><span class="symbol">⚙️</span><span><b>Макари</b><small>Размер, аванс и влакно</small></span></a>
+</nav>
+</div>
+
+<section class="topic" id="lures" aria-labelledby="lures-title">
+<div class="headline"><div><span class="kicker">01 / Примамки</span><h2 id="lures-title">Какво да подадем на рибата?</h2><p class="subtitle">Няма универсална примамка. Подбери движение, силует и тегло според течението, прозрачността и активността на рибата.</p></div></div>
+<div class="cards">
+<article class="card"><div class="visual"><span class="big" aria-hidden="true">✨</span></div><div class="card-body"><span class="pill">Активен спининг</span><h3>Въртяща блесна</h3><p>Лопатката се върти и създава проблясъци и вибрации. Подходяща за претърсване на участък и за риба, която реагира на движение.</p><strong>Как се води:</strong> равномерно и достатъчно бавно, за да се върти лопатката стабилно, без да ляга на дъното.
+<details><summary>Кога да я избера?</summary><p>При умерено течение и когато рибите са активни. Размерът и тежестта се избират така, че да контролираш дълбочината и да не закачаш дъното постоянно.</p></details></div></article>
+<article class="card"><div class="visual"><span class="big" aria-hidden="true">💫</span></div><div class="card-body"><span class="pill">Контрол на дълбочината</span><h3>Клатушка</h3><p>Компактна метална примамка с колебаещо движение. Често позволява прецизно подаване в течение и промяна на скоростта.</p><strong>Как се води:</strong> равномерно с кратки паузи или леки промени на темпото, като поддържаш контакт с примамката.
+<details><summary>Какво тегло?</summary><p>При UL риболов могат да се използват клатушки около 1–5 g, но винаги според теста на въдицата, дълбочината и силата на водата. Това не е универсален диапазон.</p></details></div></article>
+<article class="card"><div class="visual"><span class="big" aria-hidden="true">🐟</span></div><div class="card-body"><span class="pill">Имитация на дребна рибка</span><h3>Воблер</h3><p>Различните воблери газят плитко или дълбоко, плуват, потъват или задържат нивото си. Това определя къде и как да ги водиш.</p><strong>Как се води:</strong> равномерно, с леки придърпвания и паузи, според конструкцията; тествай играта в плитката вода.
+<details><summary>Кога има предимство?</summary><p>Когато искаш да задържиш примамката в определен слой на водата или да имитираш ранена рибка. Избягвай твърде дълбокогазещи модели в плитки каменисти участъци.</p></details></div></article>
+<article class="card"><div class="visual"><span class="big" aria-hidden="true">🪱</span></div><div class="card-body"><span class="pill">Бавно и прецизно водене</span><h3>Силиконова примамка</h3><p>Малки рибки, ларви и други форми с различни опашки и вибрация. С джиг глава или подходящ монтаж можеш да облавяш по-бавно.</p><strong>Как се води:</strong> кратки повдигания, контролирано пропадане или бавно равномерно прибиране, без излишно провлачване по дъното.
+<details><summary>Защо да я нося?</summary><p>Полезна е при предпазлива риба и когато трябва да обработиш конкретен вир, камък или граница между бърза и тиха вода.</p></details></div></article>
+</div>
+</section>
+
+<section class="topic" id="rods" aria-labelledby="rods-title">
+<div class="headline"><div><span class="kicker">02 / Въдици</span><h2 id="rods-title">Въдицата е продължение на ръката.</h2><p class="subtitle">Най-скъпата въдица не е непременно най-подходящата. Търси съвпадение между твоя стил и примамките, които действително използваш.</p></div></div>
+<div class="specs">
+<article class="spec"><span class="mark" aria-hidden="true">↔️</span><h3>Дължина</h3><p>По-късите модели са удобни за тесни речни участъци с клони. По-дългите често помагат за дистанция и контрол на линията.</p><ul><li>Около 1,6–1,9 m: тесни участъци</li><li>Около 1,9–2,2 m: повече пространство</li></ul></article>
+<article class="spec"><span class="mark" aria-hidden="true">⚖️</span><h3>Тест по примамки</h3><p>Виж диапазона в грамове върху бланката и избирай примамка, която може да бъде замятана и контролирана в тези граници.</p><ul><li>UL: много леки примамки</li><li>L: малко по-универсален диапазон</li><li>Чети реалния тест на модела</li></ul></article>
+<article class="spec"><span class="mark" aria-hidden="true">〰️</span><h3>Строй и поведение</h3><p>Fast бланките обикновено се огъват повече към върха; moderate моделите работят по-дълбоко. Строят не е същото като мощността.</p><ul><li>По-бърз строй: отчетлив контрол</li><li>По-умерен: плавна работа</li><li>Подбирай спрямо примамката</li></ul></article>
+</div>
+<div class="callout"><div><h3>Защо правилната комбинация е важна?</h3><p>Тежка блесна на свръхлека въдица или микропримамка с твърде мощна бланка правят замятането и воденето по-трудни. Започни от примамките, а след това избирай въдицата.</p></div><a class="btn primary" href="#reels">Продължи към макарите →</a></div>
+</section>
+
+<section class="topic" id="reels" aria-labelledby="reels-title">
+<div class="headline"><div><span class="kicker">03 / Макари и линия</span><h2 id="reels-title">Баланс, не просто размер.</h2><p class="subtitle">Макарите, влакната и въдиците работят като система. Гледай теглото, плавността на аванса и реалното съвпадение на линията с примамките.</p></div></div>
+<div class="specs">
+<article class="spec"><span class="mark" aria-hidden="true">⚙️</span><h3>Размер</h3><p>При лек речен спининг често се използват размери 1000–2500, но номерацията не е напълно еднаква при различните производители.</p><ul><li>Провери теглото и капацитета</li><li>Пробвай баланса върху въдицата</li></ul></article>
+<article class="spec"><span class="mark" aria-hidden="true">🎚️</span><h3>Аванс</h3><p>Плавният аванс помага при внезапни удари и силен напор. Настройвай го според реалната здравина на най-слабата част от линията.</p><ul><li>Не го затягай докрай</li><li>Проверявай го преди излета</li></ul></article>
+<article class="spec"><span class="mark" aria-hidden="true">🧵</span><h3>Влакно</h3><p>Монофилът има разтегливост; плетеното влакно е по-чувствително и често се използва с флуорокарбонов повод. Всеки вариант има компромиси.</p><ul><li>Съобрази диаметъра с условията</li><li>Проверявай възли и протривания</li></ul></article>
+</div>
+</section>
+
+<section class="topic" id="conditions" aria-labelledby="conditions-title">
+<div class="headline"><div><span class="kicker">04 / На реката</span><h2 id="conditions-title">Как условията променят избора?</h2><p class="subtitle">Това са отправни точки за експериментиране, а не гаранции за улов.</p></div></div>
+<table class="water-table"><thead><tr><th scope="col">Условия</th><th scope="col">С какво да започнеш</th><th scope="col">Какво да наблюдаваш</th></tr></thead><tbody>
+<tr><td><strong>Чиста и бистра вода</strong></td><td>По-дискретни цветове, по-деликатно подаване и контролирана скорост</td><td>Сянката си, движението по брега и реакцията на рибата</td></tr>
+<tr><td><strong>Леко помътняла вода</strong></td><td>Контраст или умерена вибрация, за да бъде примамката откриваема</td><td>Видимостта, силата на струята и безопасността</td></tr>
+<tr><td><strong>Силно течение</strong></td><td>По-добър контрол на линията; тегло, което остава в диапазона на въдицата</td><td>Къде примамката губи контакт или излиза от работния слой</td></tr>
+<tr><td><strong>Предпазлива риба</strong></td><td>По-бавна презентация, малки промени и по-малко повтарящи се замятания</td><td>Дали позицията или примамката плаши рибата</td></tr>
+</tbody></table>
+<p class="note" style="margin-top:20px"><strong>🌿 Уважавай реката.</strong> Спазвай забраните, разрешените участъци и сезонните ограничения. При практикуване на „хвани и пусни“ работи с мокри ръце, свеждай времето извън водата до минимум и освобождавай рибата внимателно. При опасни водни условия не влизай в реката.</p>
+</section>
+
+<div class="next" id="shop">
+<span class="kicker">Следващ етап</span>
+<h2>От наръчника към магазина.</h2>
+<p>Първо ще надградим статиите с реални тестове, снимки, полезни сравнения и опит от излетите. После можем да свържем подходящи модели с онлайн магазин — само след договорено партньорство, ясни наличности и правила за доставка и рекламации.</p>
+<div class="steps"><span>✓ Практични знания</span><span>→ Полеви тестове и ревюта</span><span>→ Партньорство</span><span>→ Онлайн магазин</span></div>
+<div style="margin-top:23px"><a href="./ivan.html" class="btn dark">📷 Виж историите на Иван</a></div>
+</div>
+</main>
+<footer><div class="wrap"><span>🐟 РЕКА ВЪЧА · Живата река</span><span>Независим образователен материал · DNCH Studio</span></div></footer>
+</body>
+</html>
