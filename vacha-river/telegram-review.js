@@ -55,7 +55,7 @@
        }
      }
      const items=data.items||[];
-     status(items.length?'Чакат обработка: '+items.length:'Няма чакащи текстови материали. Снимките се публикуват автоматично.');
+     status(items.length?'Чакат обработка: '+items.length:(data.configured?'Няма чакащи текстови материали. Снимките от разрешените профили се публикуват автоматично.':'Няма получени материали. Първо активирай бота с токена от BotFather.'));
      for(const item of items){
        const article=elem(list,'div',null,'pending-item');
        elem(article,'h4',(item.kind==='photo'?'📷 Снимка':'📝 Текст')+' · '+item.reporter);
@@ -116,7 +116,7 @@
  el('telegram-connect').addEventListener('click',async()=>{
    status('Проверяваме сигурната връзка с Telegram…');
    try{const r=await call('POST','connect');status(r.ok?'✅ Telegram webhook е свързан. Репортерите могат да изпращат съобщения.':'Свързването не е потвърдено.')}
-   catch(e){status('Връзката още не е готова: '+e.message+'; конфигурирай тайните ключове в Supabase Edge Functions Secrets.')}
+   catch(e){status('Връзката още не е готова: '+e.message+'; въведи токена от BotFather в полето „Активиране на @VachaRiverBot“.')}
  });
  sb.auth.onAuthStateChange((event)=>{
    if(event==='SIGNED_IN'||event==='SIGNED_OUT'||event==='INITIAL_SESSION')
