@@ -104,6 +104,29 @@ files** completed with **14 PASS / 0 FAIL**. This was an in-memory
 simulation, **not a real Supabase / Node CLI / browser integration run**.
 Rerun `node --test` in a local Node environment before deployment.
 
+## Isolated PostgreSQL integration suite — prepared, not executed
+
+The proposed `tests/forum-pilot-rls.pgtap.sql` contains **25 pgTAP
+behavioral assertions** executed under synthetic `authenticated`, `anon`
+and trusted moderator contexts. It checks real INSERT permission decisions,
+reporting during emergency pause, moderation locks, hidden reads, audit and
+revocation, rather than just searching metadata for policy names.
+
+A localhost-only bootstrap runner and step-by-step setup instructions are at:
+
+- `tests/run-forum-rls-local.sh`
+- `docs/FORUM_LOCAL_RLS_TESTING.md`
+
+The old forum-admin migration requires exactly one seeded, verified founder at
+its own execution point, which is why the isolated local bootstrap applies
+migrations in a deliberate order. The runner connects only to
+`127.0.0.1:54322`, refuses any populated local DB and checks for TAP failures.
+
+**Not yet executed**: there is no running isolated PostgreSQL / Supabase
+instance in the current working environment. No hosted Supabase development
+branch was purchased or created. Do **not** mark the database testing gate
+complete until an operator performs a real isolated run and records the result.
+
 ## Security acceptance tests (NOT YET RUN against the database)
 
 1. `anon` can read visible topics but cannot read approvals, create posts, reply, report or update posting controls.
