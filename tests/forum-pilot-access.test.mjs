@@ -170,7 +170,8 @@ test('switching accounts ignores an earlier, slower approval response',async()=>
 test('later access checks win if an earlier lookup resolves last',async()=>{
   const h=fixture();
   const slow=deferred();
-  h.responses.forum_pilot_members=req=>req.value==='alice'
+  let calls=0;
+  h.responses.forum_pilot_members=()=>++calls===1
     ?slow.promise:Promise.resolve({data:null,error:null});
   h.login('alice');
   await h.api.refreshPilotAccess('alice');
