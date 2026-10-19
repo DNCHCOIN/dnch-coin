@@ -24,10 +24,11 @@ async function run(){
         if(valid.length>=3){const weighted=valid.map(s=>({delta:s.waterC-rawEstimate(new Date(s.observedAt),s.air7C,s.air3C),w:Math.exp(-Math.abs(Date.now()-Date.parse(s.observedAt))/86400000/9)}));const b=weighted.reduce((a,x)=>a+x.delta*x.w,0)/weighted.reduce((a,x)=>a+x.w,0);value=clamp(value+b,1,26);margin=3;mode='Частично калибрирана оценка';}
       }
     }catch(e){console.warn('water calibration:',e)}
-    const lower=clamp(value-margin,0,30),upper=clamp(value+margin,0,30);
-    set('water-temp',`${Math.round(lower)}–${Math.round(upper)} °C`);
-    set('temp-details',`${mode} · 7 дни метеоданни · НЕ е измерено`);
-    set('temp-method','Моделен диапазон');
+    // Show one readable approximate value rather than an unhelpful 10°C-wide headline.
+    // ±1°C cannot be claimed for an uncalibrated meteorological model.
+    set('water-temp',`≈ ${Math.round(value)} °C`);
+    set('temp-details',`${mode} · възможно отклонение около ±${margin} °C (невалидирано) · НЕ е измерено. Цел ±1 °C след реални измервания и проверка на модела.`);
+    set('temp-method','Моделна оценка');
   }catch(err){set('water-temp','— °C');set('temp-details','Няма достатъчно метеоданни за ориентировъчна оценка');console.warn('water temp:',err);}
 }
 run();setInterval(run,3*60*60*1000);
