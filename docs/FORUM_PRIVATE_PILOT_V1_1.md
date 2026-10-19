@@ -63,25 +63,46 @@ where id = 1;
 
 The examples require replacing the placeholder with a real UUID and a trusted, privileged DB session. They must not be callable by an ordinary signed-in browser user.
 
-## Read-only preflight: executed 18 October 2026
+## Read-only preflight: 25 checks, not a substitute for RLS behavioral tests
 
-A reusable **SELECT-only** deployment checklist is now available at
-`supabase/tests/forum_invite_only_preflight.sql`. This can run before and
-after the migration without writing any data. It checks 15 schema/policy/grant
-conditions. It is a metadata smoke test, **not** a real user authorization test.
+The reusable `supabase/tests/forum_invite_only_preflight.sql` contains **25
+read-only metadata checks** of table presence, RLS, grants, existing write
+guards, forum-admin permissions and unexpected permissive policies.
 
-The query was executed on the actual DNCH Community Supabase project
-**before the new migration**: **4 PASS / 11 FAIL**. Expected PASS:
-anonymous cannot read invitation membership; the existing moderation audit
-still has RLS; browser users cannot assign administrators; existing forum topics
-retain RLS. The 11 FAILs correspond to invitation tables, their policies and
-the new restricted INSERT conditions that have **not yet been deployed**.
+On 19 October 2026 it was run against the current Supabase project **before
+the invitation-only migration**. The result was **12 PASS / 13 FAIL**. The
+failures are expected for the not-yet-installed pilot tables and INSERT gates;
+they are *not* authorization proof. The 12 successes check preservation of
+existing controls and restrictions in today's schema.
 
-**Hard release gate:** do not merge or deploy the v1.1 forum client until:
-1. The migration has been reviewed, tested and applied to the approved pilot.
-2. The read-only preflight is rerun and returns **15 PASS / 0 FAIL**.
-3. Two real Auth accounts plus an anonymous browser pass the independent
-   behavioral RLS tests below. A PASS metadata check is not authorization proof.
+**Hard release gate:** do not publish the new forum frontend until:
+1. A separate disposable/local Supabase database passes real role-based tests
+   with two accounts, anonymous access and attempts to bypass grants.
+2. The migration is reviewed and applied to the **approved private pilot**
+   in the correct order.
+3. The SELECT-only preflight returns **25 PASS / 0 FAIL** after that rollout.
+4. Real account/session browser checks also pass. Static metadata checks alone
+   cannot establish real security.
+
+## Repeatable browser-access regression tests
+
+A new **dependency-free Node test suite** is available at
+`tests/forum-pilot-access.test.mjs`. Run from repository root:
+
+```sh
+node --test tests/forum-pilot-access.test.mjs
+```
+
+It reads the actual code from `assets/forum.js` and the EN/BG forum HTML,
+extracts the access functions, then uses a fake Supabase client to verify
+invite-only posting, deny-by-default on backend failures, emergency pause,
+moderator block, locked threads, revoked invitations, sign-out, and stale
+concurrent requests after account changes. There are **14 deterministic cases**.
+
+An adapted execution of these 14 cases against the **current GitHub branch
+files** completed with **14 PASS / 0 FAIL**. This was an in-memory
+simulation, **not a real Supabase / Node CLI / browser integration run**.
+Rerun `node --test` in a local Node environment before deployment.
 
 ## Security acceptance tests (NOT YET RUN against the database)
 
