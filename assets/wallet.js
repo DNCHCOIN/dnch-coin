@@ -37,7 +37,20 @@ button.addEventListener('click',async()=>{
   status.textContent=address.slice(0,6)+'…'+address.slice(-6);
   balance.textContent=t('Checking…','Проверка…');
   let payload,lastError;
-  for(const rpc of RPCS){
+  try{
+   const ctrl=new AbortController();
+   const timer=setTimeout(()=>ctrl.abort(),12000);
+   try{
+    const res=await fetch('https://wthzcqgzcbkvhovtcmoe.supabase.co/functions/v1/dnch-wallet-balance?wallet='+encodeURIComponent(address),{signal:ctrl.signal});
+    if(res.ok){
+     const data=await res.json();
+     if(typeof data.raw==='string'&&/^[0-9]+$/.test(data.raw)&&data.decimals===9){
+      payload={result:{value:[{account:{data:{parsed:{info:{tokenAmount:{amount:data.raw}}}}}}]}};
+     }
+    }
+   }finally{clearTimeout(timer);}
+  }catch(error){console.warn('DNCH edge lookup failed:',error);}
+  for(const rpc of payload?[]:RPCS){
    const controller=new AbortController();
    const timeout=setTimeout(()=>controller.abort(),10000);
    try{
