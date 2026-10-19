@@ -143,7 +143,7 @@ body{background:#e6ede5}
       </div>
     <div class="trout-photo"><img src="./photos/vacha-07.webp" alt="Балканска пъстърва (Salmo trutta) — илюстративна снимка" loading="lazy"><span>🐟 Балканска пъстърва</span></div></section>
     <div class="safetyband"><div class="wrap safety-row"><p><strong>⚠ Важно:</strong> Водата може да се покачи рязко при работа на ВЕЦ. Нито ниско ниво, нито спокойна камера означава безопасност.</p><a href="#contacts">Спешни контакти →</a></div></div>
-    <section id="monitoring" class="section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">01 / НИМХ: почасови данни · проверка през 5 мин.</span><h2 class="title">Пулсът на реката.</h2><p class="lead">Нивата се публикуват почасово от НИМХ, а сайтът проверява за нови стойности на всеки 5 минути. Часът на измерването винаги се показва — включително когато данните са остарели.</p></div><button class="btn secondary" id="weather-refresh">↻ Обнови времето</button></div>
+    <section id="monitoring" class="section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">01 / НИМХ: почасови данни · проверка през 5 мин.</span><h2 class="title">Пулсът на реката.</h2><p class="lead">Нивата се публикуват почасово от НИМХ, а сайтът проверява чрез сървърен модул за нови стойности на всеки 5 минути, с резервно копие при проблем. Часът на измерването винаги се показва — включително когато данните са остарели.</p></div><button class="btn secondary" id="weather-refresh">↻ Обнови времето</button></div>
       <div class="dashboard-grid"><article class="glass-card water-panel" aria-label="Актуални водни нива на река Въча">
 <div class="card-head"><span class="label-xs">Хидрология / НИМХ</span><span class="pill light" id="hydro-pill">Зареждане…</span></div>
 <div class="water-values"><div><small>Водно ниво</small><div class="value-big"><span id="hydro-level">—</span> <small>см</small></div></div><div><small>Воден дебит</small><div class="value-big"><span id="hydro-flow">—</span> <small>м³/с</small></div></div></div>
@@ -276,7 +276,7 @@ body{background:#e6ede5}
 
     $('#menu-btn').addEventListener('click',()=>{const nav=$('#mobile-nav');const isOpen=nav.classList.toggle('open');$('#menu-btn').setAttribute('aria-expanded',String(isOpen));});document.querySelectorAll('#mobile-nav a').forEach(a=>a.addEventListener('click',()=>{$('#mobile-nav').classList.remove('open');$('#menu-btn').setAttribute('aria-expanded','false');}));
   </script>
-<script src="./hydro-widget.js?v=6" defer></script>
+<script src="./hydro-widget.js?v=12" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./temperature.js?v=6" defer></script>
 <script src="./gallery.js?v=6" defer></script>
