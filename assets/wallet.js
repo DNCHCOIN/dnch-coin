@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 const MINT='8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi';
-const RPC='https://api.mainnet-beta.solana.com';
+const RPCS=['https://solana-rpc.publicnode.com','https://api.mainnet.solana.com'];
 const bg=document.documentElement.lang==='bg';
 const t=(en,bul)=>bg?bul:en;
 const button=document.getElementById('connect-wallet');
@@ -33,21 +33,29 @@ button.addEventListener('click',async()=>{
   connected=true;
   status.textContent=address.slice(0,6)+'…'+address.slice(-6);
   balance.textContent=t('Checking…','Проверка…');
-  const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),12000);
-  let response;
-  try{
-   response=await fetch(RPC,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    signal:controller.signal,
-    body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getTokenAccountsByOwner',params:[address,{mint:MINT},{encoding:'jsonParsed',commitment:'confirmed'}]})
-   });
-  }finally{clearTimeout(timeout);}
-  if(!response.ok){const e=new Error('HTTP '+response.status);e.status=response.status;throw e;}
-  const payload=await response.json();
-  if(payload.error){const e=new Error('Solana RPC error');e.rpcError=true;throw e;}
-  if(!Array.isArray(payload.result?.value))throw new Error('Invalid RPC response');
+  let payload,lastError;
+  for(const rpc of RPCS){
+   const controller=new AbortController();
+   const timeout=setTimeout(()=>controller.abort(),10000);
+   try{
+    const response=await fetch(rpc,{
+     method:'POST',
+     headers:{'Content-Type':'application/json'},
+     signal:controller.signal,
+     body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getTokenAccountsByOwner',params:[address,{mint:MINT},{encoding:'jsonParsed',commitment:'confirmed'}]})
+    });
+    if(!response.ok){const e=new Error('HTTP '+response.status);e.status=response.status;throw e;}
+    const data=await response.json();
+    if(data.error){const e=new Error('Solana RPC error');e.rpcError=true;throw e;}
+    if(!Array.isArray(data.result?.value))throw new Error('Invalid RPC response');
+    payload=data;
+    break;
+   }catch(error){
+    lastError=error;
+    console.warn('DNCH RPC lookup failed:',rpc,error);
+   }finally{clearTimeout(timeout);}
+  }
+  if(!payload)throw lastError||new Error('All RPC endpoints unavailable');
   const raw=payload.result.value.reduce((sum,account)=>{
    const amount=account.account?.data?.parsed?.info?.tokenAmount?.amount;
    if(typeof amount!=='string'||!/^[0-9]+$/.test(amount))throw new Error('Invalid token amount');
