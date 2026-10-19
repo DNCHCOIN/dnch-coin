@@ -30,12 +30,37 @@ function chart(items){
 async function update(){
  set('hydro-check','Проверка за нови измервания… (на всеки 5 минути)');
  try{
-   const res=await fetch('./data/hydro.json?fresh='+Date.now(),{cache:'no-store'});
-   if(!res.ok)throw new Error('HTTP '+res.status);
-   const data=await res.json(),r=data.latest;
-   if(!r||!Number.isFinite(r.levelCm)||!Number.isFinite(r.flowM3s))throw new Error('Липсват измервания');
-   const observed=timestamp(r);if(!Number.isFinite(observed.getTime()))throw Error('Невалиден час на измерване');
-   set('hydro-check','Локална проверка на файла: '+new Intl.DateTimeFormat('bg-BG',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Sofia'}).format(new Date())+' ч. · НИМХ измерва почасово; файловете се обновяват автоматично при достъп до нови измервания.');
+   // Query NIMH via a serverless proxy and our archived GitHub snapshot in parallel.
+   // Always select the newest *observed* reading, never the latest fetch timestamp.
+   async function requestJson(url){
+     const control=new AbortController();
+     const timer=setTimeout(()=>control.abort(),18000);
+     try {
+       const response=await fetch(url,{cache:'no-store',signal:control.signal});
+       if(!response.ok)throw new Error('HTTP '+response.status);
+       const payload=await response.json();
+       if(!payload.latest||!Number.isFinite(payload.latest.levelCm)||!Number.isFinite(payload.latest.flowM3s))throw Error('Некоректен запис');
+       if(!Number.isFinite(timestamp(payload.latest).getTime()))throw Error('Некоректна дата');
+       return payload;
+     } finally {clearTimeout(timer);}
+   }
+   const endpoint='https://wthzcqgzcbkvhovtcmoe.supabase.co/functions/v1/vacha-hydro';
+   const [directResult,archiveResult]=await Promise.allSettled([
+     requestJson(endpoint),
+     requestJson('./data/hydro.json?fresh='+Date.now())
+   ]);
+   const candidates=[];
+   if(directResult.status==='fulfilled')candidates.push({data:directResult.value,kind:'direct'});
+   if(archiveResult.status==='fulfilled')candidates.push({data:archiveResult.value,kind:'archive'});
+   if(!candidates.length)throw new Error('Няма достъп нито до НИМХ, нито до резервния запис');
+   candidates.sort((a,b)=>timestamp(b.data.latest)-timestamp(a.data.latest));
+   const selected=candidates[0];
+   const data=selected.data,r=data.latest;
+   const observed=timestamp(r);
+   const sourceStatus=selected.kind==='direct'
+     ? (data.feed==='cached-after-error'?'Последни успешно получени данни · временна грешка на източника':'Проверка чрез сървъра на НИМХ')
+     : 'Резервен файл от GitHub · директният източник временно е недостъпен или по-стар';
+   set('hydro-check',sourceStatus+' · проверено в '+new Intl.DateTimeFormat('bg-BG',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Sofia'}).format(new Date())+' ч. · следваща проверка след 5 мин.');
    const age=Date.now()-observed.getTime();
    set('hydro-hero',String(r.levelCm));set('hydro-level',String(r.levelCm));set('hydro-flow',bgNumber(r.flowM3s));
    set('hydro-stamp','Измерено на '+label(observed)+' ч. · НИМХ');
