@@ -4,6 +4,7 @@ on:
     paths:
       - 'assets/wallet.js'
       - 'assets/forum.js'
+      - 'tests/forum-errors.test.cjs'
       - 'tests/wallet.test.cjs'
       - '.github/workflows/wallet-tests.yml'
   push:
@@ -11,6 +12,7 @@ on:
     paths:
       - 'assets/wallet.js'
       - 'assets/forum.js'
+      - 'tests/forum-errors.test.cjs'
       - 'tests/wallet.test.cjs'
       - '.github/workflows/wallet-tests.yml'
 jobs:
@@ -23,4 +25,4 @@ jobs:
           node-version: '22'
       - run: node --check assets/wallet.js
       - run: node --check assets/forum.js
-      - run: node --test tests/wallet.test.cjs
+      - run: node --test tests/wallet.test.cjs tests/forum-errors.test.cjs
