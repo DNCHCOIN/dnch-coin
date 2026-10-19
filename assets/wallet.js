@@ -31,6 +31,9 @@ button.addEventListener('click',async()=>{
   const conn=await provider.connect();
   const address=conn.publicKey.toString();
   connected=true;
+  status.dataset.walletAddress=address;
+  const fallback=document.getElementById('dnch-explorer-fallback');
+  if(fallback)fallback.remove();
   status.textContent=address.slice(0,6)+'…'+address.slice(-6);
   balance.textContent=t('Checking…','Проверка…');
   let payload,lastError;
@@ -65,7 +68,20 @@ button.addEventListener('click',async()=>{
   button.textContent=t('Refresh balance','Обнови баланса');
  }catch(error){
   console.warn('DNCH wallet lookup:',error);
-  if(connected)balance.textContent=message(error);
+  if(connected){
+   balance.textContent=message(error);
+   const previous=document.getElementById('dnch-explorer-fallback');
+   if(previous)previous.remove();
+   const link=document.createElement('a');
+   link.id='dnch-explorer-fallback';
+   link.href='https://solscan.io/account/'+encodeURIComponent(status.dataset.walletAddress)+'#tokens';
+   link.target='_blank';
+   link.rel='noopener noreferrer';
+   link.textContent=t('Check tokens on Solscan ↗','Провери токените в Solscan ↗');
+   link.style.display='block';
+   link.style.marginTop='12px';
+   balance.insertAdjacentElement('afterend',link);
+  }
   else status.textContent=message(error);
  }finally{button.disabled=false;}
 });
