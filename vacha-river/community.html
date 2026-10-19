@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#133c30">
+<meta name="description" content="Общност на Река Въча — новини от реката, анкети, инициативи и предложения.">
+<title>Общност | Река Въча — Живата река</title>
+<style>
+:root{--green:#133e31;--green2:#285c43;--mint:#c5e8d2;--text:#163e30;--muted:#658074;--paper:#f7f9f5;--border:#d7e6d9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit}.wrap{max-width:1060px;margin:auto;padding:0 22px}
+header{background:#103b2d;color:#f6fff7;position:sticky;top:0;z-index:6}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 0}
+.logo{font-weight:900;letter-spacing:.03em;text-decoration:none;font-size:16px}
+.navlinks{display:flex;gap:16px;align-items:center;font-size:12px;font-weight:700}
+.navlinks a{text-decoration:none;color:#deefe4}
+.hero{padding:64px 0 45px;background:linear-gradient(125deg,#0e342a,#24644b);color:#effaf3}
+.hero .tag{color:#b9e9cc;font-weight:850;letter-spacing:.14em;font-size:11px;text-transform:uppercase}
+.hero h1{font-size:clamp(35px,7vw,63px);letter-spacing:-.055em;line-height:1.1;margin:16px 0}
+.hero p{color:#d3eee1;max-width:680px;margin-bottom:0}
+main{padding:35px 0 80px}
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.9fr);gap:25px;align-items:start}
+.card{border:1px solid var(--border);background:#fff;border-radius:20px;padding:23px;box-shadow:0 12px 30px #12362310;margin-bottom:18px}
+.card h2,.card h3{line-height:1.25;letter-spacing:-.025em}
+.card h2{font-size:22px;margin:0 0 10px}.card h3{font-size:19px;margin:0 0 8px}
+.lead{color:var(--muted);font-size:13px;margin:0 0 17px}
+button.primary,.primary{border:0;border-radius:11px;background:#195842;color:white;padding:11px 16px;font-weight:800}
+button.secondary{border:1px solid #b8d6c3;border-radius:11px;background:#e8f4eb;color:#24553d;padding:10px 14px;font-weight:750}
+button.ghost{border:1px solid #c8dcd0;background:#fff;padding:7px 11px;border-radius:9px;color:#295b42;font-weight:700}
+button:disabled{opacity:.55;cursor:wait}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+input,textarea,select{width:100%;border:1px solid #c9ddce;border-radius:10px;background:#fff;color:#183f30;padding:10px 11px;min-width:0}
+input:focus,textarea:focus,select:focus{outline:2px solid #85c79d;outline-offset:1px}
+label{display:block;font-size:12px;font-weight:800;color:#285f46;margin:13px 0 6px}
+textarea{min-height:118px;resize:vertical}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields label{margin-top:8px}
+.notice{padding:12px 14px;border-radius:12px;background:#e9f4ec;color:#265841;font-size:12px}
+.notice.warn{background:#fff0cf;color:#705022}
+#account-state,#publish-state,#review-state,#poll-message{font-size:12px;margin:12px 0;line-height:1.5}
+.auth-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.feed-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.feed-tabs button{font-size:12px;background:#e7f0e9;color:#355b46;padding:9px 12px;border:1px solid #cee1d2;border-radius:12px;font-weight:800}
+.feed-tabs button[aria-pressed="true"]{background:#1c5841;color:white}
+article.post{padding:18px 0;border-bottom:1px solid var(--border)}
+.post h3{font-size:20px;margin:8px 0}.post .meta{font-size:11px;color:#60816c;font-weight:800}
+.post p{white-space:pre-wrap;font-size:13px;line-height:1.7;margin:9px 0}
+.post .kind{display:inline-block;background:#e0f2e6;border-radius:20px;color:#246046;padding:5px 10px;font-weight:800;font-size:10px}
+.post .event-meta{background:#f2f7f1;padding:11px;border-radius:10px;font-size:12px}
+.poll-option{display:flex;align-items:center;gap:7px;padding:7px 2px;font-size:12px;font-weight:650}
+.poll-option input{width:auto}
+.poll-results{font-size:12px;color:#446b54;padding:7px 0}
+.poll-bar{background:#e2ecdf;border-radius:20px;height:8px;overflow:hidden;margin:3px 0 8px}.poll-bar i{display:block;height:100%;background:#548d68}
+.form-extra[hidden],#editor-panel[hidden],#moderation-panel[hidden],#credentials[hidden],#editor-no-access[hidden]{display:none!important}
+#editor-no-access{background:#fff3d7;color:#785321}
+.pending-item{border-top:1px solid var(--border);padding:13px 0}
+.pending-item h4{margin:4px 0;font-size:15px}.pending-item p{font-size:12px;white-space:pre-wrap;color:#54705e}
+footer{background:#102f28;color:#cce2d5;padding:22px 0;font-size:12px}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.hero{padding:48px 0}.navlinks{gap:9px;font-size:11px}.card{padding:18px}}
+@media(max-width:430px){.fields{grid-template-columns:1fr}.navlinks a:last-child{display:none}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+<script src="./community.js?v=1" defer></script>
+</head>
+<body>
+<header><div class="wrap top"><a class="logo" href="./">🐟 РЕКА ВЪЧА</a><nav class="navlinks"><a href="./#monitoring">Мониторинг</a><a href="./#gallery">Галерия</a><a href="./">Начало ↗</a></nav></div></header>
+<section class="hero"><div class="wrap"><span class="tag">Живата река · хората край Въча</span><h1>Нашата общност.</h1><p>Споделяме проверени истории, идеи за събития, анкети и предложения. Пазим реката и уважаваме хората и обитателите ѝ.</p></div></section>
+<main class="wrap">
+<div class="layout">
+<section aria-labelledby="feed-title">
+ <div class="card">
+  <h2 id="feed-title">От общността</h2>
+  <p class="lead">Одобрени публикации от редакторите на „Река Въча“. Непотвърдени твърдения за разрешени риболовни участъци не са официални указания.</p>
+  <div class="feed-tabs" id="feed-tabs" aria-label="Вид публикация">
+   <button type="button" data-kind="all" aria-pressed="true">Всичко</button>
+   <button type="button" data-kind="post" aria-pressed="false">Новини</button>
+   <button type="button" data-kind="poll" aria-pressed="false">Анкети</button>
+   <button type="button" data-kind="event" aria-pressed="false">Събития</button>
+   <button type="button" data-kind="proposal" aria-pressed="false">Предложения</button>
+  </div>
+  <div id="feed-status" role="status" class="lead">Зареждаме публикациите…</div>
+  <div id="feed-list"></div>
+ </div>
+</section>
+<aside aria-label="Редакторски кабинет">
+ <div class="card" id="account-card">
+  <h2>🔐 Редакторски кабинет</h2>
+  <p class="lead">Достъп само за хора, на които е дадена изрична редакторска роля. Обикновена регистрация не дава право на публикуване.</p>
+  <div id="credentials">
+   <label for="editor-email">Имейл</label><input id="editor-email" type="email" autocomplete="email" placeholder="email@example.com">
+   <label for="editor-pass">Парола</label><input id="editor-pass" type="password" autocomplete="current-password" minlength="6" placeholder="Поне 6 знака">
+   <div class="auth-actions"><button type="button" id="editor-login" class="primary">Вход</button><button type="button" id="editor-register" class="secondary">Регистрация</button></div>
+  </div>
+  <p id="account-state" role="status">Проверяваме профила…</p>
+  <button id="editor-logout" type="button" class="ghost" hidden>Изход</button>
+  <div id="editor-no-access" class="notice" hidden>Профилът е активен, но още няма редакторски права. Собственикът трябва да одобри достъпа.</div>
+ </div>
+ <div class="card" id="editor-panel" hidden>
+  <h2>Нова публикация</h2>
+  <p class="lead">Всички нови материали първо се изпращат за одобрение.</p>
+  <form id="publish-form">
+   <label for="pub-kind">Какво ще публикуваш?</label>
+   <select id="pub-kind"><option value="post">История / новина</option><option value="poll">Анкета</option><option value="event">Предложение за събитие</option><option value="proposal">Предложение към екипа</option></select>
+   <label for="pub-title">Заглавие</label><input id="pub-title" maxlength="160" minlength="6" required placeholder="Например: Да почистим брега през уикенда">
+   <label for="pub-body">Текст</label><textarea id="pub-body" maxlength="6000" minlength="10" required placeholder="Разкажи подробностите…"></textarea>
+   <div id="pub-poll" class="form-extra" hidden><label for="pub-options">Отговори за анкетата (по един на ред, 2–6)</label><textarea id="pub-options" placeholder="Да, искам да участвам&#10;Може би&#10;Не мога"></textarea></div>
+   <div id="pub-event" class="form-extra" hidden>
+    <label for="pub-date">Дата и час (местно време)</label><input type="datetime-local" id="pub-date">
+    <label for="pub-location">Място / общ ориентир</label><input id="pub-location" maxlength="180" placeholder="Например: Кричим, обществено достъпна зона">
+   </div>
+   <button type="submit" id="pub-submit" class="primary" style="margin-top:15px">Изпрати за одобрение</button>
+   <p id="publish-state" role="status"></p>
+  </form>
+  <p class="notice">📷 Снимки и видео може да добавяш през <a href="./#gallery"><strong>галерията на Въча</strong></a>. Не публикувай лични данни или точни координати на чувствителни места.</p>
+  <h3>Моите предложения</h3><div id="own-posts" class="lead">Няма изпратени материали.</div>
+ </div>
+ <div class="card" id="moderation-panel" hidden>
+  <h2>🛡️ Одобрение на съдържанието</h2><p class="lead">Показва се само на собственика на рубриката.</p>
+  <p id="review-state" role="status"></p><div id="pending-list"></div>
+ </div>
+</aside>
+</div></main>
+<footer><div class="wrap">„Река Въча — Живата река“ · Независим общностен проект · <a href="./">Начало</a> · POWERED BY YORDAN VANKOV 90 EOOD &amp; DNCH STUDIO</div></footer>
+</body></html>
