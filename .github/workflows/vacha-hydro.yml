@@ -1,7 +1,7 @@
-name: Update Vacha hydrology (5 min check)
+name: Vacha hydrology archive (hourly)
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '13 * * * *'
   push:
     paths:
       - '.github/workflows/vacha-hydro.yml'
