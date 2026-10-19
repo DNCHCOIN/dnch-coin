@@ -83,7 +83,7 @@
  el('telegram-setup-form').addEventListener('submit',async e=>{
    e.preventDefault();
    const field=el('telegram-bot-token'),token=field.value.trim();
-   if(!/^\\d{5,16}:[A-Za-z0-9_-]{20,100}$/.test(token)){
+   if(!/^[0-9]{5,16}:[A-Za-z0-9_-]{20,100}$/.test(token)){
      status('Токенът не е в правилния формат. Копирай целия токен от BotFather.');return;
    }
    const button=el('telegram-setup-submit');button.disabled=true;
