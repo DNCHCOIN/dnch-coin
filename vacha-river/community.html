@@ -62,7 +62,7 @@ footer{background:#102f28;color:#cce2d5;padding:22px 0;font-size:12px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./community.js?v=3" defer></script>
-<script src="./telegram-review.js?v=2" defer></script>
+<script src="./telegram-review.js?v=3" defer></script>
 </head>
 <body>
 <header><div class="wrap top"><a class="logo" href="./">🐟 РЕКА ВЪЧА</a><nav class="navlinks"><a href="./#monitoring">Мониторинг</a><a href="./#gallery">Галерия</a><a href="./">Начало ↗</a></nav></div></header>
@@ -143,7 +143,17 @@ footer{background:#102f28;color:#cce2d5;padding:22px 0;font-size:12px}
     <p class="lead">Максимум двама. Разрешението се дава само по цифровия Telegram ID, а не по @username.</p>
   </form>
   <div id="telegram-allow-list"></div>
-  <div class="btn-row"><button id="telegram-refresh" type="button" class="secondary">Обнови входящите</button><button id="telegram-connect" type="button" class="ghost">Свържи бота</button></div>
+  <div class="notice" id="telegram-setup-box">
+   <h3>🤖 Активиране на @VachaRiverBot</h3>
+   <p class="lead">Еднократно въведи токена, получен от <a href="https://t.me/BotFather" target="_blank" rel="noopener noreferrer">BotFather</a>. Той се проверява и съхранява защитено в Supabase Vault. Не го изпращай в чат и не го публикувай.</p>
+   <form id="telegram-setup-form">
+    <label for="telegram-bot-token">Тайният токен на @VachaRiverBot</label>
+    <input id="telegram-bot-token" type="password" autocomplete="off" spellcheck="false" required placeholder="Токен от BotFather">
+    <button id="telegram-setup-submit" type="submit" class="primary" style="margin-top:12px">Активирай бота и снимките</button>
+   </form>
+   <p id="telegram-config-status" role="status" class="lead">Проверяваме настройката на бота…</p>
+  </div>
+  <div class="btn-row"><button id="telegram-refresh" type="button" class="secondary">Обнови входящите</button><button id="telegram-connect" type="button" class="ghost">Провери / свържи отново</button></div>
   <p id="telegram-status" role="status" class="lead"></p>
   <div id="telegram-queue"></div>
  </div>
