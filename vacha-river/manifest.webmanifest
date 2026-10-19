@@ -1,0 +1,33 @@
+{
+  "name": "Река Въча — Живата река",
+  "short_name": "Река Въча",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "bg",
+  "description": "Нива на река Въча, прогноза за времето, риболов и опазване на природата.",
+  "background_color": "#0b3c31",
+  "theme_color": "#0b3c31",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
