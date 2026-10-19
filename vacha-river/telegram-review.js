@@ -35,8 +35,24 @@
    const list=el('telegram-queue');list.replaceChildren();status('Зареждане на материалите…');
    try{
      const data=await call('GET');
+     const allowed=el('telegram-allow-list');allowed.replaceChildren();
+     const reporters=data.reporters||[];
+     elem(allowed,'p','Разрешени активни профили: '+reporters.filter(x=>x.is_active).length+' / 2','lead');
+     for(const reporter of reporters){
+       const item=elem(allowed,'div',null,'btn-row');
+       elem(item,'span',reporter.display_name+' · ID '+reporter.telegram_user_id+(reporter.is_active?' ✅':' (изключен)'));
+       if(reporter.is_active){
+         const b=elem(item,'button','Отнеми достъпа','ghost');b.type='button';
+         b.addEventListener('click',async()=>{
+           if(!confirm('Да премахна достъпа на '+reporter.display_name+'?'))return;
+           b.disabled=true;
+           try{await call('POST','remove-reporter',{telegram_user_id:Number(reporter.telegram_user_id)});await refresh()}
+           catch(e){status('Грешка: '+e.message);b.disabled=false}
+         });
+       }
+     }
      const items=data.items||[];
-     status(items.length?'Чакат одобрение: '+items.length:'Няма чакащи материали от Telegram.');
+     status(items.length?'Чакат обработка: '+items.length:'Няма чакащи текстови материали. Снимките се публикуват автоматично.');
      for(const item of items){
        const article=elem(list,'div',null,'pending-item');
        elem(article,'h4',(item.kind==='photo'?'📷 Снимка':'📝 Текст')+' · '+item.reporter);
@@ -61,6 +77,20 @@
      }
    }catch(e){status('Неуспешно зареждане: '+e.message)}
  }
+ el('telegram-allow-form').addEventListener('submit',async e=>{
+   e.preventDefault();
+   const telegram_user_id=Number(el('tg-allow-id').value);
+   const display_name=el('tg-allow-name').value.trim();
+   if(!Number.isSafeInteger(telegram_user_id)||telegram_user_id<=0||display_name.length<2){
+     status('Въведи валиден цифров Telegram ID и име.');return;
+   }
+   status('Записваме разрешения профил…');
+   try{
+     await call('POST','add-reporter',{telegram_user_id,display_name});
+     el('telegram-allow-form').reset();
+     await refresh();
+   }catch(e){status('Профилът не е добавен: '+e.message)}
+ });
  el('telegram-refresh').addEventListener('click',refresh);
  el('telegram-connect').addEventListener('click',async()=>{
    status('Проверяваме сигурната връзка с Telegram…');
