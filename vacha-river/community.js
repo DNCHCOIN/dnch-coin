@@ -10,7 +10,14 @@
  const sb=window.supabase?.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true}});
  if(sb)window.vachaCommunitySupabase=sb;
  if(!sb){msg('account-state','Няма връзка с модула за профили.');msg('feed-status','Неуспешно зареждане на общността.');return}
- let user=null,membership=null,feed=[],filter='all';
+ let user=null,membership=null,feed=[],filter='all',recoveryMode=false;
+ function showPasswordRecovery(){
+   recoveryMode=true;
+   el('password-reset-panel').hidden=false;
+   el('credentials').hidden=true;
+   msg('account-state','Връзката за възстановяване е приета. Избери нова парола.');
+   el('editor-new-pass').focus();
+ }
  const isOwner=()=>membership?.active===true&&membership.role==='owner';
  const isEditor=()=>membership?.active===true;
  function safeOptions(p){return Array.isArray(p?.options)?p.options.filter(x=>typeof x==='string').slice(0,6):[]}
@@ -78,10 +85,10 @@
      const {data:profile}=await sb.from('vacha_editors').select('display_name,role,active').eq('user_id',user.id).maybeSingle();
      membership=profile||null;
    }
-   el('credentials').hidden=!!user;el('editor-logout').hidden=!user;
+   el('credentials').hidden=!!user||recoveryMode;el('editor-logout').hidden=!user||recoveryMode;
    el('editor-panel').hidden=!isEditor();el('moderation-panel').hidden=!isOwner();
    el('editor-no-access').hidden=!user||isEditor();
-   msg('account-state',user?'Влязъл профил: '+user.email+(isEditor()?' · '+(membership.display_name||'Редактор')+' · '+(isOwner()?'Собственик':'Редактор'):' · Без редакторски права'):'Влез или се регистрирай. Редакторските права се дават отделно.');
+   if(!recoveryMode)msg('account-state',user?'Влязъл профил: '+user.email+(isEditor()?' · '+(membership.display_name||'Редактор')+' · '+(isOwner()?'Собственик':'Редактор'):' · Без редакторски права'):'Влез или се регистрирай. Редакторските права се дават отделно.');
    if(isEditor())await loadMine();else el('own-posts').replaceChildren();
    if(isOwner())await loadPending();
    renderFeed();
@@ -143,6 +150,41 @@
    const {error}=await sb.auth.signInWithPassword({email,password});
    if(error)msg('account-state','Входът не успя: '+error.message);else await refreshIdentity();
  });
+ el('editor-forgot').addEventListener('click',async()=>{
+   const email=el('editor-email').value.trim();
+   if(!email||!el('editor-email').checkValidity()){
+     msg('account-state','Въведи първо валиден имейл и натисни „Забравена парола?“.');return;
+   }
+   const button=el('editor-forgot');button.disabled=true;
+   msg('account-state','Изпращаме линк за възстановяване…');
+   try {
+     const redirectTo=location.origin+location.pathname;
+     const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo});
+     if(error)msg('account-state','Неуспешно изпращане: '+error.message);
+     else msg('account-state','Ако този имейл е регистриран, ще получиш линк за нова парола. Провери и папка „Спам“. Отвори линка и избери новата парола на тази страница.');
+   }catch(e){msg('account-state','Няма връзка със системата за възстановяване. Опитай отново.')}
+   finally{button.disabled=false}
+ });
+ el('password-reset-form').addEventListener('submit',async ev=>{
+   ev.preventDefault();
+   if(!recoveryMode){msg('account-state','Първо отвори линка за възстановяване от имейла си.');return}
+   const password=el('editor-new-pass').value;
+   if(password.length<10){msg('account-state','Новата парола трябва да има поне 10 знака.');return}
+   if(password!==el('editor-repeat-pass').value){msg('account-state','Двете пароли не съвпадат.');return}
+   const button=el('editor-reset-save');button.disabled=true;
+   msg('account-state','Запазваме новата парола…');
+   try {
+     const {error}=await sb.auth.updateUser({password});
+     if(error)throw error;
+     el('password-reset-form').reset();
+     recoveryMode=false;
+     el('password-reset-panel').hidden=true;
+     history.replaceState(null,'',location.pathname);
+     await refreshIdentity();
+     msg('account-state','✅ Паролата е сменена успешно. Достъпът до редакторския кабинет е активен.');
+   }catch(e){msg('account-state','Паролата не е променена: '+e.message)}
+   finally{button.disabled=false}
+ });
  el('editor-register').addEventListener('click',async()=>{
    const email=el('editor-email').value.trim(),password=el('editor-pass').value;
    if(!email||password.length<6){msg('account-state','Въведи валиден имейл и парола с минимум 6 символа.');return}
@@ -152,7 +194,11 @@
    else msg('account-state',data?.session?'Профилът е създаден. Изчакай да ти бъде дадена редакторска роля.':'Провери имейла за потвърждение. След това собственикът може да даде редакторски достъп.');
  });
  el('editor-logout').addEventListener('click',async()=>{await sb.auth.signOut();await refreshIdentity()});
- sb.auth.onAuthStateChange((event)=>{if(event==='SIGNED_IN'||event==='SIGNED_OUT'||event==='TOKEN_REFRESHED')queueMicrotask(()=>refreshIdentity().catch(console.warn))});
+ sb.auth.onAuthStateChange((event)=>{
+   if(event==='PASSWORD_RECOVERY')setTimeout(showPasswordRecovery,0);
+   if(event==='SIGNED_IN'||event==='SIGNED_OUT'||event==='TOKEN_REFRESHED')
+     queueMicrotask(()=>refreshIdentity().catch(console.warn));
+ });
  el('feed-tabs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
    filter=b.dataset.kind;el('feed-tabs').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderFeed();
  }));
