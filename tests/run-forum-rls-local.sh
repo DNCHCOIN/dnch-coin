@@ -64,7 +64,19 @@ SQL
 "${PSQL[@]}" -f supabase/migrations/20261018_dnch_forum_invite_only.sql
 
 echo "Running pgTAP integration tests with transaction rollback..."
-"${PSQL[@]}" -f tests/forum-pilot-rls.pgtap.sql
+# pgTAP outputs TAP lines. Plain psql exits zero for SQL that returns "not ok";
+# therefore fail explicitly on any TAP assertion failure or missing test plan.
+TAP_OUT=$(mktemp)
+trap 'rm -f "$TAP_OUT"' EXIT
+"${PSQL[@]}" -f tests/forum-pilot-rls.pgtap.sql | tee "$TAP_OUT"
+if grep -Eq '(^|[[:space:]])not ok[[:space:]]' "$TAP_OUT"; then
+  echo "FAILED: at least one PostgreSQL RLS assertion did not pass." >&2
+  exit 1
+fi
+if ! grep -Eq '1\\.\\.25([^[:digit:]]|$)' "$TAP_OUT"; then
+  echo "FAILED: did not find pgTAP plan for all 25 checks." >&2
+  exit 1
+fi
 
 echo "Running Node.js simulated browser permission regressions..."
 node --test tests/forum-pilot-access.test.mjs
