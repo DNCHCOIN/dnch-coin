@@ -16,8 +16,12 @@ function card(r,own=false){const link=client.storage.from(bucket).getPublicUrl(r
 async function load(){try{
   const pub=await client.from('vacha_photos').select('id,object_path,caption,created_at,status').eq('status','approved').order('created_at',{ascending:false}).limit(36);
   if(pub.error)throw pub.error;
-  const out=id('gallery-public');out.replaceChildren(...(pub.data||[]).map(x=>card(x)));
-  id('gallery-list-status').textContent=(pub.data?.length||0)?`Публикувани снимки: ${pub.data.length}`:'Още няма одобрени снимки. Бъди първият, който ще сподели Въча!';
+  const telegram=await client.from('vacha_telegram_public').select('object_path,caption,credit,published_at').order('published_at',{ascending:false}).limit(36);
+  if(telegram.error)console.warn('Telegram public gallery unavailable',telegram.error);
+  const telegramRows=(telegram.data||[]).map(x=>({object_path:x.object_path,caption:(x.caption||'Снимка от Въча')+' · 📷 '+x.credit}));
+  const allRows=[...telegramRows,...(pub.data||[])];
+  const out=id('gallery-public');out.replaceChildren(...allRows.map(x=>card(x)));
+  id('gallery-list-status').textContent=allRows.length?'Публикувани снимки: '+allRows.length:'Още няма одобрени снимки. Бъди първият, който ще сподели Въча!';
   const mine=id('gallery-mine');mine.replaceChildren();
   if(user){const result=await client.from('vacha_photos').select('id,object_path,caption,status,created_at').eq('owner_id',user.id).eq('status','pending').order('created_at',{ascending:false}).limit(12);
    if(result.error)throw result.error;

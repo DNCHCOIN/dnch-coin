@@ -8,6 +8,7 @@
  const datestr=v=>{try{return new Date(v).toLocaleString('bg-BG',{timeZone:'Europe/Sofia',dateStyle:'medium',timeStyle:'short'})}catch{return 'Неизвестна дата'}};
  const kindText={post:'Новина',poll:'Анкета',event:'Събитие',proposal:'Предложение'};
  const sb=window.supabase?.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true}});
+ if(sb)window.vachaCommunitySupabase=sb;
  if(!sb){msg('account-state','Няма връзка с модула за профили.');msg('feed-status','Неуспешно зареждане на общността.');return}
  let user=null,membership=null,feed=[],filter='all';
  const isOwner=()=>membership?.active===true&&membership.role==='owner';
