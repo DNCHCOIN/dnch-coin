@@ -1,0 +1,36 @@
+name: Update Vacha hydrology
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: vacha-hydrology
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Load NIMH measurements
+        run: python vacha-river/scripts/update_hydro.py
+      - name: Commit updated observations only when changed
+        shell: bash
+        run: |
+          git config user.name 'vacha-river-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add vacha-river/data/hydro.json
+          if git diff --cached --quiet; then
+            echo 'No new observations'
+            exit 0
+          fi
+          git commit -m 'data(vacha): refresh NIMH water levels'
+          git pull --rebase origin main
+          git push origin HEAD:main

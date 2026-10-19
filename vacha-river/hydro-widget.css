@@ -1,0 +1,14 @@
+.hydro-meta{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin:16px 0 14px;color:#dfede5;font-size:13px;font-weight:650}
+.hydro-graph{background:rgba(255,255,255,.095);padding:13px 14px 9px;border-radius:17px;margin:0 0 13px}
+.hydro-graph-head,.hydro-graph-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;color:#dbece4}
+.hydro-graph-head{margin-bottom:10px}.hydro-graph-head strong{color:#fff}
+#hydro-chart{display:block;width:100%;height:122px;overflow:visible}
+#hydro-chart .hydro-grid{stroke:rgba(255,255,255,.17);stroke-width:1;stroke-dasharray:4 6}
+#hydro-chart .hydro-line{fill:none;stroke:#b9f6cd;stroke-width:3;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+#hydro-chart .hydro-dot{fill:#f7e1a0;stroke:#164e42;stroke-width:2;vector-effect:non-scaling-stroke}
+#hydro-chart .hydro-axis-label{fill:#d2e9dd;font-size:11px}
+.hydro-graph-foot{margin-top:5px}.hydro-disclaimer{font-size:12px;color:#c6e0d4;max-width:560px;line-height:1.5}
+#hydro-pill.hydro-stale,#hydro-hero-pill.hydro-stale{background:#fff0c4;color:#6d4d12}
+#hydro-pill.hydro-current,#hydro-hero-pill.hydro-current{background:#daf9dc;color:#225d36}
+#hydro-pill.hydro-error,#hydro-hero-pill.hydro-error{background:#f8d6d6;color:#8b2323}
+@media(max-width:650px){.hydro-meta{flex-direction:column;gap:4px}.hydro-graph{padding:10px 9px 5px}}
