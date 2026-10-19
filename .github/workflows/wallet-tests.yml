@@ -3,12 +3,14 @@ on:
   pull_request:
     paths:
       - 'assets/wallet.js'
+      - 'assets/forum.js'
       - 'tests/wallet.test.cjs'
       - '.github/workflows/wallet-tests.yml'
   push:
     branches: [main]
     paths:
       - 'assets/wallet.js'
+      - 'assets/forum.js'
       - 'tests/wallet.test.cjs'
       - '.github/workflows/wallet-tests.yml'
 jobs:
@@ -20,4 +22,5 @@ jobs:
         with:
           node-version: '22'
       - run: node --check assets/wallet.js
+      - run: node --check assets/forum.js
       - run: node --test tests/wallet.test.cjs
