@@ -127,7 +127,9 @@
     const [water,weather]=await Promise.allSettled([readWater(),readWeather()]);
     display({water:water.status==='fulfilled'?water.value:null,weather:weather.status==='fulfilled'?weather.value:null});
     go.disabled=false;go.textContent='🐟 Предложи ми план';
-    result.scrollIntoView({block:'nearest',behavior:'smooth'});
+    const scroller=$('va-chat-scroll');
+    if(scroller)scroller.scrollTo({top:scroller.scrollHeight,behavior:'smooth'});
+    else result.scrollIntoView({block:'nearest',behavior:'smooth'});
   });
   document.querySelectorAll('[data-va-prompt]').forEach(b=>b.addEventListener('click',()=>{
     $('va-question').value=b.dataset.vaPrompt;
