@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
+<title id="title">Vacha River emblem</title><desc id="desc">A mountain river flowing beneath the silhouette of a trout, in a circular deep green badge</desc>
+<defs>
+<linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#103c31"/><stop offset="1" stop-color="#22664f"/></linearGradient>
+<linearGradient id="river" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a6e3c4"/><stop offset="1" stop-color="#e9f2d6"/></linearGradient>
+</defs>
+<circle cx="120" cy="120" r="116" fill="url(#green)"/>
+<circle cx="120" cy="120" r="105" fill="none" stroke="#d8e9d0" stroke-width="2.5"/>
+<path d="M35 107 70 67l24 26 27-36 30 36 18-20 36 34" fill="none" stroke="#d9e9d4" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M35 150c35-12 43-26 76-23 29 3 44 22 95 5" stroke="url(#river)" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M35 174c35-12 43-26 76-23 29 3 44 22 95 5" stroke="#80cfb2" stroke-width="6" fill="none" stroke-linecap="round" opacity=".85"/>
+<path d="M60 117c23-34 65-38 99-9 11-3 21-15 35-16l-11 21 11 21c-14-1-24-13-35-16-35 24-75 25-99-1Z" fill="#e0ebd1" stroke="#0c4939" stroke-width="3" stroke-linejoin="round"/>
+<path d="M93 103 104 92l9 11m-25 12 18 8 25-7" fill="none" stroke="#3f8267" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="74" cy="113" r="3.5" fill="#174c3a"/>
+<circle cx="106" cy="112" r="2" fill="#b69e62"/><circle cx="123" cy="111" r="2" fill="#b69e62"/><circle cx="138" cy="113" r="2" fill="#b69e62"/>
+<path d="M79 132c23 3 40 0 57-7" stroke="#c7e1ce" stroke-width="2" fill="none"/>
+<path d="M85 196h70" stroke="#dcbf7e" stroke-width="3" stroke-linecap="round"/>
+</svg>
