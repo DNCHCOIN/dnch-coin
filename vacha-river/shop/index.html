@@ -254,6 +254,39 @@ $('#demo-spin').onclick=function(){
  disc.style.transform='rotate('+angle+'deg)';
  window.setTimeout(function(){out.textContent=demoResults[idx]+' — само демонстрация, без реална награда или код.';btn.disabled=false},4100);
 };
+
+function toolReset(el,tag,title){while(el.firstChild)el.removeChild(el.firstChild);var a=document.createElement('span');a.className='overline';a.textContent=tag;var h=document.createElement('h3');h.textContent=title;el.append(a,h)}
+function toolRow(el,label,value){var li=document.createElement('li');var key=document.createElement('strong');key.textContent=label;var val=document.createElement('span');val.textContent=value;li.append(key,val);el.append(li)}
+function toolParagraph(el,content,cls){var p=document.createElement('p');p.textContent=content;if(cls)p.className=cls;el.append(p)}
+$('#combo-form').addEventListener('submit',function(e){
+e.preventDefault();
+var budget=$('#combo-budget').value,style=$('#combo-style').value,place=$('#combo-place').value;
+var styles={ul:'UL пъстърва',river:'Речен спининг',fly:'Мухарски риболов'};
+var sets={
+ul:{100:['UL въдица · начален клас','Макара размер 1000–2000','Фино влакно + FC повод','3 малки примамки'],150:['По-фина UL въдица','Лека макара 1000–2000','Плетено влакно + FC повод','5 примамки и аксесоари'],225:['UL въдица · по-висок клас','Лека макара 1000–2000','Качествено влакно + FC повод','Подбор 7+ микропримамки']},
+river:{100:['Лека спининг въдица','Макара около 2000','Влакно и поводен материал','3 речни примамки'],150:['Лека въдица · среден клас','Макара 2000–2500','Плетено влакно + FC','5 воблера или блесни'],225:['Лека въдица · по-висок клас','Макара 2000–2500','Качествено влакно и FC','Подбор 7+ речни примамки']},
+fly:{100:['Мухарска въдица · начален клас','Мухарска макара в същия клас','Шнур и лидер','3 примерни мухи'],150:['Мухарска въдица · среден клас','Подходяща мухарска макара','Шнур + поводен материал','5 сухи мухи или нимфи'],225:['Мухарска въдица · висок клас','Макара и шнур от същия клас','Лидери и поводен материал','Разширен набор сухи мухи и нимфи']}
+};
+var result=$('#combo-result');toolReset(result,'Примерен Vacha Combo',(budget==='225'?'От ':'Около ')+budget+' € · '+styles[style]);var ul=document.createElement('ul');
+sets[style][budget].forEach(function(x,i){toolRow(ul,['Въдица','Макара','Влакно','Примамки'][i],x)});result.append(ul);
+toolParagraph(result,place==='riffle'?'За бързеи: подбери примамки, които могат да се контролират в течението.':'За тихи вирове: подбери примамки за по-бавна проводка и променяща се дълбочина.');
+toolParagraph(result,'Това е примерна конфигурация без потвърдени модели и цени. Съвместимостта на всяка конкретна въдица, макара и шнур трябва да се провери.','tool-note');
+});
+$('#river-form').addEventListener('submit',function(e){
+e.preventDefault();
+var temp=$('#river-temp').value,clarity=$('#river-clarity').value,level=$('#river-level').value,result=$('#river-result');
+toolReset(result,'River Smart · ориентир',level==='high'?'Първо безопасността':temp==='cold'?'Сдържана проводка':temp==='warm'?'Грижа за рибата':'Речна селекция');
+if(level!=='high'){
+var ul=document.createElement('ul');
+toolRow(ul,'Примамки',temp==='cold'?'Малки воблери / микро клатушки':temp==='warm'?'Дребни примамки; избягвай стресиране на рибата':'Minnow воблер, клатушка или силикон');
+toolRow(ul,'Цветове',clarity==='clear'?'Естествени и ненатрапчиви':'По-видими и контрастни');
+toolRow(ul,'Проводка',temp==='cold'?'По-бавна и контролирана':temp==='warm'?'Избягвай дълга борба с рибата':'Променлива скорост, с паузи');
+result.append(ul);
+}
+toolParagraph(result,level==='high'?'⚠ Високо ниво и силно течение: не гази! Избягвай опасни брегове и изчакай безопасни условия.':temp==='warm'?'⚠ Топла вода може да натовари пъстървата. Прецени дали изобщо е подходящо да ловиш и спазвай местните правила.':'ℹ️ Провери актуалните речни условия и местните правила за риболов.','river-alert');
+toolParagraph(result,'Използвани са само въведените от теб наблюдения — не датчик и не измерване в реално време.','tool-note');
+var a=document.createElement('a');a.href='../#monitoring';a.className='tool-link';a.textContent='Провери мониторинга на Въча ↗';result.append(a);
+});
 persist();render();
 })();
 </script>
