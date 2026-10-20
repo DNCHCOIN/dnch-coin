@@ -39,13 +39,14 @@ dialog{border:0;padding:0;border-radius:20px;width:min(560px,calc(100% - 26px));
 @media(max-width:1050px){.tier-grid{grid-template-columns:1fr 1fr}.tier:last-child{grid-column:1/-1}.perks-grid{grid-template-columns:repeat(2,1fr)}.merch-showcase{grid-template-columns:repeat(2,1fr)}.main-links{gap:10px}.main-links a{font-size:11px}}
 @media(max-width:600px){.tier-grid,.spin-layout{grid-template-columns:1fr}.tier:last-child{grid-column:auto}.tier-cover{min-height:175px}.tier h3{font-size:24px}.perks-grid{grid-template-columns:1fr 1fr;gap:9px}.perk{padding:16px}.merch-showcase{gap:9px}.spin-layout{padding:21px;gap:12px}.spin-board{width:260px}.spin-labels span{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.spin-disc{transition:none}}
+.logo-mark{overflow:hidden;background:none!important;border-radius:50%!important}.logo-mark img{width:100%;height:100%;object-fit:contain}.brand-merch-lead{display:flex;align-items:center;gap:20px;background:#e9f2e7;border:1px solid #cfe0d0;border-radius:18px;padding:15px 22px;margin-bottom:15px}.brand-merch-lead img{border-radius:50%}.brand-merch-lead strong{font-size:14px}.brand-merch-lead p{font-size:12px;color:#5a7767;max-width:700px}@media(max-width:560px){.brand-merch-lead{padding:12px;gap:12px}.brand-merch-lead img{width:68px;height:68px}}
 </style>
 </head>
 <body>
 <div class="announcement">🎣 КОНЦЕПТУАЛЕН МАГАЗИН · <b>ДЕМОНСТРАЦИЯ, БЕЗ ПРОДАЖБИ</b> · ЧАСТ ОТ DNCH WORLD</div>
 <header><div class="wrap topbar">
-<a class="logo" href="../" aria-label="Река Въча — начало"><span class="logo-mark">≈</span><span><strong>VACHA <em>SHOP</em></strong><small>Река Въча · България</small></span></a>
-<nav class="main-links" aria-label="Основна навигация"><a href="#categories">Категории</a><a href="#bundles">Кутии</a><a href="#catalog">Каталог</a><a href="#merch">Merch</a><a href="#rewards">Бонуси</a><a href="#brands">Брандове</a><a href="../guide.html">Академия</a></nav>
+<a class="logo" href="../" aria-label="Река Въча — начало"><span class="logo-mark"><img src="./vacha-emblem.svg" alt="" width="43" height="43"></span><span><strong>VACHA <em>SHOP</em></strong><small>Река Въча · България</small></span></a>
+<nav class="main-links" aria-label="Основна навигация"><a href="#bundles">Кутии</a><a href="#build">Моят комплект</a><a href="#river-smart">Речен подбор</a><a href="#merch">Merch</a><a href="#club">Клуб</a><a href="#catalog">Каталог</a></nav>
 <div class="actions"><button class="outline-btn" type="button" id="saved-open" aria-label="Отвори списък с избрани продукти">♡ <span class="hide-mobile">Моят списък</span> <span class="fav-count" id="fav-count">0</span></button><a class="solid-btn" href="../">← Към реката</a></div>
 </div></header>
 <main>
@@ -53,7 +54,7 @@ dialog{border:0;padding:0;border-radius:20px;width:min(560px,calc(100% - 26px));
 <span class="hero-tag">🌿 Създадено от риболовци · Vacha River</span>
 <h1>Подготви се за <span>следващия излет.</span></h1>
 <p>Въдици, макари, примамки и екипировка — каталог с акцент върху пъстърва, ултралайт спининг и мухарски риболов. Един ден тук ще намериш и внимателно подбрани предложения от партньори.</p>
-<div class="hero-btns"><a class="solid-btn" href="#bundles">🎁 Разгледай комплектите ↗</a><a class="outline-btn" href="#catalog">Целият каталог</a></div>
+<div class="hero-btns"><a class="solid-btn" href="#bundles">🎁 Разгледай комплектите ↗</a><a class="outline-btn" href="#build">🧩 Създай своя комплект</a></div>
 </div></section>
 <div class="note-strip"><div class="wrap note-inner"><p><b>Прототип за преглед:</b> цените на комплектите са само примерни целеви нива, не търговски оферти. Няма проверени наличности, плащане или поръчки.</p><a href="#about">За бъдещия магазин →</a></div></div>
 <section class="section wrap" id="categories"><div class="section-head"><div><span class="overline">Намери своята екипировка</span><h2>Всички категории</h2><p>Широк каталог като в големите риболовни магазини, но с наша собствена структура и специално място за речния риболов.</p></div></div>
@@ -95,7 +96,7 @@ dialog{border:0;padding:0;border-radius:20px;width:min(560px,calc(100% - 26px));
 
 <section class="section wrap" id="merch">
 <div class="section-head"><div><span class="overline">Vacha River · Носи реката със себе си</span><h2>Мърч с характер.</h2><p>Тениски, шапки, суитчъри, бъфове и стикери. Това са концепции за колекция, която ще създадем със собственото лого на Vacha River.</p></div><button class="solid-btn" type="button" data-bundle-category="merch">Виж примерния мърч ↗</button></div>
-<div class="merch-showcase">
+<div class="brand-merch-lead"><img src="./vacha-emblem.svg" alt="Вариант на емблемата с пъстърва, планини и река" width="92" height="92"><div><strong>VACHA RIVER · ORIGINAL EDITION</strong><p>Първи вариант на нашия знак — пъстърва, планини и извивките на реката. Подходяща концепция за шапки, тениски, стикери и кутии.</p></div></div><div class="merch-showcase">
 <article class="merch-tile"><span class="merch-symbol">🧢</span><h3>River Cap</h3><p>Шапка с бродирана емблема</p></article>
 <article class="merch-tile"><span class="merch-symbol">👕</span><h3>Wild Trout Tee</h3><p>Тениска с графика на пъстърва</p></article>
 <article class="merch-tile"><span class="merch-symbol">🧥</span><h3>Vacha Hoodie</h3><p>Суитчър за хладните сутрини</p></article>
