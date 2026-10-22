@@ -24,7 +24,7 @@ if(!result&&!$('weightLimit').checked)$('weightStats').textContent='Ограни
 
 function rateText(basis){return basis.rate===5/3?'1⅔':basis.rate.toLocaleString('bg-BG',{maximumFractionDigits:4})}
 function updatePalletLabels(){const b=PalletBasis.get($('palletBasis').value);$('palletRate').textContent=b.label+' • '+rateText(b)+' бр./м';$('palletFormula').textContent='Заета дължина × '+rateText(b)+' = палетоместа '+b.label+'.'}
-$('palletBasis').onchange=()=>{updatePalletLabels();if(result&&lastRender&&!$('dirty').textContent){const {r,W,L,g,area}=lastRender;render(r,W,L,g,area)}changedSave()};updatePalletLabels();
+$('palletBasis').onchange=()=>{updatePalletLabels();if(result&&lastRender&&!$('dirty').textContent){const {r,W,L,g,area}=lastRender;render(r,W,L,g,area)}else if($('status').classList.contains('error'))run();changedSave()};updatePalletLabels();
 
 $('clearCargo').onclick=()=>{
  $('rows').replaceChildren();add();result=null;lastRender=null;changed();
@@ -48,4 +48,4 @@ function planFilename(value){const name=String(value).replace(/[<>:"/\\|?*\x00-\
 function updateShipmentNotes(){const notes=$('shipmentNotes').value;$('shipmentNotesPrint').textContent=notes;$('shipmentNotesPrint').hidden=!notes.trim();}
 $('shipmentNotes').addEventListener('input',()=>{updateShipmentNotes();changedSave()});
 
-function areaOverflowMessage(area,W,L){const capacity=W*L,extra=area-capacity;return 'Общата площ на товарите е '+fmt(area/10000)+' м² при '+fmt(capacity/10000)+' м² площ на ремаркето. Надвишава с '+fmt(extra/10000)+' м² ('+fmt(extra/capacity*100)+'%). Площен еквивалент на превишението: '+fmt(extra/W/100)+' л.м. при ширина '+fmt(W/100)+' м — без отчитане на подреждането.';}
+function areaOverflowMessage(area,W,L){const capacity=W*L,extra=area-capacity,basis=PalletBasis.get($('palletBasis').value),equivalent=extra/(basis.area*10000),whole=Math.max(1,Math.ceil(equivalent-1e-9));return 'Общата площ на товарите е '+fmt(area/10000)+' м² при '+fmt(capacity/10000)+' м² площ на ремаркето. Надвишава с '+fmt(extra/10000)+' м² ('+fmt(extra/capacity*100)+'%). Площен еквивалент на превишението: '+fmt(extra/W/100)+' л.м. при ширина '+fmt(W/100)+' м — без отчитане на подреждането. Излишъкът по площ се равнява на '+fmt(equivalent)+' палетоместа '+basis.label+'. При цели палети с този размер: поне '+whole+' бр. няма да се съберат по площ. При нестандартни товари това е еквивалент, а не брой конкретни пратки.';}
