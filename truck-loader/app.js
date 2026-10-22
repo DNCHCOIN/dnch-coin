@@ -22,3 +22,13 @@ if(!result&&!$('weightLimit').checked)$('weightStats').textContent='Ограни
 function rateText(basis){return basis.rate===5/3?'1⅔':basis.rate.toLocaleString('bg-BG',{maximumFractionDigits:4})}
 function updatePalletLabels(){const b=PalletBasis.get($('palletBasis').value);$('palletRate').textContent=b.label+' • '+rateText(b)+' бр./м';$('palletFormula').textContent='Заета дължина × '+rateText(b)+' = палетоместа '+b.label+'.'}
 $('palletBasis').onchange=()=>{updatePalletLabels();if(result&&lastRender&&!$('dirty').textContent){const {r,W,L,g,area}=lastRender;render(r,W,L,g,area)}changedSave()};updatePalletLabels();
+
+$('clearCargo').onclick=()=>{
+ $('rows').replaceChildren();add();result=null;lastRender=null;changed();
+ ['used','pallets','remaining'].forEach(id=>$(id).textContent='—');
+ $('view').className='empty';$('view').textContent='Тук ще се появи схемата на ремаркето.';
+ $('positions').replaceChildren();$('legend').replaceChildren();$('manualPanel').hidden=true;
+ $('weightStats').textContent='Няма въведени товари.';$('status').className='';
+ $('status').textContent='Товарите са изчистени. Въведи нов товар и натисни „Намери подреждане“.';
+ $('dirty').textContent='';$('rows').querySelector('input').focus();
+};
