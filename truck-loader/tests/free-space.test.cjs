@@ -4,3 +4,15 @@ const five=[p(1,0,0,120,80),p(2,80,0,120,80),p(3,160,0,120,80),p(4,0,120,80,120)
 let a=[p(1,0,0,100,80),p(2,160,0,100,80)];assert(F.spaces(a,240,300).some(f=>f.x===80&&f.y===0&&f.w===80&&f.h===300),'finds gap between cargo, not only rear');let withTop=[p(1,0,0,100,120),{...p(2,0,0,80,80),parent:1,level:1,z:50}];assert.deepEqual(F.spaces(withTop,240,300),F.spaces(withTop.slice(0,1),240,300));
 for(let g of [0,3,7])for(let k=0;k<10;k++){let a=[p(1,0,0,100,80),p(2,120,200,80,100,k%2===0)];for(let f of F.spaces(a,240,500,g)){assert(f.x>=0&&f.y>=0&&f.x+f.w<=240+1e-6&&f.y+f.h<=500+1e-6);let added=p(99,f.x,f.y,f.h,f.w);assert.deepEqual(M.validate([...M.copy(a),added],{W:240,L:500,H:220,g,stacking:false,enforceWeight:false}),[],'every suggested footprint fits with configured gaps');}}
 console.log('PASS: empty/full trailers, 5-pallet rear space, internal gaps, stack bases, rotations, boundary and clearance validity');
+
+// An L-shaped void previously produced two overlapping alternatives.
+const lshape=[p(1,0,0,100,100)];
+const concrete=F.partition(lshape,240,300);
+assert(concrete.length>=2);
+assert.equal(concrete.reduce((sum,f)=>sum+f.w*f.h,0),240*300-100*100);
+for(const g of [0,3,7]){
+ const boxes=F.partition(lshape,240,300,g).map((f,i)=>p(100+i,f.x,f.y,f.h,f.w));
+ assert.deepEqual(M.validate([...lshape,...boxes],{W:240,L:300,H:220,g,stacking:false,enforceWeight:false}),[],'all suggested shipments fit simultaneously');
+}
+assert.equal(F.partition(five,240,200).length,0,'exclude empty rear beyond used span');
+console.log('PASS: concrete non-overlapping free spaces, simultaneous clearance, area coverage and occupied-span boundary');
