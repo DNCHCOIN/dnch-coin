@@ -3,32 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-10-23T04:41:55+00:00",
+  "fetchedAt": "2026-10-23T10:00:09+00:00",
   "latest": {
-    "observedAtLocal": "2026-10-23T06:00:00",
-    "observedAt": "2026-10-23T06:00:00+03:00",
+    "observedAtLocal": "2026-10-23T09:00:00",
+    "observedAt": "2026-10-23T09:00:00+03:00",
     "levelCm": 17,
     "flowM3s": 1.712
   },
   "history": [
-    {
-      "observedAtLocal": "2026-10-19T07:00:00",
-      "observedAt": "2026-10-19T07:00:00+03:00",
-      "levelCm": 16,
-      "flowM3s": 1.655
-    },
-    {
-      "observedAtLocal": "2026-10-19T08:00:00",
-      "observedAt": "2026-10-19T08:00:00+03:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
-    {
-      "observedAtLocal": "2026-10-19T09:00:00",
-      "observedAt": "2026-10-19T09:00:00+03:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
     {
       "observedAtLocal": "2026-10-19T10:00:00",
       "observedAt": "2026-10-19T10:00:00+03:00",
@@ -584,6 +566,24 @@
     {
       "observedAtLocal": "2026-10-23T06:00:00",
       "observedAt": "2026-10-23T06:00:00+03:00",
+      "levelCm": 17,
+      "flowM3s": 1.712
+    },
+    {
+      "observedAtLocal": "2026-10-23T07:00:00",
+      "observedAt": "2026-10-23T07:00:00+03:00",
+      "levelCm": 17,
+      "flowM3s": 1.712
+    },
+    {
+      "observedAtLocal": "2026-10-23T08:00:00",
+      "observedAt": "2026-10-23T08:00:00+03:00",
+      "levelCm": 17,
+      "flowM3s": 1.712
+    },
+    {
+      "observedAtLocal": "2026-10-23T09:00:00",
+      "observedAt": "2026-10-23T09:00:00+03:00",
       "levelCm": 17,
       "flowM3s": 1.712
     }
