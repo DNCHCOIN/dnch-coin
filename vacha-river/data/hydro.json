@@ -3,26 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-10-23T19:09:35+00:00",
+  "fetchedAt": "2026-10-23T22:07:01+00:00",
   "latest": {
-    "observedAtLocal": "2026-10-23T21:00:00",
-    "observedAt": "2026-10-23T21:00:00+03:00",
-    "levelCm": 19,
-    "flowM3s": 1.827
+    "observedAtLocal": "2026-10-23T23:00:00",
+    "observedAt": "2026-10-23T23:00:00+03:00",
+    "levelCm": 17,
+    "flowM3s": 1.712
   },
   "history": [
-    {
-      "observedAtLocal": "2026-10-19T22:00:00",
-      "observedAt": "2026-10-19T22:00:00+03:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
-    {
-      "observedAtLocal": "2026-10-19T23:00:00",
-      "observedAt": "2026-10-19T23:00:00+03:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
     {
       "observedAtLocal": "2026-10-20T00:00:00",
       "observedAt": "2026-10-20T00:00:00+03:00",
@@ -586,6 +574,18 @@
       "observedAt": "2026-10-23T21:00:00+03:00",
       "levelCm": 19,
       "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-10-23T22:00:00",
+      "observedAt": "2026-10-23T22:00:00+03:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-10-23T23:00:00",
+      "observedAt": "2026-10-23T23:00:00+03:00",
+      "levelCm": 17,
+      "flowM3s": 1.712
     }
   ],
   "disclaimer": "Оперативни измервания. Не гарантират безопасност при работа на ВЕЦ."
