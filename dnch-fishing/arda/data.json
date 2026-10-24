@@ -1,0 +1,146 @@
+{
+  "slug": "arda",
+  "title": "Река Арда",
+  "status": "prepared",
+  "researchDate": "2026-10-24",
+  "lengthApproxKm": 241,
+  "description": "Най-големият десен приток на Марица; високопланински изворен участък, каменисти речни отрязъци, големи язовири и меандри на Източните Родопи.",
+  "segments": [
+    {
+      "title": "Горна Арда",
+      "location": "Извори — район Кошница",
+      "restriction": "Специално ограничен участък",
+      "speciesToVerify": [
+        "балканска пъстърва",
+        "дъгова пъстърва"
+      ],
+      "character": "Планинска река с бързеи и кислородни вирове. **Не предлагаме излет тук:** участъкът от изворите до стопанството при Кошница е посочен като забранен.",
+      "fishing": "Водоем за опознаване и природни снимки; без препоръки за целенасочен улов в забранения отрязък.",
+      "canRecommend": false
+    },
+    {
+      "title": "Средна Арда",
+      "location": "Рудозем — Ардино — Кърджали",
+      "restriction": "Проверка на участъка",
+      "speciesToVerify": [
+        "кефал",
+        "пъстървови в отделни участъци"
+      ],
+      "character": "Редуват се каменисти прагове, по-дълбоки вирове и зони с различна скорост на течението.",
+      "fishing": "UL миноу 3–5 см и малки въртящи блесни за разрешените участъци; размерът се съобразява с течението.",
+      "canRecommend": true
+    },
+    {
+      "title": "Меандри и Маджарово",
+      "location": "След яз. Студен кладенец към Ивайловград",
+      "restriction": "Проверка на режима и дебита",
+      "speciesToVerify": [
+        "кефал",
+        "костур",
+        "сом — локално"
+      ],
+      "character": "Широки завои, чакълести коси, скални брегове и връзка с язовирните местообитания. Районът е екологично чувствителен.",
+      "fishing": "Кренк и миноу 3–7 см за кефал; силикон 5–8 см за костур в тихи джобове, когато е потвърден и разрешен.",
+      "canRecommend": true
+    },
+    {
+      "title": "Язовирно влияние",
+      "location": "Кърджали · Студен кладенец · Ивайловград",
+      "restriction": "Отделни водоеми",
+      "speciesToVerify": [
+        "бяла риба",
+        "костур",
+        "сом"
+      ],
+      "character": "Големите язовири по Арда имат собствени дълбочинни структури и различен режим от свободнотечащата река.",
+      "fishing": "Джиг 7–12 см за бяла риба и силикони за костур. Отделни подробни страници за всеки язовир.",
+      "canRecommend": true
+    }
+  ],
+  "lures": [
+    {
+      "name": "Кренк за кефал",
+      "size": "3–5 см",
+      "tackle": "UL 1–10 г",
+      "retrieve": "Равномерно, леко задържане на струята",
+      "zone": "Каменисти ръбове, тихи джобове"
+    },
+    {
+      "name": "Минноу / minnow",
+      "size": "3–6 см",
+      "tackle": "UL / Light",
+      "retrieve": "Къси придърпвания с паузи",
+      "zone": "Подмоли, вирове, граници на течението"
+    },
+    {
+      "name": "Въртяща блесна",
+      "size": "№0–2",
+      "tackle": "Лека въдица, флуорокарбон",
+      "retrieve": "Бавна равномерна проводка",
+      "zone": "Бързеи и плитки каменисти участъци"
+    },
+    {
+      "name": "Микроджиг за костур",
+      "size": "4–7 см; 2–8 г",
+      "tackle": "Light 2–12 г",
+      "retrieve": "Кратки подскоци близо до дъното",
+      "zone": "Обратни течения и по-спокойни речни джобове"
+    },
+    {
+      "name": "Метална примамка за бързо течение",
+      "size": "7–18 г",
+      "tackle": "Medium Light 5–21 г",
+      "retrieve": "Контролирана равномерна проводка",
+      "zone": "По-широки разрешени участъци; видът се уточнява локално"
+    },
+    {
+      "name": "Шад за язовирни ръбове",
+      "size": "7–12 см; тегло според дълбочина",
+      "tackle": "Medium 7–28 г",
+      "retrieve": "Стъпаловидно водене по дъното",
+      "zone": "Свързаните язовири, не автоматично речните участъци"
+    }
+  ],
+  "photos": [
+    {
+      "file": "Arda madzharovo.jpg",
+      "author": "Vstar811",
+      "license": "Wikimedia Commons",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20madzharovo.jpg?width=1500",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Arda_madzharovo.jpg"
+    },
+    {
+      "file": "Arda Iz4.jpg",
+      "author": "Izvora",
+      "license": "CC BY 3.0",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20Iz4.jpg?width=1500",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Arda_Iz4.jpg"
+    },
+    {
+      "file": "Arda Iz17.jpg",
+      "author": "Izvora",
+      "license": "CC BY 3.0",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20Iz17.jpg?width=1500",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Arda_Iz17.jpg"
+    },
+    {
+      "file": "Devil's Bridge Ardino 2009 (10).jpg",
+      "author": "Marie Čcheidzeová",
+      "license": "Wikimedia Commons",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Devil's%20Bridge%20Ardino%202009%20(10).jpg?width=1500",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Devil's_Bridge_Ardino_2009_(10).jpg"
+    }
+  ],
+  "legal": {
+    "upperReach": "Арда и притоците ѝ от изворите до рибовъдното стопанство в с. Кошница са посочени в заповед РД09-1315, т. 4.1.15 като забранен отрязък за периода 2025–2027. Точната граница се проверява по текста и координатите на заповедта.",
+    "trout": "През октомври се прилага сезонна забрана за балканската пъстърва; не се препоръчва целеви улов.",
+    "dams": "При язовири/ВЕЦ водното ниво може да се променя опасно; не се навлиза в речни корита при риск."
+  },
+  "notes": "Не се показват непотвърдени прогнози за кълване или проценти за активност. Видовете се отнасят към отделни участъци, не към цялата река.",
+  "editorialSourcesPrivate": [
+    "https://balkanka.bg/извадка-от-заповед-№09-1315-от-30-12-2024г-на-минист/",
+    "https://www.mftackle.com/prognoza-za-ribolov/reka/arda",
+    "https://www.ribolovni.com/blog/a/7/ribolov_po_reka_arda.htm",
+    "https://natura2000.egov.bg/EsriBg.Natura.Public.Web.App/Home/ProtectedSite?code=BG0002014&siteType=BirdsDirective"
+  ]
+}
