@@ -1,0 +1,17 @@
+{
+  "site": "DNCH Fishing",
+  "waterbody": "Река Арда",
+  "type": "river",
+  "slug": "arda",
+  "version": "1.0",
+  "status": "published_as_separate_module",
+  "publishedUrl": "https://dnch-fishing-arda.vercel.app/",
+  "mainSite": "https://dnch-fishing.vercel.app/",
+  "mainSiteCard": "Река Арда — third river among 50",
+  "cardLinkIntegrated": false,
+  "oldOgostaPreserved": true,
+  "sourceHtml": "dnch-fishing/waters/arda/index.html",
+  "sourceData": "dnch-fishing/waters/arda/arda.json",
+  "date": "2026-10-24",
+  "nextStep": "In a subsequent safe main-site release, update the Arda card href to publishedUrl without overwriting Ogosta or the species library."
+}
