@@ -1,0 +1,330 @@
+{
+  "title": "Река Арда",
+  "updated": "2026-10-24",
+  "version": "1.0",
+  "scope": "Свободнотечащата река Арда, язовирите са отделни страници",
+  "publicResearchBibliography": false,
+  "zones": [
+    [
+      "Горна Арда",
+      "От изворите до стопанството при Кошница",
+      "⛔ Забранено",
+      "С притоците целогодишна забрана за 2025–2027 г. Не препоръчваме риболов. Балканската пъстърва е част от природния облик, но не е цел за улов тук."
+    ],
+    [
+      "Средна Арда",
+      "След Кошница — към Кърджали",
+      "⚠️ Провери участъка",
+      "Каменисти струи, прагове и вирове. В изследвани участъци са установени егейски кефал и маришка мряна. ВЕЦ могат да променят дебита."
+    ],
+    [
+      "Долна Арда",
+      "Долно Черковище — Маджарово",
+      "⚠️ Защитени зони",
+      "Вирове и меандри, свързани с каскадата. При „Черната скала“ северният (левият по течението) бряг е в забранен участък. Риби и достъп се проверяват локално."
+    ]
+  ],
+  "species": [
+    {
+      "id": "chub",
+      "name": "Егейски кефал",
+      "latin": "Squalius orpheus",
+      "proof": "Научно установен в средното течение",
+      "info": "Всеяден речен вид, подходящ за UL спининг в разрешени зони. Не е същият вид като Squalius cephalus от общата ни енциклопедия.",
+      "spot": "Граница на струи, каменисти вирове, подмоли",
+      "lure": "Кренк 3–5 см, миноу 3–6 см, блесни №0–1."
+    },
+    {
+      "id": "trout",
+      "name": "Балканска пъстърва",
+      "latin": "Salmo trutta",
+      "proof": "Исторически установена · сезонни забрани",
+      "info": "В студените участъци, но горният участък до Кошница е забранен, а към 24 октомври пъстървата е в размножителна забрана.",
+      "spot": "Само образователен профил по време на забрана",
+      "lure": "В законен сезон/участък: UL миноу 3–5 см и микро клатушки.",
+      "link": "https://dnch-fishing.vercel.app/ribi/balkanska-pastyarva.html"
+    },
+    {
+      "id": "barbel",
+      "name": "Маришка мряна",
+      "latin": "Barbus cyclolepis",
+      "proof": "Научно установена",
+      "info": "Типична дънна риба за каменисти и чакълести участъци. Не е хищник и не я представяме като основна спинингова цел.",
+      "spot": "Бързи дънни участъци в средна Арда",
+      "lure": "Информация за биоразнообразието, без измислени примамки."
+    },
+    {
+      "id": "asp",
+      "name": "Распер",
+      "latin": "Aspius aspius",
+      "proof": "Регионални данни · нужна местна проверка",
+      "info": "Описван в Източнородопския район. Регионалното наличие не доказва, че се среща във всеки свободнотечащ участък на Арда.",
+      "spot": "Граници на течение само при потвърдено присъствие",
+      "lure": "Кастмастър 10–25 г, тънки миноу и пилкери.",
+      "link": "https://dnch-fishing.vercel.app/ribi/rasper.html"
+    },
+    {
+      "id": "perch",
+      "name": "Костур",
+      "latin": "Perca fluviatilis",
+      "proof": "Местни сведения от долни участъци",
+      "info": "Около бавни и околоязовирни води може да се среща локално. Не е доказан като водещ вид по цялата река.",
+      "spot": "Затишия и бавни заливи при местно потвърждение",
+      "lure": "Микроджиг 4–6 см, малки вибове.",
+      "link": "https://dnch-fishing.vercel.app/ribi/kostur.html"
+    },
+    {
+      "id": "rainbow",
+      "name": "Дъгова пъстърва",
+      "latin": "Oncorhynchus mykiss",
+      "proof": "Възможна при зарибявания · не е потвърдена навсякъде",
+      "info": "Интродуциран вид; за конкретно място са нужни данни за популацията и разрешения режим.",
+      "spot": "Без препоръчани точки в непотвърдени участъци",
+      "lure": "Само в законни условия: микро клатушки и миноу.",
+      "link": "https://dnch-fishing.vercel.app/ribi/dygova-pastyarva.html"
+    }
+  ],
+  "lures": [
+    {
+      "target": "chub",
+      "name": "Кренк",
+      "size": "2.5–3.5 см",
+      "weight": "2–5 г",
+      "retrieve": "Бавна равномерна",
+      "place": "Каменист праг"
+    },
+    {
+      "target": "chub",
+      "name": "Кренк",
+      "size": "4–5 см",
+      "weight": "4–8 г",
+      "retrieve": "Напречно и по струята",
+      "place": "Широк вир"
+    },
+    {
+      "target": "chub",
+      "name": "Плаващ миноу",
+      "size": "3–4 см",
+      "weight": "2–4 г",
+      "retrieve": "Дрейф + лек twitch",
+      "place": "Сенчест бряг"
+    },
+    {
+      "target": "chub",
+      "name": "Суспендиращ миноу",
+      "size": "5–6 см",
+      "weight": "4–7 г",
+      "retrieve": "Къси придърпвания с пауза",
+      "place": "Обратна струя"
+    },
+    {
+      "target": "chub",
+      "name": "Въртяща блесна",
+      "size": "№0–1",
+      "weight": "2–5 г",
+      "retrieve": "Стабилно въртене",
+      "place": "Бързей"
+    },
+    {
+      "target": "chub",
+      "name": "Микроклатушка",
+      "size": "3–4 см",
+      "weight": "2–5 г",
+      "retrieve": "Контролирано пропадане",
+      "place": "Дълбок джоб"
+    },
+    {
+      "target": "chub",
+      "name": "Силиконова нимфа",
+      "size": "2–3 см",
+      "weight": "0.5–2.5 г джиг",
+      "retrieve": "Малко подскоци близо до дъното",
+      "place": "Студена вода"
+    },
+    {
+      "target": "trout",
+      "name": "Потъващ миноу",
+      "size": "3–4 см",
+      "weight": "2–4 г",
+      "retrieve": "Контролирано срещу течението",
+      "place": "Само разрешен участък/сезон"
+    },
+    {
+      "target": "trout",
+      "name": "UL миноу",
+      "size": "4–5 см",
+      "weight": "3–6 г",
+      "retrieve": "Кратка пауза край камъка",
+      "place": "Само разрешен участък/сезон"
+    },
+    {
+      "target": "trout",
+      "name": "Area spoon",
+      "size": "2–4 см",
+      "weight": "1.5–3 г",
+      "retrieve": "Бавно водене",
+      "place": "Само разрешен участък/сезон"
+    },
+    {
+      "target": "trout",
+      "name": "Въртяща блесна",
+      "size": "№00–1",
+      "weight": "2–4 г",
+      "retrieve": "Умерено, по струята",
+      "place": "Само разрешен участък/сезон"
+    },
+    {
+      "target": "trout",
+      "name": "Микросиликон",
+      "size": "3–4 см",
+      "weight": "1–3 г джиг",
+      "retrieve": "Плавни подскоци",
+      "place": "Само разрешен участък/сезон"
+    },
+    {
+      "target": "asp",
+      "name": "Кастмастър",
+      "size": "4–7 см",
+      "weight": "10–20 г",
+      "retrieve": "Средно-бързо",
+      "place": "Само след локално потвърждение"
+    },
+    {
+      "target": "asp",
+      "name": "Slim minnow",
+      "size": "6–9 см",
+      "weight": "7–14 г",
+      "retrieve": "Равномерно с ускорения",
+      "place": "Бързеи"
+    },
+    {
+      "target": "asp",
+      "name": "Sinking pencil",
+      "size": "6–9 см",
+      "weight": "8–16 г",
+      "retrieve": "Къси импулси",
+      "place": "Дълга струя"
+    },
+    {
+      "target": "asp",
+      "name": "Пилкер",
+      "size": "5–7 см",
+      "weight": "12–25 г",
+      "retrieve": "Повдигане и пропадане",
+      "place": "Дълбоко течение"
+    },
+    {
+      "target": "perch",
+      "name": "Micro shad",
+      "size": "4–5 см",
+      "weight": "2–5 г джиг",
+      "retrieve": "Бавни подскоци",
+      "place": "Тих залив"
+    },
+    {
+      "target": "perch",
+      "name": "Туистер",
+      "size": "5–6 см",
+      "weight": "2–6 г джиг",
+      "retrieve": "Бавно на дъното",
+      "place": "Околоязовирна част"
+    },
+    {
+      "target": "perch",
+      "name": "Blade bait",
+      "size": "4–6 см",
+      "weight": "4–7 г",
+      "retrieve": "Късо повдигане",
+      "place": "Студена вода"
+    },
+    {
+      "target": "perch",
+      "name": "Въртяща блесна",
+      "size": "№0–2",
+      "weight": "2–6 г",
+      "retrieve": "Равномерно",
+      "place": "Плитка зона"
+    }
+  ],
+  "gear": [
+    [
+      "UL — кефал",
+      "1–10 г",
+      "PE 0.2–0.6",
+      "Флуорокарбон 0.12–0.20 мм"
+    ],
+    [
+      "Light — речни струи",
+      "3–15 г",
+      "PE 0.4–0.8",
+      "Флуорокарбон 0.18–0.25 мм"
+    ],
+    [
+      "Medium — речни хищници",
+      "7–28 г",
+      "PE 0.6–1.0",
+      "Повод според целевия вид; при щука метал/титан"
+    ]
+  ],
+  "photos": [
+    {
+      "file": "Arda Iz4.jpg",
+      "author": "Izvora",
+      "license": "CC BY 3.0",
+      "caption": "Арда при Маджарово",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20Iz4.jpg?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:Arda_Iz4.jpg"
+    },
+    {
+      "file": "Arda near Vehtino 01.jpg",
+      "author": "Андрей Романенко",
+      "license": "CC BY-SA 4.0",
+      "caption": "Средна Арда край Вехтино",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20near%20Vehtino%2001.jpg?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:Arda_near_Vehtino_01.jpg"
+    },
+    {
+      "file": "Arda madzharovo.jpg",
+      "author": "Vstar811",
+      "license": "CC BY-SA 4.0",
+      "caption": "Арда и Вълчи дол",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20madzharovo.jpg?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:Arda_madzharovo.jpg"
+    },
+    {
+      "file": "Arda Iz9.jpg",
+      "author": "Izvora",
+      "license": "CC BY 3.0",
+      "caption": "Арда край Долно Черковище",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda%20Iz9.jpg?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:Arda_Iz9.jpg"
+    },
+    {
+      "file": "Arda-river-after-dam-studen-kladenetz.JPG",
+      "author": "Vassia Atanassova – Spiritia",
+      "license": "Public domain",
+      "caption": "Арда след язовир Студен кладенец",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arda-river-after-dam-studen-kladenetz.JPG?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:Arda-river-after-dam-studen-kladenetz.JPG"
+    },
+    {
+      "file": "Меандър на река Арда.jpg",
+      "author": "Анна Василева",
+      "license": "CC BY-SA 4.0",
+      "caption": "Меандърът на Арда",
+      "url": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9C%D0%B5%D0%B0%D0%BD%D0%B4%D1%8A%D1%80%20%D0%BD%D0%B0%20%D1%80%D0%B5%D0%BA%D0%B0%20%D0%90%D1%80%D0%B4%D0%B0.jpg?width=1300",
+      "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B5%D0%B0%D0%BD%D0%B4%D1%8A%D1%80_%D0%BD%D0%B0_%D1%80%D0%B5%D0%BA%D0%B0_%D0%90%D1%80%D0%B4%D0%B0.jpg"
+    }
+  ],
+  "regulations": [
+    "2025–2027: Арда от извори до Кошница със притоци — забранено",
+    "ЗМ Черната скала — забранена лява брегова ивица",
+    "Пъстърва — есенно-зимна размножителна забрана",
+    "Местните режими и наредби се проверяват преди риболов"
+  ],
+  "notes": [
+    "Squalius orpheus не е Squalius cephalus",
+    "Aspius aspius и Perca fluviatilis не са потвърдени за всяка точка",
+    "Няма прогноза за моментно кълване"
+  ]
+}
