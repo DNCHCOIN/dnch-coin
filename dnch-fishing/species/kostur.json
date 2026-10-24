@@ -1,0 +1,83 @@
+{
+  "slug": "kostur",
+  "name": "Костур",
+  "latin": "Perca fluviatilis",
+  "group": "Пасажен хищник",
+  "summary": "Разпознава се по вертикалните тъмни ивици, бодливата гръбна перка и червеникавите коремни перки. Често ловува на групи.",
+  "identify": "Набито тяло с 5–9 тъмни ивици, две гръбни перки и бодли в първата; често оранжеви до червени коремни и анална перка.",
+  "habitat": "Тихи речни джобове, стъпала на дъното, камъни, пристани, потънали клони, треви и брегови ръбове.",
+  "feeding": "Малки риби, ларви, ракообразни и други безгръбначни; храната зависи от възрастта и сезона.",
+  "approach": "Търси малки пасажи около структурите. Пробвай дребен силикон близо до дъното и смени дълбочината, ако няма контакт.",
+  "tackle": "UL/Light спининг около 1–12 г, PE 0.3–0.6, флуорокарбон приблизително 0.16–0.23 мм; теглото на джига според течението.",
+  "season": "Костурът може да е активен през много сезони. В студено време често работят по-фини примамки и по-дълги паузи.",
+  "caution": "Бодлите на първата гръбна перка могат да убодат; освобождавай с внимание.",
+  "lures": [
+    [
+      "Микроджиг / шад",
+      "4–7 см",
+      "джиг глава 1–7 г според дълбочината",
+      "подскоци по дъното с паузи",
+      "камъни, дънни ръбове"
+    ],
+    [
+      "Туистер / grub",
+      "3–6 см",
+      "лек джиг или Cheburashka",
+      "бавна равномерна и кратки подскоци",
+      "спокойни заливи"
+    ],
+    [
+      "Drop-shot",
+      "4–8 см",
+      "кука над дънна тежест",
+      "почти на място, минимални движения",
+      "по-дълбоки пасажи"
+    ],
+    [
+      "Blade bait / виб",
+      "4–7 см",
+      "метална вибрационна примамка",
+      "кратко повдигане и свободно пропадане",
+      "студена вода и дълбоки места"
+    ],
+    [
+      "Въртяща блесна",
+      "№0–2",
+      "малка блесна",
+      "постоянно въртене, средно бавно",
+      "крайбрежни плитчини"
+    ],
+    [
+      "Кренк",
+      "3–5 см",
+      "малък wobbling crankbait",
+      "steady retrieve с паузи",
+      "активен костур край камъни"
+    ]
+  ],
+  "photos": [
+    {
+      "file": "Perch fish underwater perca fluviatilis.jpg",
+      "author": "Tom Tetzner / USFWS",
+      "license": "Public domain",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Perch_fish_underwater_perca_fluviatilis.jpg",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Perch%20fish%20underwater%20perca%20fluviatilis.jpg?width=1200"
+    },
+    {
+      "file": "Perca-fluviatilis.JPG",
+      "author": "Dimcho H. Dimov",
+      "license": "CC BY-SA 3.0",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Perca-fluviatilis.JPG",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Perca-fluviatilis.JPG?width=1200"
+    }
+  ],
+  "waters": [
+    "Марица — локално",
+    "Искър",
+    "Копринка",
+    "Батак"
+  ],
+  "updated": "2026-10-24",
+  "contentVersion": "1.0",
+  "photoStorage": "External Wikimedia URLs with author and license metadata; original pixels are not stored in GitHub"
+}
