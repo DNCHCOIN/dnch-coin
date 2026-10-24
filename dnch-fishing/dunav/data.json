@@ -1,0 +1,714 @@
+{
+  "slug": "dunav",
+  "title": "Река Дунав",
+  "version": "1.0",
+  "updated": "2026-10-24",
+  "scope": "Българският участък, около 471 км",
+  "photos": [
+    {
+      "file": "20230423.Donau.zwischen km 940 und 785.-032 (cropped).jpg",
+      "place": "Видин / западен Дунав",
+      "author": "Christian Gebhardt / Bybbisch94",
+      "license": "CC BY-SA 4.0",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/20230423.Donau.zwischen%20km%20940%20und%20785.-032%20(cropped).jpg?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:20230423.Donau.zwischen_km_940_und_785.-032_(cropped).jpg"
+    },
+    {
+      "file": "Danube near Baikal.JPG",
+      "place": "Дунав при село Байкал",
+      "author": "Dimitrina Novakova",
+      "license": "Public Domain",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Danube%20near%20Baikal.JPG?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:Danube_near_Baikal.JPG"
+    },
+    {
+      "file": "Danube in Ruse.jpg",
+      "place": "Дунав при Русе",
+      "author": "Ymblanter",
+      "license": "CC BY-SA 4.0",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Danube%20in%20Ruse.jpg?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:Danube_in_Ruse.jpg"
+    },
+    {
+      "file": "RuseDunav.jpg",
+      "place": "Русенският бряг",
+      "author": "SDI95",
+      "license": "CC BY-SA 4.0",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/RuseDunav.jpg?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:RuseDunav.jpg"
+    },
+    {
+      "file": "Dunav.jpg",
+      "place": "Дунав при Вардим",
+      "author": "Janusz Recław",
+      "license": "CC BY-SA 4.0",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Dunav.jpg?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:Dunav.jpg"
+    },
+    {
+      "file": "Silistra 2017-04-30 02.jpg",
+      "place": "Река Дунав при Силистра",
+      "author": "Vislupus",
+      "license": "CC BY-SA 4.0",
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Silistra%202017-04-30%2002.jpg?width=1250",
+      "page": "https://commons.wikimedia.org/wiki/File:Silistra_2017-04-30_02.jpg"
+    }
+  ],
+  "hydrology": {
+    "date": "2026-10-24",
+    "stale": true,
+    "note": "Фиксирани данни; нулата е местна, отрицателните стойности НЕ са дълбочина.",
+    "stations": [
+      {
+        "station": "Ново село",
+        "km": 833.6,
+        "level": -92,
+        "change": -1,
+        "temp": 15.4,
+        "discharge": 1253
+      },
+      {
+        "station": "Видин",
+        "km": 790.3,
+        "level": -60,
+        "change": -2,
+        "temp": 15.6,
+        "discharge": null
+      },
+      {
+        "station": "Лом",
+        "km": 743.3,
+        "level": -42,
+        "change": 1,
+        "temp": 15.8,
+        "discharge": 1272
+      },
+      {
+        "station": "Оряхово",
+        "km": 678,
+        "level": -126,
+        "change": 2,
+        "temp": 16.4,
+        "discharge": 1211
+      },
+      {
+        "station": "Никопол",
+        "km": 597.5,
+        "level": -30,
+        "change": 1,
+        "temp": 16.1,
+        "discharge": null
+      },
+      {
+        "station": "Свищов",
+        "km": 554.3,
+        "level": -87,
+        "change": 1,
+        "temp": 15.7,
+        "discharge": 1240
+      },
+      {
+        "station": "Русе",
+        "km": 495.6,
+        "level": -135,
+        "change": 5,
+        "temp": 15.5,
+        "discharge": 1423
+      },
+      {
+        "station": "Силистра",
+        "km": 375.5,
+        "level": -140,
+        "change": 3,
+        "temp": 15.8,
+        "discharge": 1237
+      }
+    ]
+  },
+  "reaches": [
+    {
+      "name": "Ново село — Видин",
+      "km": "р.км ~845–790",
+      "character": "Острови, широки струи и пясъчни коси. При спадане се очертават ръбове. Не навлизай в гранични и пристанищни ограничения.",
+      "fish": [
+        "распер",
+        "бяла риба",
+        "сом"
+      ],
+      "tech": "Метал за распер, джиг по ръбове за бяла риба",
+      "photo": 0
+    },
+    {
+      "name": "Видин — Лом",
+      "km": "р.км ~790–743",
+      "character": "Брегови укрепвания, речни завои и смесени течения; в тихите джобове могат да се задържат дребни риби.",
+      "fish": [
+        "распер",
+        "костур",
+        "бяла риба"
+      ],
+      "tech": "Slim minnow, виб и микроджиг според релефа",
+      "photo": 0
+    },
+    {
+      "name": "Лом — Козлодуй",
+      "km": "р.км ~743–704",
+      "character": "Променлив релеф, твърди брегови участъци и подводни стъпала. Следи индустриалните ограничения.",
+      "fish": [
+        "бяла риба",
+        "распер",
+        "сом"
+      ],
+      "tech": "Джиг при дънен контакт; метали в струите",
+      "photo": 1
+    },
+    {
+      "name": "Оряхово — Байкал",
+      "km": "р.км ~678–641",
+      "character": "Пясъчни коси, тихи завои и бързи участъци. Регионът е документиран за спортен распер.",
+      "fish": [
+        "распер",
+        "щука",
+        "костур"
+      ],
+      "tech": "Распер по бърза струя, щука и костур само в подходящи тихи води",
+      "photo": 1
+    },
+    {
+      "name": "Никопол — Белене — Свищов",
+      "km": "р.км ~598–554",
+      "character": "Островна система Персина, влажни зони, стари ръкави. Защитените части имат отделни забрани.",
+      "fish": [
+        "щука",
+        "костур",
+        "распер",
+        "сом"
+      ],
+      "tech": "Фин спининг в разрешени тихи участъци; предварителна проверка на режима",
+      "photo": 4
+    },
+    {
+      "name": "Свищов — Русе",
+      "km": "р.км ~554–496",
+      "character": "Основна силна струя, крайбрежни ръбове, корабен трафик и инфраструктура.",
+      "fish": [
+        "бяла риба",
+        "распер",
+        "сом"
+      ],
+      "tech": "Шадове и вибове по релеф, далечни метали по струята",
+      "photo": 2
+    },
+    {
+      "name": "Русе — Тутракан — Силистра",
+      "km": "р.км ~496–376",
+      "character": "Острови и ръкави. Защитени зони, включително Калимок–Бръшлен и районът на Сребърна.",
+      "fish": [
+        "бяла риба",
+        "костур",
+        "щука",
+        "распер"
+      ],
+      "tech": "Джиг по дълбочинни ръбове, микроджиг край тихи брегове",
+      "photo": 5
+    }
+  ],
+  "predators": [
+    {
+      "name": "Распер",
+      "latin": "Leuciscus aspius",
+      "icon": "⚡",
+      "habitat": "Граници на струи, бързеи, изходи на вирове",
+      "diet": "Малки риби; активна повърхностна гонка",
+      "lures": "Компактни метали 12–30 г, minnow 7–11 см, sinking pencil",
+      "tackle": "ML 7–30 г, PE 0.6–1.0 и FC 0.25–0.35 мм",
+      "approach": "Мятай отвъд линията на струята, води по диагонал с промяна на скоростта.",
+      "season": "Наблюдавай дребната риба; през пролетта проверявай видовата забрана.",
+      "slug": "rasper",
+      "photo": {
+        "file": "Aspius aspius Prague Vltava 2.jpg",
+        "author": "Karelj",
+        "license": "Public domain",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Aspius_aspius_Prague_Vltava_2.jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Aspius%20aspius%20Prague%20Vltava%202.jpg?width=1200"
+      }
+    },
+    {
+      "name": "Бяла риба",
+      "latin": "Sander lucioperca",
+      "icon": "🎯",
+      "habitat": "Твърдо дъно, дълбоки ръбове и каменисти склонове",
+      "diet": "Дребни риби край дънни структури",
+      "lures": "Шад 8–13 см на 10–40 г джиг, V-tail, виб",
+      "tackle": "M 8–40 г, PE 0.8–1.2, FC 0.28–0.40 мм",
+      "approach": "Къси стъпаловидни повдигания и контролирано пропадане; теглото е според течението.",
+      "season": "По-хладна вода понякога подпомага дънния спининг; актуалната забрана е определяща.",
+      "slug": "bqla-riba",
+      "photo": {
+        "file": "Sandre (Sander lucioperca).jpg",
+        "author": "Tylwyth Eldar",
+        "license": "CC BY-SA 4.0",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Sandre_(Sander_lucioperca).jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandre%20(Sander%20lucioperca).jpg?width=1200"
+      }
+    },
+    {
+      "name": "Щука",
+      "latin": "Esox lucius",
+      "icon": "🐊",
+      "habitat": "Тихи ръкави, растителност, плитки заливи, паднали дървета",
+      "diet": "Риби и водна плячка около укрития",
+      "lures": "Minnow 9–14 см, шад 10–18 см, spinnerbait",
+      "tackle": "MH 12–50 г, PE 1.0–1.5, задължителен метален/титанов повод",
+      "approach": "Замятане по края на укритието, twitch и паузи.",
+      "season": "Провери февруарско-пролетните ограничения за щука.",
+      "slug": "shtuka",
+      "photo": {
+        "file": "Esoxlucius.jpg",
+        "author": "Birne1993",
+        "license": "CC BY 4.0",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Esoxlucius.jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Esoxlucius.jpg?width=1200"
+      }
+    },
+    {
+      "name": "Сом",
+      "latin": "Silurus glanis",
+      "icon": "🐉",
+      "habitat": "Дълбоки ями, падове и големи обратни течения",
+      "diet": "Едри риби и други подходящи водни животни",
+      "lures": "Шад 14–25 см, deep diver 12–18 см, тежък виб",
+      "tackle": "H 40–140+ г, PE 2.0–4.0, мощен повод",
+      "approach": "Бавна проводка по ръбовете, без опасно навлизане.",
+      "season": "Следи температурата, дебита и правилата на конкретния период.",
+      "slug": "som",
+      "photo": {
+        "file": "Freischwimmender Wels.jpg",
+        "author": "HalbsHännile",
+        "license": "CC BY-SA 4.0",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Freischwimmender_Wels.jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Freischwimmender%20Wels.jpg?width=1200"
+      }
+    },
+    {
+      "name": "Костур",
+      "latin": "Perca fluviatilis",
+      "icon": "🐟",
+      "habitat": "Камъни, тихи ръкави, потънали клони, подводни прагове",
+      "diet": "Дребни риби, ракообразни и безгръбначни",
+      "lures": "Микроджиг 3–7 см, drop-shot и малък blade bait",
+      "tackle": "UL/L 1–12 г, PE 0.3–0.6, FC 0.16–0.25 мм",
+      "approach": "Облавяй същата дълбочина около намерения пасаж.",
+      "season": "В хладна вода пробвай продължителни паузи.",
+      "slug": "kostur",
+      "photo": {
+        "file": "Perch fish underwater perca fluviatilis.jpg",
+        "author": "Tom Tetzner / USFWS",
+        "license": "Public domain",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Perch_fish_underwater_perca_fluviatilis.jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Perch%20fish%20underwater%20perca%20fluviatilis.jpg?width=1200"
+      }
+    },
+    {
+      "name": "Речен кефал",
+      "latin": "Squalius cephalus",
+      "icon": "🍃",
+      "habitat": "Сенчести подмоли, устието на приток, бързеи и джобове",
+      "diet": "Всеяден вид, който поема и дребна риба",
+      "lures": "Кренк 3–6 см, въртяща блесна №0–2, insect",
+      "tackle": "UL/L 1–10 г, PE 0.2–0.6, FC 0.14–0.22 мм",
+      "approach": "Естествен дрейф по края на течението, тихо приближаване.",
+      "season": "Наесен опитай по-дълбоки тихи вирове.",
+      "slug": "klen",
+      "photo": {
+        "file": "Common Chub - Squalius cephalus (43867910375).jpg",
+        "author": "Björn S.",
+        "license": "CC BY-SA 2.0",
+        "attribution": "https://commons.wikimedia.org/wiki/File:Common_Chub_-_Squalius_cephalus_(43867910375).jpg",
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Common%20Chub%20-%20Squalius%20cephalus%20(43867910375).jpg?width=1200"
+      }
+    }
+  ],
+  "lures": [
+    {
+      "fish": "Распер",
+      "name": "Метален кастмастър",
+      "size": "12–30 г",
+      "retrieve": "Равномерна бърза проводка",
+      "place": "Бързеи"
+    },
+    {
+      "fish": "Распер",
+      "name": "Slim minnow",
+      "size": "7–11 см",
+      "retrieve": "Twitch и ускорения",
+      "place": "Смесени струи"
+    },
+    {
+      "fish": "Распер",
+      "name": "Sinking pencil",
+      "size": "7–11 см",
+      "retrieve": "Къси придърпвания с контрол на дълбочина",
+      "place": "Далечни плитчини"
+    },
+    {
+      "fish": "Распер",
+      "name": "Topwater walker",
+      "size": "7–11 см",
+      "retrieve": "Ритмична повърхностна игра",
+      "place": "Видими гонки"
+    },
+    {
+      "fish": "Распер",
+      "name": "Метален джиг",
+      "size": "12–35 г",
+      "retrieve": "Контролирано пропадане и проводка",
+      "place": "Дълбока струя"
+    },
+    {
+      "fish": "Распер",
+      "name": "Slim shad",
+      "size": "8–11 см",
+      "retrieve": "Водене в средния слой",
+      "place": "Мътна вода"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "Paddle-tail шад",
+      "size": "8–13 см, джиг 10–40 г",
+      "retrieve": "Стъпаловидно по дъното",
+      "place": "Дълбочинен ръб"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "V-tail",
+      "size": "7–12 см",
+      "retrieve": "Бавна, с дълги паузи",
+      "place": "Хладни дънни места"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "Blade bait / виб",
+      "size": "6–10 см",
+      "retrieve": "Късо повдигане и пропадане",
+      "place": "Твърдо дъно"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "Deep minnow",
+      "size": "9–14 см",
+      "retrieve": "Бавна с паузи",
+      "place": "Каменист склон"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "Drop-shot силикон",
+      "size": "6–11 см",
+      "retrieve": "Деликатна игра на място",
+      "place": "Локализирана риба"
+    },
+    {
+      "fish": "Бяла риба",
+      "name": "Cheburashka + offset",
+      "size": "7–12 см",
+      "retrieve": "Къси дънни подскоци",
+      "place": "Закачлив релеф"
+    },
+    {
+      "fish": "Щука",
+      "name": "Suspending minnow",
+      "size": "9–14 см",
+      "retrieve": "Twitch и pause",
+      "place": "Заливи"
+    },
+    {
+      "fish": "Щука",
+      "name": "Голям силикон",
+      "size": "10–18 см",
+      "retrieve": "Бавно над растителността",
+      "place": "Тих ръкав"
+    },
+    {
+      "fish": "Щука",
+      "name": "Spinnerbait",
+      "size": "15–35 г",
+      "retrieve": "Равномерна",
+      "place": "Гъста растителност"
+    },
+    {
+      "fish": "Щука",
+      "name": "Клатушка",
+      "size": "15–35 г",
+      "retrieve": "Бавна люлееща игра",
+      "place": "Плитък залив"
+    },
+    {
+      "fish": "Щука",
+      "name": "Topwater frog",
+      "size": "7–11 см",
+      "retrieve": "Къси придърпвания",
+      "place": "Повърхностни треви"
+    },
+    {
+      "fish": "Сом",
+      "name": "Едър шад",
+      "size": "14–25 см",
+      "retrieve": "Бавно по дъното",
+      "place": "Речна яма"
+    },
+    {
+      "fish": "Сом",
+      "name": "Deep diver",
+      "size": "12–18 см",
+      "retrieve": "Умерена проводка",
+      "place": "Стръмен ръб"
+    },
+    {
+      "fish": "Сом",
+      "name": "Тежък виб",
+      "size": "10–17 см, 35–80 г",
+      "retrieve": "Повдигане и контролирано пропадане",
+      "place": "Дълбока струя"
+    },
+    {
+      "fish": "Сом",
+      "name": "Голяма клатушка",
+      "size": "25–65 г",
+      "retrieve": "Дълги повдигания",
+      "place": "Силно течение"
+    },
+    {
+      "fish": "Сом",
+      "name": "Вертикален джиг",
+      "size": "40–100 г",
+      "retrieve": "Вертикално, при разрешен безопасен риболов от лодка",
+      "place": "Дълбок участък"
+    },
+    {
+      "fish": "Костур",
+      "name": "Микроджиг шад",
+      "size": "3–7 см, 1–8 г",
+      "retrieve": "Дънни подскоци",
+      "place": "Камъни"
+    },
+    {
+      "fish": "Костур",
+      "name": "Туистер",
+      "size": "3–6 см",
+      "retrieve": "Бавна равномерна",
+      "place": "Залив"
+    },
+    {
+      "fish": "Костур",
+      "name": "Drop-shot",
+      "size": "4–8 см",
+      "retrieve": "Минимални движения",
+      "place": "Пасаж"
+    },
+    {
+      "fish": "Костур",
+      "name": "Въртяща блесна",
+      "size": "№0–3",
+      "retrieve": "Равномерна",
+      "place": "Плитък ръб"
+    },
+    {
+      "fish": "Костур",
+      "name": "Blade bait",
+      "size": "4–7 см",
+      "retrieve": "Кратко повдигане",
+      "place": "Студена вода"
+    },
+    {
+      "fish": "Речен кефал",
+      "name": "Кренк",
+      "size": "3–6 см",
+      "retrieve": "Дрейф и задържане",
+      "place": "Камъни"
+    },
+    {
+      "fish": "Речен кефал",
+      "name": "Minnow",
+      "size": "4–7 см",
+      "retrieve": "Лек twitch",
+      "place": "Подмоли"
+    },
+    {
+      "fish": "Речен кефал",
+      "name": "Въртяща блесна",
+      "size": "№0–2",
+      "retrieve": "Равномерна",
+      "place": "Бързей"
+    },
+    {
+      "fish": "Речен кефал",
+      "name": "Инсектна имитация",
+      "size": "3–5 см",
+      "retrieve": "Нежна повърхностна",
+      "place": "Лятна сянка"
+    },
+    {
+      "fish": "Речен кефал",
+      "name": "Малка клатушка",
+      "size": "3–10 г",
+      "retrieve": "Бавно по ръба",
+      "place": "Вир"
+    }
+  ],
+  "habitats": [
+    {
+      "name": "Буни и каменни насипи",
+      "why": "Разбиват струята и създават затишие и релефен спад.",
+      "fish": "Бяла риба, костур, распер",
+      "approach": "Облови края на течението; не влизай в забранени съоръжения."
+    },
+    {
+      "name": "Бързеи",
+      "why": "Концентрират дребна риба на границите на струите.",
+      "fish": "Распер, кефал",
+      "approach": "Компактни метали по диагонал."
+    },
+    {
+      "name": "Обратни течения",
+      "why": "Тихи джобове зад препятствия.",
+      "fish": "Костур, щука, сом",
+      "approach": "Задръж силикона във вихъра."
+    },
+    {
+      "name": "Пясъчни коси",
+      "why": "При ниско ниво се очертават ръбове и опасно нестабилно дъно.",
+      "fish": "Распер, бяла риба",
+      "approach": "Лови от твърд бряг, не навлизай в пясъка."
+    },
+    {
+      "name": "Тихи ръкави",
+      "why": "Трева, паднали клони и плячка.",
+      "fish": "Щука, костур",
+      "approach": "Минноу, spinnerbait или микроджиг."
+    },
+    {
+      "name": "Устия на притоци",
+      "why": "Смесват вода, температура и храна.",
+      "fish": "Распер, кефал, бяла риба",
+      "approach": "Облови смесителната струя."
+    },
+    {
+      "name": "Дълбоки ями",
+      "why": "Преходи към спокойни дънни слоеве.",
+      "fish": "Сом, бяла риба",
+      "approach": "Контролирана проводка и безопасна позиция."
+    },
+    {
+      "name": "Пристани и укрепени брегове",
+      "why": "Създават ръбове, но често са ограничени и с корабен трафик.",
+      "fish": "Костур, бяла риба",
+      "approach": "Само там, където достъпът е официално разрешен."
+    }
+  ],
+  "rigs": [
+    {
+      "name": "Класически джиг",
+      "parts": "Силикон + джиг глава",
+      "fish": "Бяла риба и костур",
+      "how": "Контролирай дъното и паузите; тежестта се настройва спрямо течението."
+    },
+    {
+      "name": "Cheburashka + offset",
+      "parts": "Шарнирна тежест + офсет",
+      "fish": "Ръбове с много закачки",
+      "how": "По-свободна игра и прибрана кука."
+    },
+    {
+      "name": "Drop-shot",
+      "parts": "Тежест под куката",
+      "fish": "Костур и локализирана бяла риба",
+      "how": "Деликатно анимиране без придърпване на тежестта."
+    },
+    {
+      "name": "Texas rig",
+      "parts": "Офсет + куршумовидна тежест",
+      "fish": "Треви и клони",
+      "how": "При щука добави устойчив на зъби повод."
+    },
+    {
+      "name": "Carolina rig",
+      "parts": "Плъзгаща тежест + дълъг повод",
+      "fish": "Спокойни участъци",
+      "how": "Дръж примамката назад от тежестта, с паузи."
+    },
+    {
+      "name": "Распер далечна дистанция",
+      "parts": "Метал + флуорокарбон",
+      "fish": "Бързи струи",
+      "how": "Избери гладък възел и контролирай ъгъла на замятане."
+    },
+    {
+      "name": "Щучий повод",
+      "parts": "Стомана или титан",
+      "fish": "Щука",
+      "how": "Проверявай вирбели, халки и износване."
+    },
+    {
+      "name": "Heavy джиг",
+      "parts": "Едър шад и силна кука",
+      "fish": "Сом",
+      "how": "Силен такъм и контрол върху дълбочината."
+    },
+    {
+      "name": "Възел PE–FC",
+      "parts": "FG или друг надежден възел",
+      "fish": "Повечето спинингови комплекти",
+      "how": "Навлажни, стегни, провери с ръка."
+    },
+    {
+      "name": "Повърхностен монтаж",
+      "parts": "Walker / popper / frog",
+      "fish": "Распер и щука",
+      "how": "Избягвай преждевременно засичане при повърхностна атака."
+    }
+  ],
+  "gear": [
+    {
+      "name": "UL · кефал/костур",
+      "cast": "1–10 г",
+      "line": "PE 0.3–0.6",
+      "leader": "FC 0.14–0.23 мм",
+      "reel": "1000–2500"
+    },
+    {
+      "name": "ML · распер",
+      "cast": "7–30 г",
+      "line": "PE 0.6–1.0",
+      "leader": "FC 0.25–0.35 мм",
+      "reel": "2500–4000"
+    },
+    {
+      "name": "M · бяла риба",
+      "cast": "8–40 г",
+      "line": "PE 0.8–1.2",
+      "leader": "FC 0.28–0.40 мм",
+      "reel": "3000–4000"
+    },
+    {
+      "name": "MH · щука",
+      "cast": "12–50 г",
+      "line": "PE 1.0–1.5",
+      "leader": "метален/титанов повод",
+      "reel": "3000–5000"
+    },
+    {
+      "name": "H · сом",
+      "cast": "40–140+ г",
+      "line": "PE 2.0–4.0",
+      "leader": "силен повод",
+      "reel": "5000–8000+"
+    }
+  ],
+  "regulations": {
+    "sturgeon": "Безсрочна забрана за есетрови от 01.01.2026 г.",
+    "other": "Видови, сезонни и териториални режими се проверяват преди всеки излет.",
+    "rodLimit": "До 3 въдици с до две куки на всяка е общият законов режим за Дунав; защитени места може да имат други ограничения.",
+    "eel": "Забраната за европейска змиорка се проверява по действащия режим.",
+    "areas": "Персина, Калимок–Бръшлен, Сребърна имат специални режими."
+  }
+}
