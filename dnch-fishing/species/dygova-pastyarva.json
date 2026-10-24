@@ -1,0 +1,82 @@
+{
+  "slug": "dygova-pastyarva",
+  "name": "Дъгова пъстърва",
+  "latin": "Oncorhynchus mykiss",
+  "group": "Студенолюбив спинингов вид",
+  "summary": "Пъстървов вид със сребристо тяло, розова странична ивица и множество тъмни точки. В България се среща в определени водоеми, често вследствие на зарибяване.",
+  "identify": "Розово-виолетова ивица по хълбоците, множество черни точки по тялото и опашката, мастна перка.",
+  "habitat": "По-хладни водоеми с кислородна вода, подходящи езерни или речни участъци при налична популация.",
+  "feeding": "Насекоми, ларви, ракообразни, хайвер и малки рибки.",
+  "approach": "Провери местния режим и наличието на този вид. Подавай леки клатушки, микроджиг или миноу в различни слоеве.",
+  "tackle": "Light/UL спининг приблизително 1–12 г, PE 0.2–0.6, флуорокарбонов повод около 0.14–0.22 мм.",
+  "season": "Забраните зависят от конкретния вид, водоем и действащата заповед. Не прилагай автоматично режима на балканската пъстърва към всеки случай.",
+  "caution": "Не пренасяй жива риба между водоеми; при отглеждани популации спазвай правилата на стопанисващия водоема.",
+  "lures": [
+    [
+      "Клатушка / area spoon",
+      "1.5–5 г",
+      "лека прецизна клатушка",
+      "равномерно бавно с микропаузи",
+      "езерни участъци"
+    ],
+    [
+      "Миниатюрен minnow",
+      "3–6 см",
+      "малък воблер",
+      "редуване на праволинейна проводка и twitch",
+      "речни прагове"
+    ],
+    [
+      "Микроджиг",
+      "2–5 см",
+      "малък силикон с джиг глава 0.5–4 г",
+      "бавни стъпки",
+      "средна дълбочина"
+    ],
+    [
+      "Въртяща блесна",
+      "№00–2",
+      "spinners",
+      "равномерно водене",
+      "потоци и плитчини"
+    ],
+    [
+      "Sinking pencil",
+      "3–6 см",
+      "безлопаткова потъваща примамка",
+      "свободно потъване и къси издърпвания",
+      "вирове и езера"
+    ],
+    [
+      "Crankbait",
+      "3–5 см",
+      "малък кренк",
+      "постоянна игра с паузи",
+      "активни риби край камъни"
+    ]
+  ],
+  "photos": [
+    {
+      "file": "Oncorhynchus mykiss, Rainbow trout, trucha arcoiris.jpg",
+      "author": "Brendatemores",
+      "license": "CC0",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Oncorhynchus_mykiss%2C_Rainbow_trout%2C_trucha_arcoiris.jpg",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Oncorhynchus%20mykiss%2C%20Rainbow%20trout%2C%20trucha%20arcoiris.jpg?width=1200"
+    },
+    {
+      "file": "Oncorhynchus mykiss 10-21-2025.jpg",
+      "author": "Afarensis702",
+      "license": "CC0",
+      "attribution": "https://commons.wikimedia.org/wiki/File:Oncorhynchus_mykiss_10-21-2025.jpg",
+      "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Oncorhynchus%20mykiss%2010-21-2025.jpg?width=1200"
+    }
+  ],
+  "waters": [
+    "Доспат — проверка за режима",
+    "Голям Беглик — режимът е специален",
+    "зарибени водоеми с разрешение"
+  ],
+  "updated": "2026-10-24",
+  "contentVersion": "1.0",
+  "photoStorage": "External Wikimedia URLs with author and license metadata; original pixels are not stored in GitHub"
+}
