@@ -1,0 +1,66 @@
+{
+  "library": "DNCH Fishing Species Library",
+  "version": "1.0",
+  "language": "bg",
+  "updated": "2026-10-24",
+  "independentOf": "DNCH World",
+  "baseUrl": "https://dnch-fishing.vercel.app/ribi/",
+  "species": [
+    {
+      "id": "shtuka",
+      "name": "Щука",
+      "data": "shtuka.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/shtuka.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/shtuka.json"
+    },
+    {
+      "id": "kostur",
+      "name": "Костур",
+      "data": "kostur.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/kostur.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/kostur.json"
+    },
+    {
+      "id": "rasper",
+      "name": "Распер",
+      "data": "rasper.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/rasper.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/rasper.json"
+    },
+    {
+      "id": "klen",
+      "name": "Речен кефал",
+      "data": "klen.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/klen.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/klen.json"
+    },
+    {
+      "id": "som",
+      "name": "Европейски сом",
+      "data": "som.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/som.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/som.json"
+    },
+    {
+      "id": "bqla-riba",
+      "name": "Бяла риба",
+      "data": "bqla-riba.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/bqla-riba.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/bqla-riba.json"
+    },
+    {
+      "id": "balkanska-pastyarva",
+      "name": "Балканска пъстърва",
+      "data": "balkanska-pastyarva.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/balkanska-pastyarva.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/balkanska-pastyarva.json"
+    },
+    {
+      "id": "dygova-pastyarva",
+      "name": "Дъгова пъстърва",
+      "data": "dygova-pastyarva.json",
+      "page": "https://dnch-fishing.vercel.app/ribi/dygova-pastyarva.html",
+      "publishedData": "https://dnch-fishing.vercel.app/ribi/data/dygova-pastyarva.json"
+    }
+  ]
+}
