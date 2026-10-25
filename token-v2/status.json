@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "project": "DNCH Coin v2",
+  "status": "prelaunch",
+  "updated_on": "2026-10-25",
+  "network": "solana-mainnet-beta",
+  "program_id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+  "mint_address": null,
+  "intended_symbol": "DNCH",
+  "intended_decimals": 9,
+  "intended_issuance_display": "4200000000",
+  "intended_issuance_raw": "4200000000000000000",
+  "circulating_supply": null,
+  "deployed": false,
+  "notes": "Proposed successor; not minted, tradable, listed, or automatically transferable from original DNCH.",
+  "original_mint": "8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi",
+  "original_reserve_account": "CAbupYs26xLzYji3MYgbxPgyTy9ixKGwP5dMFLMW9YES",
+  "official_site": "https://dnchcoin.github.io/dnch-coin/",
+  "token_status_page": "https://dnchcoin.github.io/dnch-coin/token-v2/"
+}
