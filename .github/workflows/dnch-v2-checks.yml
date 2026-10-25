@@ -5,6 +5,8 @@ on:
     paths:
       - 'token-v2/**'
       - 'tests/token-v2-static.test.cjs'
+      - 'tests/token-v2-mock.sh'
+      - 'tests/token-v2-mock.sh'
       - '.github/workflows/dnch-v2-checks.yml'
   pull_request:
     paths:
@@ -25,6 +27,8 @@ jobs:
         run: bash -n token-v2/launch.sh
       - name: Validate metadata, amount, and non-destructive safety guards
         run: node --test tests/token-v2-static.test.cjs
+      - name: Simulate local launch and resume with offline mocked CLIs
+        run: bash tests/token-v2-mock.sh
       - name: Confirm no keypair files are committed under token-v2
         shell: bash
         run: |
