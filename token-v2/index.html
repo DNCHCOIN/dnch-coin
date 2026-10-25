@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0d12">
+<meta name="description" content="The official technical status of DNCH Coin v2. Preparation only; a new token has not been deployed.">
+<title>DNCH Coin v2 — Official Technical Status</title>
+<link rel="canonical" href="https://dnchcoin.github.io/dnch-coin/token-v2/">
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#ecf1f7;background:#090d13}
+*{box-sizing:border-box}body{margin:0}a{color:#89d5ff}
+main{max-width:960px;margin:auto;padding:32px 24px 90px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:23px 24px;border-bottom:1px solid #263045}
+.brand{font-weight:900;font-size:20px;letter-spacing:.08em;color:#f3c55e;text-decoration:none}.back{font-size:14px}
+.top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:35px 0}
+.top img{width:142px;height:142px;object-fit:contain}h1{font-size:clamp(36px,6vw,58px);margin:8px 0 14px;letter-spacing:-.035em}p{line-height:1.65;color:#b9c6d7}
+.eyebrow{color:#f3c55e;font-weight:800;letter-spacing:.11em;font-size:12px;text-transform:uppercase}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;color:#ffe0a2;background:#3f2b12;border:1px solid #9b6c29;font-weight:750;font-size:14px}
+.status:before{content:'';width:8px;height:8px;border-radius:50%;background:#ffca65}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{padding:22px;border:1px solid #28354a;border-radius:16px;background:#121a25}
+.card h2{font-size:20px;margin:0 0 10px;color:#fff}.card strong{color:#fff}
+.kicker{font-size:12px;font-weight:700;color:#a5b8d0;text-transform:uppercase;letter-spacing:.1em}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;overflow-wrap:anywhere;color:#d7e6fa}
+.num{font-weight:800;font-size:22px;color:#fff}.caution{margin:24px 0;padding:22px;border-left:3px solid #f3c55e;background:#201b12;border-radius:6px}
+footer{margin-top:36px;border-top:1px solid #28354a;padding-top:22px;font-size:13px;color:#93a9c1}
+@media(max-width:650px){.top{grid-template-columns:1fr}.top img{grid-row:1;width:95px;height:95px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><a href="../" class="brand">DNCH HUB</a><a class="back" href="../">Back to DNCH Hub</a></header>
+<main>
+<section class="top"><div>
+<div class="eyebrow">Official token status · Updated 25 October 2026</div>
+<h1>DNCH Coin v2</h1>
+<div class="status">PRE-LAUNCH · NOT DEPLOYED</div>
+<p>We are preparing a potential successor to the original DNCH Coin on Solana. <strong>No DNCH Coin v2 mint exists yet.</strong> No v2 token has been issued or listed, and there is no token swap available.</p>
+</div><img src="../dnch-logo.png" alt="DNCH logo" width="142" height="142"></section>
+<div class="grid">
+<section class="card"><div class="kicker">Original token · v1</div><h2>Existing Solana mint</h2>
+<p><code>8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi</code></p>
+<p>4,200,000,000 originally issued. Of those, 4,199,998,990 were held in the original reserve account in the 25 October 2026 CLI inspection. Its signing key is currently unavailable, so the reserve is not currently movable by the project team.</p>
+<a href="https://explorer.solana.com/address/8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi" rel="noopener noreferrer" target="_blank">Inspect original mint in Solana Explorer</a>
+</section>
+<section class="card"><div class="kicker">Proposed token · v2</div><h2>New mint not created</h2>
+<p><strong>Name:</strong> DNCH Coin v2 · <strong>Symbol:</strong> DNCH · <strong>Decimals:</strong> 9</p>
+<p><strong>Proposed issuance:</strong> <span class="num">4,200,000,000</span></p>
+<p><strong>Mint address:</strong> <em>Not assigned</em></p>
+<p><strong>Circulating supply:</strong> <em>Not applicable / none issued</em></p>
+<p>Any v2 contract address promoted before an official, independently verifiable announcement is not endorsed by this status page.</p>
+</section>
+</div>
+<section class="caution">
+<h2>Important distinction · Важно уточнение</h2>
+<p>DNCH Coin v1 and a future DNCH Coin v2 would be <strong>two independent Solana mints</strong>. Existing v1 holders do not automatically receive v2. There is <strong>no announced exchange ratio, redemption programme, airdrop, price, yield or guaranteed return.</strong> Never send tokens to a purported migration address based only on a social message.</p>
+<p lang="bg">Оригиналният DNCH и евентуалният DNCH v2 са различни токени. Новият все още не е създаден. Няма действаща замяна, обещан курс, раздаване или миграция. Не изпращай монети на адреси, представени като „миграционни“.</p>
+</section>
+<section class="card">
+<h2>Engineering preparation</h2>
+<p>The source package includes proposed public metadata, locally operated launch scripts, safety checks and a machine-readable status manifest. Preparation is not on-chain issuance. The real mint address, authority states and treasury account will be published here only after independent confirmation.</p>
+<p><a href="status.json">Read status.json</a> · <a href="metadata.json">Proposed metadata</a> · <a href="https://github.com/DNCHCOIN/dnch-coin/tree/main/token-v2">Source on GitHub</a></p>
+</section>
+<footer>DNCH Ecosystem · Technical transparency only · No investment advice, token sale, wallet connection, or payment request appears on this page.</footer>
+</main>
+</body>
+</html>

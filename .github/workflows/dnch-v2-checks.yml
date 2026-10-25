@@ -1,0 +1,38 @@
+name: DNCH Coin v2 static safety checks
+
+on:
+  push:
+    paths:
+      - 'token-v2/**'
+      - 'tests/token-v2-static.test.cjs'
+      - 'tests/token-v2-mock.sh'
+      - '.github/workflows/dnch-v2-checks.yml'
+  pull_request:
+    paths:
+      - 'token-v2/**'
+      - 'tests/token-v2-static.test.cjs'
+      - 'tests/token-v2-mock.sh'
+      - '.github/workflows/dnch-v2-checks.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell syntax without wallet or RPC calls
+        run: bash -n token-v2/launch.sh
+      - name: Validate metadata, amount, and non-destructive safety guards
+        run: node --test tests/token-v2-static.test.cjs
+      - name: Simulate local launch and resume with offline mocked CLIs
+        run: bash tests/token-v2-mock.sh
+      - name: Confirm no keypair files are committed under token-v2
+        shell: bash
+        run: |
+          if find token-v2 -type f \( -iname '*keypair*' -o -iname '*seed*' -o -iname '*private-key*' \) | grep .; then
+            echo "Possible secret file was committed." >&2
+            exit 1
+          fi
