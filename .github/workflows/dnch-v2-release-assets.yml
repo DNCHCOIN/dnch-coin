@@ -1,0 +1,47 @@
+name: DNCH Coin v2 - release asset readiness
+
+on:
+  push:
+    paths:
+      - '.github/workflows/dnch-v2-release-assets.yml'
+      - 'token-v2/metadata.json'
+      - 'token-v2/index.html'
+      - 'token-v2/status.json'
+      - 'dnch-logo.png'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm metadata structure and prelaunch truthfulness
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          jq -e '.name == "DNCH Coin v2" and .symbol == "DNCH" and (.description | type == "string") and (.image == "https://dnchcoin.github.io/dnch-coin/dnch-logo.png")' token-v2/metadata.json
+          jq -e '.status == "prelaunch" and .deployed == false and .mint_address == null and .intended_issuance_raw == "4200000000000000000"' token-v2/status.json
+      - name: Check independently served public metadata, logo, and v2 page
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          BASE="https://dnchcoin.github.io/dnch-coin"
+          mkdir -p "$RUNNER_TEMP/dnch-assets"
+          for attempt in 1 2 3; do
+            if curl --connect-timeout 10 --max-time 25 -fsSL "$BASE/token-v2/metadata.json" -o "$RUNNER_TEMP/dnch-assets/metadata.json" &&
+               curl --connect-timeout 10 --max-time 25 -fsSL "$BASE/token-v2/status.json" -o "$RUNNER_TEMP/dnch-assets/status.json" &&
+               curl --connect-timeout 10 --max-time 25 -fsSL "$BASE/token-v2/" -o "$RUNNER_TEMP/dnch-assets/page.html" &&
+               curl --connect-timeout 10 --max-time 25 -fsSL "$BASE/dnch-logo.png" -o "$RUNNER_TEMP/dnch-assets/logo.png"; then
+              break
+            fi
+            sleep 5
+          done
+          jq -e '.name == "DNCH Coin v2" and .symbol == "DNCH"' "$RUNNER_TEMP/dnch-assets/metadata.json"
+          jq -e '.deployed == false and .mint_address == null' "$RUNNER_TEMP/dnch-assets/status.json"
+          grep -Fq 'DNCH Coin v2' "$RUNNER_TEMP/dnch-assets/page.html"
+          file "$RUNNER_TEMP/dnch-assets/logo.png" | grep -Fq 'PNG image data'
+          echo "Public DNCH v2 assets verified. Mainnet mint: NOT DEPLOYED."
