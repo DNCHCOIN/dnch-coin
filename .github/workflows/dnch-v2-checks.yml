@@ -6,12 +6,12 @@ on:
       - 'token-v2/**'
       - 'tests/token-v2-static.test.cjs'
       - 'tests/token-v2-mock.sh'
-      - 'tests/token-v2-mock.sh'
       - '.github/workflows/dnch-v2-checks.yml'
   pull_request:
     paths:
       - 'token-v2/**'
       - 'tests/token-v2-static.test.cjs'
+      - 'tests/token-v2-mock.sh'
       - '.github/workflows/dnch-v2-checks.yml'
 
 permissions:
