@@ -1,0 +1,16 @@
+{
+  "name": "DNCH Coin v2",
+  "symbol": "DNCH",
+  "description": "DNCH Coin v2 is a proposed successor token for the DNCH Ecosystem on Solana. It uses a new mint address and is separate from the original DNCH token. No automatic migration or redemption of original DNCH holdings is implied.",
+  "image": "https://dnchcoin.github.io/dnch-coin/dnch-logo.png",
+  "external_url": "https://dnchcoin.github.io/dnch-coin/",
+  "properties": {
+    "category": "image",
+    "files": [
+      {
+        "uri": "https://dnchcoin.github.io/dnch-coin/dnch-logo.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}
