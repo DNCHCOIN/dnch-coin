@@ -12,9 +12,7 @@
   "intended_issuance_raw": "4200000000000000000",
   "circulating_supply": null,
   "deployed": false,
-  "notes": "Proposed successor; not minted, tradable, listed, or automatically transferable from original DNCH.",
-  "original_mint": "8Ku27a4FnfzGmkLMQck3haKKAt4SJ4fmaCZDvrLtNSgi",
-  "original_reserve_account": "CAbupYs26xLzYji3MYgbxPgyTy9ixKGwP5dMFLMW9YES",
+  "notes": "Version 2 technical update. Mainnet mint not created yet. The verified mint address will be published after launch.",
   "official_site": "https://dnchcoin.github.io/dnch-coin/",
   "token_status_page": "https://dnchcoin.github.io/dnch-coin/token-v2/"
 }
