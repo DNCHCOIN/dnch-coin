@@ -38,7 +38,7 @@ UI_SUPPLY="4200000000"
 if [ "$NETWORK" = "mainnet" ]; then
   URI="https://dnchcoin.github.io/dnch-coin/token-v2/metadata.json"
 else
-  URI="https://raw.githubusercontent.com/DNCHCOIN/dnch-coin/prepare-dnch-coin-v2/token-v2/metadata.json"
+  URI="https://raw.githubusercontent.com/DNCHCOIN/dnch-coin/main/token-v2/metadata.json"
 fi
 
 # Temporary config isolates signer/RPC from the user's existing ~/.config/solana/cli/config.yml.
