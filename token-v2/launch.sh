@@ -5,7 +5,7 @@ set -Eeuo pipefail
 umask 077
 
 usage() {
-  echo "Usage: bash token-v2/launch.sh --check|--launch|--resume|--status|--finalize /ABSOLUTE/PRIVATE/KEYPAIR.json [--network devnet|mainnet]" >&2
+  echo "Usage: bash token-v2/launch.sh --check|--launch|--resume|--status|--finalize /ABSOLUTE/PRIVATE/KEYPAIR.json [--network localnet|devnet|mainnet]" >&2
   exit 2
 }
 [ "$#" -eq 2 ] || [ "$#" -eq 4 ] || usage
@@ -17,7 +17,7 @@ if [ "$#" -eq 4 ]; then
   NETWORK="$4"
 fi
 case "$MODE" in --check|--launch|--resume|--status|--finalize) ;; *) usage ;; esac
-case "$NETWORK" in devnet) RPC="https://api.devnet.solana.com";; mainnet) RPC="https://api.mainnet-beta.solana.com";; *) usage ;; esac
+case "$NETWORK" in localnet) RPC="http://127.0.0.1:8899";; devnet) RPC="https://api.devnet.solana.com";; mainnet) RPC="https://api.mainnet-beta.solana.com";; *) usage ;; esac
 [ -f "$KEYPAIR" ] && [ -r "$KEYPAIR" ] || { echo "Missing/unreadable local signing keypair." >&2; exit 2; }
 case "$KEYPAIR" in /*) ;; *) echo "Use an ABSOLUTE path to a local keypair." >&2; exit 2;; esac
 
@@ -111,8 +111,13 @@ if [ "$MODE" = "--launch" ]; then
     read -r -p 'Type MAINNET-DNCH-V2 to approve real mainnet transactions: ' CONFIRM
     [ "$CONFIRM" = "MAINNET-DNCH-V2" ] || exit 1
   else
-    read -r -p 'Type DEVNET-DNCH-V2 to approve test transactions: ' CONFIRM
-    [ "$CONFIRM" = "DEVNET-DNCH-V2" ] || exit 1
+    if [ "$NETWORK" = "devnet" ]; then
+      read -r -p 'Type DEVNET-DNCH-V2 to approve test transactions: ' CONFIRM
+      [ "$CONFIRM" = "DEVNET-DNCH-V2" ] || exit 1
+    else
+      read -r -p 'Type LOCALNET-DNCH-V2 to approve local-only test transactions: ' CONFIRM
+      [ "$CONFIRM" = "LOCALNET-DNCH-V2" ] || exit 1
+    fi
   fi
   mkdir -p "$STATE"
   : > "$START_MARKER"

@@ -1,0 +1,89 @@
+name: DNCH Coin v2 - local validator integration
+
+# Real signed SPL/Metaplex test transactions on isolated local validator.
+# No real SOL, user keys, or mainnet transaction broadcasting.
+on:
+  push:
+    paths:
+      - '.github/workflows/dnch-v2-local-validator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  localnet-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Solana tools
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          sh -c "$(curl --retry 3 --retry-delay 3 -fsSL https://release.anza.xyz/stable/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+      - name: Install Metaplex CLI and inspect versions
+        shell: bash
+        run: |
+          npm install --global @metaplex-foundation/cli
+          solana --version
+          spl-token --version
+          mplx --version
+      - name: Start local Solana validator with cloned token-metadata program
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          LEDGER="$RUNNER_TEMP/dnch-localnet-ledger"
+          LOG="$RUNNER_TEMP/dnch-local-validator.log"
+          METADATA_PROGRAM="metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+          solana-test-validator --reset --ledger "$LEDGER" --bind-address 127.0.0.1 \
+            --rpc-port 8899 --faucet-port 9900 \
+            --url https://api.devnet.solana.com \
+            --clone-upgradeable-program "$METADATA_PROGRAM" > "$LOG" 2>&1 &
+          PID="$!"
+          echo "VALIDATOR_PID=$PID" >> "$GITHUB_ENV"
+          echo "VALIDATOR_LOG=$LOG" >> "$GITHUB_ENV"
+          ready=0
+          for attempt in $(seq 1 70); do
+            if solana cluster-version --url http://127.0.0.1:8899 >/dev/null 2>&1; then ready=1; break; fi
+            if ! kill -0 "$PID" >/dev/null 2>&1; then break; fi
+            sleep 3
+          done
+          if [ "$ready" -ne 1 ]; then
+            tail -n 100 "$LOG"
+            echo "Local validator could not start; program clone may have been RPC rate-limited." >&2
+            exit 1
+          fi
+          echo "Local validator ready; transactions will use localhost only."
+      - name: Generate disposable signer and fund from local faucet
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          KEY="$RUNNER_TEMP/dnch-localnet-key.json"
+          solana-keygen new --no-bip39-passphrase --silent --outfile "$KEY" >/dev/null
+          chmod 600 "$KEY"
+          echo "TEST_KEYPAIR=$KEY" >> "$GITHUB_ENV"
+          OWNER="$(solana-keygen pubkey "$KEY")"
+          solana airdrop 2 "$OWNER" --url http://127.0.0.1:8899
+          solana balance "$OWNER" --url http://127.0.0.1:8899
+      - name: Test mint, treasury, metadata and irreversible authority revoke
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          bash token-v2/launch.sh --check "$TEST_KEYPAIR" --network localnet
+          printf 'LOCALNET-DNCH-V2\n' | bash token-v2/launch.sh --launch "$TEST_KEYPAIR" --network localnet
+          bash token-v2/launch.sh --status "$TEST_KEYPAIR" --network localnet
+          printf 'PERMANENTLY-REVOKE-MINT\n' | bash token-v2/launch.sh --finalize "$TEST_KEYPAIR" --network localnet
+          echo "LOCAL VALIDATOR TEST PASSED: real test token instructions executed with valueless SOL."
+      - name: Always remove disposable key and stop local validator
+        shell: bash
+        if: always()
+        run: |
+          rm -f "$RUNNER_TEMP/dnch-localnet-key.json"
+          rm -rf "$HOME/.local/share/dnch-v2/localnet"
+          if [ -n "$VALIDATOR_PID" ]; then kill "$VALIDATOR_PID" || true; fi
+          if [ -n "$VALIDATOR_LOG" ]; then tail -n 25 "$VALIDATOR_LOG" || true; fi
