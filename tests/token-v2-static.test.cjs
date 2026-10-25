@@ -12,7 +12,7 @@ const readme = fs.readFileSync(path.join(root, 'token-v2/README.md'), 'utf8');
 test('v2 metadata identifies a separate not-yet-issued token', () => {
   assert.equal(data.name, 'DNCH Coin v2');
   assert.equal(data.symbol, 'DNCH');
-  assert.ok(data.description.includes('separate from the original'));
+  assert.ok(data.description.includes('updated DNCH Ecosystem token'));
   assert.match(data.image, /^https:\/\/dnchcoin\.github\.io\/dnch-coin\/dnch-logo\.png$/);
   assert.ok(!Object.hasOwn(data, 'mint'));
 });
@@ -27,7 +27,7 @@ test('mint quantity exactly fits Solana uint64 when using 9 decimals', () => {
 test('launcher is local, refuses v1, and has guarded mainnet path', () => {
   assert.ok(script.includes('set -Eeuo pipefail'));
   assert.ok(script.includes('umask 077'));
-  assert.ok(script.includes('prepare-dnch-coin-v2/token-v2/metadata.json'));
+  assert.ok(script.includes('main/token-v2/metadata.json'));
   assert.ok(script.includes('MAINNET-DNCH-V2'));
   assert.ok(script.includes('PERMANENTLY-REVOKE-MINT'));
   assert.ok(script.includes('--resume'));
