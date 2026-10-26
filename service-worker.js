@@ -2,7 +2,7 @@
    Never intercept Supabase, YouTube, auth redirects, forum/admin pages, or API calls.
    Never store sensitive/session pages. Online content always wins. */
 'use strict';
-const VERSION='dnch-mobile-public-v5';
+const VERSION='dnch-mobile-public-v6';
 const PREFIX='dnch-mobile-public-';
 const SCOPE=new URL(self.registration.scope);
 const PUBLIC_FILES=[

@@ -21,7 +21,7 @@
 <a class="skip" href="#radio-main">Skip to music</a>
 <header class="site-head"><div class="wrap head-inner">
 <a class="brand" href="./">DNCH <span>HUB</span></a>
-<nav aria-label="Main navigation"><a href="./">Home</a><a href="today.html">DNCH Today</a><a href="community.html">Ideas Lab</a><a href="forum.html?pilot=1">Forum</a><a href="my-dnch.html">MY DNCH</a><a href="drag-racing.html">DNCH Games</a><a class="lang-link" href="bg/radio.html" hreflang="bg" lang="bg">BG</a></nav>
+<nav aria-label="Main navigation"><a href="./">Home</a><a href="today.html">DNCH Today</a><a href="community.html">Ideas Lab</a><a href="forum.html">Forum preview</a><a href="my-dnch.html">MY DNCH</a><a href="drag-racing.html">DNCH Games</a><a class="lang-link" href="bg/radio.html" hreflang="bg" lang="bg">BG</a></nav>
 </div></header>
 <main id="radio-main" class="radio-page">
 <div class="wrap">
@@ -29,12 +29,12 @@
 <div class="eyebrow">DNCH RADIO · EARLY ACCESS</div>
 <h1>Your music. Your choice.</h1>
 <p class="lead">Pick a genre, watch a music video through YouTube's official player, and add your own favorites. No signup and no fees.</p>
-<div class="radio-tags"><span>♫ YouTube Player · v0.1</span><span>🌍 DNCH Ecosystem</span></div>
+<div class="radio-tags"><span>♫ YouTube Player · v0.2</span><span>🌍 DNCH Ecosystem</span></div>
 </section>
 <div class="radio-warning" role="note"><strong>ⓘ</strong> This is a music player, not a continuous live radio stream. Playback is provided by YouTube.</div>
 <div class="radio-layout">
 <section class="radio-player-card" aria-label="Selected video">
-<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Selected video</h2></div><span class="radio-v01">v0.1</span></div>
+<div class="radio-section-head"><div><span class="eyebrow">DNCH RADIO</span><h2>Selected video</h2></div><span class="radio-v01">v0.2</span></div>
 <h3 id="radio-selected-title">—</h3><p class="radio-artist" id="radio-selected-artist"></p>
 <div class="radio-frame-shell" id="radio-frame-shell">
 <div class="radio-placeholder" id="radio-placeholder">
@@ -49,6 +49,21 @@
 <button type="button" class="btn" id="radio-next">Next →</button>
 </div>
 <p class="small">This video plays on YouTube. If embedding is restricted, use the YouTube link.</p>
+<div class="radio-sleep" role="group" aria-labelledby="radio-sleep-title">
+<h3 id="radio-sleep-title">Sleep timer</h3>
+<p class="small">Stop the selected YouTube player after a set time. It works while this page stays open; browsers may delay timers in the background.</p>
+<div class="radio-sleep-actions">
+<label for="radio-sleep-duration">Stop after
+<select id="radio-sleep-duration">
+<option value="5">5 minutes</option><option value="15" selected>15 minutes</option>
+<option value="30">30 minutes</option><option value="60">60 minutes</option>
+</select></label>
+<button id="radio-sleep-start" type="button" class="btn" disabled>Start timer</button>
+<button id="radio-sleep-cancel" type="button" class="btn" hidden>Cancel timer</button>
+</div>
+<p class="radio-sleep-remaining" id="radio-sleep-remaining" aria-live="off">No active timer.</p>
+<p class="small radio-sleep-status" id="radio-sleep-status" role="status" aria-live="polite"></p>
+</div>
 </section>
 <aside class="radio-playlist-card">
 <h2>Music genres</h2>
@@ -71,7 +86,7 @@
 <section class="radio-info-card" aria-label="How does it work?">
 <h2>How does it work?</h2><p>Select a track to load the official YouTube video player, then press Play inside YouTube. No audio extraction or hidden playback. Each video also has a direct YouTube link.</p>
 <p class="small">YouTube may process data once you load the embedded player. No YouTube video is loaded before you select a track.</p><p class="small">Featured videos come from official YouTube channels. Rights belong to their respective owners. Some videos may not allow embedding.</p>
-<a href="forum.html?pilot=1">Suggest music in DNCH Community →</a>
+<a href="community.html">Suggest music through DNCH Ideas Lab →</a>
 </section>
 </div>
 </main>
