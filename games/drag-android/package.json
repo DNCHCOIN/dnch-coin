@@ -1,0 +1,16 @@
+{
+  "name": "dnch-drag-racing-mobile",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "prepare": "node prepare.cjs",
+    "verify": "node check.cjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.3",
+    "@capacitor/android": "8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3"
+  }
+}
