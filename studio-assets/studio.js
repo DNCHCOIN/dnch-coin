@@ -12,7 +12,7 @@ if($('estimateType')){$('estimateType').addEventListener('change',showEstimate);
 function value(id){const el=$(id);const n=el?Number(el.value):0;return Number.isFinite(n)?Math.max(0,n):0}
 function calculateTransport(){if(!$('transportResult'))return;const km=value('km'),fuel=value('fuel'),price=value('fuelprice'),other=value('othercost'),margin=value('margin');const sum=(km*fuel/100*price+other)*(1+margin/100);$('transportResult').textContent=money(sum);};
 ['km','fuel','fuelprice','othercost','margin'].forEach(id=>{if($(id))$(id).addEventListener('input',calculateTransport)});calculateTransport();
-document.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{const v=el.getAttribute('data-pick');if($('projectService')){$('projectService').value=v;updateInquiry();}if($('estimateType')){$('estimateType').value=v;showEstimate();}}));
+document.querySelectorAll('[data-pick]').forEach(el=>el.addEventListener('click',()=>{const v=(el.closest('#tools')&&$('estimateType'))?$('estimateType').value:el.getAttribute('data-pick');if($('projectService')){$('projectService').value=v;updateInquiry();}if($('estimateType')){$('estimateType').value=v;showEstimate();}}));
 function updateInquiry(){if(!$('inquiryPreview'))return;const serv=$('projectService');const service=serv.options[serv.selectedIndex]?.text||'';const fields=bg?[
 ['Име / фирма',$('clientName').value],['Контакт',$('clientContact').value],['Услуга',service],['Бюджет',$('projectBudget').value],['Описание',$('projectDetails').value]
 ]:[
