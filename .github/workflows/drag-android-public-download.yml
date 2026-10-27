@@ -1,0 +1,42 @@
+name: Public Android game download
+on:
+  push:
+    branches: [feature/dnch-drag-racing-android]
+    paths: ['.github/workflows/drag-android-public-download.yml']
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  release-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download successfully built DNCH Drag Racing APK
+        uses: actions/download-artifact@v4
+        with:
+          name: DNCH-Drag-Racing-Android-debug
+          run-id: 40578235621
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: release/
+      - name: Validate downloaded Android APK
+        run: |
+          python3 - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import Path
+          apk=Path('release/app-debug.apk')
+          if not apk.exists() or apk.stat().st_size<1000000:
+              raise SystemExit('APK not found or too small')
+          with ZipFile(apk) as z:
+              assert z.testzip() is None
+              files=set(z.namelist())
+              for f in ['AndroidManifest.xml','assets/public/index.html','assets/public/assets/drag-engine.js','assets/public/assets/drag-game.js']:
+                  assert f in files,f
+          apk.rename('release/DNCH-Drag-Racing-v0.3.apk')
+          print('APK release validated')
+          PY
+      - name: Publish permanent public download as prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "dnch-drag-racing-android-v0.3"             release/DNCH-Drag-Racing-v0.3.apk             --repo "${{ github.repository }}"             --target "${{ github.sha }}"             --title "DNCH Drag Racing — Android v0.3 (test)"             --notes "Самостоятелна Android игра за тестване. Състезание 402 м, 3 автомобила, ръчни скорости и гараж. Debug APK; не е тествана на физически Android телефон."             --prerelease
