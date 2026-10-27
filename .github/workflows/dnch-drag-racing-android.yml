@@ -1,0 +1,66 @@
+name: DNCH Drag Racing Android APK
+on:
+  push:
+    branches: [main, feature/dnch-drag-racing-android]
+    paths:
+      - 'games/drag-android/**'
+      - 'assets/drag-engine.js'
+      - 'assets/drag-game.js'
+      - 'assets/drag-game.css'
+      - 'assets/site.css'
+      - 'assets/icons/dnch-192.png'
+      - 'assets/icons/dnch-512.png'
+      - 'bg/drag-racing.html'
+      - '.github/workflows/dnch-drag-racing-android.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK
+        run: |
+          SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -1)
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+      - name: Install dependencies and bundle offline game
+        working-directory: games/drag-android
+        run: |
+          npm install --no-audit --no-fund
+          npm run prepare
+          node --check www/assets/drag-engine.js
+          node --check www/assets/drag-game.js
+          test -f www/index.html
+      - name: Generate Android app
+        working-directory: games/drag-android
+        run: |
+          npx cap add android
+          npx cap sync android
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Add DNCH game icon
+        working-directory: games/drag-android
+        run: |
+          python -m pip install --disable-pip-version-check pillow
+          python icon.py
+      - name: Compile Android APK
+        working-directory: games/drag-android/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DNCH-Drag-Racing-Android-debug
+          path: games/drag-android/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
