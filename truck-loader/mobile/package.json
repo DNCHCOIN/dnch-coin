@@ -1,0 +1,7 @@
+{
+ "name":"dnch-truck-loader-android","version":"1.0.0","private":true,
+ "description":"Android package for existing DNCH truck planner",
+ "scripts":{"prepare":"node prepare-web.cjs","android:sync":"npm run prepare && npx cap sync android"},
+ "dependencies":{"@capacitor/core":"8.5.3","@capacitor/android":"8.5.3","@capacitor/geolocation":"8.2.4"},
+ "devDependencies":{"@capacitor/cli":"8.5.3"}
+}
