@@ -3,56 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-10-28T08:23:29+00:00",
+  "fetchedAt": "2026-10-28T15:58:30+00:00",
   "latest": {
-    "observedAtLocal": "2026-10-28T10:00:00",
-    "observedAt": "2026-10-28T10:00:00+02:00",
-    "levelCm": 39,
-    "flowM3s": 3.341
+    "observedAtLocal": "2026-10-28T17:00:00",
+    "observedAt": "2026-10-28T17:00:00+02:00",
+    "levelCm": 124,
+    "flowM3s": 20.38
   },
   "history": [
-    {
-      "observedAtLocal": "2026-10-24T11:00:00",
-      "observedAt": "2026-10-24T11:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T12:00:00",
-      "observedAt": "2026-10-24T12:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T13:00:00",
-      "observedAt": "2026-10-24T13:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T14:00:00",
-      "observedAt": "2026-10-24T14:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T15:00:00",
-      "observedAt": "2026-10-24T15:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T16:00:00",
-      "observedAt": "2026-10-24T16:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-24T17:00:00",
-      "observedAt": "2026-10-24T17:00:00+03:00",
-      "levelCm": 18,
-      "flowM3s": 1.769
-    },
     {
       "observedAtLocal": "2026-10-24T18:00:00",
       "observedAt": "2026-10-24T18:00:00+03:00",
@@ -586,6 +544,48 @@
       "observedAt": "2026-10-28T10:00:00+02:00",
       "levelCm": 39,
       "flowM3s": 3.341
+    },
+    {
+      "observedAtLocal": "2026-10-28T11:00:00",
+      "observedAt": "2026-10-28T11:00:00+02:00",
+      "levelCm": 39,
+      "flowM3s": 3.341
+    },
+    {
+      "observedAtLocal": "2026-10-28T12:00:00",
+      "observedAt": "2026-10-28T12:00:00+02:00",
+      "levelCm": 38,
+      "flowM3s": 3.244
+    },
+    {
+      "observedAtLocal": "2026-10-28T13:00:00",
+      "observedAt": "2026-10-28T13:00:00+02:00",
+      "levelCm": 40,
+      "flowM3s": 3.44
+    },
+    {
+      "observedAtLocal": "2026-10-28T14:00:00",
+      "observedAt": "2026-10-28T14:00:00+02:00",
+      "levelCm": 18,
+      "flowM3s": 1.769
+    },
+    {
+      "observedAtLocal": "2026-10-28T15:00:00",
+      "observedAt": "2026-10-28T15:00:00+02:00",
+      "levelCm": 18,
+      "flowM3s": 1.769
+    },
+    {
+      "observedAtLocal": "2026-10-28T16:00:00",
+      "observedAt": "2026-10-28T16:00:00+02:00",
+      "levelCm": 49,
+      "flowM3s": 4.375
+    },
+    {
+      "observedAtLocal": "2026-10-28T17:00:00",
+      "observedAt": "2026-10-28T17:00:00+02:00",
+      "levelCm": 124,
+      "flowM3s": 20.38
     }
   ],
   "disclaimer": "Оперативни измервания. Не гарантират безопасност при работа на ВЕЦ."
