@@ -3,38 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-10-28T21:00:36+00:00",
+  "fetchedAt": "2026-10-29T00:52:28+00:00",
   "latest": {
-    "observedAtLocal": "2026-10-28T22:00:00",
-    "observedAt": "2026-10-28T22:00:00+02:00",
-    "levelCm": 77,
-    "flowM3s": 7.936
+    "observedAtLocal": "2026-10-29T02:00:00",
+    "observedAt": "2026-10-29T02:00:00+02:00",
+    "levelCm": 17,
+    "flowM3s": 1.712
   },
   "history": [
-    {
-      "observedAtLocal": "2026-10-24T23:00:00",
-      "observedAt": "2026-10-24T23:00:00+03:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-10-25T00:00:00",
-      "observedAt": "2026-10-25T00:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-25T01:00:00",
-      "observedAt": "2026-10-25T01:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
-    {
-      "observedAtLocal": "2026-10-25T02:00:00",
-      "observedAt": "2026-10-25T02:00:00+03:00",
-      "levelCm": 17,
-      "flowM3s": 1.712
-    },
     {
       "observedAtLocal": "2026-10-25T03:00:00",
       "observedAt": "2026-10-25T03:00:00+03:00",
@@ -586,6 +562,30 @@
       "observedAt": "2026-10-28T22:00:00+02:00",
       "levelCm": 77,
       "flowM3s": 7.936
+    },
+    {
+      "observedAtLocal": "2026-10-28T23:00:00",
+      "observedAt": "2026-10-28T23:00:00+02:00",
+      "levelCm": 77,
+      "flowM3s": 7.936
+    },
+    {
+      "observedAtLocal": "2026-10-29T00:00:00",
+      "observedAt": "2026-10-29T00:00:00+02:00",
+      "levelCm": 18,
+      "flowM3s": 1.769
+    },
+    {
+      "observedAtLocal": "2026-10-29T01:00:00",
+      "observedAt": "2026-10-29T01:00:00+02:00",
+      "levelCm": 18,
+      "flowM3s": 1.769
+    },
+    {
+      "observedAtLocal": "2026-10-29T02:00:00",
+      "observedAt": "2026-10-29T02:00:00+02:00",
+      "levelCm": 17,
+      "flowM3s": 1.712
     }
   ],
   "disclaimer": "Оперативни измервания. Не гарантират безопасност при работа на ВЕЦ."
