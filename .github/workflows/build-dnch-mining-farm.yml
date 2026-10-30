@@ -21,7 +21,7 @@ jobs:
       - name: Generate original assets
         run: |
           apt-get update -qq
-          apt-get install -y python3-pil unzip
+          apt-get install -y python3-pil unzip libfontconfig1 fonts-dejavu-core
           python3 tools/generate_assets.py
       - name: Install Android SDK
         run: |

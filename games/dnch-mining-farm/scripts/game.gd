@@ -227,7 +227,7 @@ func _on_command(action:String,value:String)->void:
 			if broken<=0:
 				_notice("ALL MACHINES HEALTHY")
 			elif cash<float(broken)*125.0:
-				_notice("NEED $%.0f FOR REPAIRS"%float(broken)*125.0)
+				_notice("NEED $%.0f FOR REPAIRS" % (float(broken)*125.0))
 			else:
 				cash-=float(broken)*125.0
 				for unit in placed:
