@@ -4,6 +4,15 @@ func _initialize()->void:
 	call_deferred("_run")
 
 func _run()->void:
+	var menu_scene:PackedScene=load("res://menu.tscn")
+	if menu_scene == null:
+		printerr("FAIL: Main menu failed to import.")
+		quit(5)
+		return
+	var menu:Node=menu_scene.instantiate()
+	root.add_child(menu)
+	await process_frame
+	menu.queue_free()
 	var src:PackedScene=load("res://main.tscn")
 	if src==null:
 		printerr("FAIL: Cannot load mining farm scene.")
