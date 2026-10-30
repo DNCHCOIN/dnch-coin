@@ -76,6 +76,7 @@ var message:String=""
 func _ready()->void:
 	_load_progress()
 	ART.apply_scene_lighting(self)
+	_create_ambient_audio()
 	world_root=Node3D.new()
 	world_root.name="The Farm"
 	add_child(world_root)
@@ -98,6 +99,16 @@ func _ready()->void:
 			_notice("OFFLINE MINING: +%.1f DNCH" % offline_coins)
 	_update_ui()
 	_save_progress()
+
+func _create_ambient_audio()->void:
+	var sample:Resource=load("res://audio/industrial_fans.wav")
+	if sample is AudioStream:
+		var ambience:=AudioStreamPlayer.new()
+		ambience.stream=sample
+		ambience.volume_db=-22.0
+		add_child(ambience)
+		ambience.finished.connect(func(): ambience.play() if is_instance_valid(ambience) else null)
+		ambience.play()
 
 func _create_camera()->void:
 	camera=Camera3D.new()
