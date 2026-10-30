@@ -2,6 +2,8 @@ name: Build DNCH Coin Miner APK
 on:
   push:
     branches: [dnch-coin-miner-android-build]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
