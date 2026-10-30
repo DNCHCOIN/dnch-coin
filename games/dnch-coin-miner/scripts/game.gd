@@ -497,7 +497,8 @@ func _ui_label(parent: Control, txt: String, pos: Vector2, dimensions: Vector2, 
 
 func _ui_button(parent: Control, txt: String, pos: Vector2, dimensions: Vector2, bg: Color, font_size: int = 22) -> Button:
 	var btn := Button.new()
-	btn.text = txt	btn.position = pos
+	btn.text = txt
+	btn.position = pos
 	btn.size = dimensions
 	btn.add_theme_font_size_override("font_size", font_size)
 	btn.add_theme_color_override("font_color", Color("ffffff"))
@@ -996,7 +997,8 @@ func _update_scanner(delta: float) -> void:
 		mini_map.queue_redraw()
 	# Solar cycle has subtle light shifts, capped for a readable mobile scene.
 	time_of_day = fmod(time_of_day + delta / 480.0, 1.0)
-	var warmth: float = 0.65 + 0.35 * sin(time_of_day * TAU)	sunlight.light_energy = 1.20 + warmth * 0.6
+	var warmth: float = 0.65 + 0.35 * sin(time_of_day * TAU)
+	sunlight.light_energy = 1.20 + warmth * 0.6
 
 func _toggle_eco_mode() -> void:
 	eco_mode = not eco_mode
