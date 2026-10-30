@@ -12,6 +12,8 @@ const ORE_NAMES: Array[String] = ["STONE", "COPPER", "GOLD", "CRYSTAL", "DIAMOND
 const ORE_PRICES: Array[int] = [2, 8, 22, 42, 85]
 const ORE_COLORS: Array[Color] = [Color("8d9898"), Color("cf824d"), Color("ffcc48"), Color("62e5c8"), Color("8ecbff")]
 
+var safe_mode: bool = false
+var boot_stage: String = ""
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var geology: FastNoiseLite = FastNoiseLite.new()
 var ore_nodes: Array[Vector2] = []
@@ -81,36 +83,59 @@ var buy_drill_button: Button
 var buy_magnet_button: Button
 var sfx: Dictionary = {}
 
+func _log_startup(stage: String) -> void:
+	boot_stage = stage
+	var f := FileAccess.open("user://dnch_startup_stage.txt", FileAccess.WRITE)
+	if f != null:
+		f.store_string(stage)
+		f.close()
+
 func _ready() -> void:
+	safe_mode = bool(get_tree().root.get_meta("dnch_safe_mode", true))
+	_log_startup("1 / game script initialized")
 	rng.seed = 20261031
 	geology.seed = 943217
 	geology.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
 	geology.frequency = 0.13
 	geology.fractal_type = FastNoiseLite.FRACTAL_FBM
 	geology.fractal_octaves = 3
+	_log_startup("2 / environment")
 	_make_environment()
+	_log_startup("3 / terrain")
 	_make_terrain()
+	_log_startup("4 / scenery")
 	_make_scenery()
+	_log_startup("5 / player and camera")
 	_make_player()
 	_make_camera()
-	_make_audio()
-	_make_dig_particles()
+	_log_startup("6 / audio and effects")
+	if not safe_mode:
+		_make_audio()
+		_make_dig_particles()
 	_make_scan_ring()
+	_log_startup("7 / mobile interface")
 	_make_ui()
+	_log_startup("8 / load saved progress")
 	_load_game()
 	_apply_eco_mode()
+	_log_startup("9 / create mesh")
 	_redraw_terrain()
 	_update_hud()
 	_notice("FIND ORE. DIG THE GROUND. RETURN TO CAMP TO SELL.")
+	_log_startup("10 / GAME RUNNING")
 
 func _make_environment() -> void:
 	var environment := Environment.new()
 	environment.background_mode = Environment.BG_SKY
-	var sky := Sky.new()
-	var sky_material := PanoramaSkyMaterial.new()
-	sky_material.panorama = load("res://textures/sky_panorama.png")
-	sky.sky_material = sky_material
-	environment.sky = sky
+	if safe_mode:
+		environment.background_mode = Environment.BG_COLOR
+		environment.background_color = Color("6795a3")
+	else:
+		var sky := Sky.new()
+		var sky_material := PanoramaSkyMaterial.new()
+		sky_material.panorama = load("res://textures/sky_panorama.png")
+		sky.sky_material = sky_material
+		environment.sky = sky
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.ambient_light_color = Color("d2e6d8")
 	environment.ambient_light_energy = 0.75
@@ -121,7 +146,7 @@ func _make_environment() -> void:
 	sunlight.rotation_degrees = Vector3(-48, -32, 0)
 	sunlight.light_color = Color("fff4d9")
 	sunlight.light_energy = 1.8
-	sunlight.shadow_enabled = true
+	sunlight.shadow_enabled = not safe_mode
 	add_child(sunlight)
 	var fill := DirectionalLight3D.new()
 	fill.rotation_degrees = Vector3(-35, 145, 0)
@@ -144,10 +169,11 @@ func _make_terrain() -> void:
 	material.vertex_color_use_as_albedo = true
 	material.roughness = 1.0
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	material.albedo_texture = load("res://textures/soil_albedo.png")
-	material.normal_enabled = true
-	material.normal_texture = load("res://textures/soil_normal.png")
-	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	if not safe_mode:
+		material.albedo_texture = load("res://textures/soil_albedo.png")
+		material.normal_enabled = true
+		material.normal_texture = load("res://textures/soil_normal.png")
+		material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	terrain.material_override = material
 	add_child(terrain)
 
@@ -178,14 +204,15 @@ func _ground_color(h: float, x: float, z: float) -> Color:
 func _redraw_terrain() -> void:
 	var builder := SurfaceTool.new()
 	builder.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for z in range(GRID - 1):
-		for x in range(GRID - 1):
+	var stride: int = 2 if safe_mode else 1
+	for z in range(0, GRID - 1, stride):
+		for x in range(0, GRID - 1, stride):
 			var x0: float = -HALF + float(x) * STEP
 			var z0: float = -HALF + float(z) * STEP
 			var a := Vector3(x0, _height_at_grid(x, z), z0)
-			var b := Vector3(x0 + STEP, _height_at_grid(x + 1, z), z0)
-			var c := Vector3(x0, _height_at_grid(x, z + 1), z0 + STEP)
-			var d := Vector3(x0 + STEP, _height_at_grid(x + 1, z + 1), z0 + STEP)
+			var b := Vector3(x0 + STEP * stride, _height_at_grid(x + stride, z), z0)
+			var c := Vector3(x0, _height_at_grid(x, z + stride), z0 + STEP * stride)
+			var d := Vector3(x0 + STEP * stride, _height_at_grid(x + stride, z + stride), z0 + STEP * stride)
 			for vertex in [a, c, b, b, c, d]:
 				var surface_tint: Color = _ground_color(vertex.y, vertex.x, vertex.z)
 				if vertex.y < -0.25:
@@ -196,7 +223,8 @@ func _redraw_terrain() -> void:
 				builder.set_uv(Vector2(vertex.x * 0.51, vertex.z * 0.51))
 				builder.add_vertex(vertex)
 	builder.generate_normals()
-	builder.generate_tangents()
+	if not safe_mode:
+		builder.generate_tangents()
 	terrain.mesh = builder.commit()
 
 func _material(color: Color, glow: bool = false, texture_kind: String = "") -> StandardMaterial3D:
@@ -210,7 +238,7 @@ func _material(color: Color, glow: bool = false, texture_kind: String = "") -> S
 		m.emission_enabled = true
 		m.emission = color
 		m.emission_energy_multiplier = 1.4
-	elif texture_kind != "":
+	elif texture_kind != "" and not safe_mode:
 		m.albedo_texture = load("res://textures/%s_albedo.png" % texture_kind)
 		if texture_kind in ["soil", "stone", "sand"]:
 			m.normal_enabled = true
@@ -287,7 +315,7 @@ func _make_scenery() -> void:
 	light.light_energy = 2.0
 	light.omni_range = 5.0
 	camp.add_child(light)
-	for k in range(90):
+	for k in range(28 if safe_mode else 90):
 		var angle: float = rng.randf_range(-PI, PI)
 		var r: float = rng.randf_range(3.4, 22.0)
 		var xx: float = cos(angle) * r
@@ -300,7 +328,7 @@ func _make_scenery() -> void:
 		var rock_size: float = rng.randf_range(0.2, 0.75)
 		var grey: Color = [Color("6a7775"), Color("75817b"), Color("ad987d")][k % 3]
 		_ball(self, Vector3(xx, y + rock_size * 0.39, zz), Vector3(rock_size, rock_size * 0.52, rock_size * 0.76), grey, false, "stone")
-	for k in range(17):
+	for k in range(10 if safe_mode else 17):
 		var ang: float = float(k) * 2.399
 		var radius: float = 5.5 + float(k % 4) * 2.1
 		var p := Vector3(cos(ang) * radius, 0, sin(ang) * radius)
@@ -309,7 +337,7 @@ func _make_scenery() -> void:
 		p.y = _ground_height(p.x, p.z)
 		_make_ore_outcrop(p, k)
 		ore_nodes.append(Vector2(p.x, p.z))
-	for k in range(10):
+	for k in range(5 if safe_mode else 10):
 		var xx: float = rng.randf_range(-15.0, 15.0)
 		var zz: float = rng.randf_range(-15.0, 15.0)
 		if Vector2(xx - SHOP_SPOT.x, zz - SHOP_SPOT.z).length() < 5.5:
@@ -319,8 +347,8 @@ func _make_scenery() -> void:
 		_ball(self, loc + Vector3(0, 1.95, 0), Vector3(0.9, 1.1, 0.9), Color("3b7861"))
 		_ball(self, loc + Vector3(0.2, 2.45, 0), Vector3(0.7, 0.7, 0.73), Color("4a8c67"))
 	# Perimeter ridges make the scene feel like a mine, not an empty plane.
-	for k in range(30):
-		var angle: float = TAU * float(k) / 30.0
+	for k in range(16 if safe_mode else 30):
+		var angle: float = TAU * float(k) / float(16 if safe_mode else 30)
 		var xx: float = sin(angle) * 18.3
 		var zz: float = cos(angle) * 18.3
 		var top: float = 2.3 + 1.3 * (1.0 + sin(angle * 5.0))
@@ -724,7 +752,7 @@ func _dig() -> void:
 	dig_cooldown = maxf(0.30, 0.64 - float(drill_level) * 0.10)
 	dig_anim = 1.0
 	_play("dig")
-	if not eco_mode:
+	if not eco_mode and dust_particles != null:
 		dust_particles.position = Vector3(target.x, _ground_height(target.x, target.z) + 0.13, target.z)
 		dust_particles.restart()
 	if OS.get_name() == "Android":
@@ -1008,14 +1036,14 @@ func _toggle_eco_mode() -> void:
 
 func _apply_eco_mode() -> void:
 	if sunlight != null:
-		sunlight.shadow_enabled = not eco_mode
+		sunlight.shadow_enabled = not eco_mode and not safe_mode
 	if dust_particles != null and eco_mode:
 		dust_particles.emitting = false
 	if scan_ring != null and eco_mode:
 		scan_ring.visible = false
-	Engine.max_fps = 30 if eco_mode else 60
+	Engine.max_fps = 30 if eco_mode or safe_mode else 60
 	if eco_button != null:
-		eco_button.text = "ECO: ON  30 FPS" if eco_mode else "ECO: OFF  60 FPS"
+		eco_button.text = "SAFE MODE  30 FPS" if safe_mode else ("ECO: ON  30 FPS" if eco_mode else "ECO: OFF  60 FPS")
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_PAUSED:
