@@ -74,6 +74,8 @@ var paused:bool=false
 var message:String=""
 
 func _ready()->void:
+	Input.set_emulate_mouse_from_touch(true)
+	Engine.max_fps = 30 if bool(get_tree().root.get_meta("safe_mode",true)) else 60
 	_load_progress()
 	ART.apply_scene_lighting(self)
 	_create_ambient_audio()
@@ -458,6 +460,9 @@ func _process(delta:float)->void:
 
 func _unhandled_input(event:InputEvent)->void:
 	if event is InputEventScreenTouch:
+		if not _is_build_area(event.position):
+			pointer_down = false
+			return
 		if event.pressed:
 			pointer_down=true
 			touch_dragged=false
@@ -473,8 +478,9 @@ func _unhandled_input(event:InputEvent)->void:
 			if touch_dragged:
 				_rotate_by(event.relative)
 	elif event is InputEventMouseButton:
-		if event.button_index==MOUSE_BUTTON_LEFT and event.pressed:
-			_place_from_screen(event.position)
+		if event.button_index==MOUSE_BUTTON_LEFT and event.pressed and not OS.has_feature("mobile"):
+			if _is_build_area(event.position):
+				_place_from_screen(event.position)
 		elif event.button_index==MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			view_distance=clampf(view_distance-1.5,16.0,41.0)
 			_orbit()
@@ -489,6 +495,14 @@ func _rotate_by(rel:Vector2)->void:
 	view_yaw-=rel.x*.007
 	view_pitch=clampf(view_pitch+rel.y*.004,.37,1.10)
 	_orbit()
+
+func _is_build_area(point:Vector2)->bool:
+	var viewport_size:Vector2=get_viewport().get_visible_rect().size
+	if viewport_size.x<=1.0 or viewport_size.y<=1.0:
+		return false
+	var x:float=point.x*1280.0/viewport_size.x
+	var y:float=point.y*720.0/viewport_size.y
+	return x>286.0 and x<984.0 and y>111.0 and y<548.0
 
 func _place_from_screen(point:Vector2)->void:
 	var start:Vector3=camera.project_ray_origin(point)

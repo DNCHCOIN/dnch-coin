@@ -9,9 +9,26 @@ func _run()->void:
 		printerr("FAIL: Main menu failed to import.")
 		quit(5)
 		return
+	if not Input.is_emulating_mouse_from_touch():
+		printerr("FAIL: Mobile touch is not mapped to GUI buttons.")
+		quit(6)
+		return
 	var menu:Node=menu_scene.instantiate()
 	root.add_child(menu)
 	await process_frame
+	if not menu.has_method("_show_help"):
+		printerr("FAIL: Main menu actions are disconnected.")
+		quit(7)
+		return
+	if menu.get("start_button")==null:
+		printerr("FAIL: Start Mining button is missing.")
+		quit(8)
+		return
+	menu.call("_show_help")
+	if not bool(menu.get("help_visible")):
+		printerr("FAIL: How To Play button did not open instructions.")
+		quit(9)
+		return
 	menu.queue_free()
 	var src:PackedScene=load("res://main.tscn")
 	if src==null:

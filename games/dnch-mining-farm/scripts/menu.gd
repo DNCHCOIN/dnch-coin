@@ -1,127 +1,192 @@
-extends Control
+extends Node3D
 
-var safe_mode:bool=true
-var help_visible:bool=false
-var time_passed:float=0.0
-var status:Label
-var subtitle:Label
+# DNCH Mining Farm: contemporary industrial show floor, not a retro drawn UI.
+const ART = preload("res://scripts/art.gd")
+var safe_mode: bool = true
+var help_visible: bool = false
+var start_button: Button
+var graphics_button: Button
+var help_window: PanelContainer
+var status: Label
+var camera: Camera3D
+var ui: Control
+var elapsed: float = 0.0
+var fans: Array = []
 
-func _ready()->void:
-	mouse_filter=Control.MOUSE_FILTER_PASS
-	_create_ui()
+const WHITE = Color("f5f4ef")
+const SECONDARY = Color("a5b3b8")
+const AMBER = Color("f0b46c")
+const GREEN = Color("98c8b1")
+const SURFACE = Color("131d25")
+
+func _ready() -> void:
+	Input.set_emulate_mouse_from_touch(true)
+	ART.apply_scene_lighting(self)
+	ART.create_room(self, 2)
+	_build_showroom()
+	_build_camera()
+	_build_interface()
+	fans = get_tree().get_nodes_in_group("spin_fan")
+	Engine.max_fps = 30
 	set_process(true)
 
-func _panel_style(bg:Color, border:Color)->StyleBoxFlat:
-	var s:=StyleBoxFlat.new()
-	s.bg_color=bg
-	s.border_color=border
-	s.set_border_width_all(2)
-	s.set_corner_radius_all(12)
-	s.content_margin_left=18
-	s.content_margin_right=18
-	s.content_margin_top=12
-	s.content_margin_bottom=12
-	return s
+func _build_showroom() -> void:
+	var show = Node3D.new()
+	show.name = "Hardware Showroom"
+	add_child(show)
+	for spec in [
+		["gpu_3", Vector3(1.0, 0.0, -3.8), 0.25],
+		["gpu_2", Vector3(4.0, 0.0, -3.8), 0.25],
+		["asic_2", Vector3(7.0, 0.0, -3.8), 0.25],
+		["rack", Vector3(3.5, 0.0, 0.3), -0.18],
+		["fan", Vector3(7.8, 0.0, 0.5), -0.3],
+		["asic_1", Vector3(1.0, 0.0, 3.6), 0.25],
+		["cooler", Vector3(7.6, 0.0, 3.5), -0.2]
+	]:
+		var machine: Node3D = ART.machine(str(spec[0]))
+		machine.position = spec[1]
+		machine.rotation.y = float(spec[2])
+		show.add_child(machine)
+	var key = OmniLight3D.new()
+	key.name = "Warm Area Light"
+	key.position = Vector3(4.5, 5.2, 3.0)
+	key.light_color = Color("f1c49a")
+	key.light_energy = 1.6
+	key.omni_range = 14.0
+	add_child(key)
 
-func _make_button(value:String,pos:Vector2,size:Vector2,action:Callable,highlight:bool=false)->Button:
-	var b:=Button.new()
-	b.position=pos
-	b.size=size
-	b.text=value
-	b.add_theme_font_size_override("font_size",23)
-	b.add_theme_color_override("font_color",Color("0b2632") if highlight else Color("e7f9fa"))
-	b.add_theme_stylebox_override("normal",_panel_style(Color("f0bd68") if highlight else Color("163746"),Color("f5c57c") if highlight else Color("49899a")))
-	b.add_theme_stylebox_override("hover",_panel_style(Color("fce4a1") if highlight else Color("1e5260"),Color("79f5ff")))
-	b.add_theme_stylebox_override("pressed",_panel_style(Color("d59c4a"),Color("c8f7ff")))
-	b.pressed.connect(action)
-	add_child(b)
+func _build_camera() -> void:
+	camera = Camera3D.new()
+	camera.name = "Cinematic Showroom Camera"
+	camera.current = true
+	camera.fov = 54.0
+	camera.near = 0.1
+	camera.far = 80.0
+	camera.position = Vector3(15.6, 11.5, 17.8)
+	camera.look_at(Vector3(2.3, 1.35, -0.9))
+	add_child(camera)
+
+func _style(color: Color, outline: Color, corner: int = 14) -> StyleBoxFlat:
+	var box = StyleBoxFlat.new()
+	box.bg_color = color
+	box.border_color = outline
+	box.set_border_width_all(1)
+	box.set_corner_radius_all(corner)
+	box.content_margin_left = 14
+	box.content_margin_right = 14
+	box.content_margin_top = 10
+	box.content_margin_bottom = 10
+	return box
+
+func _text(value: String, x: float, y: float, w: float, h: float, size: int, tint: Color, parent: Control = null) -> Label:
+	var label = Label.new()
+	label.text = value
+	label.position = Vector2(x,y)
+	label.size = Vector2(w,h)
+	label.add_theme_font_size_override("font_size",size)
+	label.add_theme_color_override("font_color",tint)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	(parent if parent != null else ui).add_child(label)
+	return label
+
+func _button(value: String, x: float, y: float, w: float, h: float, callback: Callable, primary: bool = false, parent: Control = null) -> Button:
+	var b = Button.new()
+	b.text = value
+	b.position = Vector2(x,y)
+	b.size = Vector2(w,h)
+	b.focus_mode = Control.FOCUS_NONE
+	b.mouse_filter = Control.MOUSE_FILTER_STOP
+	b.add_theme_font_size_override("font_size",21 if primary else 18)
+	b.add_theme_color_override("font_color",Color("17252d") if primary else WHITE)
+	b.add_theme_stylebox_override("normal",_style(AMBER if primary else Color("202e38"), AMBER if primary else Color("405560"),12))
+	b.add_theme_stylebox_override("hover",_style(Color("ffe0a8") if primary else Color("30434d"),WHITE if primary else Color("7998a8"),12))
+	b.add_theme_stylebox_override("pressed",_style(Color("e4a45b") if primary else Color("1b2730"),AMBER,12))
+	b.pressed.connect(callback)
+	(parent if parent != null else ui).add_child(b)
 	return b
 
-func _text(value:String,pos:Vector2,size:Vector2,font_size:int,color:Color)->Label:
-	var l:=Label.new()
-	l.position=pos
-	l.size=size
-	l.text=value
-	l.add_theme_font_size_override("font_size",font_size)
-	l.add_theme_color_override("font_color",color)
-	add_child(l)
-	return l
+func _build_interface() -> void:
+	var overlay = CanvasLayer.new()
+	overlay.name = "Interface"
+	add_child(overlay)
+	ui = Control.new()
+	ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(ui)
 
-func _create_ui()->void:
-	_text("DNCH / INTERACTIVE",Vector2(74,70),Vector2(500,40),25,Color("62dcf0"))
-	_text("MINING FARM",Vector2(71,128),Vector2(650,93),72,Color("f3f7f8"))
-	_text("BUILD YOUR HASH EMPIRE",Vector2(76,230),Vector2(600,45),27,Color("efbe74"))
-	subtitle=_text("HARDWARE  /  ENERGY  /  STRATEGY",Vector2(77,296),Vector2(650,34),20,Color("83b0be"))
-	_make_button("START MINING",Vector2(74,383),Vector2(365,71),_start,true)
-	_make_button("GRAPHICS: SAFE",Vector2(74,468),Vector2(365,61),_toggle)
-	_make_button("HOW TO PLAY",Vector2(74,544),Vector2(365,61),_help)
-	status=_text("",Vector2(78,622),Vector2(990,70),18,Color("a5c5cd"))
-	status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	var f:=FileAccess.open("user://dnch_mining_farm_v1.json",FileAccess.READ)
-	if f!=null:
-		status.text="PROGRESS FOUND  /  CONTINUE YOUR FARM"
-		f.close()
-	else:
-		status.text="NEW GAME  /  ONE RIG  /  ONE BIG DREAM"
+	var left = ColorRect.new()
+	left.position=Vector2(0,0)
+	left.size=Vector2(556,720)
+	left.color=Color(0.046,0.075,0.091,0.97)
+	left.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	ui.add_child(left)
 
-func _start()->void:
+	var accent = ColorRect.new()
+	accent.position=Vector2(55,95)
+	accent.size=Vector2(56,4)
+	accent.color=AMBER
+	accent.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	ui.add_child(accent)
+
+	_text("DNCH    /    GAME STUDIOS",54,45,440,36,18,SECONDARY)
+	_text("MINING",52,123,470,97,76,WHITE)
+	_text("FARM",52,207,470,93,76,WHITE)
+	_text("BUILD YOUR OWN CRYPTO OPERATION",56,312,480,37,21,AMBER)
+	var description=_text("Start with one GPU rig. Build an industrial\nmining facility. Control energy, cooling\nand profit.",56,363,460,81,18,SECONDARY)
+	description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+
+	var progress_exists = FileAccess.file_exists("user://dnch_mining_farm_v1.json")
+	start_button = _button("CONTINUE YOUR FARM     ›" if progress_exists else "START YOUR FARM     ›",55,477,441,67,_start,true)
+	_button("HOW TO PLAY",55,561,209,60,_show_help)
+	graphics_button = _button("30 FPS  ·  BATTERY",280,561,216,60,_toggle_quality)
+	status=_text("YOUR FACILITY. YOUR DECISIONS.",57,660,466,35,15,GREEN)
+
+	var preview = PanelContainer.new()
+	preview.position=Vector2(803,624)
+	preview.size=Vector2(453,67)
+	preview.add_theme_stylebox_override("panel",_style(Color(0.051,0.086,0.105,0.90),Color(0.22,0.31,0.35,0.66),14))
+	preview.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	ui.add_child(preview)
+	_text("LIVE 3D FACILITY",20,7,410,25,18,WHITE,preview)
+	_text("GPU RIGS   /   ASIC   /   POWER   /   COOLING",20,31,425,24,15,SECONDARY,preview)
+
+	help_window = PanelContainer.new()
+	help_window.position=Vector2(590,129)
+	help_window.size=Vector2(617,461)
+	help_window.add_theme_stylebox_override("panel",_style(Color("16232b"),Color("607b87"),16))
+	help_window.mouse_filter=Control.MOUSE_FILTER_STOP
+	ui.add_child(help_window)
+	_text("HOW TO PLAY",22,16,560,42,31,WHITE,help_window)
+	var guide = _text("1    CHOOSE a mining rig from Equipment Market.\n\n2    TAP a free floor slot to install it.\n\n3    MINE DNCH and SELL it for cash.\n\n4    UPGRADE the power grid and cooling.\n\n5    EXPAND your facility and unlock ASIC rigs.\n\n6    COMPLETE contracts and grow your empire.",22,79,565,304,19,SECONDARY,help_window)
+	guide.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	_button("CLOSE",21,388,563,52,_show_help,true,help_window)
+	help_window.visible=false
+
+func _start() -> void:
+	start_button.disabled=true
+	status.text="OPENING YOUR FARM..."
+	Engine.max_fps=30 if safe_mode else 60
 	get_tree().root.set_meta("safe_mode",safe_mode)
-	status.text="INITIALIZING 3D MINING FACILITY..."
-	var error:=get_tree().change_scene_to_file("res://main.tscn")
-	if error!=OK:
-		status.text="START FAILED: "+str(error)
+	var error = get_tree().change_scene_to_file("res://main.tscn")
+	if error != OK:
+		status.text="UNABLE TO START  /  ERROR %d" % error
+		start_button.disabled=false
 
-func _toggle()->void:
-	safe_mode=not safe_mode
-	for node in get_children():
-		if node is Button and node.text.begins_with("GRAPHICS:"):
-			node.text="GRAPHICS: SAFE" if safe_mode else "GRAPHICS: HIGH"
-	status.text="SAFE = 30 FPS / SIMPLER EFFECTS" if safe_mode else "HIGH = 60 FPS / MORE VISUAL DETAIL"
+func _toggle_quality() -> void:
+	safe_mode = not safe_mode
+	graphics_button.text = "30 FPS  ·  BATTERY" if safe_mode else "60 FPS  ·  SMOOTH"
+	status.text = "PERFORMANCE: BATTERY SAVER" if safe_mode else "PERFORMANCE: 60 FPS"
 
-func _help()->void:
-	help_visible=not help_visible
-	status.text="BUY HARDWARE > TAP A FLOOR SLOT > MINE DNCH > SELL > UPGRADE GRID > EXPAND" if help_visible else "START WITH A GPU RIG. GROW INTO A FULL DATA CENTER."
+func _show_help() -> void:
+	help_visible = not help_visible
+	help_window.visible=help_visible
+	status.text="GAME INSTRUCTIONS" if help_visible else "YOUR FACILITY. YOUR DECISIONS."
 
-func _process(delta:float)->void:
-	time_passed+=delta
-	queue_redraw()
-
-func _draw()->void:
-	var w:float=size.x
-	var h:float=size.y
-	draw_rect(Rect2(Vector2.ZERO,size),Color("081923"))
-	# A coherent high-contrast tech-industrial art direction.
-	for i in range(22):
-		var t:float=float(i)/22.0
-		draw_rect(Rect2(0.0,t*h,w,34.0),Color(0.01+t*.045,0.08+t*.035,0.13+t*.045,0.12))
-	for i in range(16):
-		draw_line(Vector2(0,65+float(i)*62),Vector2(w,40+float(i)*62),Color(0.15,.36,.43,.13),1.0)
-	for i in range(24):
-		var x:=float(i)*80.0
-		draw_line(Vector2(x,0),Vector2(x,h),Color(.12,.35,.42,.095),1.0)
-	# Decorative industrial server room vignette, right-hand side.
-	draw_rect(Rect2(w*.595,h*.145,w*.36,h*.70),Color("112c3a"),true)
-	draw_rect(Rect2(w*.60,h*.16,w*.35,h*.68),Color("456373"),false,3.0)
-	for rack in range(4):
-		var x:float=w*.625+float(rack)*86.0
-		var y:float=h*.226
-		draw_rect(Rect2(x,y,73,345),Color("172632"))
-		draw_rect(Rect2(x-3,y-3,79,353),Color("7794a2"),false,5)
-		for section in range(5):
-			var iy:float=y+25+float(section)*61
-			draw_rect(Rect2(x+9,iy,56,45),Color("293e4c"))
-			for p in range(2):
-				var a:float=(time_passed*3.0+float(rack)*1.7+float(section)*2.0)*(.6+float(p)*.4)
-				var px:float=x+24+float(p)*25.0
-				draw_circle(Vector2(px,iy+23),13,Color("506c7a"))
-				draw_circle(Vector2(px,iy+23),10,Color("101d2c"))
-				for k in range(4):
-					var angle:float=a+TAU*float(k)/4.0
-					draw_line(Vector2(px,iy+23),Vector2(px+cos(angle)*8,iy+23+sin(angle)*8),Color("9fb9c8"),3.0)
-			draw_circle(Vector2(x+65,iy+8),3.5,Color("6afac4") if fmod(time_passed*2.0+float(section)+float(rack),2.0)<1.5 else Color("274e53"))
-	draw_rect(Rect2(w*.62,h*.77,w*.31,8.0),Color("51d3e4"))
-	draw_line(Vector2(w*.61,h*.15),Vector2(w*.98,h*.06),Color(.29,.75,.85,.45),3.0)
-	draw_line(Vector2(w*.60,h*.85),Vector2(w*.94,h*.92),Color(.29,.75,.85,.37),3.0)
-	draw_rect(Rect2(63,119,5,161),Color("51d3e4"))
-	for i in range(4):
-		draw_circle(Vector2(78+float(i)*22,h-23),4.0,Color(.29,.87,.91,.50+sin(time_passed*2+float(i))*.22))
+func _process(delta: float) -> void:
+	elapsed += delta
+	if camera!=null:
+		camera.position.x=15.6+sin(elapsed*0.22)*0.42
+		camera.look_at(Vector3(2.3,1.35,-0.9))
+	for fan in fans:
+		if is_instance_valid(fan):
+			fan.rotation.z += delta * 8.0

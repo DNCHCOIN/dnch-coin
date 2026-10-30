@@ -3,11 +3,11 @@ class_name FarmHUD
 
 signal command(action: String, value: String)
 
-const COLOR_BG := Color("071721")
-const COLOR_PANEL := Color(0.055,0.118,0.156,0.95)
-const COLOR_LINE := Color("355767")
-const COLOR_CYAN := Color("66e7f2")
-const COLOR_GOLD := Color("f7bb6d")
+const COLOR_BG := Color("10171c")
+const COLOR_PANEL := Color(0.075,0.105,0.13,0.94)
+const COLOR_LINE := Color("40505c")
+const COLOR_CYAN := Color("bad6df")
+const COLOR_GOLD := Color("ecb879")
 const COLOR_TEXT := Color("e7f5f6")
 const CATALOG := [
 	["gpu_1","STARTER GPU","$ 650"],
@@ -80,8 +80,8 @@ func _button(name:String,action:String,value:String="",font_size:int=19,accent:b
 	b.custom_minimum_size=Vector2(0,48)
 	b.add_theme_font_size_override("font_size",font_size)
 	b.add_theme_color_override("font_color",Color("061921") if accent else COLOR_TEXT)
-	b.add_theme_stylebox_override("normal",_style(COLOR_GOLD if accent else Color("17313f"),COLOR_GOLD if accent else COLOR_LINE,8))
-	b.add_theme_stylebox_override("hover",_style(Color("f7d1a0") if accent else Color("214e5d"),COLOR_CYAN,8))
+	b.add_theme_stylebox_override("normal",_style(COLOR_GOLD if accent else Color("1c2a34"),COLOR_GOLD if accent else COLOR_LINE,8))
+	b.add_theme_stylebox_override("hover",_style(Color("f7d1a0") if accent else Color("304151"),COLOR_CYAN,8))
 	b.add_theme_stylebox_override("pressed",_style(Color("e59e51") if accent else Color("10232d"),COLOR_GOLD,8))
 	b.pressed.connect(func(): command.emit(action,value))
 	return b
@@ -203,7 +203,7 @@ func select_item(key:String) -> void:
 	current_item=key
 	for item in build_cards.keys():
 		var button:Button=build_cards[item]
-		button.add_theme_stylebox_override("normal",_style(Color("28515b") if item==key else Color("17313f"),COLOR_CYAN if item==key else COLOR_LINE,9))
+		button.add_theme_stylebox_override("normal",_style(Color("38535e") if item==key else Color("17313f"),COLOR_CYAN if item==key else COLOR_LINE,9))
 	right_header.text=key.replace("_"," ").to_upper()
 	for entry in CATALOG:
 		if entry[0]==key:
