@@ -6,7 +6,7 @@ var safe_mode: bool = true
 var help_visible: bool = false
 var start_button: Button
 var graphics_button: Button
-var help_window: PanelContainer
+var help_window: Panel
 var status: Label
 var camera: Camera3D
 var ui: Control
@@ -141,7 +141,7 @@ func _build_interface() -> void:
 	graphics_button = _button("30 FPS  ·  BATTERY",280,561,216,60,_toggle_quality)
 	status=_text("YOUR FACILITY. YOUR DECISIONS.",57,660,466,35,15,GREEN)
 
-	var preview = PanelContainer.new()
+	var preview = Panel.new()
 	preview.position=Vector2(803,624)
 	preview.size=Vector2(453,67)
 	preview.add_theme_stylebox_override("panel",_style(Color(0.051,0.086,0.105,0.90),Color(0.22,0.31,0.35,0.66),14))
@@ -150,7 +150,7 @@ func _build_interface() -> void:
 	_text("LIVE 3D FACILITY",20,7,410,25,18,WHITE,preview)
 	_text("GPU RIGS   /   ASIC   /   POWER   /   COOLING",20,31,425,24,15,SECONDARY,preview)
 
-	help_window = PanelContainer.new()
+	help_window = Panel.new()
 	help_window.position=Vector2(590,129)
 	help_window.size=Vector2(617,461)
 	help_window.add_theme_stylebox_override("panel",_style(Color("16232b"),Color("607b87"),16))
