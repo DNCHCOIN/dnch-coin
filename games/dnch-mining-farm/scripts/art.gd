@@ -52,7 +52,7 @@ static func sphere(parent: Node3D, pos: Vector3, radius: float, material: Materi
 	parent.add_child(node)
 	return node
 
-static func sign(parent: Node3D, value: String, pos: Vector3, size: int = 36, color: String = "afdee7") -> Label3D:
+static func add_sign(parent: Node3D, value: String, pos: Vector3, size: int = 36, color: String = "afdee7") -> Label3D:
 	var l := Label3D.new()
 	l.text = value
 	l.font_size = size
@@ -128,7 +128,7 @@ static func machine(kind:String) -> Node3D:
 				make_gpu_card(g,Vector3.ZERO,kind != "gpu_1")
 			for i in range(3):
 				block(root,Vector3(-.6+float(i)*.55,.09,.42),Vector3(.11,.02,.04),amber)
-			sign(root,"GPU / "+str(count)+" CARDS",Vector3(0,1.33,.0),25)
+			add_sign(root,"GPU / "+str(count)+" CARDS",Vector3(0,1.33,.0),25)
 		"asic_1","asic_2":
 			var pro := kind=="asic_2"
 			var case := mat("4a5b68",.8,.3) if not pro else mat("192d37",.75,.25)
@@ -142,7 +142,7 @@ static func machine(kind:String) -> Node3D:
 			block(root,Vector3(0,.20,.60),Vector3(1.50,.07,.06),rubber)
 			for i in range(4):
 				block(root,Vector3(-.53+float(i)*.34,1.07,.59),Vector3(.09,.035,.02),blue)
-			sign(root,"ASIC  /  "+("X-CORE" if pro else "S-100"),Vector3(0,1.47,0),26)
+			add_sign(root,"ASIC  /  "+("X-CORE" if pro else "S-100"),Vector3(0,1.47,0),26)
 		"fan":
 			block(root,Vector3(0,.13,0),Vector3(1.75,.2,.92),rubber)
 			block(root,Vector3(0,.87,-.26),Vector3(.17,1.45,.2),steel)
@@ -158,7 +158,7 @@ static func machine(kind:String) -> Node3D:
 				block(root,Vector3(-.70+float(i)*.20,.96,.58),Vector3(.065,.81,.04),mat("405b68",.5))
 			block(root,Vector3(.61,1.61,.61),Vector3(.17,.065,.01),blue)
 			block(root,Vector3(0,.15,.62),Vector3(1.48,.05,.04),mat("35cfe1",.15,.6,1.8))
-			sign(root,"HVAC",Vector3(0,2.08,0),27)
+			add_sign(root,"HVAC",Vector3(0,2.08,0),27)
 		"solar":
 			for i in range(2):
 				block(root,Vector3(-.68+float(i)*1.36,.29,0),Vector3(.08,.52,.08),steel)
@@ -168,13 +168,13 @@ static func machine(kind:String) -> Node3D:
 				block(root,Vector3(-.86+float(i)*.43,.75,-.05),Vector3(.016,.01,1.22),mat("6296b5",.7))
 			for j in range(3):
 				block(root,Vector3(0,.75,-.51+float(j)*.51),Vector3(2.04,.01,.015),mat("6296b5",.7))
-			sign(root,"SOLAR ARRAY",Vector3(0,1.53,0),26)
+			add_sign(root,"SOLAR ARRAY",Vector3(0,1.53,0),26)
 		"battery":
 			block(root,Vector3(0,.78,0),Vector3(1.54,1.50,1.01),mat("384b56",.72,.31))
 			for i in range(3):
 				block(root,Vector3(-.45+float(i)*.45,.78,.51),Vector3(.28,1.18,.03),mat("18262f",.25))
 				block(root,Vector3(-.45+float(i)*.45,.45,.535),Vector3(.18,.045,.02),blue)
-			sign(root,"POWER BANK",Vector3(0,1.76,0),26)
+			add_sign(root,"POWER BANK",Vector3(0,1.76,0),26)
 		"rack":
 			frame(root,1.04,2.5,.61)
 			for tier in range(3):
@@ -182,7 +182,7 @@ static func machine(kind:String) -> Node3D:
 				for col in range(2):
 					var m := block(root,Vector3(-.49+float(col)*.98,.61+float(tier)*.72,0),Vector3(.89,.39,.91),ink)
 					spinning_fan(root,Vector3(-.49+float(col)*.98,.62+float(tier)*.72,.48),.15,true)
-			sign(root,"SERVER RACK",Vector3(0,2.75,0),26)
+			add_sign(root,"SERVER RACK",Vector3(0,2.75,0),26)
 		_:
 			block(root,Vector3(0,.5,0),Vector3(1,1,1),steel)
 	return root
@@ -234,8 +234,8 @@ static func create_room(parent:Node3D,tier:int) -> Node3D:
 		for z in [-5.0,0,5]:
 			block(root,Vector3(x,.045,z),Vector3(.07,.025,2.2),gold)
 	block(root,Vector3(0,6.75,-7.47),Vector3(7.7,1.04,.16),trim)
-	sign(root,"DNCH    /    MINING OPERATIONS",Vector3(0,6.70,-7.27),56,"55ebfc")
-	sign(root,["GARAGE  //  STARTUP","WORKSHOP  //  EXPANSION","INDUSTRIAL DATA CENTER"][clampi(tier,0,2)],Vector3(0,5.64,-7.25),26,"eab565")
+	add_sign(root,"DNCH    /    MINING OPERATIONS",Vector3(0,6.70,-7.27),56,"55ebfc")
+	add_sign(root,["GARAGE  //  STARTUP","WORKSHOP  //  EXPANSION","INDUSTRIAL DATA CENTER"][clampi(tier,0,2)],Vector3(0,5.64,-7.25),26,"eab565")
 	# Tinted industrial windows; no transparency sorting on Android.
 	var glass:=mat("214d63",.43,.22)
 	for i in range(4):
@@ -253,7 +253,7 @@ static func create_room(parent:Node3D,tier:int) -> Node3D:
 	for i in range(2):
 		block(root,Vector3(7.9+float(i)*1.4,2.14,-7.50),Vector3(1.18,.81,.11),mat("102f41",.2,.27))
 		block(root,Vector3(7.9+float(i)*1.4,2.18,-7.42),Vector3(.88,.095,.02),glow)
-	sign(root,"SYSTEMS ONLINE",Vector3(8.55,3.12,-7.36),23,"91dfb6")
+	add_sign(root,"SYSTEMS ONLINE",Vector3(8.55,3.12,-7.36),23,"91dfb6")
 	for i in range(5):
 		block(root,Vector3(-9.9+float(i)*.31,.08,-6.96),Vector3(.21,.06,.28),danger)
 	# Facade adds visibly more architecture per expansion.
