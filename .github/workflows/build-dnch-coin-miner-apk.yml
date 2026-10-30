@@ -1,0 +1,46 @@
+name: Build DNCH Coin Miner APK
+on:
+  push:
+    branches: [dnch-coin-miner-android-build]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-android:
+    runs-on: ubuntu-24.04
+    container:
+      image: barichello/godot-ci:4.5.2
+    defaults:
+      run:
+        working-directory: games/dnch-coin-miner
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate procedural assets
+        run: |
+          apt-get update
+          apt-get install -y python3-numpy python3-scipy python3-pil fonts-dejavu-core ffmpeg
+          mkdir -p textures audio art build
+          python3 tools/generate_assets.py
+          python3 tools/generate_sky.py
+          python3 tools/generate_extra_audio.py
+          python3 tests/check_project.py
+      - name: Install required Android packages
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.1"
+      - name: Import project
+        run: godot --headless --path . --editor --import
+      - name: Smoke test game
+        run: godot --headless --path . --script res://scripts/smoke_test.gd
+      - name: Export APK
+        run: |
+          godot --headless --path . --export-debug "Android" build/DNCH_Coin_Miner_Debug.apk
+          test -s build/DNCH_Coin_Miner_Debug.apk
+          unzip -t build/DNCH_Coin_Miner_Debug.apk | tail -1
+          ls -lh build/DNCH_Coin_Miner_Debug.apk
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DNCH_Coin_Miner_Android_APK
+          path: games/dnch-coin-miner/build/DNCH_Coin_Miner_Debug.apk
+          if-no-files-found: error
