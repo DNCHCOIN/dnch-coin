@@ -1,0 +1,25 @@
+; DNCH Coin Miner – mobile-first 3D prototype
+; Godot Engine 4.5+. Main gameplay text is English only.
+config_version=5
+
+[application]
+config/name="DNCH COIN MINER"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+config/description="Explore a procedural 3D mining valley. Scan geological deposits, dig, upgrade and complete contracts."
+config/icon="res://art/icon.svg"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/handheld/orientation=4
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+environment/defaults/default_clear_color=Color(0.46, 0.68, 0.78, 1)
+
+[physics]
+3d/default_gravity=9.8
