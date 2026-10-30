@@ -30,6 +30,13 @@ jobs:
         run: |
           yes | sdkmanager --licenses || true
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.1"
+      - name: Configure Godot export templates and Java SDK
+        run: |
+          mkdir -p "$HOME/.local/share/godot/export_templates" "$HOME/.config/godot"
+          cp -a /root/.local/share/godot/export_templates/4.5.2.stable "$HOME/.local/share/godot/export_templates/"
+          cp /root/.config/godot/editor_settings-4.5.tres "$HOME/.config/godot/"
+          test -f "$HOME/.local/share/godot/export_templates/4.5.2.stable/android_debug.apk"
+          test -f "$HOME/.config/godot/editor_settings-4.5.tres"
       - name: Import project
         run: godot --headless --path . --editor --import
       - name: Export APK
