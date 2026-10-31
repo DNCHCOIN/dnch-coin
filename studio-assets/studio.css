@@ -69,3 +69,18 @@ header.site-header{position:sticky;top:0;z-index:40;background:rgba(7,12,21,.89)
 .portfolio-grid .cover-pets:before{background:linear-gradient(90deg,#e9f3deef,#f9e2d875),var(--cover-image) center/cover}
 .portfolio-grid .cover-pets .showcase-cover-inner{border-color:#99737f8c;border-radius:18px}
 .portfolio-grid .cover-pets strong{font-family:Georgia,serif;font-weight:800;letter-spacing:-.07em}
+
+/* Contact form — English-only lead capture */
+.spam-trap{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.required-marker{color:var(--cyan);font-weight:800}
+.inquiry-consent{display:flex;align-items:flex-start;gap:12px;margin:23px 0 12px;color:#c5d6e4;line-height:1.65;font-size:.87rem;cursor:pointer}
+.inquiry-consent input{flex:none;width:19px;height:19px;margin-top:3px;accent-color:var(--cyan)}
+.inquiry-consent a{color:var(--cyan)}
+.contact-submit{min-width:220px;margin-top:13px}
+.contact-guide .tool-desc{margin:10px 0 26px}
+.contact-steps{display:grid;gap:17px;margin:20px 0 30px}
+.contact-steps>div{display:flex;align-items:flex-start;gap:15px}
+.contact-steps>div>span{font:800 .8rem/1.5 ui-monospace,monospace;display:grid;place-items:center;min-width:39px;height:39px;border:1px solid rgba(101,228,233,.4);border-radius:11px;background:rgba(101,228,233,.08);color:var(--cyan)}
+.contact-steps p{margin:0}.contact-steps strong{display:block;font-size:.95rem}
+.contact-steps small{display:block;margin-top:3px;color:var(--muted);font-size:.82rem}
+.contact-submit:focus-visible,.inquiry-consent a:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
