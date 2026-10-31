@@ -1,0 +1,5 @@
+# DNCH Digital Studio — English-language public website
+User-agent: *
+Allow: /
+
+Sitemap: https://dnch-studio-preview.vercel.app/sitemap.xml
