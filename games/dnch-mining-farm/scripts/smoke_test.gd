@@ -45,6 +45,39 @@ func _run()->void:
 		printerr("FAIL: Starter miner did not initialize.")
 		quit(3)
 		return
+	var hud:Node=game.get("hud")
+	if hud==null:
+		printerr("FAIL: HUD is missing")
+		quit(14)
+		return
+	var shop:Dictionary=hud.get("build_cards")
+	var tabs:Dictionary=hud.get("nav_buttons")
+	if not shop.has("gpu_2") or not tabs.has("POWER"):
+		printerr("FAIL: Equipment shop or navigation is missing")
+		quit(15)
+		return
+	(shop["gpu_2"] as Button).pressed.emit()
+	if str(game.get("selected_kind"))!="gpu_2":
+		printerr("FAIL: GPU shop button is disconnected")
+		quit(16)
+		return
+	(tabs["POWER"] as Button).pressed.emit()
+	if str(hud.get("current_tab"))!="POWER":
+		printerr("FAIL: Power equipment tab is disconnected")
+		quit(17)
+		return
+	(shop["gpu_1"] as Button).pressed.emit()
+	if str(game.get("selected_kind"))!="gpu_1":
+		printerr("FAIL: Equipment selection does not restore")
+		quit(18)
+		return
+	var cam:Camera3D=game.get("camera")
+	var old_distance:float=float(game.get("view_distance"))
+	game.call("_on_command","zoom_in","")
+	if float(game.get("view_distance"))>=old_distance or cam==null:
+		printerr("FAIL: Android camera control does not update view")
+		quit(19)
+		return
 	var old:float=float(game.get("coins"))
 	var first_cash:float=float(game.get("cash"))
 	game.call("_place",4,2)

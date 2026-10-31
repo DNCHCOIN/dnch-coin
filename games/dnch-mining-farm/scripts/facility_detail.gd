@@ -125,7 +125,7 @@ static func cable_run(parent:Node3D,p:Vector3,length:float) -> void:
 static func palette(parent:Node3D,tier:int,safe_mode:bool) -> void:
 	# All geometry is outside buildable grid: player placement remains unobstructed.
 	var root:=Node3D.new()
-	root.name="Facility detail / real 3D"
+	root.name="FacilityDetails"
 	parent.add_child(root)
 	var dark:=ART.mat("192932",.34,.42)
 	var stripe:=ART.mat("dfa64c",.22,.45,1.5)
