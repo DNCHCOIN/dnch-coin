@@ -84,3 +84,44 @@ header.site-header{position:sticky;top:0;z-index:40;background:rgba(7,12,21,.89)
 .contact-steps p{margin:0}.contact-steps strong{display:block;font-size:.95rem}
 .contact-steps small{display:block;margin-top:3px;color:var(--muted);font-size:.82rem}
 .contact-submit:focus-visible,.inquiry-consent a:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+
+/* Specialist services / additional capabilities */
+.nav-links{gap:17px}
+.tech-services-grid .tech-card{min-height:320px;overflow:hidden}
+.tech-card .tech-ordinal{position:absolute;right:24px;top:28px;font-size:.7rem;letter-spacing:.11em;color:#6f94a4;font-family:ui-monospace,monospace}
+.tech-card .service-bottom{border-top:1px solid var(--line);padding-top:15px;margin-top:auto}
+.tech-card .link-arrow{font-size:.78rem}
+.tech-card:nth-child(5n+2) .icon-box{color:#e3bc89;border-color:#b28c6470;background:#ca93691a}
+.tech-card:nth-child(5n+3) .icon-box{color:#c7b4ff;border-color:#9679dd70;background:#9574df1b}
+.tech-card:nth-child(5n+4) .icon-box{color:#91f1bb;border-color:#66bb9170;background:#3abc891a}
+.tech-service-outro{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:23px 28px;border:1px solid var(--line2);border-radius:18px;margin-top:26px;background:linear-gradient(95deg,#132b3a,#111a2b)}
+.tech-service-outro span{color:#b9d4e4;font-size:.9rem;max-width:600px}
+.specialist-hero{padding:100px 0 84px;position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 84% 12%,#1744577a,transparent 48%),linear-gradient(155deg,#0d1929,#070d17)}
+.specialist-hero:before{content:"";position:absolute;inset:auto -150px -250px auto;width:540px;height:540px;z-index:-1;border:1px solid #65e4e924;border-radius:50%;box-shadow:0 0 0 90px #65e4e909,0 0 0 180px #65e4e907}
+.specialist-hero h1{font-size:clamp(2.7rem,5.8vw,5.4rem);font-weight:900;line-height:1.06;letter-spacing:-.06em;margin:18px 0 22px}
+.specialist-hero p{max-width:785px;color:#bfd0df;font-size:1.08rem}
+.specialist-metrics{display:flex;flex-wrap:wrap;gap:14px;margin-top:29px}
+.specialist-metrics span{border:1px solid #3b5968;border-radius:100px;background:#142535;padding:8px 16px;color:#bfd3df;font-size:.83rem}
+.specialist-metrics b{color:#83eaf0;margin-right:4px}
+.specialist-jump{display:flex;flex-wrap:wrap;gap:9px;margin:23px 0 28px}
+.specialist-jump a{border:1px solid #3d596c;border-radius:100px;color:#b8d7e5;background:#112234;text-decoration:none;font-size:.81rem;padding:8px 14px;font-weight:700}
+.specialist-jump a:hover{color:#071923;background:#65e4e9;border-color:#65e4e9}
+.specialist-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.specialist-service{position:relative;scroll-margin-top:100px;background:linear-gradient(155deg,#122236,#0d1828);border:1px solid #355066;border-radius:23px;padding:30px;display:flex;flex-direction:column;gap:11px}
+.specialist-top{display:flex;justify-content:space-between;align-items:center}
+.specialist-icon{display:grid;place-items:center;border:1px solid #3d8c95;background:#123944;border-radius:15px;color:#7ef1f4;font-size:1.55rem;width:56px;height:56px}
+.specialist-number{font-size:.73rem;font-family:ui-monospace,monospace;color:#8aa6b8;letter-spacing:.11em}
+.specialist-category{color:#a9d6df;text-transform:uppercase;font-size:.69rem;letter-spacing:.13em;font-weight:800;margin-top:6px}
+.specialist-service h2{font-size:1.56rem;margin:0}
+.specialist-service h3{font-size:.87rem;letter-spacing:.025em;margin:4px 0}
+.specialist-intro{font-size:.9rem;color:#c2d3e0;line-height:1.7;margin:0}
+.specialist-service ul{padding-left:21px;margin:0;font-size:.84rem;color:#d0e1eb}
+.specialist-service li{margin:5px 0}
+.specialist-note{border-left:2px solid #5ed5db;font-size:.78rem;color:#a9bdcd;background:#1a344032;padding:10px 13px;margin:4px 0 0}
+.specialist-cta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:14px}
+.specialist-back{font-size:.78rem;color:#8bcdd6;text-decoration:none}
+.specialist-outro{display:grid;grid-template-columns:1.5fr 1fr;gap:35px;align-items:center}
+.specialist-outro p{color:#b5cbd9}
+.specialist-outro>div:last-child{display:flex;flex-direction:column;gap:12px}
+@media(max-width:940px){.specialist-grid{grid-template-columns:1fr}.specialist-outro{grid-template-columns:1fr}.tech-service-outro{align-items:flex-start;flex-direction:column}}
+@media(max-width:580px){.specialist-hero{padding:66px 0}.specialist-service{padding:22px}.specialist-jump a{font-size:.74rem}.tech-card .service-bottom{flex-wrap:wrap;gap:12px}.specialist-cta .btn{width:100%}}
