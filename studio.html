@@ -11,7 +11,7 @@
 <link rel="canonical" href="https://dnch-studio-preview.vercel.app/studio.html">
 
 <link rel="stylesheet" href="studio-assets/studio.css?v=5">
-<script src="studio-assets/studio.js?v=4" defer></script></head><body id="top">
+<script src="studio-assets/studio.js?v=6" defer></script></head><body id="top">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="container nav-wrap">
 <a class="brand" href="#top" aria-label="DNCH Digital Studio home"><span class="brand-mark">D</span><span><span class="brand-name">DNCH <span>STUDIO</span></span><span class="brand-small">Digital Creative Lab</span></span></a>
@@ -79,14 +79,42 @@
 <details><summary>Are domain and hosting included?</summary><p>Not by default. Domains, paid hosting, external API services and maintenance are quoted separately.</p></details>
 <details><summary>Can we explore actual demos?</summary><p>Yes. Open the ten interactive concepts above. They showcase approaches and features, but are not commissioned client projects.</p></details>
 </div></div></div></section>
-<section class="section contact-area" id="inquiry"><div class="container"><div class="contact-intro"><span class="eyebrow">06 / Start collaborating</span><h2>Have an idea? <span class="text-cyan">Let us build it.</span></h2><p class="section-intro">Enter a few details. The form prepares a message to copy and send using the contact link. It does not submit messages automatically.</p></div><div class="split" style="margin-top:32px">
-<div class="tool-panel"><div class="form-grid"><label class="field">Name / business<input id="clientName" autocomplete="name" maxlength="100" placeholder="How should we address you?"></label><label class="field">Contact<input id="clientContact" maxlength="120" autocomplete="email" placeholder="Email or phone"></label>
-<label class="field span2">Choose a service<select id="projectService"><option value="website">Website / landing page</option><option value="calculator">Business software / calculator</option><option value="catalog">QR menu / digital catalog</option><option value="shop">Online store</option><option value="ai">AI assistant / automation</option><option value="design">Design / branding</option><option value="support">Maintenance and growth</option></select></label>
-<label class="field span2">Estimated budget<input id="projectBudget" maxlength="80" placeholder="For example: €300 – €500"></label>
-<label class="field span2">What do you want to build?<textarea id="projectDetails" maxlength="2500" placeholder="Tell us about your idea and the features you need..."></textarea></label></div><p class="hint">This is an inquiry generator, not a live submission form. Copy the text and send it via the contact link. Never share passwords or private keys.</p></div>
-<div class="tool-panel"><span class="kicker">Ready to share</span><h3>Your project inquiry</h3><p class="tool-desc">The message updates automatically as you complete the form.</p><textarea id="inquiryPreview" class="quote-preview" aria-label="Inquiry preview" readonly></textarea><div class="inline-actions"><button type="button" class="btn btn-primary btn-small" id="copyInquiry">Copy inquiry ↗</button><button type="button" class="btn btn-outline btn-small" id="downloadInquiry">Save .txt ↓</button></div><div class="status" role="status" aria-live="polite" id="copyStatus"></div><div class="contact-info"><span>✦ DNCH Digital Studio</span><span>✦ Bulgaria and remote</span></div>
- <p class="hint"><a href="https://x.com/DNCHCoin" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">Public contact on X: @DNCHCoin ↗</a> · Direct messages depend on account settings.</p>
- <p class="hint">EUR or USDC on Solana can be arranged per project. Wallet details are shared only after a confirmed agreement.</p></div>
+<section class="section contact-area" id="inquiry"><div class="container">
+<div class="contact-intro"><span class="eyebrow">06 / Start collaborating</span><h2>Tell us about your project. <span class="text-cyan">We are listening.</span></h2><p class="section-intro">Send your inquiry directly to DNCH Digital Studio. Tell us what you want to build, and leave an email address where we can reply. No account required.</p></div>
+<div class="split" style="margin-top:32px">
+<div class="tool-panel">
+<form id="projectInquiryForm" action="https://formsubmit.co/killkiro47@gmail.com" method="POST" accept-charset="UTF-8">
+<input type="hidden" name="_subject" value="New DNCH STUDIO project inquiry">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_next" value="https://dnch-studio-preview.vercel.app/thank-you.html">
+<input type="hidden" name="_url" value="https://dnch-studio-preview.vercel.app/studio.html#inquiry">
+<div class="spam-trap" aria-hidden="true"><label>Leave this field empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+<div class="form-grid">
+<label class="field">Your name or company <span class="required-marker">*</span><input id="clientName" name="name" autocomplete="name" maxlength="100" required placeholder="Your name or business"></label>
+<label class="field">Email address <span class="required-marker">*</span><input id="clientEmail" name="email" type="email" autocomplete="email" maxlength="160" required placeholder="you@company.com"></label>
+<label class="field">Phone number (optional)<input id="clientPhone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="+44 20 ..."></label>
+<label class="field">Estimated budget (optional)<input id="projectBudget" name="budget" maxlength="80" placeholder="For example: €300 – €500"></label>
+<label class="field span2">Choose a service <span class="required-marker">*</span><select id="projectService" name="service" required><option value="Website / landing page">Website / landing page</option><option value="Business software / calculator">Business software / calculator</option><option value="QR menu / digital catalog">QR menu / digital catalog</option><option value="Online store">Online store</option><option value="AI assistant / automation">AI assistant / automation</option><option value="Design / branding">Design / branding</option><option value="Maintenance and growth">Maintenance and growth</option></select></label>
+<label class="field span2">What would you like us to build? <span class="required-marker">*</span><textarea id="projectDetails" name="message" minlength="15" maxlength="3000" required placeholder="Describe your business, goals, features and timeline..."></textarea></label>
+</div>
+<label class="inquiry-consent"><input type="checkbox" id="inquiryConsent" required><span>I agree to be contacted about this request. I have read the <a href="privacy.html" target="_blank" rel="noopener">privacy notice</a>. <span class="required-marker">*</span></span></label>
+<p class="hint">Your details will be processed by our external form provider, FormSubmit, to deliver your request to our email inbox. Please do not include passwords, payment card information or private keys. CAPTCHA protection may be shown.</p>
+<button type="submit" class="btn btn-primary contact-submit" id="sendInquiry">Send project inquiry ↗</button>
+<p class="hint">Fields marked * are required.</p>
+</form>
+</div>
+<div class="tool-panel contact-guide">
+<span class="kicker">Direct contact / International projects</span><h3>Every great product starts with a conversation.</h3>
+<p class="tool-desc">Whether you need a small fix, a company website, a custom calculator or a complete application, tell us what your business needs.</p>
+<div class="contact-steps">
+<div><span>01</span><p><strong>Describe the idea</strong><small>Share the problem, audience and essential features.</small></p></div>
+<div><span>02</span><p><strong>Send the inquiry</strong><small>Complete the form and any spam verification displayed.</small></p></div>
+<div><span>03</span><p><strong>Receive a response</strong><small>We can follow up by email to discuss project scope and pricing.</small></p></div>
+</div>
+<div class="contact-info"><span>✦ DNCH Digital Studio</span><span>✦ Bulgaria &amp; worldwide</span></div>
+<p class="hint">Prefer email? <a href="mailto:killkiro47@gmail.com?subject=DNCH%20Studio%20project%20inquiry" style="color:var(--cyan)">Write to killkiro47@gmail.com ↗</a></p>
+<p class="hint"><a href="https://x.com/DNCHCoin" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">Find us on X: @DNCHCoin ↗</a></p>
+</div>
 </div></div></section></main>
 <footer class="footer"><div class="container footer-grid"><div>© DNCH Digital Studio · Part of DNCH Ecosystem<br><small>Studio in development. Portfolio demos are not completed client commissions.</small></div><div class="footer-links"><a href="#top">Top ↑</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="business-tools.html">Business tools</a></div></div></footer>
 </body></html>
