@@ -1,184 +1,160 @@
-extends Node3D
-# Actual 3D facility behind a portrait Android title screen.
-const ART=preload("res://scripts/art.gd")
-const DETAIL=preload("res://scripts/facility_detail.gd")
+extends Control
 
-var safe_mode:bool=true
-var help_visible:bool=false
+# Lightweight startup screen. Do not create the heavy 3D facility until PLAY.
+const WHITE = Color("f3f5f5")
+const GOLD = Color("f9c57e")
+const MUTED = Color("a2bac2")
+const GREEN = Color("61e1b5")
+const PANEL = Color("10232e")
+var safe_mode:bool = true
+var help_visible:bool = false
 var start_button:Button
-var quality_button:Button
-var help_window:Panel
+var graphics_button:Button
 var status:Label
-var camera:Camera3D
-var ui:Control
-var elapsed:float=0.0
-var fans:Array=[]
-
-const WHITE=Color("f3f6f5")
-const SECONDARY=Color("afc5ce")
-const AMBER=Color("ffc171")
-const DEEP=Color("101923")
-const GREEN=Color("66e0b1")
+var help_window:Panel
+var back_canvas:Control
 
 func _ready()->void:
 	Input.set_emulate_mouse_from_touch(true)
-	ART.apply_scene_lighting(self)
-	ART.create_room(self,3)
-	DETAIL.palette(self,3,true)
-	_build_hardware()
-	_create_camera()
-	_create_interface()
-	fans=get_tree().get_nodes_in_group("spin_fan")
 	Engine.max_fps=30
+	mouse_filter=Control.MOUSE_FILTER_IGNORE
+	_draw_menu()
+	_write_stage("MENU READY")
 
-func _build_hardware()->void:
-	var machines=Node3D.new()
-	machines.name="Facility Showcase"
-	add_child(machines)
-	for spec in [
-		["gpu_3",Vector3(-5.1,0,-3.5)],
-		["asic_2",Vector3(-1.5,0,-3.6)],
-		["rack",Vector3(2.1,0,-3.6)],
-		["gpu_3",Vector3(5.6,0,-3.5)],
-		["asic_2",Vector3(-5.1,0,.4)],
-		["gpu_3",Vector3(-1.5,0,.4)],
-		["rack",Vector3(2.1,0,.4)],
-		["cooler",Vector3(5.6,0,.4)],
-		["asic_1",Vector3(-4.1,0,4.5)],
-		["gpu_2",Vector3(.1,0,4.5)],
-		["fan",Vector3(4.5,0,4.5)]
-	]:
-		var machine:Node3D=ART.machine(str(spec[0]))
-		machine.position=spec[1]
-		machines.add_child(machine)
-	var light=OmniLight3D.new()
-	light.position=Vector3(-3.0,5.0,3.0)
-	light.light_color=Color("ffd39b")
-	light.light_energy=1.75
-	light.omni_range=17.0
-	light.shadow_enabled=false
-	add_child(light)
-
-func _create_camera()->void:
-	camera=Camera3D.new()
-	camera.current=true
-	camera.fov=59.0
-	camera.far=180.0
-	camera.position=Vector3(25,21,29)
-	add_child(camera)
-	camera.look_at(Vector3(0,1.2,1.3))
-
-func _style(bg:Color,stroke:Color=Color("38515d"),radius:int=13)->StyleBoxFlat:
-	var s=StyleBoxFlat.new()
+func _style(bg:Color,border:Color=Color("4a6370"))->StyleBoxFlat:
+	var s:=StyleBoxFlat.new()
 	s.bg_color=bg
-	s.border_color=stroke
+	s.border_color=border
 	s.set_border_width_all(1)
-	s.set_corner_radius_all(radius)
+	s.set_corner_radius_all(14)
 	s.content_margin_left=12
 	s.content_margin_right=12
 	s.content_margin_top=9
 	s.content_margin_bottom=9
 	return s
 
-func _label(value:String,p:Vector2,d:Vector2,font:int,color:Color,parent:Control=null)->Label:
-	var l=Label.new()
-	l.text=value
-	l.position=p
-	l.size=d
-	l.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+func _label(text:String,pos:Vector2,dimensions:Vector2,font:int,color:Color,parent:Control=null)->Label:
+	var l:=Label.new()
+	l.text=text
+	l.position=pos
+	l.size=dimensions
 	l.add_theme_font_size_override("font_size",font)
 	l.add_theme_color_override("font_color",color)
+	l.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	l.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	(parent if parent!=null else ui).add_child(l)
+	(parent if parent!=null else self).add_child(l)
 	return l
 
-func _button(value:String,p:Vector2,d:Vector2,callback:Callable,primary:bool=false,parent:Control=null)->Button:
-	var b=Button.new()
-	b.text=value
-	b.position=p
-	b.size=d
+func _button(text:String,pos:Vector2,dimensions:Vector2,callback:Callable,gold:bool=false,parent:Control=null)->Button:
+	var b:=Button.new()
+	b.text=text
+	b.position=pos
+	b.size=dimensions
 	b.focus_mode=Control.FOCUS_NONE
-	b.add_theme_font_size_override("font_size",25)
-	b.add_theme_color_override("font_color",Color("12212a") if primary else WHITE)
-	b.add_theme_stylebox_override("normal",_style(AMBER if primary else Color(.07,.12,.16,.94),AMBER if primary else Color("62839a")))
-	b.add_theme_stylebox_override("hover",_style(Color("ffe1ac") if primary else Color("25424f"),AMBER))
-	b.add_theme_stylebox_override("pressed",_style(Color("df9e51"),AMBER))
+	b.mouse_filter=Control.MOUSE_FILTER_STOP
+	b.add_theme_font_size_override("font_size",23)
+	b.add_theme_color_override("font_color",Color("1d2a30") if gold else WHITE)
+	b.add_theme_stylebox_override("normal",_style(GOLD if gold else PANEL,GOLD if gold else Color("3c6b7a")))
+	b.add_theme_stylebox_override("hover",_style(Color("ffe0aa") if gold else Color("2c4a5a"),GOLD))
 	b.pressed.connect(callback)
-	(parent if parent!=null else ui).add_child(b)
+	(parent if parent!=null else self).add_child(b)
 	return b
 
-func _create_interface()->void:
-	var canvas=CanvasLayer.new()
-	add_child(canvas)
-	ui=Control.new()
-	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	ui.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	canvas.add_child(ui)
-	var header=ColorRect.new()
-	header.color=Color(.04,.07,.09,.90)
-	header.position=Vector2(0,0)
-	header.size=Vector2(720,174)
-	header.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	ui.add_child(header)
-	_label("DNCH",Vector2(28,14),Vector2(480,81),76,AMBER)
-	_label("MINING FARM",Vector2(33,91),Vector2(541,52),41,WHITE)
-	_label("BUILD YOUR HASH EMPIRE",Vector2(36,164),Vector2(520,38),20,SECONDARY)
-	var front=Panel.new()
-	front.position=Vector2(21,697)
-	front.size=Vector2(678,549)
-	front.add_theme_stylebox_override("panel",_style(Color(.044,.073,.092,.96),Color("a17b4d"),22))
-	front.mouse_filter=Control.MOUSE_FILTER_PASS
-	ui.add_child(front)
-	var has_save=FileAccess.file_exists("user://dnch_mining_farm_v1.json")
-	_label("YOUR FARM. YOUR EMPIRE.",Vector2(24,23),Vector2(630,43),24,WHITE,front)
-	_label("From a single GPU to a mining city.",Vector2(24,66),Vector2(632,40),20,SECONDARY,front)
-	start_button=_button("CONTINUE GAME  ›" if has_save else "START GAME  ›",Vector2(24,123),Vector2(630,82),_start,true,front)
-	_button("HOW TO PLAY",Vector2(24,228),Vector2(630,72),_show_help,false,front)
-	quality_button=_button("GRAPHICS  /  30 FPS",Vector2(24,320),Vector2(630,70),_toggle_quality,false,front)
-	status=_label("3D WORLD  /  HARDWARE  /  POWER  /  STRATEGY",Vector2(24,427),Vector2(627,57),18,GREEN,front)
-
+func _draw_menu()->void:
+	back_canvas=Control.new()
+	back_canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	back_canvas.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	back_canvas.draw.connect(_draw_background)
+	add_child(back_canvas)
+	var top=ColorRect.new()
+	top.color=Color(.035,.063,.080,.91)
+	top.position=Vector2(0,0)
+	top.size=Vector2(720,190)
+	top.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	add_child(top)
+	_label("DNCH",Vector2(25,11),Vector2(510,89),75,GOLD)
+	_label("MINING FARM",Vector2(30,96),Vector2(530,51),41,WHITE)
+	_label("BUILD YOUR HASH EMPIRE",Vector2(31,169),Vector2(530,39),19,MUTED)
+	var shade:=Panel.new()
+	shade.position=Vector2(21,702)
+	shade.size=Vector2(678,550)
+	shade.add_theme_stylebox_override("panel",_style(Color(.045,.082,.104,.96),Color("7e725f")))
+	shade.mouse_filter=Control.MOUSE_FILTER_STOP
+	add_child(shade)
+	_label("YOUR FARM. YOUR DECISIONS.",Vector2(24,21),Vector2(618,45),25,WHITE,shade)
+	_label("Build a hardware mining empire.",Vector2(24,69),Vector2(621,35),20,MUTED,shade)
+	start_button=_button("CONTINUE FARM  ›" if FileAccess.file_exists("user://dnch_mining_farm_v1.json") else "START MINING  ›",Vector2(23,118),Vector2(632,83),_start,true,shade)
+	_button("HOW TO PLAY",Vector2(23,226),Vector2(632,72),_toggle_help,false,shade)
+	graphics_button=_button("GRAPHICS: SAFE  /  30 FPS",Vector2(23,320),Vector2(632,67),_toggle_mode,false,shade)
+	var prev:String="First launch."
+	if FileAccess.file_exists("user://dnch_farm_boot.txt"):
+		var f:=FileAccess.open("user://dnch_farm_boot.txt",FileAccess.READ)
+		if f!=null:
+			prev=f.get_as_text()
+			f.close()
+	status=_label("LAST SESSION: "+prev,Vector2(24,417),Vector2(616,95),16,GREEN,shade)
+	status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	help_window=Panel.new()
-	help_window.position=Vector2(35,400)
-	help_window.size=Vector2(650,630)
-	help_window.add_theme_stylebox_override("panel",_style(Color("142630"),AMBER,18))
+	help_window.position=Vector2(32,380)
+	help_window.size=Vector2(656,643)
+	help_window.add_theme_stylebox_override("panel",_style(Color("152733"),GOLD))
 	help_window.mouse_filter=Control.MOUSE_FILTER_STOP
-	ui.add_child(help_window)
-	_label("HOW TO PLAY",Vector2(25,21),Vector2(575,65),34,AMBER,help_window)
-	var steps=_label(
-		"1  CHOOSE hardware in the BUILD bar.\n\n"+
-		"2  TAP a floor slot to install a rig.\n\n"+
-		"3  SELL mined DNCH for cash.\n\n"+
-		"4  UPGRADE power and cooling.\n\n"+
-		"5  SELECT machines to improve or recycle.\n\n"+
-		"6  EXPAND your facility.",Vector2(26,102),Vector2(582,387),22,WHITE,help_window)
-	steps.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	_button("CLOSE",Vector2(25,530),Vector2(601,70),_show_help,true,help_window)
+	add_child(help_window)
+	_label("HOW TO PLAY",Vector2(24,20),Vector2(594,58),31,GOLD,help_window)
+	var guide=_label("1   CHOOSE equipment from BUILD.\n\n2   TAP a free space in the 3D facility.\n\n3   SELL mined DNCH for cash.\n\n4   BUY cooling and power upgrades.\n\n5   UPGRADE or RECYCLE selected rigs.\n\n6   EXPAND the warehouse.",Vector2(24,104),Vector2(603,403),22,WHITE,help_window)
+	guide.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	_button("CLOSE",Vector2(26,531),Vector2(599,66),_toggle_help,true,help_window)
 	help_window.visible=false
+
+func _draw_background()->void:
+	var canvas:Control=back_canvas
+	var w:float=720.0
+	canvas.draw_rect(Rect2(0,0,w,1280),Color("071a27"))
+	var floor_color=Color("1c3643")
+	var far_color=Color("17303d")
+	for i in range(19):
+		var t:float=float(i)/19.0
+		canvas.draw_rect(Rect2(0,211+float(i)*26,w,29),far_color.lerp(floor_color,t))
+	# Industrial buildings and a network of mining racks, rendered in 2D
+	# to ensure the startup screen cannot overload the Android 3D renderer.
+	for i in range(10):
+		var x:float=-25.0+float(i%5)*161.0
+		var y:float=355.0+float(i/5)*167.0
+		canvas.draw_rect(Rect2(x,y,151,119),Color("1c3441"))
+		canvas.draw_rect(Rect2(x,y,151,119),Color("456978"),false,2.0)
+		for j in range(3):
+			var px:float=x+34.0+float(j)*43.0
+			canvas.draw_arc(Vector2(px,y+60),17,0,TAU,16,Color("61bace"),2.0,true)
+			canvas.draw_circle(Vector2(px,y+60),7,Color("071b25"))
+		canvas.draw_line(Vector2(x+7,y+97),Vector2(x+144,y+97),Color("e9ad60"),2.0)
+	for i in range(24):
+		var x:float=float(i)*35.0
+		canvas.draw_line(Vector2(x,190),Vector2(x-130,700),Color("567e8d",.20),1.0)
+	canvas.draw_line(Vector2(10,674),Vector2(713,674),GOLD,4.0)
 
 func _start()->void:
 	start_button.disabled=true
-	status.text="LOADING 3D FACILITY ..."
+	status.text="LOADING GAME WORLD..."
+	_write_stage("START BUTTON PRESSED")
 	get_tree().root.set_meta("safe_mode",safe_mode)
 	Engine.max_fps=30 if safe_mode else 60
-	var err=get_tree().change_scene_to_file("res://main.tscn")
+	var err:int=get_tree().change_scene_to_file("res://main.tscn")
 	if err!=OK:
-		status.text="START FAILED: "+str(err)
+		_write_stage("SCENE LOAD ERROR "+str(err))
+		status.text="SCENE ERROR: "+str(err)
 		start_button.disabled=false
 
-func _toggle_quality()->void:
+func _toggle_mode()->void:
 	safe_mode=not safe_mode
-	quality_button.text="GRAPHICS  /  30 FPS" if safe_mode else "GRAPHICS  /  60 FPS"
-	status.text="ECO GRAPHICS" if safe_mode else "HIGH GRAPHICS"
+	graphics_button.text="GRAPHICS: SAFE  /  30 FPS" if safe_mode else "GRAPHICS: HIGH  /  60 FPS"
+	status.text="LOW GRAPHICS / 30 FPS" if safe_mode else "HIGH GRAPHICS / 60 FPS"
 
-func _show_help()->void:
+func _toggle_help()->void:
 	help_visible=not help_visible
 	help_window.visible=help_visible
 
-func _process(delta:float)->void:
-	elapsed+=delta
-	if camera!=null:
-		camera.position.x=25.0+sin(elapsed*.16)*1.2
-		camera.look_at(Vector3(0,1.2,1.3))
-	for fan in fans:
-		if is_instance_valid(fan):
-			fan.rotation.z+=delta*8.0
+func _write_stage(stage:String)->void:
+	var f:=FileAccess.open("user://dnch_farm_boot.txt",FileAccess.WRITE)
+	if f!=null:
+		f.store_string(stage)
+		f.close()
