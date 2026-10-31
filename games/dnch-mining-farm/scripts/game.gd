@@ -304,6 +304,12 @@ func _on_command(action:String,value:String)->void:
 				cash+=amount
 				_notice("DAILY SUPPLY: +$%.0f"%amount)
 				_save_progress()
+		"zoom_in":
+			view_distance=clampf(view_distance-2.0,14.5,39.0)
+			_orbit()
+		"zoom_out":
+			view_distance=clampf(view_distance+2.0,14.5,39.0)
+			_orbit()
 		"upgrade_unit":
 			_upgrade_selected()
 		"recycle_unit":

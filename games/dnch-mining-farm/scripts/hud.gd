@@ -116,10 +116,17 @@ func _ready()->void:
 	_mission()
 	_actions()
 	_shop()
+	_camera_controls()
 	toast_label=_label(root,"",296,111,680,43,22,GOLD,HORIZONTAL_ALIGNMENT_CENTER)
 	toast_label.visible=false
 	select_item("gpu_1")
 	_set_tab("BUILD")
+
+func _camera_controls()->void:
+	# Large visible on-screen zoom buttons; Android users need no gesture tutorial.
+	var panel:=_panel(root,900,429,93,87,Color(.07,.12,.16,.88))
+	_button(panel,"+",6,5,80,36,"zoom_in","",false,23)
+	_button(panel,"−",6,45,80,36,"zoom_out","",false,23)
 
 func _header()->void:
 	var logo:=_panel(root,13,10,217,87,Color("17242c"),Color("9e7451"))
