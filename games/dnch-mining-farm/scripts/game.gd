@@ -74,11 +74,23 @@ var warned_power:bool=false
 var paused:bool=false
 var message:String=""
 
+func _boot_stage(stage:String)->void:
+	var file:=FileAccess.open("user://dnch_farm_boot.txt",FileAccess.WRITE)
+	if file!=null:
+		file.store_string(stage)
+		file.close()
+
 func _ready()->void:
+	_boot_stage("3D INITIALIZING")
 	Input.set_emulate_mouse_from_touch(true)
 	Engine.max_fps = 30 if bool(get_tree().root.get_meta("safe_mode",true)) else 60
 	_load_progress()
 	ART.apply_scene_lighting(self)
+	if bool(get_tree().root.get_meta("safe_mode",true)):
+		for n in get_children():
+			if n is DirectionalLight3D:
+				n.shadow_enabled=false
+	_boot_stage("LIGHTS READY")
 	_create_ambient_audio()
 	world_root=Node3D.new()
 	world_root.name="The Farm"
@@ -90,9 +102,13 @@ func _ready()->void:
 	tile_root.name="Placement Grid"
 	add_child(tile_root)
 	_create_camera()
+	_boot_stage("CAMERA READY")
 	_rebuild_room()
+	_boot_stage("ROOM READY")
 	_rebuild_equipment()
+	_boot_stage("MACHINES READY")
 	_create_hud()
+	_boot_stage("HUD READY")
 	_recalculate()
 	if last_saved>0:
 		var offline_seconds:float=minf(float(maxi(0,Time.get_unix_time_from_system()-last_saved)),7200.0)
@@ -102,6 +118,7 @@ func _ready()->void:
 			_notice("OFFLINE MINING: +%.1f DNCH" % offline_coins)
 	_update_ui()
 	_save_progress()
+	_boot_stage("GAME ACTIVE")
 
 func _create_ambient_audio()->void:
 	var sample:Resource=load("res://audio/industrial_fans.wav")
@@ -135,7 +152,8 @@ func _rebuild_room()->void:
 	for node in world_root.get_children():
 		node.queue_free()
 	ART.create_room(world_root,tier)
-	DETAIL.palette(world_root,tier,bool(get_tree().root.get_meta("safe_mode",true)))
+	if not bool(get_tree().root.get_meta("safe_mode",true)):
+		DETAIL.palette(world_root,tier,false)
 	_rebuild_tiles()
 
 func _rebuild_tiles()->void:
@@ -163,7 +181,7 @@ func _rebuild_equipment()->void:
 	for node in equipment_root.get_children():
 		node.queue_free()
 	for unit in placed:
-		var visual:Node3D=ART.machine(str(unit.get("type","gpu_1")))
+		var visual:Node3D=ART.machine(str(unit.get("type","gpu_1")),bool(get_tree().root.get_meta("safe_mode",true)))
 		visual.position=_tile_position(int(unit.get("x",3)),int(unit.get("z",2)))
 		equipment_root.add_child(visual)
 	rotors=get_tree().get_nodes_in_group("spin_fan")
@@ -348,7 +366,7 @@ func _place(x:int,z:int)->void:
 	cash-=cost
 	selected_tile=Vector2i(x,z)
 	placed.append({"type":selected_kind,"x":x,"z":z,"health":1.0})
-	var visual:Node3D=ART.machine(selected_kind)
+	var visual:Node3D=ART.machine(selected_kind,bool(get_tree().root.get_meta("safe_mode",true)))
 	visual.position=_tile_position(x,z)
 	equipment_root.add_child(visual)
 	rotors=get_tree().get_nodes_in_group("spin_fan")

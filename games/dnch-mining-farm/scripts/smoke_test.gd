@@ -24,7 +24,7 @@ func _run()->void:
 	var menu:Node=menu_scene.instantiate()
 	root.add_child(menu)
 	await process_frame
-	if not menu.has_method("_show_help"):
+	if not menu.has_method("_toggle_help"):
 		printerr("FAIL: Main menu actions are disconnected.")
 		quit(7)
 		return
@@ -32,12 +32,23 @@ func _run()->void:
 		printerr("FAIL: Start Mining button is missing.")
 		quit(8)
 		return
-	menu.call("_show_help")
+	menu.call("_toggle_help")
 	if not bool(menu.get("help_visible")):
 		printerr("FAIL: How To Play button did not open instructions.")
 		quit(9)
 		return
+	menu.call("_toggle_help")
+	if bool(menu.get("help_visible")):
+		printerr("FAIL: Help dialog did not close")
+		quit(23)
+		return
+	menu.call("_toggle_mode")
+	if bool(menu.get("safe_mode")):
+		printerr("FAIL: Performance mode toggle is disconnected")
+		quit(24)
+		return
 	menu.queue_free()
+	root.set_meta("safe_mode",true)
 	var src:PackedScene=load("res://main.tscn")
 	if src==null:
 		printerr("FAIL: Cannot load mining farm scene.")

@@ -126,9 +126,31 @@ static func frame(parent:Node3D, half_width:float, height:float, half_depth:floa
 		for x in [-half_width,half_width]:
 			block(parent,Vector3(x,y,0),Vector3(.055,.055,half_depth*2),m)
 
-static func machine(kind:String) -> Node3D:
+static func machine(kind:String, lightweight:bool=false) -> Node3D:
 	var root := Node3D.new()
 	root.name = "Machine_"+kind
+	if lightweight:
+		var body:=mat("4e7180",.42,.35)
+		var dark:=mat("1a303a",.48,.35)
+		var accent:=mat("48d9e0",.18,.42,1.4)
+		var is_rig:bool=kind.begins_with("gpu") or kind.begins_with("asic") or kind=="rack"
+		if is_rig:
+			block(root,Vector3(0,.51,0),Vector3(1.9,.88,1.1),body)
+			block(root,Vector3(0,1.01,0),Vector3(2.05,.08,1.22),dark)
+			for i in range(2):
+				spinning_fan(root,Vector3(-.45+float(i)*.9,.55,.57),.28,true)
+			for j in range(3):
+				block(root,Vector3(-.55+float(j)*.55,.91,.58),Vector3(.16,.04,.02),accent)
+		elif kind=="fan" or kind=="cooler":
+			block(root,Vector3(0,.76,0),Vector3(1.65,1.37,1.0),body)
+			spinning_fan(root,Vector3(0,.83,.53),.45,true)
+		elif kind=="solar":
+			var panel:=block(root,Vector3(0,.6,0),Vector3(2.1,.09,1.4),mat("173b69",.32,.24))
+			panel.rotation.x=-.27
+		else:
+			block(root,Vector3(0,.73,0),Vector3(1.65,1.43,1.05),body)
+			block(root,Vector3(0,.55,.54),Vector3(1.2,.1,.03),accent)
+		return root
 	var rubber := mat("111b23",.08,.8)
 	var steel := mat("5b6f81",.8,.32)
 	var ink := mat("25343e",.55,.36)
