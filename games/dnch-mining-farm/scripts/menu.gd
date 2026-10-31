@@ -2,6 +2,7 @@ extends Node3D
 
 # DNCH Mining Farm: contemporary industrial show floor, not a retro drawn UI.
 const ART = preload("res://scripts/art.gd")
+const DETAIL = preload("res://scripts/facility_detail.gd")
 var safe_mode: bool = true
 var help_visible: bool = false
 var start_button: Button
@@ -23,6 +24,7 @@ func _ready() -> void:
 	Input.set_emulate_mouse_from_touch(true)
 	ART.apply_scene_lighting(self)
 	ART.create_room(self, 2)
+	DETAIL.palette(self,2,true)
 	_build_showroom()
 	_build_camera()
 	_build_interface()

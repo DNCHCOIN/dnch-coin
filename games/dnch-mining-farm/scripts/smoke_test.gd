@@ -46,6 +46,28 @@ func _run()->void:
 		quit(3)
 		return
 	var old:float=float(game.get("coins"))
+	var first_cash:float=float(game.get("cash"))
+	game.call("_place",4,2)
+	if game.get("placed").size()!=2 or float(game.get("cash"))>=first_cash:
+		printerr("FAIL: Installing hardware did not spend cash or add equipment.")
+		quit(10)
+		return
+	game.call("_on_command","upgrade_unit","")
+	if str(game.get("placed")[1].get("type",""))!="gpu_2":
+		# The default starting cash is deliberately too low; confirm the upgrade does NOT bypass pricing.
+		if str(game.get("placed")[1].get("type",""))!="gpu_1":
+			printerr("FAIL: Hardware upgrade state corrupted.")
+			quit(11)
+			return
+	game.call("_on_command","recycle_unit","")
+	if game.get("placed").size()!=1:
+		printerr("FAIL: Recycling selected mining rig did not return floor slot.")
+		quit(12)
+		return
+	if game.get("hud")==null or game.get("hud").get("mission_progress")==null:
+		printerr("FAIL: New mission progress HUD is not available.")
+		quit(13)
+		return
 	game.call("_tick",1.0)
 	if float(game.get("coins"))<=old:
 		printerr("FAIL: Mining did not generate game currency.")

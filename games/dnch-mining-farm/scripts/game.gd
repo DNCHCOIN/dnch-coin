@@ -1,6 +1,7 @@
 extends Node3D
 
 const ART = preload("res://scripts/art.gd")
+const DETAIL = preload("res://scripts/facility_detail.gd")
 const HUD_SCENE = preload("res://scripts/hud.gd")
 const SAVE_PATH = "user://dnch_mining_farm_v1.json"
 const TILE_COLS = 7
@@ -134,6 +135,7 @@ func _rebuild_room()->void:
 	for node in world_root.get_children():
 		node.queue_free()
 	ART.create_room(world_root,tier)
+	DETAIL.palette(world_root,tier,bool(get_tree().root.get_meta("safe_mode",true)))
 	_rebuild_tiles()
 
 func _rebuild_tiles()->void:
@@ -188,6 +190,50 @@ func _occupied(x:int,z:int)->bool:
 		if int(unit.get("x",-1))==x and int(unit.get("z",-1))==z:
 			return true
 	return false
+
+func _selected_index()->int:
+	for i in range(placed.size()):
+		if int(placed[i].get("x",-1))==selected_tile.x and int(placed[i].get("z",-1))==selected_tile.y:
+			return i
+	return -1
+
+func _upgrade_selected()->void:
+	var idx:int=_selected_index()
+	if idx<0:
+		_notice("TAP AN INSTALLED MACHINE FIRST")
+		return
+	var typ:String=str(placed[idx].get("type",""))
+	var next_types:Dictionary={"gpu_1":"gpu_2","gpu_2":"gpu_3","asic_1":"asic_2","fan":"cooler"}
+	if not next_types.has(typ):
+		_notice("THIS UNIT IS ALREADY MAX LEVEL")
+		return
+	var target:String=str(next_types[typ])
+	var cost:float=ceil((float(TYPES[target]["price"])-float(TYPES[typ]["price"]))*0.85)
+	if cash<cost:
+		_notice("NEED $%.0f TO UPGRADE"%cost)
+		return
+	cash-=cost
+	placed[idx]["type"]=target
+	placed[idx]["health"]=1.0
+	_rebuild_equipment()
+	_recalculate()
+	_notice("UPGRADED TO "+str(TYPES[target]["label"]).to_upper())
+	_save_progress()
+
+func _recycle_selected()->void:
+	var idx:int=_selected_index()
+	if idx<0:
+		_notice("TAP AN INSTALLED MACHINE FIRST")
+		return
+	var typ:String=str(placed[idx].get("type","gpu_1"))
+	var returned:float=floor(float(TYPES[typ]["price"])*.62*float(placed[idx].get("health",1.0)))
+	cash+=returned
+	placed.remove_at(idx)
+	selected_tile=Vector2i(-1,-1)
+	_rebuild_equipment()
+	_recalculate()
+	_notice("UNIT RECYCLED: +$%.0f"%returned)
+	_save_progress()
 
 func _on_command(action:String,value:String)->void:
 	match action:
@@ -258,6 +304,10 @@ func _on_command(action:String,value:String)->void:
 				cash+=amount
 				_notice("DAILY SUPPLY: +$%.0f"%amount)
 				_save_progress()
+		"upgrade_unit":
+			_upgrade_selected()
+		"recycle_unit":
+			_recycle_selected()
 		"claim":
 			_claim_contract()
 	_update_ui()
@@ -272,7 +322,9 @@ func _place(x:int,z:int)->void:
 			if int(unit.get("x",-1))==x and int(unit.get("z",-1))==z:
 				kind=str(unit["type"])
 				break
-		_notice("SLOT OCCUPIED BY %s"%str(TYPES.get(kind,{}).get("label","MACHINE")).to_upper())
+		selected_tile=Vector2i(x,z)
+		_notice("SELECTED "+str(TYPES.get(kind,{}).get("label","MACHINE")).to_upper()+" - UPGRADE OR RECYCLE")
+		_update_ui()
 		return
 	if not TYPES.has(selected_kind):
 		return
@@ -428,6 +480,12 @@ func _update_ui()->void:
 	else:
 		message="REPEAT: MINE AND DELIVER 250 DNCH"
 	var reward:float=11000.0 if contract_index>=CONTRACTS.size() else float(CONTRACTS[contract_index]["reward"])
+	var target_value:float=250.0
+	var current_value:float=coins
+	if contract_index<CONTRACTS.size():
+		var active:Dictionary=CONTRACTS[contract_index]
+		target_value=float(active["target"])
+		current_value=_contract_count(str(active["goal"]))
 	hud.update_data({
 		"cash":cash,"coins":coins,"hash":total_hash,"power":grid_power,
 		"capacity":available_power,"heat":temperature,"eff":efficiency,
@@ -435,8 +493,19 @@ func _update_ui()->void:
 		"market":market,"count":placed.size(),"slots":9 if tier==1 else (25 if tier==2 else 35),
 		"facility":["","GARAGE","WORKSHOP","DATA CENTER"][tier],"tier":tier,
 		"cooling":cooling_power,"mission":message,"mission_reward":reward,
-		"descriptions":desc,"warning":warning
+		"descriptions":desc,"warning":warning,
+		"mission_current":current_value,
+		"mission_target":target_value,
+		"mission_percent":100.0*current_value/maxf(1.0,target_value),
+		"selected_unit":_selected_description()
 	})
+
+func _selected_description()->String:
+	var idx:int=_selected_index()
+	if idx>=0:
+		var item:Dictionary=placed[idx]
+		return str(TYPES.get(str(item.get("type","")),{}).get("label","MACHINE")).to_upper()+"  •  HEALTH "+str(int(float(item.get("health",1.0))*100))+"%"
+	return "TAP A RIG TO UPGRADE IT"
 
 func _notice(text:String)->void:
 	message=text

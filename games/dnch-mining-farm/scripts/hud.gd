@@ -184,19 +184,22 @@ func _actions()->void:
 	var p:=_panel(root,1003,110,265,404)
 	_label(p,"FARM MANAGEMENT",14,9,236,29,17,WHITE)
 	_bar(p,45)
+	var selected_note:=_label(p,"TAP A RIG TO UPGRADE IT",14,39,236,18,12,CYAN)
+	selected_label=selected_note
 	var actions=[
-		["SELL CRYPTO","sell","CONVERT DNCH TO CASH"],
-		["UPGRADE GRID","grid","INCREASE POWER CAPACITY"],
-		["EXPAND FACILITY","expand","UNLOCK NEW ZONES"],
-		["REPAIR ALL","repair","RESTORE HARDWARE"],
-		["DAILY SUPPLY","daily","COLLECT FREE CASH"]
+		["SELL CRYPTO","sell"],
+		["UPGRADE GRID","grid"],
+		["EXPAND FACILITY","expand"],
+		["REPAIR ALL","repair"],
+		["DAILY SUPPLY","daily"],
+		["UPGRADE UNIT","upgrade_unit"],
+		["RECYCLE SELECTED","recycle_unit"]
 	]
 	for i in range(actions.size()):
-		var y:float=55+float(i)*65
+		var y:float=63+float(i)*47.0
 		var a=actions[i]
-		var b:=_button(p,str(a[0]),14,y,235,39,str(a[1]),"",i==0,16)
+		var b:=_button(p,str(a[0]),14,y,235,42,str(a[1]),"",i==0,16)
 		action_buttons[a[1]]=b
-		_label(p,str(a[2]),17,y+39,229,21,11,MUTED)
 
 func _shop()->void:
 	var nav:=_panel(root,13,526,1255,45,Color("101a23"))
@@ -286,6 +289,8 @@ func update_data(data:Dictionary)->void:
 	facility_label.text="%s  /  LEVEL %d" % [str(data.get("facility","GARAGE")),int(data.get("tier",1))]
 	mission_label.text=str(data.get("mission",""))
 	mission_reward.text="$"+_money(float(data.get("mission_reward",0.0)))
+	if selected_label!=null:
+		selected_label.text=str(data.get("selected_unit","TAP A RIG TO UPGRADE IT"))
 	mission_progress.value=clampf(float(data.get("mission_percent",0.0)),0.0,100.0)
 	mission_counter.text="%.0f / %.0f" % [float(data.get("mission_current",0.0)),float(data.get("mission_target",0.0))]
 	# Keep progress, profitability and hardware data visible without oversized panels.
