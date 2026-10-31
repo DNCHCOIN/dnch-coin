@@ -125,3 +125,19 @@ header.site-header{position:sticky;top:0;z-index:40;background:rgba(7,12,21,.89)
 .specialist-outro>div:last-child{display:flex;flex-direction:column;gap:12px}
 @media(max-width:940px){.specialist-grid{grid-template-columns:1fr}.specialist-outro{grid-template-columns:1fr}.tech-service-outro{align-items:flex-start;flex-direction:column}}
 @media(max-width:580px){.specialist-hero{padding:66px 0}.specialist-service{padding:22px}.specialist-jump a{font-size:.74rem}.tech-card .service-bottom{flex-wrap:wrap;gap:12px}.specialist-cta .btn{width:100%}}
+
+/* Project payments / commercial terms */
+.deposit-section{padding:68px 0;background:linear-gradient(155deg,#0c1624,#0a1725);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.deposit-wrap{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(265px,.7fr);gap:clamp(24px,5vw,80px);align-items:center}
+.deposit-copy h2{margin:15px 0 18px}.deposit-copy>p{font-size:.93rem;color:#bdcdda;max-width:680px}
+.deposit-clause{border-left:3px solid var(--cyan);padding:12px 0 12px 19px;color:#f0f9fc!important;background:linear-gradient(90deg,rgba(101,228,233,.06),transparent)}
+.deposit-hint{font-size:.83rem!important;color:#9faebe!important}
+.deposit-stages{border:1px solid rgba(116,200,220,.33);background:#0e1e2e;border-radius:18px;padding:23px;display:grid;gap:10px}
+.deposit-step{display:flex;align-items:center;gap:18px}
+.deposit-value{font-size:2.25rem;letter-spacing:-.06em;font-weight:900;color:var(--cyan);min-width:85px}
+.deposit-step strong{display:block;font-size:.96rem}
+.deposit-step small{display:block;color:#a4baca;font-size:.8rem;line-height:1.5}
+.deposit-direction{margin-left:31px;color:#85afc2;font-size:1.1rem}
+.deposit-contact-note{margin:24px 0 0;border:1px solid rgba(126,189,205,.28);border-radius:12px;background:rgba(97,175,191,.07);padding:15px 18px;color:#c9dce7;font-size:.86rem;line-height:1.65}
+.deposit-contact-note strong{color:#dff6f7}
+@media(max-width:800px){.deposit-wrap{grid-template-columns:1fr}.deposit-stages{max-width:550px}}
