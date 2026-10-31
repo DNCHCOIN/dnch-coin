@@ -145,6 +145,104 @@ steps:[['Вид любимец','Pet type'],['Размер','Size'],['Избор
 photos:['photo-1517849845537-4d257902454a','photo-1514888286974-6c03e2ca1dba','photo-1583337130417-3346a1be7dee','photo-1543466835-00a7907e9de1','photo-1533738363-b7f9aef128ce','photo-1548199973-03cce0bbc87b'],
 captions:['Куче','Котка','Игра','Разходка','Любопитство','Заедно'],
 cta:['Готов ли си за магазин за домашни любимци?','Ready to build a memorable pet store?']}
+,
+auto:{
+title:['Автосервизът не е просто списък от ремонти.','A workshop is more than a list of repairs.'],
+lead:['VECTOR AUTO представя технически подход: диагностика, обслужване, ремонт на механични системи и ясна предварителна комуникация. Това е концепция, а не действащ сервиз или записване на час.','VECTOR AUTO demonstrates technical service, diagnostics, mechanical repairs and clear communication. It is a portfolio concept, not an operating workshop or booking system.'],
+gallery:['Механика, прецизност и грижа за автомобила.','Mechanics, precision and vehicle care.'],
+services:[
+['Двигател и диагностика','Engine diagnostics','Диагностични кодове, симптоми и план за техническа проверка.','Fault codes, symptoms and diagnostic work plans.'],
+['Турбо и всмукателна система','Turbo and intake','Проверка на въздушни пътища, вакуумни линии и налягане.','Intake, vacuum line and boost-system checks.'],
+['Съединител и трансмисия','Clutch and gearbox','Проверка на приплъзване, вибрации и превключване.','Assess slip, vibration and shifting issues.'],
+['Спирачна система','Braking system','Накладки, дискове, апарати и проверка на състояние.','Pads, discs, calipers and system checks.'],
+['Ходова част','Suspension and steering','Амортисьори, шарнири, втулки и кормилна система.','Dampers, joints, bushings and steering.'],
+['Автоклиматик','Air conditioning','Проверка, диагностика, обслужване и течове.','Inspection, diagnosis and maintenance planning.'],
+['Гуми и джанти','Tyres and wheels','Смяна, баланс, преглед и проверка на джанти.','Fitting, balancing, inspection and wheel checks.'],
+['Обслужване преди път','Pre-trip inspections','Течности, осветление, акумулатор, ремъци и основни проверки.','Fluids, lights, battery, belts and essential checks.']
+],
+faq:[
+['Може ли да се запази реален час?','Can I book a real appointment?','Не. Запитването се копира, но няма свързан работещ автосервиз.','No. The enquiry builder has no operating workshop recipient.'],
+['Ориентировъчните времена точни ли са?','Are repair durations accurate?','Не. Те са примерни и не заменят диагностика и реална оценка.','No. Durations are illustrative and not repair estimates.'],
+['Може ли да се добави график за сервиза?','Can a service calendar be added?','Да, с управление на свободни часове, екипи и потвърждения.','Yes, with real availability, staff and confirmations.'],
+['Може ли да се добави каталог с части?','Can parts be integrated?','Да, при реална база, проверка на съвместимост и условия.','Yes, with fitment checks and product data.']
+],
+steps:[['Симптоми','Symptoms'],['Диагностика','Diagnosis'],['Оферта','Quote'],['Ремонт','Repair']],
+photos:['photo-1486262715619-67b85e0b08d3','photo-1487754180451-c456f719a1fc','photo-1530046339160-ce3e530c7d2f','photo-1493238792000-8113da705763','photo-1517524206127-48bbd363f3d7','photo-1503376780353-7e6692767b70'],
+captions:['Работилница','Техник','Диагностика','Автомобил','Поддръжка','Път'],
+cta:['Искаш собствен сайт за сервиз?','Need a website for an automotive workshop?']},
+logistics:{
+title:['Всеки маршрут има срок, товар и реални оперативни условия.','Every route involves cargo, timing and operating constraints.'],
+lead:['NORTHLINE LOGISTICS показва как сайт за транспортни услуги може да комбинира запитвания, видове превози, складови операции и примерни изчисления. Не се изпълняват реални превози.','NORTHLINE LOGISTICS demonstrates a transport website with freight enquiries, transport modes, warehousing concepts and sample calculations. No real freight operations are provided.'],
+gallery:['Маршрути, товарни единици, логистика.','Routes, freight units and logistics.'],
+services:[
+['Пълен товар (FTL)','Full truckload','Планиране на превоз с цяло превозно средство и параметри на товара.','Plan dedicated vehicles according to cargo dimensions.'],
+['Групаж (LTL)','Groupage freight','Комбинирани пратки, консолидация и междинни терминали.','Consolidation, shared loads and handling points.'],
+['Палетни превози','Pallet freight','Стандарти, размери, тегло, линейни метри и товарна пригодност.','Pallet standards, size, weight and loading metres.'],
+['Експресен транспорт','Express delivery','Приоритетни заявки и ограничения по срок.','Priority shipments and deadline management.'],
+['Складови операции','Warehousing','Приемане, временен престой, комплектоване и експедиция.','Receiving, short-term storage, picking and dispatch.'],
+['Дистрибуция до магазини','Retail distribution','Маршрути с няколко спирки и условия за разтоварване.','Multi-stop routes and delivery instructions.'],
+['Проследяване','Shipment tracking concept','Статуси и известия в реална система с GPS или TMS интеграция.','Status updates with real GPS or TMS integrations.'],
+['Управление на оферти','Quotation management','Събиране на заявки, оценка на разходи и обратна връзка.','Collect shipment details and structure cost proposals.']
+],
+faq:[
+['Калкулаторът реална цена ли дава?','Is the calculator a real freight quote?','Не, това е опростено изчисление без тол такси, ограничения и пазарни тарифи.','No. It excludes tolls, regulations and real market rates.'],
+['Работи ли GPS проследяване?','Is live tracking enabled?','Не. Диаграмата и маршрутите са примерни.','No. Route diagrams and statuses are illustrative.'],
+['Може ли да се добавят различни товарни единици?','Can cargo dimensions be added?','Да, реална версия може да изчислява палети, линеен метър и обем.','Yes, a real version may support pallets, loading metres and cubic volume.'],
+['Може ли да се свърже с TMS?','Can this integrate with a TMS?','Да, при наличен API и договорен достъп.','Yes, subject to API access and integration scope.']
+],
+steps:[['Заявка','Request'],['Планиране','Planning'],['Товарене','Loading'],['Доставка','Delivery']],
+photos:['photo-1586528116311-ad8dd3c8310d','photo-1601584115197-04ecc0da31d7','photo-1565793298595-6ba8971cba21','photo-1494412519320-aa613dfb7738','photo-1578575437130-527eed3abbec','photo-1504307651254-35680f356dfd'],
+captions:['Склад','Камион','Логистичен център','Транспорт','Контейнери','Операции'],
+cta:['Имаш нужда от транспортен бизнес сайт?','Need a freight and logistics website?']},
+bistro:{
+title:['Вкусът започва много преди първата хапка.','The experience starts before the first bite.'],
+lead:['OLIVE & STONE разширява концепцията с ресторантска история, сезонни предложения, групови събития, менюта за различни поводи и разпознаваема атмосфера. Няма реален ресторант или поръчки.','OLIVE & STONE explores restaurant storytelling, seasonal choices, gatherings, event menus and atmosphere. The brand and orders are fictional.'],
+gallery:['Истории около масата.','Stories around the table.'],
+services:[
+['Закуски и брънч','Breakfast and brunch','Бързи сутрешни предложения и сезонни комбинации.','Morning favourites and seasonal combinations.'],
+['Обедни менюта','Lunch menus','Селекции за обедната почивка с ясни цени и алергени.','Lunch selections with clear pricing and allergens.'],
+['Вечерно меню','Dinner menu','Предястия, основни ястия, десерти и напитки.','Starters, mains, desserts and drinks.'],
+['Сезонни предложения','Seasonal specials','Ротиращи идеи с продуктов акцент и фотография.','Rotating specials and seasonal photography.'],
+['Групови събития','Group events','Примерни варианти за малки събития и частни поводи.','Private dining and event concepts.'],
+['Поръчки за вземане','Takeaway ordering','Кошница и избор на час при реална интеграция.','Basket and pickup scheduling in a live build.'],
+['Алергени и състав','Allergens and ingredients','Ясна продуктова информация за реалните менюта.','Clear ingredient and allergen information.'],
+['Дигитално QR меню','Digital QR menu','Мобилно меню с категории, снимки и бързи промени.','Mobile menus with categories and photography.']
+],
+faq:[
+['Ресторантът съществува ли?','Is this a real restaurant?','Не. Това е портфолио концепция и няма физически обект.','No. This is a fictional portfolio concept.'],
+['Може ли да се плаща онлайн?','Are online payments available?','Не. Количката е демонстрационна.','No. The basket is a demo.'],
+['Може ли да има резервации?','Could reservations be added?','Да, към реална система с график, капацитет и потвърждения.','Yes, with a capacity-aware booking backend.'],
+['Как се обновява менюто?','How can a menu be updated?','Чрез административна система, която може да се изгради в пълната версия.','Through a content management system in a complete build.']
+],
+steps:[['Избери','Explore'],['Добави','Add'],['Прегледай','Review'],['Потвърди','Confirm']],
+photos:['photo-1517248135467-4c7edcad34c4','photo-1547592180-85f173990554','photo-1414235077428-338989a2e8c0','photo-1552566626-52f8b828add9','photo-1512621776951-a57141f2eefd','photo-1546069901-ba9599a7e63c'],
+captions:['Интериор','Кулинария','Вечеря','Атмосфера','Салата','Сезонно меню'],
+cta:['Искаш ресторантски сайт с характер?','Need a restaurant website with personality?']},
+beauty:{
+title:['Красивото представяне заслужава и удобен клиентски процес.','Thoughtful styling needs an equally thoughtful booking journey.'],
+lead:['LUMI BEAUTY е демонстрация на салон с процедури, избор на час, ценови листи и визуални истории за грижа. Резервациите се записват само локално и не отиват в истински салон.','LUMI BEAUTY showcases treatments, appointment selection, sample pricing and editorial beauty imagery. Appointments are local-only and not sent to a salon.'],
+gallery:['Красота в малките детайли.','Beauty in the details.'],
+services:[
+['Маникюр','Manicure','Форма, подготовка, покритие и поддръжка на нокти.','Nail shaping, prep, finish and care.'],
+['Педикюр','Pedicure','Козметична грижа за стъпала и нокти.','Cosmetic foot and nail care.'],
+['Коса и стилизиране','Hair and styling','Подстригване и стилизация спрямо желаната визия.','Cutting and styling for different looks.'],
+['Цвят и тониране','Colour and toning','Консултация за цвят и предварително уточняване на процедура.','Colour consultation and treatment planning.'],
+['Вежди и мигли','Brows and lashes','Оформяне и козметична поддръжка.','Brow shaping and cosmetic care.'],
+['Грижа за лице','Facial care','Козметични ритуали с ясни описания на услугите.','Skin-focused cosmetic treatments with clear service details.'],
+['Подаръчни ваучери','Gift vouchers','Подаръчна концепция със стойност или конкретна процедура.','Gift credits or treatment vouchers.'],
+['Пакетни процедури','Treatment packages','Комбиниране на подходящи козметични услуги.','Bundled cosmetic services.']
+],
+faq:[
+['Часът реално ли се записва?','Is an appointment actually booked?','Не. Записът остава в браузъра и няма получател.','No. Appointments are saved in the browser only.'],
+['Цените реални ли са?','Are prices genuine?','Не. Това са примерни тарифи за дизайн демонстрация.','No. Pricing is illustrative.'],
+['Може ли да има няколко специалисти?','Can staff calendars be added?','Да, с отделни графици и блокирани часове в реална система.','Yes, with staff-specific calendars and availability.'],
+['Може ли сайтът да приема ваучери?','Could gift vouchers be sold?','Да, при реален модул за плащания и проследяване на ваучери.','Yes, with a real payment and voucher redemption system.']
+],
+steps:[['Избери процедура','Choose'],['Час','Time'],['Потвърди','Confirm'],['Посети','Visit']],
+photos:['photo-1560066984-138dadb4c035','photo-1604654894610-df63bc536371','photo-1570172619644-dfd03ed5d881','photo-1522335789203-aabd1fc54bc9','photo-1596462502278-27bfdc403348','photo-1515377905703-c4788e51af15'],
+captions:['Салон','Маникюр','Грижа за лице','Козметика','Продукти','Релакс'],
+cta:['Искаш модерен сайт за салон?','Need a beautiful salon website?']}
+
 };
 const root=document.querySelector('[data-more-site]');if(!root)return;const key=root.getAttribute('data-more-site'),d=data[key];if(!d)return;const bg=document.documentElement.lang==='bg',i=bg?0:1;
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
