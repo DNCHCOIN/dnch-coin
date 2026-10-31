@@ -338,6 +338,7 @@ func _place(x:int,z:int)->void:
 		_notice("GRID OVERLOAD. UPGRADE YOUR POWER SYSTEM.")
 		return
 	cash-=cost
+	selected_tile=Vector2i(x,z)
 	placed.append({"type":selected_kind,"x":x,"z":z,"health":1.0})
 	var visual:Node3D=ART.machine(selected_kind)
 	visual.position=_tile_position(x,z)
