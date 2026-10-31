@@ -3,218 +3,259 @@ class_name FarmHUD
 
 signal command(action: String, value: String)
 
-const COLOR_BG := Color("10171c")
-const COLOR_PANEL := Color(0.075,0.105,0.13,0.94)
-const COLOR_LINE := Color("40505c")
-const COLOR_CYAN := Color("bad6df")
-const COLOR_GOLD := Color("ecb879")
-const COLOR_TEXT := Color("e7f5f6")
-const CATALOG := [
-	["gpu_1","STARTER GPU","$ 650"],
-	["gpu_2","PRO GPU RIG","$ 2,600"],
-	["gpu_3","ULTRA GPU","$ 5,900"],
-	["asic_1","ASIC S-100","$ 8,500"],
-	["asic_2","ASIC X-CORE","$ 24,000"],
-	["fan","AIR COOLER","$ 650"],
-	["cooler","INDUSTRIAL HVAC","$ 4,400"],
-	["solar","SOLAR ARRAY","$ 3,600"],
-	["battery","POWER BANK","$ 2,500"],
-	["rack","SERVER RACK","$ 18,000"]
+const PORTRAIT = preload("res://scripts/equipment_portrait.gd")
+const BG := Color("101922")
+const PANEL := Color(0.065,0.100,0.136,.95)
+const BORDER := Color("37546a")
+const WHITE := Color("edf4f7")
+const MUTED := Color("a1b6c2")
+const GOLD := Color("f6b965")
+const CYAN := Color("62d7f0")
+const GREEN := Color("57dfa9")
+const CATALOG = [
+	["gpu_1","STARTER GPU","$650","PRODUCTION"],
+	["gpu_2","PRO GPU RIG","$2,600","PRODUCTION"],
+	["gpu_3","ULTRA GPU","$5,900","PRODUCTION"],
+	["asic_1","ASIC S-100","$8,500","PRODUCTION"],
+	["asic_2","ASIC X-CORE","$24,000","PRODUCTION"],
+	["rack","SERVER RACK","$18,000","UTILITY"],
+	["fan","INDUSTRIAL FAN","$650","COOLING"],
+	["cooler","LIQUID HVAC","$4,400","COOLING"],
+	["solar","SOLAR ARRAY","$3,600","POWER"],
+	["battery","BATTERY BANK","$2,500","POWER"]
 ]
+const TABS := ["BUILD","PRODUCTION","POWER","COOLING","UTILITY"]
 
 var root: Control
-var header: Label
 var cash_display: Label
 var coin_display: Label
 var hash_display: Label
 var power_display: Label
 var heat_display: Label
-var left_stats: RichTextLabel
+var cash_rate: Label
+var coin_rate: Label
 var mission_label: Label
-var right_header: Label
-var right_description: Label
-var footer: Label
+var mission_progress: ProgressBar
+var mission_counter: Label
+var mission_reward: Label
+var facility_label: Label
+var warning_label: Label
 var toast_label: Label
+var footer: Label
+var right_description: Label
+var right_header: Label
+var selected_label: Label
+var stats_label: Label
+var market_label: Label
 var build_cards: Dictionary = {}
+var nav_buttons: Dictionary = {}
+var card_panels: Dictionary = {}
+var scroller: ScrollContainer
 var current_item: String = "gpu_1"
+var current_tab: String = "BUILD"
 var toast_timer: float = 0.0
+var action_buttons: Dictionary = {}
 
-func _style(background:Color, border:Color = COLOR_LINE, radius:int = 13) -> StyleBoxFlat:
+func _box(fill:Color=PANEL, edge:Color=BORDER, radius:int=11, width:int=1)->StyleBoxFlat:
 	var s:=StyleBoxFlat.new()
-	s.bg_color=background
-	s.border_color=border
-	s.set_border_width_all(1)
+	s.bg_color=fill
+	s.border_color=edge
+	s.set_border_width_all(width)
 	s.set_corner_radius_all(radius)
-	s.content_margin_left=11
-	s.content_margin_right=11
-	s.content_margin_top=8
-	s.content_margin_bottom=8
+	s.content_margin_left=8
+	s.content_margin_right=8
+	s.content_margin_top=6
+	s.content_margin_bottom=6
 	return s
 
-func _label(text:String, size:int, color:Color = COLOR_TEXT) -> Label:
-	var l:=Label.new()
-	l.text=text
-	l.add_theme_font_size_override("font_size",size)
-	l.add_theme_color_override("font_color",color)
-	l.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	return l
-
-func _fixed(parent:Control, pos:Vector2, size:Vector2) -> PanelContainer:
-	var p:=PanelContainer.new()
-	p.position=pos
-	p.size=size
-	p.add_theme_stylebox_override("panel",_style(COLOR_PANEL))
+func _panel(parent:Control,x:float,y:float,w:float,h:float,fill:Color=PANEL,edge:Color=BORDER)->Panel:
+	var p:=Panel.new()
+	p.position=Vector2(x,y)
+	p.size=Vector2(w,h)
 	p.mouse_filter=Control.MOUSE_FILTER_STOP
+	p.add_theme_stylebox_override("panel",_box(fill,edge))
 	parent.add_child(p)
 	return p
 
-func _column(parent:Node,gap:int=8) -> VBoxContainer:
-	var c:=VBoxContainer.new()
-	c.add_theme_constant_override("separation",gap)
-	parent.add_child(c)
-	return c
+func _label(parent:Control,value:String,x:float,y:float,w:float,h:float,font:int,tint:Color=WHITE,align:int=HORIZONTAL_ALIGNMENT_LEFT)->Label:
+	var l:=Label.new()
+	l.text=value
+	l.position=Vector2(x,y)
+	l.size=Vector2(w,h)
+	l.horizontal_alignment=align
+	l.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size",font)
+	l.add_theme_color_override("font_color",tint)
+	l.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	parent.add_child(l)
+	return l
 
-func _button(name:String,action:String,value:String="",font_size:int=19,accent:bool=false) -> Button:
+func _button(parent:Control,name:String,x:float,y:float,w:float,h:float,action:String,arg:String="",prominent:bool=false,font:int=17)->Button:
 	var b:=Button.new()
 	b.text=name
-	b.custom_minimum_size=Vector2(0,48)
-	b.add_theme_font_size_override("font_size",font_size)
-	b.add_theme_color_override("font_color",Color("061921") if accent else COLOR_TEXT)
-	b.add_theme_stylebox_override("normal",_style(COLOR_GOLD if accent else Color("1c2a34"),COLOR_GOLD if accent else COLOR_LINE,8))
-	b.add_theme_stylebox_override("hover",_style(Color("f7d1a0") if accent else Color("304151"),COLOR_CYAN,8))
-	b.add_theme_stylebox_override("pressed",_style(Color("e59e51") if accent else Color("10232d"),COLOR_GOLD,8))
-	b.pressed.connect(func(): command.emit(action,value))
+	b.position=Vector2(x,y)
+	b.size=Vector2(w,h)
+	b.focus_mode=Control.FOCUS_NONE
+	b.mouse_filter=Control.MOUSE_FILTER_STOP
+	b.add_theme_font_size_override("font_size",font)
+	b.add_theme_color_override("font_color",Color("13202a") if prominent else WHITE)
+	b.add_theme_stylebox_override("normal",_box(GOLD if prominent else Color("1a2b39"),GOLD if prominent else BORDER,9))
+	b.add_theme_stylebox_override("hover",_box(Color("ffdb9c") if prominent else Color("254557"),WHITE if prominent else CYAN,9))
+	b.add_theme_stylebox_override("pressed",_box(Color("de9f4c") if prominent else Color("13242e"),GOLD,9))
+	b.pressed.connect(func(): command.emit(action,arg))
+	parent.add_child(b)
 	return b
 
-func _ready() -> void:
+func _ready()->void:
 	root=Control.new()
-	root.name="Farm Interface"
+	root.name="Premium Farm HUD"
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	add_child(root)
-	_construct_header()
-	_construct_left()
-	_construct_right()
-	_construct_shop()
-	toast_label=_label("",26,COLOR_GOLD)
-	toast_label.position=Vector2(345,143)
-	toast_label.size=Vector2(595,45)
-	toast_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	root.add_child(toast_label)
+	_header()
+	_mission()
+	_actions()
+	_shop()
+	toast_label=_label(root,"",296,111,680,43,22,GOLD,HORIZONTAL_ALIGNMENT_CENTER)
 	toast_label.visible=false
 	select_item("gpu_1")
+	_set_tab("BUILD")
 
-func _construct_header() -> void:
-	var bar:=_fixed(root,Vector2(12,10),Vector2(1256,96))
-	var h:=HBoxContainer.new()
-	h.add_theme_constant_override("separation",22)
-	bar.add_child(h)
-	var title_box:=_column(h,0)
-	title_box.custom_minimum_size=Vector2(240,0)
-	title_box.add_child(_label("DNCH  /  MINING FARM",24,COLOR_CYAN))
-	header=_label("BUILD YOUR HASH EMPIRE",15,COLOR_GOLD)
-	title_box.add_child(header)
-	var labels=["CASH","COINS","HASH POWER","ENERGY","HEAT"]
-	for i in range(labels.size()):
-		var c:=_column(h,1)
-		c.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		c.add_child(_label(labels[i],14,Color("8bb1bf")))
-		var value:=_label("--",23,COLOR_TEXT)
-		c.add_child(value)
-		match i:
-			0:cash_display=value
-			1:coin_display=value
-			2:hash_display=value
-			3:power_display=value
-			4:heat_display=value
+func _header()->void:
+	var logo:=_panel(root,13,10,217,87,Color("17242c"),Color("9e7451"))
+	_label(logo,"DNCH",12,5,194,47,38,GOLD)
+	_label(logo,"MINING FARM",14,51,192,25,18,WHITE)
+	var metrics: Array = [
+		["CASH","$","+$ / min"],
+		["DNCH","COINS","+ DNCH / min"],
+		["HASH POWER","GH/s","LIVE HASHRATE"],
+		["POWER USE","kW","GRID CAPACITY"],
+		["TEMP","°C","COOLING STATUS"]
+	]
+	var elements: Array = []
+	for i in range(5):
+		var px:float=238.0+float(i)*207.0
+		var m:=_panel(root,px,10,199,87)
+		_label(m,metrics[i][0],12,6,177,19,14,MUTED)
+		var lv:=_label(m,"--",12,26,180,33,22,WHITE)
+		var subtitle:=_label(m,metrics[i][2],12,62,178,16,12,GREEN)
+		elements.append([lv,subtitle])
+	cash_display=elements[0][0]
+	cash_rate=elements[0][1]
+	coin_display=elements[1][0]
+	coin_rate=elements[1][1]
+	hash_display=elements[2][0]
+	power_display=elements[3][0]
+	heat_display=elements[4][0]
 
-func _construct_left() -> void:
-	var panel:=_fixed(root,Vector2(12,117),Vector2(275,424))
-	var c:=_column(panel,10)
-	c.add_child(_label("OPERATIONS / LIVE",19,COLOR_CYAN))
-	left_stats=RichTextLabel.new()
-	left_stats.bbcode_enabled=true
-	left_stats.fit_content=false
-	left_stats.scroll_active=false
-	left_stats.custom_minimum_size=Vector2(245,225)
-	left_stats.add_theme_font_size_override("normal_font_size",17)
-	left_stats.add_theme_color_override("default_color",COLOR_TEXT)
-	c.add_child(left_stats)
-	c.add_child(_label("CURRENT CONTRACT",16,COLOR_GOLD))
-	mission_label=_label("Build your first rig.",16)
+func _mission()->void:
+	var p:=_panel(root,13,110,263,404)
+	_label(p,"CURRENT CONTRACT",16,9,235,28,18,WHITE)
+	_label(p,"PRODUCTION  /  LIVE",16,42,234,21,13,CYAN)
+	_bar(p,67)
+	mission_label=_label(p,"",15,82,233,69,18,WHITE)
 	mission_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	mission_label.custom_minimum_size=Vector2(242,49)
-	c.add_child(mission_label)
-	var row:=HBoxContainer.new()
-	row.add_theme_constant_override("separation",6)
-	c.add_child(row)
-	var claim:=_button("CLAIM", "claim","",16,true)
-	claim.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	row.add_child(claim)
-	var repair:=_button("REPAIR","repair","",16)
-	repair.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	row.add_child(repair)
+	mission_progress=ProgressBar.new()
+	mission_progress.position=Vector2(15,159)
+	mission_progress.size=Vector2(233,18)
+	mission_progress.min_value=0
+	mission_progress.max_value=100
+	mission_progress.value=0
+	mission_progress.show_percentage=false
+	mission_progress.add_theme_stylebox_override("background",_box(Color("182f39"),BORDER,4))
+	mission_progress.add_theme_stylebox_override("fill",_box(GREEN,GREEN,4))
+	p.add_child(mission_progress)
+	mission_counter=_label(p,"0 / 0",15,181,232,24,15,CYAN,HORIZONTAL_ALIGNMENT_RIGHT)
+	_bar(p,215)
+	_label(p,"CONTRACT REWARD",15,229,231,22,15,MUTED)
+	mission_reward=_label(p,"",15,251,230,26,20,GOLD)
+	_button(p,"CLAIM REWARD",16,294,231,51,"claim","",true,17)
+	facility_label=_label(p,"GARAGE / LEVEL 1",15,355,235,30,14,CYAN)
 
-func _construct_right() -> void:
-	var panel:=_fixed(root,Vector2(984,117),Vector2(284,424))
-	var c:=_column(panel,10)
-	c.add_child(_label("BUILDING MANAGER",20,COLOR_CYAN))
-	right_header=_label("STARTER GPU",23,COLOR_GOLD)
-	c.add_child(right_header)
-	right_description=_label("Choose a machine and tap an empty floor slot.",17)
-	right_description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	right_description.custom_minimum_size=Vector2(245,91)
-	c.add_child(right_description)
-	c.add_child(_label("FACILITY OPERATIONS",16,COLOR_CYAN))
-	for info in [["SELL CRYPTO","sell"],["GRID + POWER","grid"],["EXPAND FACILITY","expand"],["DAILY SUPPLY","daily"]]:
-		var button:=_button(info[0],info[1],"",16,info[1]=="sell")
-		button.custom_minimum_size=Vector2(0,46)
-		c.add_child(button)
+func _bar(parent:Control,y:float)->void:
+	var line=ColorRect.new()
+	line.position=Vector2(15,y)
+	line.size=Vector2(parent.size.x-30,1)
+	line.color=Color("47606a")
+	line.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	parent.add_child(line)
 
-func _construct_shop() -> void:
-	var panel:=_fixed(root,Vector2(12,550),Vector2(1256,158))
-	var container:=_column(panel,8)
-	var heading:=HBoxContainer.new()
-	heading.add_theme_constant_override("separation",20)
-	container.add_child(heading)
-	heading.add_child(_label("EQUIPMENT MARKET",18,COLOR_CYAN))
-	footer=_label("TAP AN ITEM, THEN TAP A FLOOR SLOT TO PLACE IT.",15,Color("9bc0c5"))
-	footer.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	heading.add_child(footer)
-	var scroller:=ScrollContainer.new()
-	scroller.custom_minimum_size=Vector2(1220,97)
+func _actions()->void:
+	var p:=_panel(root,1003,110,265,404)
+	_label(p,"FARM MANAGEMENT",14,9,236,29,17,WHITE)
+	_bar(p,45)
+	var actions=[
+		["SELL CRYPTO","sell","CONVERT DNCH TO CASH"],
+		["UPGRADE GRID","grid","INCREASE POWER CAPACITY"],
+		["EXPAND FACILITY","expand","UNLOCK NEW ZONES"],
+		["REPAIR ALL","repair","RESTORE HARDWARE"],
+		["DAILY SUPPLY","daily","COLLECT FREE CASH"]
+	]
+	for i in range(actions.size()):
+		var y:float=55+float(i)*65
+		var a=actions[i]
+		var b:=_button(p,str(a[0]),14,y,235,39,str(a[1]),"",i==0,16)
+		action_buttons[a[1]]=b
+		_label(p,str(a[2]),17,y+39,229,21,11,MUTED)
+
+func _shop()->void:
+	var nav:=_panel(root,13,526,1255,45,Color("101a23"))
+	for i in range(TABS.size()):
+		var tab:String=TABS[i]
+		var b:=_button(nav,tab,7+float(i)*248,5,239,36,"tab",tab,false,17)
+		# Tap is handled immediately inside the HUD; tab must not depend on the game.
+		b.pressed.connect(_set_tab.bind(tab))
+		nav_buttons[tab]=b
+	var store:=_panel(root,13,580,1255,130,Color("0e1a25"))
+	scroller=ScrollContainer.new()
+	scroller.position=Vector2(7,4)
+	scroller.size=Vector2(1240,122)
 	scroller.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	scroller.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_AUTO
-	container.add_child(scroller)
+	store.add_child(scroller)
 	var row:=HBoxContainer.new()
-	row.add_theme_constant_override("separation",8)
+	row.add_theme_constant_override("separation",9)
 	scroller.add_child(row)
-	for entry in CATALOG:
-		var key:String=entry[0]
-		var title:String=entry[1]
-		var price:String=entry[2]
-		var b:=_button(title+"\n"+price,"select",key,15)
-		b.custom_minimum_size=Vector2(157,86)
-		b.alignment=HORIZONTAL_ALIGNMENT_CENTER
-		row.add_child(b)
-		build_cards[key]=b
+	for info in CATALOG:
+		var kind:String=info[0]
+		var label:String=info[1]
+		var price:String=info[2]
+		var card:=Panel.new()
+		card.custom_minimum_size=Vector2(165,116)
+		card.mouse_filter=Control.MOUSE_FILTER_PASS
+		card.add_theme_stylebox_override("panel",_box(Color("172b39"),BORDER,9))
+		row.add_child(card)
+		var picture=PORTRAIT.new()
+		picture.kind=kind
+		picture.position=Vector2(5,5)
+		picture.size=Vector2(155,65)
+		card.add_child(picture)
+		_label(card,label,9,71,150,19,13,WHITE)
+		var b:=_button(card,price+"  /  BUILD",6,91,153,23,"select",kind,false,13)
+		build_cards[kind]=b
+		card_panels[kind]=[card,str(info[3])]
 
-func select_item(key:String) -> void:
+func _set_tab(tab:String)->void:
+	current_tab=tab
+	for key in nav_buttons.keys():
+		var b:Button=nav_buttons[key]
+		var active:bool=key==tab
+		b.add_theme_stylebox_override("normal",_box(Color("4b3926") if active else Color("1a2b39"),GOLD if active else BORDER,7))
+		b.add_theme_color_override("font_color",GOLD if active else MUTED)
+	for kind in card_panels.keys():
+		var entry:Array=card_panels[kind]
+		(entry[0] as Panel).visible=tab=="BUILD" or str(entry[1])==tab
+	if scroller!=null:
+		scroller.scroll_horizontal=0
+
+func select_item(key:String)->void:
+	if not build_cards.has(key):
+		return
 	current_item=key
-	for item in build_cards.keys():
-		var button:Button=build_cards[item]
-		button.add_theme_stylebox_override("normal",_style(Color("38535e") if item==key else Color("17313f"),COLOR_CYAN if item==key else COLOR_LINE,9))
-	right_header.text=key.replace("_"," ").to_upper()
-	for entry in CATALOG:
-		if entry[0]==key:
-			right_header.text=entry[1]
-			break
+	for kind in card_panels.keys():
+		var card:Panel=card_panels[kind][0]
+		card.add_theme_stylebox_override("panel",_box(Color("314550") if key==kind else Color("172b39"),GOLD if key==kind else BORDER,9,2 if key==kind else 1))
 	command.emit("selected",key)
-
-func show_toast(message:String) -> void:
-	toast_label.text=message
-	toast_label.visible=true
-	toast_timer=3.3
 
 func _process(delta:float)->void:
 	if toast_timer>0.0:
@@ -222,29 +263,47 @@ func _process(delta:float)->void:
 		if toast_timer<=0.0:
 			toast_label.visible=false
 
-func update_data(data:Dictionary) -> void:
-	cash_display.text="$ "+_money(data.get("cash",0.0))
-	coin_display.text="%.2f DNCH" % float(data.get("coins",0.0))
-	hash_display.text="%.0f GH/s" % float(data.get("hash",0.0))
-	power_display.text="%.1f / %.1f kW" % [float(data.get("power",0.0))/1000.0,float(data.get("capacity",0.0))/1000.0]
-	heat_display.text="%.0f°C" % float(data.get("heat",0.0))
-	var efficiency:float=float(data.get("eff",1.0))*100.0
-	left_stats.text="[color=#76e5ec]FACILITY[/color]  %s\n" % str(data.get("facility","GARAGE"))
-	left_stats.text+="[color=#f4c178]LEVEL[/color]   %d / 3\n" % int(data.get("tier",1))
-	left_stats.text+="Machines:   %d / %d\n" % [int(data.get("count",0)),int(data.get("slots",0))]
-	left_stats.text+="Cooling:      %.0f kW\n" % (float(data.get("cooling",0))/1000.0)
-	left_stats.text+="Efficiency:  %.0f%%\n" % efficiency
-	left_stats.text+="Mining:       %.2f DNCH/min\n" % float(data.get("mining_rate",0.0))
-	left_stats.text+="Power bill:  $%.2f/min\n" % float(data.get("bill_rate",0.0))
-	left_stats.text+="Grid limit:   %.0f W\n" % float(data.get("capacity",0.0))
-	left_stats.text+="Market:       $%.2f / DNCH\n" % float(data.get("market",0.0))
-	mission_label.text="%s\nREWARD: $%s" % [str(data.get("mission","Complete a contract")), _money(float(data.get("mission_reward",0.0)))]
-	var descriptions:Dictionary=data.get("descriptions",{})
-	right_description.text=str(descriptions.get(current_item,"Select an empty floor tile to place this equipment."))
-	if data.get("warning","")!="":
-		footer.text=str(data.get("warning",""))
+func show_toast(message:String)->void:
+	toast_label.text=message
+	toast_label.visible=true
+	toast_timer=3.6
+
+func update_data(data:Dictionary)->void:
+	var cash:float=float(data.get("cash",0.0))
+	var coins:float=float(data.get("coins",0.0))
+	var hp:float=float(data.get("hash",0.0))
+	var power:float=float(data.get("power",0.0))
+	var capacity:float=float(data.get("capacity",0.0))
+	var temp:float=float(data.get("heat",0.0))
+	cash_display.text="$"+_money(cash)
+	cash_rate.text="OPERATING CASH"
+	coin_display.text=_decimal(coins)
+	coin_rate.text="+%.2f DNCH / MIN" % float(data.get("mining_rate",0.0))
+	hash_display.text="%.1f GH/s" % hp if hp<1000.0 else "%.2f TH/s" % (hp/1000.0)
+	power_display.text="%.1f / %.1f kW" % [power/1000.0,capacity/1000.0]
+	heat_display.text="%.0f°C" % temp
+	heat_display.add_theme_color_override("font_color",Color("ff8b71") if temp>75.0 else GREEN)
+	facility_label.text="%s  /  LEVEL %d" % [str(data.get("facility","GARAGE")),int(data.get("tier",1))]
+	mission_label.text=str(data.get("mission",""))
+	mission_reward.text="$"+_money(float(data.get("mission_reward",0.0)))
+	mission_progress.value=clampf(float(data.get("mission_percent",0.0)),0.0,100.0)
+	mission_counter.text="%.0f / %.0f" % [float(data.get("mission_current",0.0)),float(data.get("mission_target",0.0))]
+	# Keep progress, profitability and hardware data visible without oversized panels.
+	var source:Dictionary=data.get("descriptions",{})
+	var descriptor:String=str(source.get(current_item,""))
+	var warning:String=str(data.get("warning",""))
+	if warning!="":
+		cash_rate.text=warning.substr(0,27)
+		cash_rate.add_theme_color_override("font_color",Color("ff9170"))
 	else:
-		footer.text="DRAG TO ORBIT  •  PINCH TO ZOOM  •  TAP FLOOR TO BUILD"
+		cash_rate.add_theme_color_override("font_color",GREEN)
 
 func _money(value:float)->String:
-	return "%0.0f" % value
+	if absf(value)>=1000000.0:
+		return "%.2fM" % (value/1000000.0)
+	if absf(value)>=10000.0:
+		return "%.0fK" % (value/1000.0)
+	return "%.0f" % value
+
+func _decimal(value:float)->String:
+	return "%.2f" % value
