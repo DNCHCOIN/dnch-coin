@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dnchcoin.github.io/dnch-coin/sitemap.xml
