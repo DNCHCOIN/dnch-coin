@@ -70,6 +70,21 @@ static func spinning_fan(parent: Node3D, pos: Vector3, radius: float, bright: bo
 	var accent := mat("37d4e8",0.1,0.45,1.5) if bright else mat("374c5c",0.3)
 	var housing := cylinder(parent, pos, radius + 0.07, 0.10, dark, 24)
 	housing.rotation.x = PI / 2.0
+	# Circular metal intake shroud; the old five rectangular blades looked flat.
+	var shroud:=MeshInstance3D.new()
+	var torus:=TorusMesh.new()
+	torus.inner_radius=radius*1.00
+	torus.outer_radius=radius*1.08
+	torus.ring_segments=8
+	torus.rings=24
+	shroud.mesh=torus
+	shroud.material_override=mat("95a9b2",.88,.23)
+	shroud.position=pos+Vector3(0,0,.095)
+	shroud.rotation.x=PI*.5
+	parent.add_child(shroud)
+	for j in range(4):
+		var ang:=TAU*float(j)/4.0
+		block(parent,pos+Vector3(cos(ang)*(radius+.02),sin(ang)*(radius+.02),.08),Vector3(.08,.08,.05),silver)
 	var core := Node3D.new()
 	core.position = pos + Vector3(0,0,0.075)
 	core.add_to_group("spin_fan")
@@ -92,6 +107,13 @@ static func make_gpu_card(parent: Node3D, p: Vector3, premium: bool = false) -> 
 		spinning_fan(parent,p+Vector3(-.24+float(j)*.48,.045,.103),.125,premium)
 	block(parent,p+Vector3(0,.17,.02),Vector3(.93,.025,.12),edge)
 	block(parent,p+Vector3(.45,-.03,.12),Vector3(.03,.13,.02),mat("39d6e3",0.1,.5,2.6))
+	# Aluminum heatsink fins, PCB contacts and fitted end plate.
+	var fins:=mat("a2adb4",.87,.26)
+	for k in range(8):
+		block(parent,p+Vector3(-.43+float(k)*.12,-.045,-.12),Vector3(.027,.20,.025),fins)
+	block(parent,p+Vector3(-.49,0,0),Vector3(.035,.31,.15),edge)
+	for j in range(5):
+		block(parent,p+Vector3(-.38+float(j)*.17,-.195,-.08),Vector3(.065,.024,.06),mat("cbac65",.72,.31))
 
 static func frame(parent:Node3D, half_width:float, height:float, half_depth:float) -> void:
 	var m := mat("7c8c99",.85,.28)
@@ -142,6 +164,17 @@ static func machine(kind:String) -> Node3D:
 			block(root,Vector3(0,.20,.60),Vector3(1.50,.07,.06),rubber)
 			for i in range(4):
 				block(root,Vector3(-.53+float(i)*.34,1.07,.59),Vector3(.09,.035,.02),blue)
+			# Extruded side ventilation slots and realistic screw heads.
+			var vent:=mat("26333e",.30,.64)
+			for side in [-1.0,1.0]:
+				for fin in range(13):
+					block(root,Vector3(side*.906,.31+float(fin)*.052,-.08),Vector3(.022,.024,.82),vent)
+				for q in [-.43,.43]:
+					for y in [.28,1.04]:
+						var bolt:=cylinder(root,Vector3(side*.92,y,q),.03,.035,steel,8)
+						bolt.rotation.z=PI*.5
+			for k in range(5):
+				block(root,Vector3(-.59+float(k)*.30,1.193,-.23),Vector3(.08,.02,.52),steel)
 			add_sign(root,"ASIC  /  "+("X-CORE" if pro else "S-100"),Vector3(0,1.47,0),26)
 		"fan":
 			block(root,Vector3(0,.13,0),Vector3(1.75,.2,.92),rubber)
