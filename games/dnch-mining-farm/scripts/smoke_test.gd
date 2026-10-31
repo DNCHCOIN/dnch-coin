@@ -9,6 +9,14 @@ func _run()->void:
 		printerr("FAIL: Main menu failed to import.")
 		quit(5)
 		return
+	if ProjectSettings.get_setting("display/window/size/viewport_width") != 720:
+		printerr("FAIL: portrait viewport width is not 720")
+		quit(31)
+		return
+	if ProjectSettings.get_setting("display/window/size/viewport_height") != 1280:
+		printerr("FAIL: portrait viewport height is not 1280")
+		quit(32)
+		return
 	if not Input.is_emulating_mouse_from_touch():
 		printerr("FAIL: Mobile touch is not mapped to GUI buttons.")
 		quit(6)

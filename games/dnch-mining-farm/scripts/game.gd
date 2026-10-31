@@ -65,7 +65,7 @@ var tick_clock:float=0.0
 var save_clock:float=0.0
 var view_yaw:float=0.65
 var view_pitch:float=0.78
-var view_distance:float=24.5
+var view_distance:float=38.0
 var touch_down:Vector2=Vector2.ZERO
 var pointer_down:bool=false
 var touch_dragged:bool=false
@@ -141,20 +141,22 @@ func _rebuild_room()->void:
 func _rebuild_tiles()->void:
 	for node in tile_root.get_children():
 		node.queue_free()
-	var allowed:=ART.mat("386f7b",.05,.8,.33)
-	var locked:=ART.mat("9a6139",.1,.7,.13)
+	# Subtle floor corner brackets replace the distracting cyan/orange X grid.
+	var marker:=ART.mat("7daaa7",.20,.67,.25)
 	for z in range(TILE_ROWS):
 		for x in range(TILE_COLS):
-			var open:=_is_unlocked(x,z)
+			if not _is_unlocked(x,z):
+				continue
 			var p:=_tile_position(x,z)
-			var border:=ART.block(tile_root,p+Vector3(0,.042,0),Vector3(2.28,.018,2.17),allowed if open else locked)
-			border.name="Tile_%d_%d"%[x,z]
-			var fill:=ART.block(tile_root,p+Vector3(0,.052,0),Vector3(2.12,.018,2.01),ART.mat("233a43",.18,.76))
-			fill.name="Floor Patch"
-			if not open:
-				ART.block(tile_root,p+Vector3(0,.065,0),Vector3(1.75,.011,.05),locked).rotation.y=.63
-				ART.block(tile_root,p+Vector3(0,.066,0),Vector3(1.75,.012,.05),locked).rotation.y=-.63
-	hover_mesh=ART.add_tile_highlight(tile_root,_tile_position(3,2)+Vector3(0,.10,0),true)
+			var min_x:float=-1.06
+			var min_z:float=-1.0
+			for flip in [-1.0,1.0]:
+				for edge in [-1.0,1.0]:
+					var ox:float=flip*1.05
+					var oz:float=edge*1.0
+					ART.block(tile_root,p+Vector3(ox,.022,oz),Vector3(.28,.008,.025),marker)
+					ART.block(tile_root,p+Vector3(ox,.023,oz),Vector3(.025,.008,.28),marker)
+	hover_mesh=ART.add_tile_highlight(tile_root,_tile_position(3,2)+Vector3(0,.045,0),true)
 	hover_mesh.visible=false
 
 func _rebuild_equipment()->void:
@@ -305,10 +307,10 @@ func _on_command(action:String,value:String)->void:
 				_notice("DAILY SUPPLY: +$%.0f"%amount)
 				_save_progress()
 		"zoom_in":
-			view_distance=clampf(view_distance-2.0,14.5,39.0)
+			view_distance=clampf(view_distance-2.0,25.0,65.0)
 			_orbit()
 		"zoom_out":
-			view_distance=clampf(view_distance+2.0,14.5,39.0)
+			view_distance=clampf(view_distance+2.0,25.0,65.0)
 			_orbit()
 		"upgrade_unit":
 			_upgrade_selected()
@@ -558,10 +560,10 @@ func _unhandled_input(event:InputEvent)->void:
 			if _is_build_area(event.position):
 				_place_from_screen(event.position)
 		elif event.button_index==MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			view_distance=clampf(view_distance-1.5,16.0,41.0)
+			view_distance=clampf(view_distance-1.5,25.0,65.0)
 			_orbit()
 		elif event.button_index==MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
-			view_distance=clampf(view_distance+1.5,16.0,41.0)
+			view_distance=clampf(view_distance+1.5,25.0,65.0)
 			_orbit()
 	elif event is InputEventMouseMotion:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
@@ -576,9 +578,9 @@ func _is_build_area(point:Vector2)->bool:
 	var viewport_size:Vector2=get_viewport().get_visible_rect().size
 	if viewport_size.x<=1.0 or viewport_size.y<=1.0:
 		return false
-	var x:float=point.x*1280.0/viewport_size.x
-	var y:float=point.y*720.0/viewport_size.y
-	return x>286.0 and x<984.0 and y>111.0 and y<548.0
+	var x:float=point.x*720.0/viewport_size.x
+	var y:float=point.y*1280.0/viewport_size.y
+	return x>8.0 and x<712.0 and y>176.0 and y<936.0
 
 func _place_from_screen(point:Vector2)->void:
 	var start:Vector3=camera.project_ray_origin(point)

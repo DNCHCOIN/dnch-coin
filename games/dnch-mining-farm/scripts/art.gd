@@ -202,15 +202,18 @@ static func create_room(parent:Node3D,tier:int) -> Node3D:
 	wall.albedo_texture = load("res://art/wall.png")
 	wall.uv1_scale = Vector3(8,3,1)
 	var trim := mat("162c38",.44,.48)
-	var glow := mat("31d1e7",.22,.35,2.0)
+	var glow := mat("80e0e7",.22,.35,1.5)
 	var gold := mat("f4aa4d",.25,.42,1.0)
 	var danger := mat("d6a44e",.16,.59)
-	var floor := block(root,Vector3(0,-.23,0),Vector3(23.5,.45,17.5),concrete)
-	block(root,Vector3(0,-.015,0),Vector3(21.3,.045,15.0),walkway)
-	for i in range(17):
-		block(root,Vector3(-10.0+float(i)*1.25,.014,-7.25),Vector3(.055,.012,14.45),trim)
-	for i in range(12):
-		block(root,Vector3(0,.016,-6.9+float(i)*1.25),Vector3(21.1,.012,.04),trim)
+	# A textured concrete slab covers the campus; do not hide it with a solid
+	# plastic-looking plane. Thin embedded walkways remain visible at the edges.
+	var floor := block(root,Vector3(0,-.25,3.8),Vector3(35.5,.48,36.0),concrete)
+	block(root,Vector3(-10.3,.013,0),Vector3(.95,.028,14.6),walkway)
+	block(root,Vector3(10.3,.013,0),Vector3(.95,.028,14.6),walkway)
+	for i in range(5):
+		var z:float=-6.5+float(i)*3.3
+		block(root,Vector3(-10.3,.037,z),Vector3(.86,.008,.055),gold)
+		block(root,Vector3(10.3,.037,z),Vector3(.86,.008,.055),gold)
 	# Back wall and left wall keep the isometric scene visually open.
 	block(root,Vector3(0,3.4,-8.0),Vector3(23.5,7.2,.42),wall)
 	block(root,Vector3(-11.5,3.4,-.2),Vector3(.42,7.2,17),wall)
@@ -278,27 +281,28 @@ static func apply_scene_lighting(parent:Node3D) -> void:
 	env.environment.background_mode = Environment.BG_COLOR
 	env.environment.background_color = Color("0a1b28")
 	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.environment.ambient_light_color = Color("b2d2ef")
-	env.environment.ambient_light_energy = .48
+	env.environment.ambient_light_color = Color("d8e1eb")
+	env.environment.ambient_light_energy = .62
 	env.environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	parent.add_child(env)
 	var daylight := DirectionalLight3D.new()
 	daylight.rotation_degrees=Vector3(-55,-35,-12)
-	daylight.light_color=Color("bcd8ff")
-	daylight.light_energy=1.15
-	daylight.shadow_enabled=false
+	daylight.light_color=Color("e3e8f5")
+	daylight.light_energy=1.55
+	daylight.shadow_enabled=true
+	daylight.directional_shadow_max_distance=55.0
 	parent.add_child(daylight)
 	var warm := OmniLight3D.new()
 	warm.position=Vector3(4.5,6.1,1)
 	warm.light_color=Color("ffbd85")
-	warm.light_energy=1.15
+	warm.light_energy=1.7
 	warm.omni_range=14.0
 	warm.shadow_enabled=false
 	parent.add_child(warm)
 	var cyan := OmniLight3D.new()
 	cyan.position=Vector3(-5,5.7,-3)
 	cyan.light_color=Color("68dce9")
-	cyan.light_energy=1.0
+	cyan.light_energy=.68
 	cyan.omni_range=12.0
 	cyan.shadow_enabled=false
 	parent.add_child(cyan)
