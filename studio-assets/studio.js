@@ -6,7 +6,7 @@ const t=(b,e)=>bg?b:e;
 const money=n=>new Intl.NumberFormat(bg?'bg-BG':'en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(n);
 const menu=$('menuToggle'),nav=$('siteNav');
 if(menu&&nav){menu.addEventListener('click',()=>{const open=nav.classList.toggle('is-open');menu.setAttribute('aria-expanded',String(open))});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false')}));document.addEventListener('keydown',e=>{if(e.key==='Escape'){nav.classList.remove('is-open');menu.setAttribute('aria-expanded','false')}});}
-const prices={website:100,calculator:50,catalog:50};
+const prices={website:149,calculator:79,catalog:79};
 function showEstimate(){const sel=$('estimateType');if(!sel)return;const v=sel.value;const out=$('estimateResult');out.textContent=prices[v]!==undefined?t('от ','from ')+money(prices[v]):t('По оферта','Custom quote');$('estimateNote').textContent=prices[v]!==undefined?t('Начална цена за базов вариант, не автоматична окончателна оферта.','Starting price for the basic version, not a final quote.'):t('Ще уточним функционалността и ще подготвим индивидуална оферта.','We will scope the features and prepare a tailored quote.');}
 if($('estimateType')){$('estimateType').addEventListener('change',showEstimate);showEstimate();}
 function value(id){const el=$(id);const n=el?Number(el.value):0;return Number.isFinite(n)?Math.max(0,n):0}
