@@ -42,3 +42,30 @@ header.site-header{position:sticky;top:0;z-index:40;background:rgba(7,12,21,.89)
 @media(max-width:790px){.nav-wrap{min-height:70px}.menu-toggle{display:inline-flex}.nav-links{display:none;position:absolute;top:70px;left:0;right:0;padding:20px 24px;background:#091321;border-bottom:1px solid var(--line);box-shadow:0 20px 35px rgba(0,0,0,.25);flex-direction:column;align-items:stretch;gap:12px}.nav-links.is-open{display:flex}.language{border:0;padding:0}.hero{padding:67px 0 75px}.hero-grid{grid-template-columns:1fr}.showcase{max-width:600px;margin:auto;transform:none;width:100%}.hero h1{font-size:clamp(3rem,8.5vw,4.4rem)}.stats-list{grid-template-columns:repeat(2,1fr);row-gap:25px}.stats-list div:nth-child(3){padding-left:0;border:0}.stats-list div:nth-child(4){padding-left:30px}.split{grid-template-columns:1fr}.workflow{grid-template-columns:repeat(2,1fr)}.real-grid{grid-template-columns:1fr}.real-card p{min-height:0}.section{padding:74px 0}}
 @media(max-width:580px){.container{width:min(100% - 32px,1180px)}.brand-name{font-size:1rem}.hero h1{font-size:clamp(2.55rem,10.4vw,3.35rem)}.hero-lead{font-size:1rem}.hero-meta{gap:10px 16px}.section h2{font-size:2rem}.section-header{display:block}.services-grid,.portfolio-grid,.workflow,.faq-grid{grid-template-columns:1fr}.service-card{min-height:0}.project-visual{height:202px;padding:16px}.project-copy{padding:20px}.tool-panel{padding:23px 18px}.form-grid{grid-template-columns:1fr}.field.span2{grid-column:auto}.stats-list div{padding:0 18px}.stats-list div:nth-child(2){padding-left:19px}.stats-list strong{font-size:1.4rem}.window-body{padding:16px}.mini-stat{padding:11px 8px}.mini-stat b{font-size:1.24rem}.window-head{padding:0 11px}.terminal{font-size:.58rem}.hero-actions .btn{width:100%}.contact-info{display:block}.contact-info span{display:block;margin-bottom:5px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}
+
+
+/* Six newly built distinct storefront and industry covers */
+.portfolio-grid .showcase-cover{padding:20px;background:#102433;isolation:isolate}
+.portfolio-grid .showcase-cover:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#060d12eb,#10263555),var(--cover-image) center/cover}
+.portfolio-grid .showcase-cover-inner{border:1px solid #ffffff55;padding:24px 22px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:15px;position:relative;z-index:1}
+.portfolio-grid .showcase-cover .showcase-overline{color:var(--cover-accent,#94e6e5);font-size:.59rem;font-weight:800;letter-spacing:.19em;text-transform:uppercase}
+.portfolio-grid .showcase-cover strong{font-size:clamp(1.5rem,2.3vw,2rem);font-weight:900;letter-spacing:-.06em;line-height:1.05;color:var(--cover-text,#fff);max-width:86%}
+.portfolio-grid .showcase-cover .showcase-cover-bar{width:66px;height:4px;background:var(--cover-accent,#8cc8df)}
+.portfolio-grid .cover-parts{--cover-accent:#f6e248;--cover-text:#fff;--cover-image:url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=75')}
+.portfolio-grid .cover-parts strong{font-style:italic;font-family:Impact,Arial,sans-serif;font-size:2.2rem;letter-spacing:.015em}
+.portfolio-grid .cover-factory{--cover-accent:#ee925d;--cover-image:url('https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=900&q=75')}
+.portfolio-grid .cover-factory strong{font-family:'Arial Narrow',Arial,sans-serif;text-transform:uppercase}
+.portfolio-grid .cover-aitech{--cover-accent:#bdff64;--cover-image:linear-gradient(120deg,#13133a,#5933aa,#0b1b35)}
+.portfolio-grid .cover-aitech:before{background:linear-gradient(110deg,#0c0d27,#5931b4ad),radial-gradient(ellipse at 70% 40%,#a57aff,transparent 65%)}
+.portfolio-grid .cover-aitech .showcase-cover-inner{border-radius:16px;border-color:#9784c66b}
+.portfolio-grid .cover-aitech strong{font-family:'Space Grotesk','Segoe UI',sans-serif;letter-spacing:-.06em}
+.portfolio-grid .cover-trade{--cover-accent:#c48150;--cover-text:#1b4434;--cover-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=75')}
+.portfolio-grid .cover-trade:before{background:linear-gradient(90deg,#f9eddcea,#f9ead062),var(--cover-image) center/cover}
+.portfolio-grid .cover-trade .showcase-cover-inner{border-color:#3e79686b}
+.portfolio-grid .cover-trade strong{font-family:Georgia,serif;font-weight:400;letter-spacing:-.05em}
+.portfolio-grid .cover-supplements{--cover-accent:#d4ef57;--cover-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=75')}
+.portfolio-grid .cover-supplements strong{font-family:Arial,sans-serif;letter-spacing:-.07em}
+.portfolio-grid .cover-pets{--cover-accent:#ff9ba3;--cover-text:#37283a;--cover-image:url('https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=75')}
+.portfolio-grid .cover-pets:before{background:linear-gradient(90deg,#e9f3deef,#f9e2d875),var(--cover-image) center/cover}
+.portfolio-grid .cover-pets .showcase-cover-inner{border-color:#99737f8c;border-radius:18px}
+.portfolio-grid .cover-pets strong{font-family:Georgia,serif;font-weight:800;letter-spacing:-.07em}
