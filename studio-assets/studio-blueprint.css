@@ -30,3 +30,8 @@ main:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
 .workflow-section{padding-bottom:60px}
 .inquiry-section{padding-bottom:50px}
 @media(max-width:760px){main:before{background-size:auto 1300px;mask-image:linear-gradient(90deg,#000,transparent 13%,transparent 87%,#000)}.hero:before{width:22%;opacity:.65}.hero:after,.neon-section:after{aspect-ratio:992/100;background-size:160% 3304.167%;opacity:.55}.workflow-section{padding-bottom:45px}}
+
+/* Keep source typography outside the decorative wall strips. */
+main:before{background-position:center -64px;mask-image:linear-gradient(90deg,#000 0%,#000 2.5%,transparent 6%,transparent 94%,#000 97.5%,#000 100%)}
+.hero:after,.neon-section:after{aspect-ratio:992/35;background-size:100% 6608.333%;background-position:0 19.654%;mask-image:linear-gradient(transparent,#000 35%)}
+@media(max-width:760px){main:before{mask-image:linear-gradient(90deg,#000,transparent 7%,transparent 93%,#000)}.hero:after,.neon-section:after{aspect-ratio:992/70;background-size:160% 6608.333%}}
