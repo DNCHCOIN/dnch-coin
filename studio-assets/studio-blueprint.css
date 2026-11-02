@@ -16,3 +16,17 @@ body:before,body:after{content:'';position:fixed;top:0;bottom:0;width:28px;point
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
 .tile-icon svg{display:block;width:38px;height:38px;filter:drop-shadow(0 0 5px #00ccff)}.process-icon svg{width:36px;height:36px;filter:drop-shadow(0 0 5px #00ccff)}
+
+/* Continuous architectural background and reflective floor from the approved artwork. */
+body{isolation:isolate;background:#00080d}
+body:before,body:after{display:none}
+main{position:relative;isolation:isolate;background:radial-gradient(ellipse at 50% 26%,#00394a25,transparent 65%)}
+main:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:var(--art);background-size:100% auto;background-repeat:repeat-y;background-position:center top;mask-image:linear-gradient(90deg,#000 0%,#000 4%,#000b 8%,transparent 18%,transparent 82%,#000b 92%,#000 96%,#000 100%);opacity:.95}
+.hero{isolation:isolate;background:radial-gradient(ellipse at 38% 52%,#003b4b30,transparent 65%),linear-gradient(90deg,transparent,#00090de8 43% 81%,transparent)}
+.hero:before{content:"";position:absolute;right:0;top:0;bottom:0;width:13%;z-index:-1;pointer-events:none;background-image:var(--art);background-size:1078.261% 596.241%;background-position:100% 3.636%;mask-image:linear-gradient(90deg,transparent,#000 50%)}
+.hero:after{left:0;right:0;bottom:0;height:auto;aspect-ratio:992/48;transform:none;background-image:var(--art);background-size:100% 3304.167%;background-position:0 20.546%;opacity:.85;mask-image:linear-gradient(transparent,#000 40%);z-index:-1}
+.neon-section{isolation:isolate;background:radial-gradient(ellipse at 50% 70%,#00415519,transparent 70%),linear-gradient(90deg,transparent,#00090de8 17% 83%,transparent)}
+.neon-section:after{content:"";position:absolute;left:0;right:0;bottom:0;aspect-ratio:992/48;z-index:-1;pointer-events:none;background-image:var(--art);background-size:100% 3304.167%;background-position:0 20.546%;mask-image:linear-gradient(transparent,#000 35%);opacity:.7}
+.workflow-section{padding-bottom:60px}
+.inquiry-section{padding-bottom:50px}
+@media(max-width:760px){main:before{background-size:auto 1300px;mask-image:linear-gradient(90deg,#000,transparent 13%,transparent 87%,#000)}.hero:before{width:22%;opacity:.65}.hero:after,.neon-section:after{aspect-ratio:992/100;background-size:160% 3304.167%;opacity:.55}.workflow-section{padding-bottom:45px}}
