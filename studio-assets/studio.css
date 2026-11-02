@@ -141,3 +141,86 @@ header.site-header{position:sticky;top:0;z-index:40;background:rgba(7,12,21,.89)
 .deposit-contact-note{margin:24px 0 0;border:1px solid rgba(126,189,205,.28);border-radius:12px;background:rgba(97,175,191,.07);padding:15px 18px;color:#c9dce7;font-size:.86rem;line-height:1.65}
 .deposit-contact-note strong{color:#dff6f7}
 @media(max-width:800px){.deposit-wrap{grid-template-columns:1fr}.deposit-stages{max-width:550px}}
+
+
+/* ============================================================
+   DNCH STUDIO / DIGITAL UNIVERSE — ambient background v1
+   Self-contained CSS: no paid assets, no external dependencies.
+   ============================================================ */
+:root{--studio-void:#050a14;--studio-plasma:#55e1ff;--studio-violet:#9876ff}
+body{
+  background-color:var(--studio-void);
+  background-image:radial-gradient(ellipse 65% 38% at 85% 9%,rgba(39,61,115,.26),transparent 75%),
+    radial-gradient(ellipse 52% 48% at 0% 46%,rgba(31,112,139,.12),transparent 76%),
+    linear-gradient(145deg,#050a14 0%,#07111e 49%,#050b16 100%);
+}
+header.site-header{background:rgba(5,11,23,.87);border-bottom-color:rgba(100,221,249,.16);box-shadow:0 12px 35px rgba(1,5,14,.2)}
+.hero{
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse 54% 80% at 81% 42%,rgba(28,101,162,.38),transparent 75%),
+    radial-gradient(ellipse 37% 61% at 98% 17%,rgba(120,64,207,.26),transparent 75%),
+    radial-gradient(ellipse 44% 48% at 23% 110%,rgba(5,153,177,.13),transparent 79%),
+    linear-gradient(115deg,#050b16 5%,#07182a 56%,#080f26 100%);
+  background-size:125% 125%,125% 125%,100% 100%,100% 100%;
+  animation:studio-aurora 18s ease-in-out infinite alternate;
+}
+.hero:before{
+  content:"";position:absolute;z-index:1;pointer-events:none;
+  left:-19%;right:-19%;top:auto;bottom:-330px;height:790px;
+  background-image:linear-gradient(rgba(71,209,241,.13) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(71,209,241,.13) 1px,transparent 1px);
+  background-size:74px 74px;
+  transform:perspective(650px) rotateX(66deg) scale(1.32);
+  transform-origin:center bottom;
+  mask-image:linear-gradient(to bottom,transparent 5%,#000 46%,#000 86%,transparent 100%);
+  animation:studio-grid-travel 14s linear infinite;
+}
+.hero:after{
+  content:"";position:absolute;z-index:1;pointer-events:none;
+  width:min(64vw,730px);height:min(64vw,730px);right:-125px;top:-170px;
+  border:1px solid rgba(103,226,255,.2);border-radius:50%;
+  background:conic-gradient(from 35deg,transparent 0 21%,rgba(99,206,255,.15) 24%,transparent 28% 50%,rgba(157,108,255,.15) 55%,transparent 61% 100%);
+  box-shadow:0 0 0 62px rgba(100,224,252,.022),0 0 0 143px rgba(118,114,249,.014),
+    inset 0 0 80px rgba(22,139,200,.065),0 0 100px rgba(40,97,177,.10);
+  animation:studio-orbit 38s linear infinite;
+}
+.hero-network{display:block;position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none;opacity:.92;mask-image:linear-gradient(90deg,transparent,rgba(0,0,0,.48) 18%,#000 42%,#000 100%)}
+.hero-grid{z-index:2}
+.hero-content{position:relative}
+.hero-content h1{text-shadow:0 5px 40px rgba(0,9,22,.45)}
+.hero h1 .accent{background:linear-gradient(95deg,#92faff 0%,#58daff 43%,#ada1ff 100%);background-clip:text;-webkit-background-clip:text;color:transparent}
+.showcase-window{border-color:rgba(98,218,246,.45);box-shadow:0 35px 85px rgba(0,0,0,.46),0 0 65px rgba(36,144,228,.12),0 0 0 1px rgba(97,209,240,.07)}
+.showcase:before{background:linear-gradient(145deg,rgba(45,211,250,.30),rgba(106,76,229,.21));filter:blur(48px)}
+/* Subtle architectural texture extends beyond the hero without overpowering cards */
+.section{position:relative;isolation:isolate}
+.section:before{
+  content:"";position:absolute;z-index:-1;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(88,191,237,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(88,191,237,.032) 1px,transparent 1px);
+  background-size:82px 82px;
+  mask-image:radial-gradient(ellipse 65% 70% at 75% 30%,#000,transparent 100%);
+}
+.section:not(.section-alt):not(.contact-area){
+  background-image:radial-gradient(ellipse 48% 35% at 94% 14%,rgba(35,90,145,.11),transparent 85%),
+    radial-gradient(ellipse 55% 41% at 4% 100%,rgba(72,43,126,.09),transparent 85%);
+}
+.section-alt{background:linear-gradient(135deg,rgba(12,25,42,.96),rgba(7,15,30,.98)),radial-gradient(ellipse at 90% 10%,rgba(41,125,166,.22),transparent 72%);}
+.stats-strip{background:linear-gradient(100deg,#0a1728,#0c1930 52%,#0b1524);box-shadow:inset 0 1px 0 rgba(117,228,255,.05)}
+.deposit-section{background:radial-gradient(ellipse at 88% 0%,rgba(45,100,160,.12),transparent 55%),linear-gradient(155deg,#0b1729,#0a1423)}
+.contact-area{background:radial-gradient(ellipse at 88% 18%,rgba(51,130,173,.20),transparent 62%),radial-gradient(ellipse at 0% 100%,rgba(105,65,173,.10),transparent 60%),#0b1929}
+@keyframes studio-aurora{0%{background-position:0% 20%,90% 25%,0 0,0 0}100%{background-position:12% 44%,74% 9%,0 0,0 0}}
+@keyframes studio-grid-travel{0%{background-position:0 0,0 0}100%{background-position:0 74px,0 74px}}
+@keyframes studio-orbit{to{transform:rotate(360deg)}}
+@media(max-width:790px){
+  .hero:before{bottom:-370px;left:-35%;right:-35%;height:650px;opacity:.48}
+  .hero:after{width:440px;height:440px;right:-240px;top:-120px;opacity:.65}
+  .hero-network{opacity:.6;mask-image:linear-gradient(180deg,rgba(0,0,0,.12),#000)}
+}
+@media(max-width:580px){
+  .hero:after{width:355px;height:355px;right:-235px;top:-95px}
+  .hero:before{opacity:.28}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero,.hero:before,.hero:after{animation:none!important}
+}
