@@ -563,8 +563,8 @@
     m.engraveCtx=m.engraveCanvas.getContext('2d',{alpha:true});
     const box=m.emblemRect;
     if(!box)return;
-    const fontSizeD=box.h*.055;
-    const fontSizeS=box.h*.046;
+    const fontSizeD=box.h*.060;
+    const fontSizeS=box.h*.054;
     // Coordinates normalized to the existing ORIGINAL DS alpha image.
     // On the first word, the baseline descends with D's brushed upper diagonal.
     // On S it bends along the broad horizontal lower face.
