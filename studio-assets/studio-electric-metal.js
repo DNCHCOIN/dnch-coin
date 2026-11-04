@@ -36,7 +36,7 @@
     const m = {
       host, mobile, canvas, ctx:canvas.getContext('2d',{alpha:true}),
       w:0,h:0,dpr:1,paint:null,pctx:null,mask:null,contours:[],particles:[],
-      visible:true,ready:false,mouse:0,mouseAim:0
+      visible:true,ready:false,mouse:0,mouseAim:0,smoke:null,smokeCtx:null,smokeLights:[],smokePuffs:[]
     };
     if (!m.ctx) return;
     host.addEventListener('pointermove',e=>{
@@ -76,6 +76,7 @@
       return {edge,at:Math.random(),speed:rand(.012,.048)*(Math.random()<.5?-1:1),drift:rand(.2,1.3),
         phase:rand(0,PI2),size:rand(.45,1.5),alpha:rand(.35,.95)};
     });
+    setupSmoke(m);
     m.ready=true;
   }
   // Marching-squares: real metallic silhouette contours, not straight fake scan-lines.
@@ -164,6 +165,161 @@
     ctx.scale(1-Math.abs(Math.sin(yaw))*.23,1-Math.abs(pitch)*.12);
     ctx.translate(-mid,-h/2);
   }
+
+  // Three volumes of slow, pearly smoke, rendered from procedural cloud textures.
+  // The illumination is composited INTO the smoke alpha, not pasted over the logo.
+  const smokeSprites=[];
+  function fract(x){return x-Math.floor(x)}
+  function hash2(x,y,seed){
+    return fract(Math.sin(x*127.1+y*311.7+seed*71.9)*43758.5453);
+  }
+  function noise2(x,y,seed){
+    const ix=Math.floor(x),iy=Math.floor(y);
+    const fx=x-ix,fy=y-iy;
+    const ux=fx*fx*(3-2*fx),uy=fy*fy*(3-2*fy);
+    const a=hash2(ix,iy,seed),b=hash2(ix+1,iy,seed);
+    const c=hash2(ix,iy+1,seed),d=hash2(ix+1,iy+1,seed);
+    return (a+(b-a)*ux)*(1-uy)+(c+(d-c)*ux)*uy;
+  }
+  function fbm(x,y,seed){
+    return noise2(x,y,seed)*.56
+      +noise2(x*2.14,y*2.14,seed+13)*.27
+      +noise2(x*4.29,y*4.29,seed+31)*.12
+      +noise2(x*8.48,y*8.48,seed+43)*.05;
+  }
+  function prepareSmokeTextures(){
+    if(smokeSprites.length)return;
+    const n=158;
+    for(let k=0;k<5;k++){
+      const sprite=makeCanvas(n,n),ctx=sprite.getContext('2d');
+      const data=ctx.createImageData(n,n);
+      for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+        const u=x/(n-1),v=y/(n-1);
+        const warp=fbm(u*3.7,v*3.5,k+71)-.5;
+        const wave=fbm(u*2.7+warp*.6,v*4.0,k+19);
+        const nx=(u-.5)*1.85+Math.sin(v*8+k)*.09+warp*.29;
+        const ny=(v-.5)*1.82;
+        const envelope=Math.max(0,1-(nx*nx+ny*ny));
+        const wisp=fbm(u*6.1+warp*.9,v*6.0-wave*.35,k+5);
+        const folds=Math.max(0,Math.min(1,(wisp*.82+wave*.44-.36)*2.5));
+        const density=Math.pow(envelope,1.15)*folds;
+        const i=(y*n+x)*4;
+        data.data[i]=218+Math.round(31*wave);
+        data.data[i+1]=225+Math.round(24*wave);
+        data.data[i+2]=233+Math.round(20*wave);
+        data.data[i+3]=Math.round(203*density);
+      }
+      ctx.putImageData(data,0,0);
+      smokeSprites.push(sprite);
+    }
+  }
+  function setupSmoke(m){
+    prepareSmokeTextures();
+    m.smoke=makeCanvas(m.w,m.h);
+    m.smokeCtx=m.smoke.getContext('2d',{alpha:true});
+    const count=m.mobile?31:37;
+    m.smokePuffs=Array.from({length:count},(_,i)=>{
+      const layer=i%3;
+      return {
+        layer,
+        seed:i*1.671+rand(0,4),phase:Math.random(),
+        x:rand(.17,.83),y:rand(.44,.89),
+        speed:rand(.0045,.0105)*(layer===0?1.0:1.4),
+        drift:rand(.014,.065),w:rand(.20,.36)*(layer===0?1.27:1),
+        height:rand(.55,.95),alpha:rand(.21,.39),
+        sprite:smokeSprites[i%smokeSprites.length]
+      };
+    });
+    const targets=[[.19,.40],[.31,.27],[.27,.70],[.44,.78],
+                   [.55,.37],[.71,.32],[.78,.54],[.64,.72]];
+    const edges=m.contours.filter(c=>c.len>55).slice(0,9);
+    m.smokeLights=targets.map((p,i)=>{
+      let closest={x:p[0]*m.w,y:p[1]*m.h},best=Infinity;
+      for(const edge of edges)for(let k=0;k<edge.points.length;k+=Math.max(1,Math.floor(edge.points.length/110))){
+        const v=edge.points[k];
+        const ds=(v.x-p[0]*m.w)**2+(v.y-p[1]*m.h)**2;
+        if(ds<best){best=ds;closest=v}
+      }
+      return {
+        x:closest.x,y:closest.y,
+        next:performance.now()/1000+rand(.1,5.7)+i*.11,
+        start:-100,duration:2,strength:rand(.45,1.0),
+        radius:rand(.23,.38)*m.w,
+        drift:rand(0,PI2),
+        hue:i%3
+      };
+    });
+  }
+  function drawSmoke(m,t){
+    if(!m.smokeCtx)return;
+    const out=m.smokeCtx,w=m.w,h=m.h;
+    out.setTransform(1,0,0,1,0,0);
+    out.globalAlpha=1;out.globalCompositeOperation='source-over';
+    out.clearRect(0,0,w,h);
+    // Independent wisps drift mostly upward; offset layers create parallax.
+    for(const p of m.smokePuffs){
+      const life=(p.phase+t*p.speed)%1;
+      const fade=Math.pow(Math.sin(Math.PI*life),.58);
+      const direction=(p.layer===2?-1:1);
+      const x=w*(p.x+direction*(life-.5)*p.drift*.88
+        +Math.sin(t*.13+p.seed)*p.drift*.35);
+      const y=h*(p.y-life*.39+Math.sin(t*.19+p.seed)*.022);
+      const span=w*p.w*(1+life*.62);
+      out.globalAlpha=p.alpha*fade;
+      out.save();
+      out.translate(x,y);
+      out.rotate(Math.sin(t*.09+p.seed)*.12);
+      out.scale(1+p.layer*.095,p.height);
+      out.drawImage(p.sprite,-span/2,-span/2,span,span);
+      out.restore();
+    }
+    out.globalAlpha=1;
+    // Independent, non-synchronized electrical sources attached to the DS edges.
+    // Light is visible ONLY where real smoke opacity already exists.
+    out.globalCompositeOperation='source-atop';
+    for(const light of m.smokeLights){
+      if(t>=light.next){
+        light.start=t;
+        light.duration=rand(1.2,3.4);
+        light.strength=rand(.46,1.0);
+        light.next=t+light.duration+rand(1.2,7.2);
+        light.radius=rand(.21,.40)*w;
+      }
+      const v=(t-light.start)/light.duration;
+      if(v<0||v>1)continue;
+      const pulse=Math.pow(Math.sin(Math.PI*v),1.7)*light.strength;
+      if(pulse<.012)continue;
+      light.power=pulse;
+      const x=light.x+Math.sin(t*.63+light.drift)*w*.017;
+      const y=light.y+Math.cos(t*.51+light.drift)*h*.012;
+      const r=light.radius;
+      const g=out.createRadialGradient(x,y,0,x,y,r);
+      g.addColorStop(0,'rgba(175,241,255,'+Math.min(.96,pulse*.95)+')');
+      g.addColorStop(.28,'rgba(63,194,255,'+Math.min(.86,pulse*.62)+')');
+      g.addColorStop(.63,'rgba(2,96,219,'+(pulse*.26)+')');
+      g.addColorStop(1,'rgba(0,80,180,0)');
+      out.fillStyle=g;out.fillRect(x-r,y-r,r*2,r*2);
+    }
+    out.globalCompositeOperation='source-over';
+    m.ctx.drawImage(m.smoke,0,0);
+    // Tiny scattered blue halos connect the active letter edge to illuminated mist.
+    const ctx=m.ctx;
+    ctx.save();ctx.globalCompositeOperation='screen';
+    for(const light of m.smokeLights){
+      const age=(t-light.start)/light.duration;
+      if(age<0||age>1)continue;
+      const pulse=Math.pow(Math.sin(Math.PI*age),1.7)*light.strength;
+      if(pulse<.04)continue;
+      const x=light.x,y=light.y,r=light.radius*.7;
+      const halo=ctx.createRadialGradient(x,y,0,x,y,r);
+      halo.addColorStop(0,'rgba(83,220,255,'+(.19*pulse)+')');
+      halo.addColorStop(.28,'rgba(0,130,245,'+(.095*pulse)+')');
+      halo.addColorStop(1,'rgba(0,75,195,0)');
+      ctx.fillStyle=halo;ctx.fillRect(x-r,y-r,r*2,r*2);
+    }
+    ctx.restore();
+  }
+
   function draw(m,t){
     if(!m.ready||!m.visible)return;
     const ctx=m.ctx,w=m.w,h=m.h;
@@ -172,9 +328,10 @@
     m.mouse+=(m.mouseAim-m.mouse)*.038;
     const cx=w*.5,cy=h*.46;
     ctx.save();
+    drawSmoke(m,t);
     // Volumetric reactor aura behind the DS. Unlike the previous stripe it remains alive.
     let glow=ctx.createRadialGradient(cx,cy,4,cx,cy,w*.5);
-    glow.addColorStop(0,'rgba(0,230,255,'+(.085+.05*Math.sin(t*2.6))+')');
+    glow.addColorStop(0,'rgba(0,230,255,'+(.038+.03*Math.sin(t*2.6))+')');
     glow.addColorStop(.45,'rgba(0,104,255,.065)');
     glow.addColorStop(1,'rgba(0,50,115,0)');
     ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
