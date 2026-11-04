@@ -1,0 +1,21 @@
+/* Restore original brushed chrome/cyan DS artwork — no video, no additional effects. */
+.responsive-site .hero-visual {
+  background-image:url('ds-emblem-alpha.webp') !important;
+  background-size:contain !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+  aspect-ratio:1.16 !important;
+  animation:none !important;
+  filter:none !important;
+  transform:none !important;
+  box-shadow:none !important;
+}
+.exact-site .brand-hd-main {
+  background-image:url('ds-emblem-alpha.webp') !important;
+  background-repeat:no-repeat !important;
+  animation:none !important;
+  filter:none !important;
+  transform:none !important;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
