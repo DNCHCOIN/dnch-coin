@@ -1,0 +1,74 @@
+/* DNCH Studio — animated original DS emblem. No artwork is replaced. */
+@keyframes dnch-logo-levitate{
+  0%,100%{transform:translate3d(0,0,0) rotate(-.28deg) scale(1);filter:drop-shadow(0 0 5px rgba(0,206,255,.44)) drop-shadow(0 0 17px rgba(0,110,255,.13))}
+  50%{transform:translate3d(0,-7px,0) rotate(.32deg) scale(1.016);filter:drop-shadow(0 0 12px rgba(0,223,255,.72)) drop-shadow(0 0 28px rgba(0,111,255,.32))}
+}
+@keyframes dnch-logo-sweep{
+  0%,13%{background-position:135% 50%;opacity:0}
+  19%{opacity:.55}
+  38%{background-position:-120% 50%;opacity:.72}
+  45%,100%{background-position:-120% 50%;opacity:0}
+}
+@keyframes dnch-logo-current{
+  0%,100%{opacity:.26;filter:brightness(1)}
+  26%{opacity:.63;filter:brightness(1.4)}
+  51%{opacity:.33;filter:brightness(1.08)}
+  77%{opacity:.8;filter:brightness(1.7)}
+}
+@keyframes dnch-brand-idle{
+  0%,100%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 4px rgba(0,215,255,.38))}
+  50%{transform:translateY(-2px) scale(1.035);filter:drop-shadow(0 0 11px rgba(0,219,255,.74))}
+}
+/* Desktop: the existing transparent metal emblem floats. A moving highlight
+   is clipped to the EXACT source silhouette so the background stays still. */
+@media(min-width:761px){
+  .exact-site .brand-hd-main{
+    transform-origin:50% 50%;animation:dnch-logo-levitate 6.8s ease-in-out infinite;
+    will-change:transform,filter;isolation:isolate;
+  }
+  .exact-site .brand-hd-main::before,
+  .exact-site .brand-hd-main::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    -webkit-mask-image:url("ds-emblem-alpha.webp");
+    mask-image:url("ds-emblem-alpha.webp");
+    -webkit-mask-size:139.024% 164.567%;mask-size:139.024% 164.567%;
+    -webkit-mask-position:51.136% 49.797%;mask-position:51.136% 49.797%;
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    mix-blend-mode:screen;
+  }
+  .exact-site .brand-hd-main::before{
+    background:linear-gradient(107deg,transparent 30%,rgba(0,160,255,0) 39%,rgba(3,202,255,.34) 47%,rgba(162,249,255,.83) 50%,rgba(0,146,255,.35) 54%,transparent 66%) 135% 50% / 270% 100% no-repeat;
+    animation:dnch-logo-sweep 5.7s ease-in-out infinite;
+  }
+  .exact-site .brand-hd-main::after{
+    background:linear-gradient(160deg,transparent 20%,rgba(7,178,255,.23) 42%,rgba(0,242,255,.08) 65%,transparent 78%);
+    animation:dnch-logo-current 3.5s ease-in-out infinite;
+  }
+}
+/* Mobile retains the existing hero artwork; blue light travels across it. */
+@media(max-width:760px){
+  .hero-visual{
+    position:relative;transform-origin:center;
+    animation:dnch-logo-levitate 6.8s ease-in-out infinite;
+    will-change:transform,filter;
+  }
+  .hero-visual::after{
+    content:"";position:absolute;inset:4% 6%;pointer-events:none;
+    background:linear-gradient(108deg,transparent 33%,rgba(0,145,255,.08) 44%,rgba(60,232,255,.46) 50%,rgba(0,128,255,.15) 55%,transparent 66%) 135% 50% / 270% 100% no-repeat;
+    mix-blend-mode:screen;animation:dnch-logo-sweep 5.7s ease-in-out infinite;
+  }
+}
+/* Smaller DS symbols in the menu and footer also breathe, less prominently. */
+.responsive-site .brand-icon{
+  transform-origin:center;animation:dnch-brand-idle 5.4s ease-in-out infinite;
+}
+.responsive-site .brand-type strong{
+  text-shadow:0 0 8px rgba(0,210,255,.38);
+}
+/* Motion accessibility / battery-friendly fallback. */
+@media(prefers-reduced-motion:reduce){
+  .exact-site .brand-hd-main,.exact-site .brand-hd-main::before,
+  .exact-site .brand-hd-main::after,.hero-visual,.hero-visual::after,
+  .responsive-site .brand-icon{animation:none!important;transform:none!important}
+  .exact-site .brand-hd-main::before,.hero-visual::after{opacity:0!important}
+}
