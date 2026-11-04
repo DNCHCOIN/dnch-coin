@@ -1,0 +1,76 @@
+/* DNCH Studio — actual cinematic MP4 logo, 60 fps, no fake sweep. */
+.dnch-logo-video-host {
+  isolation:isolate;
+  background-color:#000b15!important;
+  background-image:none!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  filter:none!important;
+  transform:none!important;
+}
+.dnch-logo-video-host::before,
+.dnch-logo-video-host::after { content:none!important; display:none!important; }
+.dnch-logo-video {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  pointer-events:none;
+  opacity:1;
+  z-index:2;
+  background:#000b15;
+}
+/* Full-resolution site: display a square crop from the approved 9:16 video.
+   The whole DS and both inscriptions remain visible. */
+@media (min-width:761px) {
+  .exact-site .brand-hd-main.dnch-logo-video-host {
+    position:absolute!important;
+    left:17.1%!important;
+    top:4.3%!important;
+    width:28.1%!important;
+    height:17.6%!important;
+    overflow:hidden!important;
+    z-index:2!important;
+    -webkit-mask:none!important;
+    mask:none!important;
+    border-radius:4px;
+    box-shadow:0 0 30px rgba(0,170,255,.1);
+  }
+  .exact-site .brand-hd-main.dnch-logo-video-host > .dnch-logo-video {
+    object-fit:contain!important;
+  }
+}
+/* Responsive page: full original portrait video with no crop. */
+@media (max-width:760px) {
+  .responsive-site .hero-visual.dnch-logo-video-host {
+    position:relative!important;
+    display:block!important;
+    width:min(76vw,340px)!important;
+    max-width:100%!important;
+    height:auto!important;
+    aspect-ratio:9 / 16!important;
+    min-height:0!important;
+    margin:0 auto 18px!important;
+    overflow:hidden!important;
+    border-radius:8px;
+    box-shadow:0 0 42px rgba(0,177,255,.13);
+  }
+  .responsive-site .hero-visual.dnch-logo-video-host > .dnch-logo-video {
+    object-fit:cover;
+  }
+}
+/* Static fallback stays available without blocking normal video playback. */
+.dnch-video-fallback > .dnch-logo-video { display:none!important; }
+.responsive-site .hero-visual.dnch-video-fallback,
+.exact-site .brand-hd-main.dnch-video-fallback {
+  background-image:url('studio-brand-hd.png')!important;
+  background-size:contain!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  .dnch-logo-video-host { transition:none!important; animation:none!important; }
+}
