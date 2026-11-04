@@ -22,6 +22,11 @@
   }
   function create(host, mobile) {
     if (host.querySelector('canvas.dnch-electric-canvas')) return;
+    // A completely independent, oversized atmosphere stage sits behind the metal.
+    const smokeCanvas = document.createElement('canvas');
+    smokeCanvas.className = 'dnch-smoke-stage';
+    smokeCanvas.setAttribute('aria-hidden','true');
+    host.appendChild(smokeCanvas);
     const canvas = document.createElement('canvas');
     canvas.className = 'dnch-electric-canvas';
     canvas.setAttribute('aria-hidden','true');
@@ -35,6 +40,8 @@
     }
     const m = {
       host, mobile, canvas, ctx:canvas.getContext('2d',{alpha:true}),
+      smokeCanvas,smokeStageCtx:smokeCanvas.getContext('2d',{alpha:true}),
+      smokeW:0,smokeH:0,smokeScale:1,smokeOffsetX:0,smokeOffsetY:0,
       w:0,h:0,dpr:1,paint:null,pctx:null,mask:null,contours:[],particles:[],
       visible:true,ready:false,mouse:0,mouseAim:0,smoke:null,smokeCtx:null,smokeLights:[],smokePuffs:[]
     };
@@ -57,13 +64,23 @@
     m.w=w;m.h=h;m.dpr=Math.min(window.devicePixelRatio||1,1.65);
     m.canvas.width=Math.round(w*m.dpr);m.canvas.height=Math.round(h*m.dpr);
     m.canvas.style.width=w+'px';m.canvas.style.height=h+'px';
+    // Smoke extends well beyond the DS silhouette in every direction.
+    m.smokeW=Math.round(w*(m.mobile?1.68:2.18));
+    m.smokeH=Math.round(h*(m.mobile?1.62:2.0));
+    m.smokeOffsetX=(m.smokeW-w)*.5;
+    m.smokeOffsetY=(m.smokeH-h)*.5;
+    m.smokeScale=Math.min(window.devicePixelRatio||1,1.08);
+    m.smokeCanvas.width=Math.round(m.smokeW*m.smokeScale);
+    m.smokeCanvas.height=Math.round(m.smokeH*m.smokeScale);
+    m.smokeCanvas.style.width=m.smokeW+'px';
+    m.smokeCanvas.style.height=m.smokeH+'px';
     m.paint=makeCanvas(w,h);m.pctx=m.paint.getContext('2d',{willReadFrequently:true});
     const p=m.pctx;
     p.clearRect(0,0,w,h);
     if (m.mobile) {
       // Original emblem, centered over the restored DNCH Studio wordmark.
-      const side=Math.min(w*.94,h*.85);
-      p.drawImage(image,(w-side)/2,-side*.065,side,side);
+      const side=Math.min(w*1.13,h*1.04);
+      p.drawImage(image,(w-side)/2,-side*.052,side,side);
     } else {
       // Exact same crop, size and background-position as the existing desktop artwork.
       const bw=w*1.39024,bh=h*1.64567;
@@ -215,18 +232,18 @@
   }
   function setupSmoke(m){
     prepareSmokeTextures();
-    m.smoke=makeCanvas(m.w,m.h);
+    m.smoke=makeCanvas(m.smokeW,m.smokeH);
     m.smokeCtx=m.smoke.getContext('2d',{alpha:true});
-    const count=m.mobile?31:37;
+    const count=m.mobile?50:68;
     m.smokePuffs=Array.from({length:count},(_,i)=>{
       const layer=i%3;
       return {
         layer,
         seed:i*1.671+rand(0,4),phase:Math.random(),
-        x:rand(.17,.83),y:rand(.44,.89),
-        speed:rand(.0045,.0105)*(layer===0?1.0:1.4),
-        drift:rand(.014,.065),w:rand(.20,.36)*(layer===0?1.27:1),
-        height:rand(.55,.95),alpha:rand(.21,.39),
+        x:rand(.16,.84),y:rand(.45,.93),
+        speed:rand(.0035,.0085)*(layer===0?1.0:1.5),
+        drift:rand(.024,.087),w:rand(.20,.41)*(layer===0?1.30:1),
+        height:rand(.62,1.08),alpha:rand(.45,.78),
         sprite:smokeSprites[i%smokeSprites.length]
       };
     });
@@ -241,10 +258,10 @@
         if(ds<best){best=ds;closest=v}
       }
       return {
-        x:closest.x,y:closest.y,
+        x:closest.x+m.smokeOffsetX,y:closest.y+m.smokeOffsetY,
         next:performance.now()/1000+rand(.1,5.7)+i*.11,
         start:-100,duration:2,strength:rand(.45,1.0),
-        radius:rand(.23,.38)*m.w,
+        radius:rand(.20,.34)*m.smokeW,
         drift:rand(0,PI2),
         hue:i%3
       };
@@ -252,7 +269,7 @@
   }
   function drawSmoke(m,t){
     if(!m.smokeCtx)return;
-    const out=m.smokeCtx,w=m.w,h=m.h;
+    const out=m.smokeCtx,w=m.smokeW,h=m.smokeH;
     out.setTransform(1,0,0,1,0,0);
     out.globalAlpha=1;out.globalCompositeOperation='source-over';
     out.clearRect(0,0,w,h);
@@ -263,7 +280,7 @@
       const direction=(p.layer===2?-1:1);
       const x=w*(p.x+direction*(life-.5)*p.drift*.88
         +Math.sin(t*.13+p.seed)*p.drift*.35);
-      const y=h*(p.y-life*.39+Math.sin(t*.19+p.seed)*.022);
+      const y=h*(p.y-life*.30+Math.sin(t*.15+p.seed)*.018);
       const span=w*p.w*(1+life*.62);
       out.globalAlpha=p.alpha*fade;
       out.save();
@@ -283,7 +300,7 @@
         light.duration=rand(1.2,3.4);
         light.strength=rand(.46,1.0);
         light.next=t+light.duration+rand(1.2,7.2);
-        light.radius=rand(.21,.40)*w;
+        light.radius=rand(.18,.30)*w;
       }
       const v=(t-light.start)/light.duration;
       if(v<0||v>1)continue;
@@ -294,16 +311,20 @@
       const y=light.y+Math.cos(t*.51+light.drift)*h*.012;
       const r=light.radius;
       const g=out.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,'rgba(175,241,255,'+Math.min(.96,pulse*.95)+')');
-      g.addColorStop(.28,'rgba(63,194,255,'+Math.min(.86,pulse*.62)+')');
-      g.addColorStop(.63,'rgba(2,96,219,'+(pulse*.26)+')');
+      g.addColorStop(0,'rgba(207,250,255,'+Math.min(.99,pulse*1.12)+')');
+      g.addColorStop(.28,'rgba(91,214,255,'+Math.min(.95,pulse*.82)+')');
+      g.addColorStop(.63,'rgba(2,96,219,'+(pulse*.36)+')');
       g.addColorStop(1,'rgba(0,80,180,0)');
       out.fillStyle=g;out.fillRect(x-r,y-r,r*2,r*2);
     }
     out.globalCompositeOperation='source-over';
-    m.ctx.drawImage(m.smoke,0,0);
+    // Separate canvas: smoke can float outside the logo's former square.
+    const stage=m.smokeStageCtx;
+    stage.setTransform(m.smokeScale,0,0,m.smokeScale,0,0);
+    stage.clearRect(0,0,w,h);
+    stage.drawImage(m.smoke,0,0);
     // Tiny scattered blue halos connect the active letter edge to illuminated mist.
-    const ctx=m.ctx;
+    const ctx=stage;
     ctx.save();ctx.globalCompositeOperation='screen';
     for(const light of m.smokeLights){
       const age=(t-light.start)/light.duration;
