@@ -155,12 +155,13 @@
   }
   function shape(ctx,m,t){
     const w=m.w,h=m.h,mid=w/2,centerY=h*.46;
-    const yaw=Math.sin(t*.72)*.13+m.mouse*.07;
-    const roll=Math.sin(t*.45)*.017, lift=Math.sin(t*.85)*h*.016;
+    const yaw=Math.sin(t*.66)*.38+m.mouse*.17;
+    const pitch=Math.sin(t*.48+.65)*.17;
+    const roll=Math.sin(t*.45)*.031, lift=Math.sin(t*.86)*h*.023;
     ctx.translate(mid,h/2+lift);
     ctx.rotate(roll);
-    ctx.transform(1,Math.sin(t*.7)*.023,yaw*.17,1,0,0);
-    ctx.scale(1-Math.abs(yaw)*.24,1);
+    ctx.transform(1,pitch*.19,Math.sin(yaw)*.40,1,0,0);
+    ctx.scale(1-Math.abs(Math.sin(yaw))*.23,1-Math.abs(pitch)*.12);
     ctx.translate(-mid,-h/2);
   }
   function draw(m,t){
