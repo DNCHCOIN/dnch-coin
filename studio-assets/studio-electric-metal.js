@@ -23,6 +23,10 @@
   function create(host, mobile) {
     if (host.querySelector('canvas.dnch-electric-canvas')) return;
     // A completely independent, oversized atmosphere stage sits behind the metal.
+    const volumeCanvas = document.createElement('canvas');
+    volumeCanvas.className = 'dnch-volume-stage';
+    volumeCanvas.setAttribute('aria-hidden','true');
+    host.appendChild(volumeCanvas);
     const smokeCanvas = document.createElement('canvas');
     smokeCanvas.className = 'dnch-smoke-stage';
     smokeCanvas.setAttribute('aria-hidden','true');
@@ -41,6 +45,7 @@
     const m = {
       host, mobile, canvas, ctx:canvas.getContext('2d',{alpha:true}),
       smokeCanvas,smokeStageCtx:smokeCanvas.getContext('2d',{alpha:true}),
+      volumeCanvas,volume:null,volumeLast:-1,
       smokeW:0,smokeH:0,smokeScale:1,smokeOffsetX:0,smokeOffsetY:0,
       w:0,h:0,dpr:1,paint:null,pctx:null,mask:null,contours:[],particles:[],
       visible:true,ready:false,mouse:0,mouseAim:0,smoke:null,smokeCtx:null,smokeLights:[],smokePuffs:[]
@@ -74,6 +79,11 @@
     m.smokeCanvas.height=Math.round(m.smokeH*m.smokeScale);
     m.smokeCanvas.style.width=m.smokeW+'px';
     m.smokeCanvas.style.height=m.smokeH+'px';
+    const volScale=Math.min(1,540/m.smokeW,390/m.smokeH);
+    m.volumeCanvas.width=Math.max(2,Math.round(m.smokeW*volScale));
+    m.volumeCanvas.height=Math.max(2,Math.round(m.smokeH*volScale));
+    m.volumeCanvas.style.width=m.smokeW+'px';
+    m.volumeCanvas.style.height=m.smokeH+'px';
     m.paint=makeCanvas(w,h);m.pctx=m.paint.getContext('2d',{willReadFrequently:true});
     const p=m.pctx;
     p.clearRect(0,0,w,h);
@@ -94,6 +104,8 @@
         phase:rand(0,PI2),size:rand(.45,1.5),alpha:rand(.35,.95)};
     });
     setupSmoke(m);
+    if(!m.volume) m.volume=initVolume(m.volumeCanvas);
+    if(m.volume) m.smokeCanvas.style.display='none';
     m.ready=true;
   }
   // Marching-squares: real metallic silhouette contours, not straight fake scan-lines.
@@ -173,13 +185,14 @@
   }
   function shape(ctx,m,t){
     const w=m.w,h=m.h,mid=w/2,centerY=h*.46;
-    const yaw=Math.sin(t*.66)*.38+m.mouse*.17;
-    const pitch=Math.sin(t*.48+.65)*.17;
-    const roll=Math.sin(t*.45)*.031, lift=Math.sin(t*.86)*h*.023;
+    // A physical metal object should feel heavy, not rubbery or wobbly.
+    const yaw=Math.sin(t*.36)*.105+m.mouse*.09;
+    const pitch=Math.sin(t*.29+.65)*.07;
+    const roll=Math.sin(t*.25)*.009, lift=Math.sin(t*.42)*h*.008;
     ctx.translate(mid,h/2+lift);
     ctx.rotate(roll);
-    ctx.transform(1,pitch*.19,Math.sin(yaw)*.40,1,0,0);
-    ctx.scale(1-Math.abs(Math.sin(yaw))*.23,1-Math.abs(pitch)*.12);
+    ctx.transform(1,pitch*.12,Math.sin(yaw)*.11,1,0,0);
+    ctx.scale(1-Math.abs(Math.sin(yaw))*.08,1-Math.abs(pitch)*.04);
     ctx.translate(-mid,-h/2);
   }
 
@@ -341,6 +354,175 @@
     ctx.restore();
   }
 
+
+  // Cinematic atmosphere. Smooth domain-warped cloud density flows through multiple
+  // depth planes, with irregular light sources attached to the DS letter contours.
+  // Shader is physically suggestive, not a pre-rendered texture or cycling sprites.
+  const VOLUME_VERTEX=String.raw\`
+    attribute vec2 a_position;
+    varying vec2 v_uv;
+    void main(){
+      v_uv=a_position*.5+.5;
+      gl_Position=vec4(a_position,0.,1.);
+    }
+  \`;
+  const VOLUME_FRAGMENT=String.raw\`
+    precision mediump float;
+    varying vec2 v_uv;
+    uniform float u_time;
+    uniform vec2 u_size;
+    uniform vec3 u_light[8];
+
+    float hash(vec2 p){
+      return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);
+    }
+    float noise(vec2 p){
+      vec2 i=floor(p),f=fract(p);
+      vec2 u=f*f*(3.-2.*f);
+      return mix(mix(hash(i),hash(i+vec2(1.,0.)),u.x),
+                 mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),u.x),u.y);
+    }
+    float fbm(vec2 p){
+      float v=0.,amp=.52;
+      for(int i=0;i<4;i++){
+        v+=amp*noise(p);
+        p=mat2(1.58,-1.17,1.17,1.58)*p+vec2(11.23,4.31);
+        amp*=.5;
+      }
+      return v;
+    }
+    void main(){
+      vec2 uv=v_uv;
+      float t=u_time*.020;
+      float aspect=u_size.x/max(1.,u_size.y);
+      vec2 pos=vec2((uv.x-.5)*aspect*2.2,(uv.y-.5)*2.05);
+
+      // Domain warping yields large coherent curls; offset planes avoid looping wisps.
+      float drift=sin(t*.6+pos.y*.55)*.16+sin(t*.29)*.08;
+      vec2 p=pos+vec2(drift,-t*.24);
+      float curlA=fbm(p*.91+vec2(1.4,t*.19));
+      float curlB=fbm(p*.88+vec2(7.3,-t*.12));
+      vec2 warp=vec2(curlA-.5,curlB-.5)*.87;
+
+      float density=0.;
+      vec3 shade=vec3(0.);
+      float transmittance=1.;
+
+      for(int layer=0;layer<3;layer++){
+        float z=float(layer);
+        vec2 sp=(p+warp*(.7+z*.22))*vec2(1.45,1.25)
+          +vec2(z*2.71,-z*.88-t*(.35+z*.16));
+        float body=fbm(sp);
+        float filaments=fbm(sp*2.38+vec2(z*3.14,t*.23));
+        float billow=smoothstep(.33,.68,body+.11*(filaments-.5));
+        float curl=smoothstep(.32,.72,filaments);
+        float plume=smoothstep(.03,.48,uv.y)*(.98-.23*uv.y);
+        float layerDensity=(billow*(.60+.40*curl))*.34*plume;
+        layerDensity*=1.+.1*sin(z*3.2+t*.15);
+        layerDensity=clamp(layerDensity,0.,.42);
+        float absorb=layerDensity*transmittance;
+        // Slightly different scattering per layer gives depth, not cartoon smoke.
+        float cool=.93+.04*z;
+        shade+=vec3(.81*cool,.84*cool,.88*cool)*absorb;
+        density+=absorb;
+        transmittance*=1.-layerDensity;
+      }
+
+      float lighting=0.;
+      float core=0.;
+      for(int i=0;i<8;i++){
+        vec3 l=u_light[i];
+        vec2 d=(uv-l.xy)*vec2(aspect,1.);
+        float dist2=dot(d,d);
+        float local=exp(-dist2*12.5)*l.z;
+        lighting=1.-(1.-lighting)*(1.-clamp(local,0.,.95));
+        core+=exp(-dist2*46.)*l.z;
+      }
+      // Illumination is multiplied by available smoke volume, so dark gaps remain dark.
+      vec3 base=shade/max(density,.0001);
+      vec3 lit=mix(base,vec3(.53,.85,1.),clamp(lighting*.86,0.,.9));
+      lit+=vec3(.07,.26,.37)*clamp(core*.20,0.,.5);
+      // Fade extremely softly into the site — no square or elliptical hard boundary.
+      vec2 edge=(uv-.5)*vec2(1.34,1.43);
+      float feather=1.-smoothstep(.43,.74,length(edge));
+      float alpha=clamp(density*(1.19+lighting*.29),0.,.74)*feather;
+      // Vary opacity with coherent rolls, not synchronized flashing.
+      gl_FragColor=vec4(lit,alpha);
+    }
+  \`;
+
+  function initVolume(canvas){
+    const gl=canvas.getContext('webgl',{
+      alpha:true,antialias:false,depth:false,stencil:false,premultipliedAlpha:false,
+      powerPreference:'low-power',preserveDrawingBuffer:false
+    });
+    if(!gl)return null;
+    try{
+      function shader(type,source){
+        const sh=gl.createShader(type);
+        gl.shaderSource(sh,source);gl.compileShader(sh);
+        if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))
+          throw Error(gl.getShaderInfoLog(sh));
+        return sh;
+      }
+      const program=gl.createProgram();
+      gl.attachShader(program,shader(gl.VERTEX_SHADER,VOLUME_VERTEX));
+      gl.attachShader(program,shader(gl.FRAGMENT_SHADER,VOLUME_FRAGMENT));
+      gl.linkProgram(program);
+      if(!gl.getProgramParameter(program,gl.LINK_STATUS))
+        throw Error(gl.getProgramInfoLog(program));
+      const buffer=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER,buffer);
+      gl.bufferData(gl.ARRAY_BUFFER,
+        new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+      gl.useProgram(program);
+      const position=gl.getAttribLocation(program,'a_position');
+      gl.enableVertexAttribArray(position);
+      gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+      gl.disable(gl.DEPTH_TEST);gl.disable(gl.BLEND);
+      gl.clearColor(0,0,0,0);
+      return {
+        gl,program,
+        time:gl.getUniformLocation(program,'u_time'),
+        size:gl.getUniformLocation(program,'u_size'),
+        lights:gl.getUniformLocation(program,'u_light[0]')
+      };
+    }catch(e){
+      console.warn('DNCH volumetric smoke: fallback to layered mist',e);
+      return null;
+    }
+  }
+  function drawVolume(m,t){
+    if(t-m.volumeLast<1/26)return;
+    m.volumeLast=t;
+    const v=m.volume,gl=v.gl;
+    if(!gl||gl.isContextLost())return;
+    const values=new Float32Array(24);
+    for(let i=0;i<m.smokeLights.length&&i<8;i++){
+      const l=m.smokeLights[i];
+      if(t>=l.next){
+        l.start=t;
+        l.duration=rand(1.8,4.6);
+        l.strength=rand(.53,1);
+        l.next=t+l.duration+rand(1.9,9.3);
+      }
+      const age=(t-l.start)/l.duration;
+      const fade=age>=0&&age<=1
+        ?Math.pow(Math.sin(Math.PI*age),1.45)*l.strength:0;
+      values[i*3]=l.x/m.smokeW;
+      // WebGL y axis is bottom-up; original silhouette coordinates are top-down.
+      values[i*3+1]=1-l.y/m.smokeH;
+      values[i*3+2]=fade;
+    }
+    gl.viewport(0,0,m.volumeCanvas.width,m.volumeCanvas.height);
+    gl.useProgram(v.program);
+    gl.uniform1f(v.time,t);
+    gl.uniform2f(v.size,m.smokeW,m.smokeH);
+    gl.uniform3fv(v.lights,values);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+  }
+
   function draw(m,t){
     if(!m.ready||!m.visible)return;
     const ctx=m.ctx,w=m.w,h=m.h;
@@ -349,15 +531,14 @@
     m.mouse+=(m.mouseAim-m.mouse)*.038;
     const cx=w*.5,cy=h*.46;
     ctx.save();
-    drawSmoke(m,t);
+    if(m.volume){ drawVolume(m,t); } else { drawSmoke(m,t); }
     // Volumetric reactor aura behind the DS. Unlike the previous stripe it remains alive.
     let glow=ctx.createRadialGradient(cx,cy,4,cx,cy,w*.5);
     glow.addColorStop(0,'rgba(0,230,255,'+(.038+.03*Math.sin(t*2.6))+')');
     glow.addColorStop(.45,'rgba(0,104,255,.065)');
     glow.addColorStop(1,'rgba(0,50,115,0)');
     ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
-    ring(ctx,cx,cy,w*.38,h*.37,t,0);
-    ring(ctx,cx,cy,w*.34,h*.39,t,1);
+    // Removed holographic rings: they made the hero look like a game HUD.
     // Metal has perceived weight: render offset blue extruded shadows then the original surface.
     ctx.save();shape(ctx,m,t);
     const picture=m.paint;
@@ -387,8 +568,8 @@
     for(let i=0;i<m.contours.length;i++){
       const c=m.contours[i],base=t*(i%2?-0.056:.068)+i*.314;
       // A tiny steady plasma on a subset of physical metal edges
-      if(i<8){
-        ctx.lineWidth=.65;ctx.strokeStyle='rgba(0,126,255,'+(.14+.08*Math.sin(t*2+i))+')';
+      if(i<4){
+        ctx.lineWidth=.55;ctx.strokeStyle='rgba(0,126,255,'+(.09+.045*Math.sin(t*.7+i))+')';
         ctx.beginPath();
         for(let k=0;k<=Math.min(140,c.points.length);k+=2){
           const q=c.points[k%c.points.length];
@@ -396,19 +577,19 @@
         }
         ctx.stroke();
       }
-      if(i>11)continue;
+      if(i>5)continue;
       const len=Math.min(.19, Math.max(.055,24/c.len));
-      for(let a=0;a<2;a++){
+      for(let a=0;a<1;a++){
         const phase=base+a*.47;
         const pts=[];
         for(let k=0;k<13;k++)pts.push(onContour(c,phase+k*len/12));
         for(let b=0;b<2;b++){
           ctx.beginPath();
           pts.forEach((p,k)=>{if(k===0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y)});
-          ctx.strokeStyle=b===0?'rgba(0,114,255,.40)':'rgba(94,237,255,'+(.56+.25*Math.sin(t*3+i))+')';
-          ctx.lineWidth=b===0?3:1.05;
+          ctx.strokeStyle=b===0?'rgba(0,114,255,.16)':'rgba(94,237,255,'+(.20+.14*Math.sin(t*.7+i))+')';
+          ctx.lineWidth=b===0?2.3:.7;
           ctx.shadowColor=b===0?'#047bff':'#6df7ff';
-          ctx.shadowBlur=b===0?12:4;
+          ctx.shadowBlur=b===0?6:2;
           ctx.stroke();
         }
         // Electric spark at a traveling leading tip.
@@ -424,7 +605,7 @@
     }
     // Fireflies are tethered to the metal contour, not randomly sliding across the screen.
     ctx.shadowBlur=5;ctx.shadowColor='#16dbff';
-    for(const p of m.particles){
+    for(const p of m.particles.slice(0,m.mobile?7:10)){
       if(!p.edge)continue;
       const point=onContour(p.edge,p.at+t*p.speed);
       const x=point.x+Math.sin(t*2.0+p.phase)*p.drift*2.3;
@@ -437,7 +618,7 @@
     ctx.restore();
     // Ambient motes in front and behind create gentle spatial parallax.
     ctx.save();ctx.globalCompositeOperation='lighter';
-    for(let i=0;i<20;i++){
+    for(let i=0;i<6;i++){
       const phase=i*1.67,orb=t*(i%2?.09:-.075)+phase;
       const rad=(.28+i%5*.037)*w;
       const x=cx+Math.cos(orb)*rad, y=cy+Math.sin(orb)*h*.24;
