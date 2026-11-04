@@ -4,7 +4,9 @@
   background-image:none!important;animation:none!important;filter:none!important;
   transform:none!important;isolation:isolate;
 }
-.dnch-electric-host{position:relative;overflow:visible!important}
+.exact-site .brand-hd-main.dnch-electric-host{position:absolute!important}
+.responsive-site .hero-visual.dnch-electric-host{position:relative!important}
+.dnch-electric-host{overflow:visible!important}
 .dnch-electric-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;pointer-events:none;z-index:2;filter:drop-shadow(0 0 7px rgba(0,194,255,.36))}
 .dnch-electric-host::before,.dnch-electric-host::after{display:none!important;animation:none!important}
 .dnch-electric-wordmark{position:absolute;bottom:4%;left:0;right:0;z-index:3;text-align:center;pointer-events:none;color:#e8f9ff;font:700 clamp(17px,6vw,32px) Orbitron,Oxanium,sans-serif;letter-spacing:.20em;text-shadow:0 1px 4px #000,0 0 15px #009bce8c}
