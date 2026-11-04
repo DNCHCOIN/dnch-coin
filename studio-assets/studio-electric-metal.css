@@ -13,6 +13,19 @@
 }
 .responsive-site .hero-visual.dnch-electric-host{position:relative!important}
 .dnch-electric-host{overflow:visible!important}
+/* Smooth GPU mist fills the entire hero atmosphere, not a square image. */
+.dnch-volume-stage{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:block;z-index:1;pointer-events:none;max-width:none!important;
+  width:auto;height:auto;mix-blend-mode:screen;opacity:.96;
+  filter:blur(clamp(3px,.52vw,8px));
+  -webkit-mask-image:radial-gradient(ellipse 58% 57% at 50% 50%,
+    #000 0%,#000 24%,rgba(0,0,0,.92) 45%,
+    rgba(0,0,0,.62) 69%,rgba(0,0,0,.18) 85%,transparent 100%);
+  mask-image:radial-gradient(ellipse 58% 57% at 50% 50%,
+    #000 0%,#000 24%,rgba(0,0,0,.92) 45%,
+    rgba(0,0,0,.62) 69%,rgba(0,0,0,.18) 85%,transparent 100%);
+}
 .dnch-smoke-stage{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   display:block;pointer-events:none;z-index:1;max-width:none!important;
