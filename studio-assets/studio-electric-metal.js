@@ -48,6 +48,7 @@
       volumeCanvas,volume:null,volumeLast:-1,
       smokeW:0,smokeH:0,smokeScale:1,smokeOffsetX:0,smokeOffsetY:0,
       w:0,h:0,dpr:1,paint:null,pctx:null,mask:null,contours:[],particles:[],
+      emblemRect:null,engraveCanvas:null,engraveCtx:null,engraveGlyphs:[],engraveStart:performance.now()/1000,
       visible:true,ready:false,mouse:0,mouseAim:0,smoke:null,smokeCtx:null,smokeLights:[],smokePuffs:[]
     };
     if (!m.ctx) return;
@@ -90,11 +91,13 @@
     if (m.mobile) {
       // Original emblem, centered over the restored DNCH Studio wordmark.
       const side=Math.min(w*1.13,h*1.04);
-      p.drawImage(image,(w-side)/2,-side*.052,side,side);
+      m.emblemRect={x:(w-side)/2,y:-side*.052,w:side,h:side};
+      p.drawImage(image,m.emblemRect.x,m.emblemRect.y,side,side);
     } else {
       // Exact same crop, size and background-position as the existing desktop artwork.
       const bw=w*1.39024,bh=h*1.64567;
-      p.drawImage(image,(w-bw)*.51136,(h-bh)*.49797,bw,bh);
+      m.emblemRect={x:(w-bw)*.51136,y:(h-bh)*.49797,w:bw,h:bh};
+      p.drawImage(image,m.emblemRect.x,m.emblemRect.y,bw,bh);
     }
     m.contours=traceContours(m);
     m.particles=Array.from({length:m.mobile?40:62},(_,i)=>{
@@ -104,6 +107,7 @@
         phase:rand(0,PI2),size:rand(.45,1.5),alpha:rand(.35,.95)};
     });
     setupSmoke(m);
+    prepareEngraving(m);
     if(!m.volume) m.volume=initVolume(m.volumeCanvas);
     if(m.volume) m.smokeCanvas.style.display='none';
     m.ready=true;
@@ -509,10 +513,13 @@
       const age=(t-l.start)/l.duration;
       const fade=age>=0&&age<=1
         ?Math.pow(Math.sin(Math.PI*age),1.45)*l.strength:0;
+      // Light in the volumetric smoke follows the engraved characters lighting up.
+      const glyphIndex=[0,1,2,3,4,5,7,9][i];
+      const textHeat=engravingPower(m,t,glyphIndex);
       values[i*3]=l.x/m.smokeW;
       // WebGL y axis is bottom-up; original silhouette coordinates are top-down.
       values[i*3+1]=1-l.y/m.smokeH;
-      values[i*3+2]=fade;
+      values[i*3+2]=clamp(fade*.30+Math.max(0,textHeat-.12)*.96,0,.99);
     }
     gl.viewport(0,0,m.volumeCanvas.width,m.volumeCanvas.height);
     gl.useProgram(v.program);
@@ -521,6 +528,153 @@
     gl.uniform3fv(v.lights,values);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES,0,6);
+  }
+
+
+  // ORIGINAL inscription design: roman-fantasy calligraphy engraved in steel.
+  // DNCH is carved into the upper D, STUDIO follows the lower S metal face.
+  // Each glyph is tangent to a curved surface path and shaded with a recessed
+  // dark groove, a subpixel cold bevel and a cyan molten inner highlight.
+  const METAL_FONT='"Cinzel Decorative", Georgia, serif';
+  function cubic(a,b,c,d,t){
+    const q=1-t;
+    return q*q*q*a+3*q*q*t*b+3*q*t*t*c+t*t*t*d;
+  }
+  function cubicSlope(a,b,c,d,t){
+    const q=1-t;
+    return 3*q*q*(b-a)+6*q*t*(c-b)+3*t*t*(d-c);
+  }
+  function engravingPower(m,t,index){
+    if(reduce.matches)return .78;
+    const age=((t-m.engraveStart)%17.6+17.6)%17.6;
+    const start=index<4?1.0+index*.30:1.95+(index-4)*.25;
+    const rise=clamp((age-start)/.82,0,1);
+    const reveal=rise*rise*(3-2*rise);
+    const fall=1-clamp((age-12.2)/3.5,0,1);
+    // Coherent hand-cut shimmer. Never an identical periodic blink across letters.
+    const shimmer=.92+.055*Math.sin(t*1.87+index*2.61)
+      +.033*Math.sin(t*4.13+index*7.3);
+    const ember=(reveal*fall)*shimmer;
+    return clamp(.12+ember*.88,0,1);
+  }
+  function prepareEngraving(m){
+    const {w,h,dpr}=m;
+    m.engraveCanvas=makeCanvas(Math.round(w*dpr),Math.round(h*dpr));
+    m.engraveCtx=m.engraveCanvas.getContext('2d',{alpha:true});
+    const box=m.emblemRect;
+    if(!box)return;
+    const fontSizeD=box.h*.055;
+    const fontSizeS=box.h*.046;
+    // Coordinates normalized to the existing ORIGINAL DS alpha image.
+    // On the first word, the baseline descends with D's brushed upper diagonal.
+    // On S it bends along the broad horizontal lower face.
+    const bands=[
+      {word:'DNCH',font:fontSizeD,
+       curve:[[.246,.296],[.335,.304],[.437,.369],[.551,.448]]},
+      {word:'STUDIO',font:fontSizeS,
+       curve:[[.473,.738],[.562,.747],[.707,.742],[.806,.717]]}
+    ];
+    const glyphs=[];
+    for(const band of bands){
+      for(let i=0;i<band.word.length;i++){
+        const q=(i+.5)/band.word.length;
+        const bx=band.curve.map(pt=>pt[0]),by=band.curve.map(pt=>pt[1]);
+        const nx=cubic(...bx,q),ny=cubic(...by,q);
+        const ax=cubicSlope(...bx,q)*box.w,ay=cubicSlope(...by,q)*box.h;
+        const angle=Math.atan2(ay,ax);
+        glyphs.push({
+          ch:band.word[i],index:glyphs.length,font:band.font,
+          x:box.x+nx*box.w,y:box.y+ny*box.h,angle,
+          word:band.word
+        });
+      }
+    }
+    m.engraveGlyphs=glyphs;
+    // Align the real smoke emitters with the cut metal characters themselves.
+    const chosen=[0,1,2,3,4,5,7,9];
+    for(let i=0;i<m.smokeLights.length&&i<chosen.length;i++){
+      const g=glyphs[chosen[i]];
+      if(!g)continue;
+      m.smokeLights[i].x=g.x+m.smokeOffsetX;
+      m.smokeLights[i].y=g.y+m.smokeOffsetY;
+      m.smokeLights[i].radius=m.smokeW*.21;
+    }
+  }
+  function drawEngraving(m,t){
+    if(!m.engraveCtx||!m.engraveGlyphs.length)return;
+    const p=m.engraveCtx,w=m.w,h=m.h;
+    p.setTransform(m.dpr,0,0,m.dpr,0,0);
+    p.clearRect(0,0,w,h);
+    const lightPowers=[];
+    for(const g of m.engraveGlyphs){
+      const light=engravingPower(m,t,g.index);
+      lightPowers.push(light);
+      const size=g.font;
+      // Stroke lighting is revealed per character as if heat travels inside cuts.
+      const cycle=((t-m.engraveStart)%17.6+17.6)%17.6;
+      const start=g.index<4?1+g.index*.30:1.95+(g.index-4)*.25;
+      const sweep=reduce.matches?1:clamp((cycle-start)/.95,0,1);
+      const reveal=sweep*sweep*(3-2*sweep);
+      p.save();
+      p.translate(g.x,g.y);p.rotate(g.angle);
+      // A shallow cast-metal perspective along the slanted logo surface.
+      p.transform(1,-.025,-.075,.91,0,0);
+      p.font='700 '+Math.round(size)+'px '+METAL_FONT;
+      p.textAlign='center';p.textBaseline='middle';
+      p.lineJoin='round';
+      // Deep grooves always stay visible when the light has cooled.
+      p.shadowBlur=0;
+      p.lineWidth=Math.max(1,size*.044);
+      p.strokeStyle='rgba(1,6,15,.93)';
+      p.strokeText(g.ch,0,size*.047);
+      p.fillStyle='rgba(3,16,31,.85)';
+      p.fillText(g.ch,0,size*.017);
+      // A very fine machined lip catches the cold overhead light.
+      p.lineWidth=Math.max(.5,size*.013);
+      p.strokeStyle='rgba(177,213,231,.37)';
+      p.strokeText(g.ch,-size*.009,-size*.019);
+
+      if(light>.13&&reveal>0){
+        // Left-to-right inscription heat, rather than a scanning stripe over DS.
+        p.save();
+        const charW=Math.max(size*.75,p.measureText(g.ch).width);
+        p.beginPath();
+        p.rect(-charW*.61-size*.11,-size*.81,(charW*1.35+size*.23)*reveal,size*1.63);
+        p.clip();
+        const brightness=clamp((light-.12)/.88,0,1);
+        const hot=p.createLinearGradient(-size*.23,-size*.45,size*.29,size*.37);
+        hot.addColorStop(0,'rgba(170,247,255,'+(.56*brightness)+')');
+        hot.addColorStop(.44,'rgba(1,177,237,'+(.84*brightness)+')');
+        hot.addColorStop(1,'rgba(0,72,180,'+(.48*brightness)+')');
+        p.globalCompositeOperation='screen';
+        p.shadowColor='#00bfff';
+        p.shadowBlur=size*.36;
+        p.lineWidth=Math.max(1,size*.060);
+        p.strokeStyle='rgba(0,130,255,'+(.75*brightness)+')';
+        p.strokeText(g.ch,0,0);
+        p.shadowBlur=size*.18;
+        p.lineWidth=Math.max(.8,size*.024);
+        p.strokeStyle='rgba(163,244,255,'+(.87*brightness)+')';
+        p.strokeText(g.ch,0,0);
+        p.shadowBlur=size*.12;
+        p.fillStyle=hot;
+        p.fillText(g.ch,0,0);
+        p.restore();
+      }
+      p.restore();
+    }
+    // Letter energy is absorbed by the steel; never glows into transparent gaps.
+    p.save();
+    p.setTransform(m.dpr,0,0,m.dpr,0,0);
+    p.globalCompositeOperation='destination-in';
+    p.drawImage(m.paint,0,0,w,h);
+    p.restore();
+
+    // A subtle cool reflection on the embossed script surface.
+    m.ctx.save();
+    m.ctx.globalCompositeOperation='screen';
+    m.ctx.drawImage(m.engraveCanvas,0,0,w,h);
+    m.ctx.restore();
   }
 
   function draw(m,t){
@@ -615,6 +769,7 @@
       ctx.beginPath();ctx.arc(x,y,p.size*twinkle,0,PI2);ctx.fill();
     }
     ctx.shadowBlur=0;ctx.globalCompositeOperation='source-over';
+    drawEngraving(m,t);
     ctx.restore();
     // Ambient motes in front and behind create gentle spatial parallax.
     ctx.save();ctx.globalCompositeOperation='lighter';
@@ -646,6 +801,13 @@
     }
     requestAnimationFrame(tick);
   }
-  image.onload=()=>{start()};
+  image.onload=()=>{
+    start();
+    if(document.fonts){
+      document.fonts.load('700 30px "Cinzel Decorative"').then(()=>{
+        modes.forEach(prepareEngraving);
+      }).catch(()=>{});
+    }
+  };
   image.onerror=()=>{console.warn('DNCH animation: original DS asset unavailable; retaining static logo')};
 })();
