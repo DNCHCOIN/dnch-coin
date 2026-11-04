@@ -570,7 +570,7 @@
     // On S it bends along the broad horizontal lower face.
     const bands=[
       {word:'DNCH',font:fontSizeD,
-       curve:[[.246,.296],[.335,.304],[.437,.369],[.551,.448]]},
+       curve:[[.255,.269],[.350,.270],[.459,.329],[.573,.416]]},
       {word:'STUDIO',font:fontSizeS,
        curve:[[.473,.738],[.562,.747],[.707,.742],[.806,.717]]}
     ];
@@ -622,6 +622,19 @@
       p.font='700 '+Math.round(size)+'px '+METAL_FONT;
       p.textAlign='center';p.textBaseline='middle';
       p.lineJoin='round';
+      // A diffuse blue reflection precedes the hot script, but remains trapped
+      // within the exact original alpha of the engraved steel.
+      if(light>.18){
+        p.save();
+        p.globalCompositeOperation='screen';
+        const aura=p.createRadialGradient(0,0,0,0,0,size*1.85);
+        aura.addColorStop(0,'rgba(0,166,255,'+(light*.24)+')');
+        aura.addColorStop(.40,'rgba(0,100,238,'+(light*.105)+')');
+        aura.addColorStop(1,'rgba(0,60,180,0)');
+        p.fillStyle=aura;
+        p.fillRect(-size*1.85,-size*1.85,size*3.7,size*3.7);
+        p.restore();
+      }
       // Deep grooves always stay visible when the light has cooled.
       p.shadowBlur=0;
       p.lineWidth=Math.max(1,size*.044);
@@ -672,7 +685,7 @@
 
     // A subtle cool reflection on the embossed script surface.
     m.ctx.save();
-    m.ctx.globalCompositeOperation='screen';
+    m.ctx.globalCompositeOperation='source-over';
     m.ctx.drawImage(m.engraveCanvas,0,0,w,h);
     m.ctx.restore();
   }
