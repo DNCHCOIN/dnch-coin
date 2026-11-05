@@ -85,6 +85,13 @@ Deno.serve(async(req:Request)=>{
   await rate('user:'+me.id,180,60);
   if(action==='me')return reply({member:{username:me.username,display_name:me.display_name,address:me.username+'@dnch'}});
   if(action==='logout'){check(await admin.from('studio_sessions').delete().eq('id',claims.session_id).eq('user_id',me.id));await admin.auth.admin.signOut(token,'local');return reply({ok:true});}
+  if(action==='directory'){
+   const q=String(b.query||'').trim().toLowerCase().slice(0,24);
+   if(q&&!/^[a-z0-9_]+$/.test(q))throw new ApiError(400,'Search using a DNCH username.');
+   let query=admin.from('studio_members').select('username,display_name').order('username').limit(20);
+   if(q)query=query.ilike('username',q+'%');
+   return reply({members:check(await query)});
+  }
   if(action==='list'){
    const offset=Math.max(0,Math.min(100000,Number(b.offset)||0));
    if(b.folder==='drafts')return reply({items:check(await admin.from('studio_drafts').select('*').eq('owner_id',me.id).order('updated_at',{ascending:false}).range(offset,offset+49))});
@@ -99,7 +106,9 @@ Deno.serve(async(req:Request)=>{
    const existing=check(await admin.from('studio_messages').select('id').eq('sender_id',me.id).eq('request_id',b.request_id).maybeSingle());
    if(existing)return reply(existing);
    await rate('send:'+me.id,30,3600);
-   const to=username(b.recipient),subject=text(b.subject,160,true),body=text(b.body,20000,true);
+   const rawRecipient=String(b.recipient||'').trim().toLowerCase();
+   if(!/^[a-z0-9][a-z0-9_]{2,23}(@dnch)?$/.test(rawRecipient))throw new ApiError(400,'Choose a registered DNCH member or enter username@dnch. External email addresses are not supported.');
+   const to=username(rawRecipient),subject=text(b.subject,160,true),body=text(b.body,20000,true);
    const recipient=check(await admin.from('studio_members').select('id').eq('username',to).maybeSingle());
    if(!recipient)throw new ApiError(404,'No registered DNCH member has this address.');
    const result=await admin.from('studio_messages').insert({sender_id:me.id,recipient_id:recipient.id,subject,body,request_id:b.request_id}).select('id').single();
