@@ -13,6 +13,8 @@ function username(v:unknown){const u=String(v||'').trim().toLowerCase().replace(
 function password(v:unknown){if(typeof v!=='string'||v.length<12||v.length>128)throw new ApiError(400,'Choose a password of 12–128 characters.');return v;}
 function text(v:unknown,max:number,required=false){if(typeof v!=='string'||v.length>max||(required&&!v.trim()))throw new ApiError(400,'Please check the required fields and their length.');return v.trim();}
 function session(s:any){return {access_token:s.access_token,refresh_token:s.refresh_token,expires_at:s.expires_at};}
+function claimsOf(token:string){return JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));}
+async function trackSession(s:any,userId:string){const id=claimsOf(s.access_token).session_id;if(!uuid(id))throw new ApiError(503,'Could not create session.');check(await admin.from('studio_sessions').insert({id,user_id:userId}));}
 async function rate(key:string,limit:number,seconds:number){if(!check(await admin.rpc('studio_take_rate',{p_bucket:key,p_limit:limit,p_seconds:seconds})))throw new ApiError(429,'Too many requests. Please try again later.');}
 Deno.serve(async(req:Request)=>{
  const origin=req.headers.get('origin')||'';
@@ -36,6 +38,7 @@ Deno.serve(async(req:Request)=>{
     if(r.error||!r.data.session)throw new ApiError(401,'Please sign in again.');
     const p=check(await admin.from('studio_members').select('id,revoked_before').eq('id',r.data.user!.id).maybeSingle());
     if(!p)throw new ApiError(401,'Please sign in with a Studio account.');
+    const active=check(await admin.from('studio_sessions').select('id').eq('id',claimsOf(r.data.session.access_token).session_id).eq('user_id',p.id).maybeSingle());if(!active)throw new ApiError(401,'Please sign in again.');
     return reply({session:session(r.data.session)});
    }
    const u=username(b.username),pw=password(b.password);
@@ -48,6 +51,7 @@ Deno.serve(async(req:Request)=>{
     if(p.error){await admin.auth.admin.deleteUser(r.data.user.id);throw new ApiError(503,'Registration failed. Please retry.');}
     const login=await authClient().auth.signInWithPassword({email:email(u),password:pw});
     if(login.error||!login.data.session)return reply({registered:true,recovery_code:code});
+    await trackSession(login.data.session,r.data.user.id);
     return reply({session:session(login.data.session),recovery_code:code});
    }
    if(action==='recover'){
@@ -57,6 +61,7 @@ Deno.serve(async(req:Request)=>{
     if(!p)throw new ApiError(401,'Username or recovery code is incorrect.');
     const r=await admin.auth.admin.updateUserById(p.id,{password:pw});
     if(r.error){await admin.from('studio_members').update({recovery_hash:await hash(code)}).eq('id',p.id);throw new ApiError(503,'Recovery failed. Retry with the same code.');}
+    check(await admin.from('studio_sessions').delete().eq('user_id',p.id));
     const next=recovery();check(await admin.from('studio_members').update({recovery_hash:await hash(next),revoked_before:Math.floor(Date.now()/1000)}).eq('id',p.id));
     await new Promise(r=>setTimeout(r,1100));
     return reply({recovery_code:next,recovered:true});
@@ -65,6 +70,7 @@ Deno.serve(async(req:Request)=>{
    if(r.error||!r.data.session)throw new ApiError(401,'Username or password is incorrect.');
    const p=check(await admin.from('studio_members').select('id').eq('id',r.data.user.id).maybeSingle());
    if(!p)throw new ApiError(401,'This account is not registered with Studio.');
+   await trackSession(r.data.session,r.data.user.id);
    return reply({session:session(r.data.session)});
   }
   const token=(req.headers.get('authorization')||'').replace(/^Bearer /i,'');
@@ -72,11 +78,13 @@ Deno.serve(async(req:Request)=>{
   if(error||!data.user)throw new ApiError(401,'Please sign in again.');
   const me=check(await admin.from('studio_members').select('id,username,display_name,revoked_before').eq('id',data.user.id).maybeSingle());
   if(!me)throw new ApiError(403,'Studio account required.');
-  const claims=JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+  const claims=claimsOf(token);
+  const active=check(await admin.from('studio_sessions').select('id').eq('id',claims.session_id).eq('user_id',me.id).maybeSingle());
+  if(!active)throw new ApiError(401,'Please sign in again.');
   if(claims.iat<=me.revoked_before)throw new ApiError(401,'Your session has expired. Please sign in again.');
   await rate('user:'+me.id,180,60);
   if(action==='me')return reply({member:{username:me.username,display_name:me.display_name,address:me.username+'@dnch'}});
-  if(action==='logout'){await admin.auth.admin.signOut(token,'local');return reply({ok:true});}
+  if(action==='logout'){check(await admin.from('studio_sessions').delete().eq('id',claims.session_id).eq('user_id',me.id));await admin.auth.admin.signOut(token,'local');return reply({ok:true});}
   if(action==='list'){
    const offset=Math.max(0,Math.min(100000,Number(b.offset)||0));
    if(b.folder==='drafts')return reply({items:check(await admin.from('studio_drafts').select('*').eq('owner_id',me.id).order('updated_at',{ascending:false}).range(offset,offset+49))});

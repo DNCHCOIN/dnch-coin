@@ -55,3 +55,9 @@ begin
 end $$;
 revoke all on function public.studio_take_rate(text,integer,integer) from public,anon,authenticated;
 grant execute on function public.studio_take_rate(text,integer,integer) to service_role;
+
+create table public.studio_sessions (id uuid primary key, user_id uuid not null references public.studio_members(id) on delete cascade, created_at timestamptz not null default now());
+create index studio_sessions_user on public.studio_sessions(user_id);
+alter table public.studio_sessions enable row level security;
+revoke all on public.studio_sessions from public, anon, authenticated;
+grant all on public.studio_sessions to service_role;

@@ -8,14 +8,14 @@ Internal addresses use `username@dnch`. They are platform identifiers and never 
 
 - Static HTML, CSS and JavaScript hosted with the existing Studio site. Browser sessions use sessionStorage with a Studio-specific key. No service credentials are shipped to browsers.
 - Supabase Auth for password hashing, sessions, refresh and login throttling. Internal Auth identifiers use the reserved `.invalid` suffix and are confirmed administratively; no verification email is sent.
-- `studio-mail` Edge Function provides registration, recovery, authenticated message operations, draft persistence and logout. The gateway JWT precheck is disabled because registration/login have no user JWT. Private operations validate the caller with `auth.getUser`, check Studio membership and recovery revocation time, and derive ownership exclusively from that verified identity. The public application key is not a secret or proof of user identity.
-- Four new tables, all with RLS enabled and direct browser access revoked. Only the server service role accesses them. The SQL rate helper is SECURITY INVOKER and executable only by service_role. No existing auth settings, memberships or other application tables were changed. The existing Auth trigger also creates a generic forum profile for new Auth users.
+- `studio-mail` Edge Function provides registration, recovery, authenticated message operations, draft persistence and logout. The gateway JWT precheck is disabled because registration/login have no user JWT. Private operations validate the caller with `auth.getUser`, check Studio membership, server-tracked login session and recovery revocation time, and derive ownership exclusively from that verified identity. The public application key is not a secret or proof of user identity.
+- Five new tables, all with RLS enabled and direct browser access revoked. Only the server service role accesses them. The SQL rate helper is SECURITY INVOKER and executable only by service_role. No existing auth settings, memberships or other application tables were changed. The existing Auth trigger also creates a generic forum profile for new Auth users.
 
 ## Behavior
 
 Inbox, sent, recipient read markers, reply, independent per-participant soft deletion, persistent drafts and paginated loading (50 records per page). Search covers loaded messages. Delivery is idempotent per sender/request UUID. Inputs are bounded on the server; message content renders with textContent, never HTML. Unknown and external recipients are rejected. Limits: 30 sends/hour/account, plus registration/login/recovery and general API limits. Rate counters persist in the database.
 
-Recovery uses 192-bit random secrets; only SHA-256 hashes are stored. The original secret is shown once. Recovery atomically consumes the old hash, changes the password, issues a new secret and invalidates earlier access tokens in this API. Recovery does not rely on the internal mailbox itself.
+Recovery uses 192-bit random secrets; only SHA-256 hashes are stored. The original secret is shown once. Recovery atomically consumes the old hash, changes the password, issues a new secret and invalidates earlier access tokens and refresh sessions in this API. Recovery does not rely on the internal mailbox itself.
 
 ## Deployment
 
