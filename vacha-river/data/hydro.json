@@ -3,38 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-11-07T22:41:33+00:00",
+  "fetchedAt": "2026-11-08T02:24:04+00:00",
   "latest": {
-    "observedAtLocal": "2026-11-08T00:00:00",
-    "observedAt": "2026-11-08T00:00:00+02:00",
+    "observedAtLocal": "2026-11-08T04:00:00",
+    "observedAt": "2026-11-08T04:00:00+02:00",
     "levelCm": 19,
     "flowM3s": 1.827
   },
   "history": [
-    {
-      "observedAtLocal": "2026-11-04T01:00:00",
-      "observedAt": "2026-11-04T01:00:00+02:00",
-      "levelCm": 21,
-      "flowM3s": 1.946
-    },
-    {
-      "observedAtLocal": "2026-11-04T02:00:00",
-      "observedAt": "2026-11-04T02:00:00+02:00",
-      "levelCm": 21,
-      "flowM3s": 1.946
-    },
-    {
-      "observedAtLocal": "2026-11-04T03:00:00",
-      "observedAt": "2026-11-04T03:00:00+02:00",
-      "levelCm": 20,
-      "flowM3s": 1.886
-    },
-    {
-      "observedAtLocal": "2026-11-04T04:00:00",
-      "observedAt": "2026-11-04T04:00:00+02:00",
-      "levelCm": 20,
-      "flowM3s": 1.886
-    },
     {
       "observedAtLocal": "2026-11-04T05:00:00",
       "observedAt": "2026-11-04T05:00:00+02:00",
@@ -584,6 +560,30 @@
     {
       "observedAtLocal": "2026-11-08T00:00:00",
       "observedAt": "2026-11-08T00:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-08T01:00:00",
+      "observedAt": "2026-11-08T01:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-08T02:00:00",
+      "observedAt": "2026-11-08T02:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-08T03:00:00",
+      "observedAt": "2026-11-08T03:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-08T04:00:00",
+      "observedAt": "2026-11-08T04:00:00+02:00",
       "levelCm": 19,
       "flowM3s": 1.827
     }
