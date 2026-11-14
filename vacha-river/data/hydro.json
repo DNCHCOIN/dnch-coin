@@ -3,44 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-11-14T17:01:46+00:00",
+  "fetchedAt": "2026-11-14T21:25:40+00:00",
   "latest": {
-    "observedAtLocal": "2026-11-14T18:00:00",
-    "observedAt": "2026-11-14T18:00:00+02:00",
+    "observedAtLocal": "2026-11-14T23:00:00",
+    "observedAt": "2026-11-14T23:00:00+02:00",
     "levelCm": 19,
     "flowM3s": 1.827
   },
   "history": [
-    {
-      "observedAtLocal": "2026-11-10T19:00:00",
-      "observedAt": "2026-11-10T19:00:00+02:00",
-      "levelCm": 50,
-      "flowM3s": 4.48
-    },
-    {
-      "observedAtLocal": "2026-11-10T20:00:00",
-      "observedAt": "2026-11-10T20:00:00+02:00",
-      "levelCm": 52,
-      "flowM3s": 4.695
-    },
-    {
-      "observedAtLocal": "2026-11-10T21:00:00",
-      "observedAt": "2026-11-10T21:00:00+02:00",
-      "levelCm": 53,
-      "flowM3s": 4.805
-    },
-    {
-      "observedAtLocal": "2026-11-10T22:00:00",
-      "observedAt": "2026-11-10T22:00:00+02:00",
-      "levelCm": 70,
-      "flowM3s": 6.87
-    },
-    {
-      "observedAtLocal": "2026-11-10T23:00:00",
-      "observedAt": "2026-11-10T23:00:00+02:00",
-      "levelCm": 18,
-      "flowM3s": 1.769
-    },
     {
       "observedAtLocal": "2026-11-11T00:00:00",
       "observedAt": "2026-11-11T00:00:00+02:00",
@@ -584,6 +554,36 @@
     {
       "observedAtLocal": "2026-11-14T18:00:00",
       "observedAt": "2026-11-14T18:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-14T19:00:00",
+      "observedAt": "2026-11-14T19:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-14T20:00:00",
+      "observedAt": "2026-11-14T20:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-14T21:00:00",
+      "observedAt": "2026-11-14T21:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-14T22:00:00",
+      "observedAt": "2026-11-14T22:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-14T23:00:00",
+      "observedAt": "2026-11-14T23:00:00+02:00",
       "levelCm": 19,
       "flowM3s": 1.827
     }
