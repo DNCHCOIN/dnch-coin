@@ -3,80 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-11-16T09:33:05+00:00",
+  "fetchedAt": "2026-11-16T20:23:47+00:00",
   "latest": {
-    "observedAtLocal": "2026-11-16T11:00:00",
-    "observedAt": "2026-11-16T11:00:00+02:00",
-    "levelCm": 19,
-    "flowM3s": 1.827
+    "observedAtLocal": "2026-11-16T22:00:00",
+    "observedAt": "2026-11-16T22:00:00+02:00",
+    "levelCm": 20,
+    "flowM3s": 1.886
   },
   "history": [
-    {
-      "observedAtLocal": "2026-11-12T12:00:00",
-      "observedAt": "2026-11-12T12:00:00+02:00",
-      "levelCm": 68,
-      "flowM3s": 6.604
-    },
-    {
-      "observedAtLocal": "2026-11-12T13:00:00",
-      "observedAt": "2026-11-12T13:00:00+02:00",
-      "levelCm": 68,
-      "flowM3s": 6.604
-    },
-    {
-      "observedAtLocal": "2026-11-12T14:00:00",
-      "observedAt": "2026-11-12T14:00:00+02:00",
-      "levelCm": 68,
-      "flowM3s": 6.604
-    },
-    {
-      "observedAtLocal": "2026-11-12T15:00:00",
-      "observedAt": "2026-11-12T15:00:00+02:00",
-      "levelCm": 69,
-      "flowM3s": 6.735
-    },
-    {
-      "observedAtLocal": "2026-11-12T16:00:00",
-      "observedAt": "2026-11-12T16:00:00+02:00",
-      "levelCm": 16,
-      "flowM3s": 1.655
-    },
-    {
-      "observedAtLocal": "2026-11-12T17:00:00",
-      "observedAt": "2026-11-12T17:00:00+02:00",
-      "levelCm": 16,
-      "flowM3s": 1.655
-    },
-    {
-      "observedAtLocal": "2026-11-12T18:00:00",
-      "observedAt": "2026-11-12T18:00:00+02:00",
-      "levelCm": 16,
-      "flowM3s": 1.655
-    },
-    {
-      "observedAtLocal": "2026-11-12T19:00:00",
-      "observedAt": "2026-11-12T19:00:00+02:00",
-      "levelCm": 16,
-      "flowM3s": 1.655
-    },
-    {
-      "observedAtLocal": "2026-11-12T20:00:00",
-      "observedAt": "2026-11-12T20:00:00+02:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
-    {
-      "observedAtLocal": "2026-11-12T21:00:00",
-      "observedAt": "2026-11-12T21:00:00+02:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
-    {
-      "observedAtLocal": "2026-11-12T22:00:00",
-      "observedAt": "2026-11-12T22:00:00+02:00",
-      "levelCm": 15,
-      "flowM3s": 1.6
-    },
     {
       "observedAtLocal": "2026-11-12T23:00:00",
       "observedAt": "2026-11-12T23:00:00+02:00",
@@ -586,6 +520,72 @@
       "observedAt": "2026-11-16T11:00:00+02:00",
       "levelCm": 19,
       "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-16T12:00:00",
+      "observedAt": "2026-11-16T12:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-16T13:00:00",
+      "observedAt": "2026-11-16T13:00:00+02:00",
+      "levelCm": 19,
+      "flowM3s": 1.827
+    },
+    {
+      "observedAtLocal": "2026-11-16T14:00:00",
+      "observedAt": "2026-11-16T14:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T15:00:00",
+      "observedAt": "2026-11-16T15:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T16:00:00",
+      "observedAt": "2026-11-16T16:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T17:00:00",
+      "observedAt": "2026-11-16T17:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T18:00:00",
+      "observedAt": "2026-11-16T18:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T19:00:00",
+      "observedAt": "2026-11-16T19:00:00+02:00",
+      "levelCm": 21,
+      "flowM3s": 1.946
+    },
+    {
+      "observedAtLocal": "2026-11-16T20:00:00",
+      "observedAt": "2026-11-16T20:00:00+02:00",
+      "levelCm": 21,
+      "flowM3s": 1.946
+    },
+    {
+      "observedAtLocal": "2026-11-16T21:00:00",
+      "observedAt": "2026-11-16T21:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
+    },
+    {
+      "observedAtLocal": "2026-11-16T22:00:00",
+      "observedAt": "2026-11-16T22:00:00+02:00",
+      "levelCm": 20,
+      "flowM3s": 1.886
     }
   ],
   "disclaimer": "Оперативни измервания. Не гарантират безопасност при работа на ВЕЦ."
