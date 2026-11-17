@@ -16,4 +16,26 @@ assert.equal(C.intent('Подреди'),'solve');
 assert(C.help('Как да направя PDF?').includes('PDF'));
 assert(C.help('Стифиране').includes('без стифиране'));
 assert(C.help('виртуално продължение').includes('реалното ремарке'));
+
+// Exact nine-line metric list entered in the NTZ chat (including a doubled slash).
+const pictureText=[
+ '1,40/0,76/0,73м. – 1 бр.',
+ '1,15/0,76/1,60м. – 1 бр.',
+ '1,50/0,76/1,60м. – 1 бр.',
+ '1,22/0,76/1,60м. – 1 бр.',
+ '1,40/1,60/0,75м. – 4 бр.',
+ '1,15/1,60/1,40м. – 4 бр.',
+ '1,50/1,60/1,40м. – 4 бр.',
+ '1,30/1,60/1,40м. – 4 бр.',
+ '1,40//0,70/2,10м. – 2 бр.'
+].join('\n');
+const screenshotRows=C.parseRows(pictureText);
+assert.equal(screenshotRows.length,9);
+assert.equal(screenshotRows.reduce((sum,row)=>sum+row.q,0),22);
+assert.deepEqual(screenshotRows.map(r=>r.q),[1,1,1,1,4,4,4,4,2]);
+assert.deepEqual(screenshotRows[0].l,1.40);
+assert.deepEqual([screenshotRows[8].l,screenshotRows[8].w,screenshotRows[8].height],[1.4,0.7,2.1]);
+assert(screenshotRows.every(r=>r.unit==='m'&&r.weight===''), 'must not invent missing kilograms');
+assert.equal(C.parseRows('17/11/2026').length,0, 'dates are not three-dimensional cargo');
+
 console.log('PASS: cargo parser, quantity, unit conversion, intents and help topics');
