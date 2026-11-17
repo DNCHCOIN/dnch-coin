@@ -81,7 +81,7 @@ function showDraft(rows){
   });tbody.appendChild(tr);
  });table.appendChild(tbody);$('ntz-ai-draft').appendChild(table);$('ntz-ai-review').hidden=false;
  const preview=document.createElement('p');preview.id='ntz-ai-preview';preview.setAttribute('role','status');preview.textContent=estimateOCR(rows);$('ntz-ai-review').insertBefore(preview,$('ntz-ai-draft'));
- message('Разпознах '+rows.length+' реда ('+rows.reduce((sum,r)=>sum+r.q,0)+' товарни единици). '+(rows.some(r=>!Number(r.weight))?'Липсват килограми за някои товари — попълни „Кг/бр.“ преди добавяне. ':'')+'Провери размерите, височините и броя в таблицата преди добавяне.');
+ message('Разпознах '+rows.length+' реда ('+rows.reduce((sum,r)=>sum+r.q,0)+' товарни единици). '+(rows.some(r=>!Number(r.weight))?'Липсват килограми за някои товари — попълни „Кг/бр.“ преди добавяне. ':'')+(rows.some(r=>r.quantityInferred)?'При слепени числа като „2Х120Х80“ бройката е предположение — провери я внимателно. ':'')+'Провери размерите, височините и броя в таблицата преди добавяне.');
 }
 function parseText(text){const rows=core.parseRows(text);$('ntz-ai-ocr-details').hidden=false;$('ntz-ai-ocr-text').value=text;if(rows.length){showDraft(rows);}else{clearDraft();message('Не намерих достатъчно ясни размери. Можеш да поправиш разпознатия текст. Пример: Товар 1: 120x80x160 см 450 кг 8 бр.');}return rows.length;}
 function applyDraft(solveAfter=false){

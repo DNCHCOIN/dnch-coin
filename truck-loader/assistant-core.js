@@ -9,7 +9,27 @@ const slashDimensions=/(\d{1,5}(?:[.,]\d{1,2})?)\s*\/{1,2}\s*(\d{1,5}(?:[.,]\d{1
 function parseRows(text){
  const result=[], lines=String(text||'').replace(/\r/g,'').split(/\n|;/).map(s=>s.trim()).filter(Boolean);
  for(const rawLine of lines){
-   const line=rawLine.replace(slashDimensions,(_whole,l,w,h,unit)=>l+' × '+w+' × '+h+' '+unit);
+   // 2Х 120Х80 is TWO units of 120x80, not dimensions 2x120x80.
+   // Require space after the multiplier to distinguish from a genuine 3D size.
+   let prefixQuantity=null;
+   let quantityInferred=false;
+   let withoutPrefix=rawLine.replace(/^(\s*(?:(?:товар|cargo)\s*(?:№|#)?\s*\d+\s*[:\-]\s*)?)(\d{1,3})\s*(?:[xх×*]\s+|бр(?:\.|ой|оя)?\s*(?:[xх×*]\s*)?|палет(?:а|и)?\s+)(?=\d+(?:[.,]\d+)?\s*[xх×*]\s*\d)/i,(_match,label,count)=>{
+     if(Number(count)>100)return _match; // Do not steal the first dimension of 120 x 80 x 160.
+     prefixQuantity=Number(count);
+     return label;
+   });
+   // OCR can join the three numeric columns: 2Х120Х80.
+   // Only infer a count for a small leading integer and standard cargo-scale dimensions.
+   // Keep an ambiguity flag visible in the review UI.
+   if(prefixQuantity===null){
+     const compact=/^(\s*)([1-9]|1\d|20)\s*[xх×*]\s*(\d{2,5}(?:[.,]\d{1,2})?)\s*[xх×*]\s*(\d{2,5}(?:[.,]\d{1,2})?)(\s*(?:мм|mm|см|cm|м)?)(.*)$/i.exec(rawLine);
+     if(compact&&number(compact[3])>=40&&number(compact[4])>=40&&!/^\s*[xх×*]\s*\d/.test(compact[6])&&!/(?:\d+\s*бр\.?|qty\s*:)/i.test(compact[6])){
+       prefixQuantity=Number(compact[2]);
+       quantityInferred=true;
+       withoutPrefix=compact[1]+compact[3]+'x'+compact[4]+compact[5]+compact[6];
+     }
+   }
+   const line=withoutPrefix.replace(slashDimensions,(_whole,l,w,h,unit)=>l+' × '+w+' × '+h+' '+unit);
    dimension.lastIndex=0;let match;
    while((match=dimension.exec(line))!==null){
      const l=number(match[1]),w=number(match[2]),h=match[3]?number(match[3]):null;
@@ -20,9 +40,12 @@ function parseRows(text){
      const weight=(new RegExp('('+numeric+')\\s*(?:kg|кг)(?![A-Za-zА-Яа-я])','i').exec(tail)||new RegExp('(?:kg|кг)\\s*[:=]?\\s*('+numeric+')','i').exec(tail));
      const qty=/(\d{1,3})\s*(?:бр\.?(?![A-Za-zА-Яа-я])|pcs\b|pieces\b)/i.exec(tail)||/(?:бр(?:ой)?|quantity|qty)\s*[:=]?\s*(\d{1,3})/i.exec(tail);
      const name=/(?:товар|палет|cargo|pallet)\s*(?:№|#)?\s*(\d+)/i.exec(head);
-     const q=qty?number(qty[1]):1;
+     const q=qty?number(qty[1]):(prefixQuantity??1);
+     if(prefixQuantity!==null&&qty&&prefixQuantity!==q)continue;
      if(!Number.isInteger(q)||q<1||q>100)continue;
-     result.push({name:name?'Товар '+name[1]:'Товар '+(result.length+1),l,w,height:h??'',weight:weight?number(weight[1]):'',q,unit,rotate:true,stackable:false});
+     const row={name:name?'Товар '+name[1]:'Товар '+(result.length+1),l,w,height:h??'',weight:weight?number(weight[1]):'',q,unit,rotate:true,stackable:false};
+     if(quantityInferred)row.quantityInferred=true;
+     result.push(row);
      if(result.length>=100)return result;
    }
  }
