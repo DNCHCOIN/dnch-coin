@@ -1,8 +1,8 @@
 'use strict';
 const PREFIX = 'vankov-truck-loader-';
-const CACHE = PREFIX + 'v5';
+const CACHE = PREFIX + 'v6';
 const ROOT = self.registration.scope;
-const FILES = ['index.html','pack.js','weight.js','stack.js','manual.js','editor.js','free-space.js','free-space-check.js','free-space-ui.js','pallet-basis.js','app.js','assistant-core.js','assistant-ui.js','assistant.css','pwa.js','ntz-background.jpg','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'];
+const FILES = ['index.html','pack.js','weight.js','stack.js','manual.js','editor.js','free-space.js','free-space-check.js','free-space-ui.js','pallet-basis.js','app.js','assistant-core.js','assistant-actions.js','assistant-ui.js','assistant.css','pwa.js','ntz-background.jpg','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'];
 const ALLOWED = new Set(FILES.map(file => new URL(file, ROOT).href));
 self.addEventListener('install', event => {
   // An update activates only after all windows using the previous version close.
