@@ -3,9 +3,13 @@
 const numeric='\\d{1,5}(?:[.,]\\d{1,2})?';
 const number=v=>Number(String(v).replace(',','.'));
 const dimension=new RegExp('('+numeric+')\\s*(?:cm|см|mm|мм|м)?\\s*[xх×*]\\s*('+numeric+')\\s*(?:cm|см|mm|мм|м)?(?:\\s*[xх×*]\\s*('+numeric+'))?\\s*(mm|мм|cm|см|м)?','ig');
+// Accept three dimensions written as 1,40/0,76/0,73 м. (including OCR double slash).
+// Require a unit after slash notation to avoid treating dates or fractions as cargo.
+const slashDimensions=/(\d{1,5}(?:[.,]\d{1,2})?)\s*\/{1,2}\s*(\d{1,5}(?:[.,]\d{1,2})?)\s*\/\s*(\d{1,5}(?:[.,]\d{1,2})?)\s*(mm|мм|cm|см|м)\.?/ig;
 function parseRows(text){
  const result=[], lines=String(text||'').replace(/\r/g,'').split(/\n|;/).map(s=>s.trim()).filter(Boolean);
- for(const line of lines){
+ for(const rawLine of lines){
+   const line=rawLine.replace(slashDimensions,(_whole,l,w,h,unit)=>l+' × '+w+' × '+h+' '+unit);
    dimension.lastIndex=0;let match;
    while((match=dimension.exec(line))!==null){
      const l=number(match[1]),w=number(match[2]),h=match[3]?number(match[3]):null;
