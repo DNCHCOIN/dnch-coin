@@ -1,0 +1,11 @@
+{
+  "name": "dnch-truck-loader-chat",
+  "workers_dev": true,
+  "preview_urls": false,
+  "main": "index.mjs",
+  "compatibility_date": "2026-11-19",
+  "ai": {"binding": "AI"},
+  "ratelimits": [
+    {"name": "CHAT_LIMIT", "namespace_id": "1010", "simple": {"limit": 6, "period": 60}}
+  ]
+}
