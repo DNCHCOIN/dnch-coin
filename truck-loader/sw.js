@@ -1,6 +1,6 @@
 'use strict';
 const PREFIX = 'vankov-truck-loader-';
-const CACHE = PREFIX + 'v8';
+const CACHE = PREFIX + 'v9';
 const ROOT = self.registration.scope;
 const FILES = ['index.html','pack.js','weight.js','stack.js','manual.js','editor.js','free-space.js','free-space-check.js','free-space-ui.js','pallet-basis.js','app.js','inline-chat.js','inline-chat.css','pwa.js','ntz-background.jpg','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'];
 const ALLOWED = new Set(FILES.map(file => new URL(file, ROOT).href));
