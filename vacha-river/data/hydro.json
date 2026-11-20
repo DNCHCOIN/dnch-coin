@@ -3,68 +3,14 @@
   "source": "НИМХ — филиал Пловдив",
   "sourceUrl": "https://plovdiv.meteo.bg/krichim/index.php",
   "timezone": "Europe/Sofia",
-  "fetchedAt": "2026-11-20T03:06:19+00:00",
+  "fetchedAt": "2026-11-20T11:27:07+00:00",
   "latest": {
-    "observedAtLocal": "2026-11-20T04:00:00",
-    "observedAt": "2026-11-20T04:00:00+02:00",
+    "observedAtLocal": "2026-11-20T13:00:00",
+    "observedAt": "2026-11-20T13:00:00+02:00",
     "levelCm": 22,
     "flowM3s": 2.006
   },
   "history": [
-    {
-      "observedAtLocal": "2026-11-16T05:00:00",
-      "observedAt": "2026-11-16T05:00:00+02:00",
-      "levelCm": 20,
-      "flowM3s": 1.886
-    },
-    {
-      "observedAtLocal": "2026-11-16T06:00:00",
-      "observedAt": "2026-11-16T06:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T07:00:00",
-      "observedAt": "2026-11-16T07:00:00+02:00",
-      "levelCm": 20,
-      "flowM3s": 1.886
-    },
-    {
-      "observedAtLocal": "2026-11-16T08:00:00",
-      "observedAt": "2026-11-16T08:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T09:00:00",
-      "observedAt": "2026-11-16T09:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T10:00:00",
-      "observedAt": "2026-11-16T10:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T11:00:00",
-      "observedAt": "2026-11-16T11:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T12:00:00",
-      "observedAt": "2026-11-16T12:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
-    {
-      "observedAtLocal": "2026-11-16T13:00:00",
-      "observedAt": "2026-11-16T13:00:00+02:00",
-      "levelCm": 19,
-      "flowM3s": 1.827
-    },
     {
       "observedAtLocal": "2026-11-16T14:00:00",
       "observedAt": "2026-11-16T14:00:00+02:00",
@@ -584,6 +530,60 @@
     {
       "observedAtLocal": "2026-11-20T04:00:00",
       "observedAt": "2026-11-20T04:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T05:00:00",
+      "observedAt": "2026-11-20T05:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T06:00:00",
+      "observedAt": "2026-11-20T06:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T07:00:00",
+      "observedAt": "2026-11-20T07:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T08:00:00",
+      "observedAt": "2026-11-20T08:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T09:00:00",
+      "observedAt": "2026-11-20T09:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T10:00:00",
+      "observedAt": "2026-11-20T10:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T11:00:00",
+      "observedAt": "2026-11-20T11:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T12:00:00",
+      "observedAt": "2026-11-20T12:00:00+02:00",
+      "levelCm": 22,
+      "flowM3s": 2.006
+    },
+    {
+      "observedAtLocal": "2026-11-20T13:00:00",
+      "observedAt": "2026-11-20T13:00:00+02:00",
       "levelCm": 22,
       "flowM3s": 2.006
     }
