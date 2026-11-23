@@ -1,0 +1,24 @@
+/* EDIT HERE: Global site content, filters, and demo entries. No production integrations. */
+window.TRADE_CONFIG = {
+ name:'TRADE', tagline:'BULGARIA × CHINA', companyBrand:'TRADE', demo:true,
+ industries:['Селско стопанство','Хранително-вкусова промишленост','Технологии и електроника','Машиностроене','Текстил','Строителни материали','Енергетика','Логистика','Козметика','Други'],
+ activities:['Производител','Дистрибутор','Вносител','Износител','Логистична компания'],
+ partnerships:['Износ','Внос','Дистрибуция','Логистика','Инвестиции'],
+ languages:['Български','Английски','Китайски'], employees:['1–5','5–20','20–50','50–200','Над 200'],
+ sampleCompanies:[
+ {id:'c1',name:'Balkan Harvest Export',native:'Балкан Харвест Експорт',country:'България',city:'Пловдив',sector:'Хранително-вкусова промишленост',activity:'Износител',employees:'20–50',languages:['Английски','Български'],description:'Български хранителни продукти и дългосрочни партньорства с международни дистрибутори.',seeking:'Дистрибутор',initial:'BH',color:'#b08748',verified:true},
+ {id:'c2',name:'Shenzhen Horizon Electronics',native:'深圳地平线电子',country:'Китай',city:'Шънджън',sector:'Технологии и електроника',activity:'Производител',employees:'50–200',languages:['Английски','Китайски'],description:'OEM и ODM електронни компоненти и оборудване за международни B2B партньори.',seeking:'Вносител',initial:'SH',color:'#617b9d',verified:true},
+ {id:'c3',name:'Danube Industrial Systems',native:'Дунав Индустриални Системи',country:'България',city:'Русе',sector:'Машиностроене',activity:'Производител',employees:'50–200',languages:['Български','Английски'],description:'Индустриални машини, резервни части и производствени решения.',seeking:'Дистрибутор',initial:'DI',color:'#597c71',verified:false},
+ {id:'c4',name:'Hangzhou Green Energy',native:'杭州绿色能源',country:'Китай',city:'Ханджоу',sector:'Енергетика',activity:'Износител',employees:'Над 200',languages:['Китайски','Английски'],description:'Оборудване за възобновяеми енергийни системи и промишлени соларни решения.',seeking:'Вносител',initial:'HG',color:'#6a8560',verified:true},
+ {id:'c5',name:'Rose Valley Botanicals',native:'Розова долина Ботаникалс',country:'България',city:'Казанлък',sector:'Козметика',activity:'Производител',employees:'5–20',languages:['Български','Английски'],description:'Натурални екстракти, масла и суровини за козметичната индустрия.',seeking:'Дистрибутор',initial:'RV',color:'#a77383',verified:false},
+ {id:'c6',name:'Ningbo Textile Partners',native:'宁波纺织合作伙伴',country:'Китай',city:'Нинбо',sector:'Текстил',activity:'Производител',employees:'50–200',languages:['Китайски','Английски'],description:'Производство и доставка на текстилни материали за европейски търговци.',seeking:'Вносител',initial:'NT',color:'#8172a8',verified:true}
+ ],
+ sampleListings:[
+ {id:'l1',title:'Търсим дистрибутор на български хранителни продукти',type:'Търся',country:'България',city:'Пловдив',sector:'Хранително-вкусова промишленост',partnership:'Дистрибуция',language:'Английски',description:'Търсим дългосрочен партньор за дистрибуция на пакетирани храни. Предпочитаме доказан опит с внос от ЕС.',expires:'2027-06-30',companyId:'c1',moq:'По договаряне',terms:'EXW / FOB'},
+ {id:'l2',title:'Предлагаме OEM електронни компоненти',type:'Предлагам',country:'Китай',city:'Шънджън',sector:'Технологии и електроника',partnership:'Износ',language:'Английски',description:'Производствен капацитет за OEM проекти, електронни модули и контролери. Спецификациите се уточняват по запитване.',expires:'2027-04-30',companyId:'c2',moq:'500 бр.',terms:'FOB'},
+ {id:'l3',title:'Търсим партньори за индустриални машини',type:'Търся',country:'България',city:'Русе',sector:'Машиностроене',partnership:'Внос',language:'Английски',description:'Интерес към китайски производители на индустриални машини и резервни части.',expires:'2027-05-15',companyId:'c3',moq:'—',terms:'CIF'},
+ {id:'l4',title:'Соларни панели и компоненти за B2B доставчици',type:'Предлагам',country:'Китай',city:'Ханджоу',sector:'Енергетика',partnership:'Износ',language:'Китайски',description:'Каталог от промишлени соларни модули за международни партньори, със спецификация по модел.',expires:'2027-07-20',companyId:'c4',moq:'Контейнерни количества',terms:'FOB / CIF'},
+ {id:'l5',title:'Натурални розови масла и козметични суровини',type:'Предлагам',country:'България',city:'Казанлък',sector:'Козметика',partnership:'Износ',language:'Английски',description:'Български масла и растителни екстракти за производители на козметика.',expires:'2027-08-01',companyId:'c5',moq:'По запитване',terms:'EXW'},
+ {id:'l6',title:'Предлагаме текстилни материали за европейски пазари',type:'Предлагам',country:'Китай',city:'Нинбо',sector:'Текстил',partnership:'Дистрибуция',language:'Английски',description:'Текстил за производство на облекло и изделия за дома. Възможни мостри по запитване.',expires:'2027-06-15',companyId:'c6',moq:'1000 м',terms:'FOB'}
+ ]
+};
